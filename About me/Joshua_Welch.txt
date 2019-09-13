@@ -1,6 +1,8 @@
-Joshua Welch
+Name: 
+  Joshua Welch
 
-Senior in Applied Computing Technologies
+Major and Year:
+  Senior in Applied Computing Technologies
 
 Languages:
   Java, SQL, JavaScript, C, C++
