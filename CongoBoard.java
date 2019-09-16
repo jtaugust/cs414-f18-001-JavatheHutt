@@ -5,7 +5,7 @@ import java.util.*;
 import javax.swing.*;
 import java.awt.Color;
 
-public static final Color lightBlue = new Color(51,204,255);
+// public static final Color lightBlue = new Color(51,204,255);
  
 public class CongoBoard extends JFrame implements MouseListener, MouseMotionListener {
   JLayeredPane layeredPane;
