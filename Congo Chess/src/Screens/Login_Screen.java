@@ -9,7 +9,6 @@ import GUI.Helpers;
 import GUI.Panel;
 
 public class Login_Screen {
-	//given this screen is the start screen, its method is the bootup method.
 	public static void Screen(){
 		JPanel panel = Panel.getWorkingPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));

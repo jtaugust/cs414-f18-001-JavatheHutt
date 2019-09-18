@@ -39,7 +39,6 @@ public class Helpers {
 	
 	public static Component Button(String name, Dimension size) {
 		Button button = new Button(name);
-		
 		button.setMaximumSize(size);
 		return button;
 	}

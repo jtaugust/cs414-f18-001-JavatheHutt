@@ -12,12 +12,4 @@ public class Label {
 		JLabel label = new JLabel(new ImageIcon(image));
 		return label;
 	}
-	
-	public static JLabel createLabel(String name) {
-		JLabel label = new JLabel(name);
-
-		return label;
-	}
-	
-	
 }

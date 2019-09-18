@@ -18,7 +18,10 @@ public class initialTemplate {
 		backgroundPanel.add(GUI.Label.getImageLabel("./Images/Logo.png"), BorderLayout.PAGE_START);
 		
 		//create panel for working area
-		JPanel workingPanel = GUI.Panel.panel();
+		JPanel workingPanel = new JPanel();
+		
+		//make working panel background invisible so it wont cover the Frame background
+		workingPanel.setOpaque(false);
 		
 		//add panel to background panel
 		backgroundPanel.add(workingPanel, BorderLayout.CENTER);

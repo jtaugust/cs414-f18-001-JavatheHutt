@@ -37,12 +37,6 @@ public class Panel {
 		return background;
 	}
 	
-	public static JPanel panel() {
-		JPanel panel = new JPanel();
-		panel.setOpaque(false);
-		return panel;
-	}
-	
 	public static JPanel getWorkingPanel() {
 		return workingPanel;
 	}
