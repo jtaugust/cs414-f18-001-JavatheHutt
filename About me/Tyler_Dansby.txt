@@ -1,0 +1,18 @@
+  
+Name: 
+  Tyler Dansby
+
+Major and Year:
+  Senior in Computer Science
+
+Languages:
+  Java, C++, Python, C, Javascript (React)
+
+Tools:
+  Eclipse, IntelliJ, Github, TravisCI
+  
+  
+I love designing things, and I hope to combine my passions for programming and art
+in some way in the future. In general, I'd say that I'm a very laid back and easygoing 
+person. In my freetime I enjoy playing video games, watching movies, and working on any 
+other random projects I may have going at that time.
