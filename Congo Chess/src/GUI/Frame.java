@@ -5,14 +5,16 @@ import java.awt.Label;
 
 import javax.swing.JFrame;
 
-public class Frame {
+import App.*;
 
+public class Frame {
+	private static int width = 0, height = 0, template = 0;
 	//create a frame, takes width and height, possibly take a string for the panels, 
-	public static JFrame createFrame(int width, int height, String type, String backgroundPath) {
+	public static JFrame createFrame(int template) {
 		JFrame frame = new JFrame();
 		frame.setLayout(new BorderLayout());
 		//load background as well as the required template
-		Panel.fillFrame(frame, width, height, type, backgroundPath);
+		Panel.fillFrame(frame, template);
 		//set frame size
 		frame.setSize(width, height);
 		//set the start position to center of the screen
@@ -28,4 +30,41 @@ public class Frame {
 
 		return frame;
 	}
+
+	public static void changeTemplate(String screen) {
+			boolean change = false;
+			switch(screen) {
+			case "Login":
+			case "Registration":
+			case "Captcha": 
+				if (template != 1) {
+					System.out.println("Here");
+					Panel.fillFrame(Application.window, 1);
+				}
+				break;
+			//TODO other cases
+			}
+	}
+
+	public static void setDimensions(int w, int h) {
+		width = w;
+		height = h;
+	}
+	
+	public static int getWidth(){
+		return width;
+	}
+	
+	public static int getHeight(){
+		return height;
+	}
+	
+	public static void setTemplate(int t) {
+		template = t;
+	}
+	
+	public static int getTemplate() {
+		return template;
+	}
+	
 }
