@@ -14,7 +14,7 @@ public class Frame {
 		JFrame frame = new JFrame();
 		frame.setLayout(new BorderLayout());
 		//load background as well as the required template
-		Panel.fillFrame(frame, template);
+		Panel.createPanels(frame, template);
 		//set frame size
 		frame.setSize(width, height);
 		//set the start position to center of the screen
@@ -38,8 +38,7 @@ public class Frame {
 			case "Registration":
 			case "Captcha": 
 				if (template != 1) {
-					System.out.println("Here");
-					Panel.fillFrame(Application.window, 1);
+					Panel.createPanels(Application.window, 1);
 				}
 				break;
 			//TODO other cases
