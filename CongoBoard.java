@@ -1,13 +1,21 @@
 package congo;
 import java.awt.*;
+import java.awt.Color;
+
 import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
-import java.awt.Color;
+import javax.swing.border.TitledBorder;
 
-// public static final Color lightBlue = new Color(51,204,255);
  
 public class CongoBoard extends JFrame implements MouseListener, MouseMotionListener {
+  public static final Color lakeColor = new Color(51,153,255);
+  public static final Color castleColor= new Color(153,153,153);
+  public static final Color tileColor= new Color(204,204,204);
+  public static final Color borderColor= new Color(255,255,0);
+
+
+
   JLayeredPane layeredPane;
   JPanel congoBoard;
   JLabel congoPiece;
@@ -25,40 +33,59 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
   layeredPane.addMouseMotionListener(this);
  
   //Add a congo board to the Layered Pane 
- 
   congoBoard = new JPanel();
+//  JPanel bottomPanel = new JPanel();
   layeredPane.add(congoBoard, JLayeredPane.DEFAULT_LAYER);
-  congoBoard.setLayout( new GridLayout(7, 7) );
+  congoBoard.setLayout( new GridLayout(8, 8) );
+  congoBoard.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
+
   congoBoard.setPreferredSize( boardSize );
   congoBoard.setBounds(0, 0, boardSize.width, boardSize.height);
- 
-  for (int i = 0; i < 7; i++) {
-	  for (int j=0;j<7;j++) {
+  
+  for (int i = 0; i < 8; i++) {
+	  for (int j=0;j<8;j++) {
 		  JPanel square = new JPanel( new BorderLayout() );
 		  congoBoard.add( square );
-		  if(i==3) {
-			  square.setBackground(Color.blue);
+		  if(i==7) {
+			  JLabel l = new JLabel();
+//			  l.setText("A");			  
+		      // add label to panel 
+			  square.add(l); 
+			  congoBoard.add( square );
+
+		  }
+		  else if(j==0) {
+			  JLabel l = new JLabel();
+//			  l.setText("A");
+			  
+		      // add label to panel 
+			  square.add(l); 
+		  }
+		  else if(i==3) {
+			  square.setBackground(lakeColor);
 		  }
 		  else {
-			  square.setBackground( j==2 || j==3 || j==4 ? Color.black : Color.white );
+			  square.setBackground( j==3 || j==4 || j==5 ? castleColor : tileColor );
+			  square.setBorder(BorderFactory.createLineBorder(borderColor));
 		  }
 			  
 	  }
   }
  
+ 
   //Add a few pieces to the board
  
-  JLabel piece = new JLabel( new ImageIcon("D:/semester3/projects/king.png") );
-  JPanel panel = (JPanel)congoBoard.getComponent(0);
+  JLabel piece = new JLabel(new ImageIcon( new ImageIcon("crocodile.jpg").getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT) ));
+  JPanel panel = (JPanel)congoBoard.getComponent(1);
   panel.add(piece);
   piece = new JLabel(new ImageIcon("D:/semester3/projects/king.png"));
-  panel = (JPanel)congoBoard.getComponent(15);
+  panel = (JPanel)congoBoard.getComponent(9);
   panel.add(piece);
   piece = new JLabel(new ImageIcon("D:/semester3/projects/king.png"));
-  panel = (JPanel)congoBoard.getComponent(16);
+  panel = (JPanel)congoBoard.getComponent(22);
   panel.add(piece);
   piece = new JLabel(new ImageIcon("D:/semester3/projects/king.png"));
-  panel = (JPanel)congoBoard.getComponent(20);
+  panel = (JPanel)congoBoard.getComponent(23);
   panel.add(piece);
  
   }
