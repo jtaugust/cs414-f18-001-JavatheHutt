@@ -16,7 +16,7 @@ public class Panel {
 		//determine which pane, generate its template
 		switch (template) {
 			case 1: Templates.initialTemplate.generateInitial(frame); break; //initial
-			case 2: break; //TODO //main
+			case 2: Templates.MainTemplate.generateMain(frame); break; //TODO //main
 			case 3: break; //TODO //Account
 			default: break; //error, should never reach here
 		}
