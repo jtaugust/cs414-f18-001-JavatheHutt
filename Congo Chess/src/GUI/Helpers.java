@@ -6,9 +6,12 @@ import java.io.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.Box;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JTextField;
 
 public class Helpers {
+	
 	public static BufferedImage getImage(String location){
 		BufferedImage image = null;
 		try {
@@ -17,6 +20,16 @@ public class Helpers {
 			//do nothing, should never reach here
 		}
 		return image;
+	}
+	
+	public static BufferedImage resizeImg(BufferedImage img, Dimension size) {
+		int width = size.width, height = size.height;
+		Image tmp = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+		BufferedImage newImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g2d = newImage.createGraphics();
+	    g2d.drawImage(tmp, 0, 0, null);
+	    g2d.dispose();
+	    return newImage;
 	}
 	
 	public static JTextField textField(String text, Dimension size, Font font) {
@@ -37,9 +50,22 @@ public class Helpers {
 		return new Font("SansSerif", Font.BOLD, fontSize);
 	}
 	
-	public static Component Button(String name, Dimension size) {
-		Button button = new Button(name);
-		button.setMaximumSize(size);
+	public static JButton Button(String name) {
+		JButton button = new JButton(name);
+		return button;
+	}
+	
+	public static JButton Button(String name, Dimension size) {
+		JButton button = new JButton(name);
+		button.setPreferredSize(size);
+		button.setAlignmentX(Component.CENTER_ALIGNMENT);
+		return button;
+	}
+	
+	public static JButton Button(BufferedImage img, Dimension imgSize) {
+		JButton button = new JButton();
+		img = resizeImg(img, imgSize);
+		button.setIcon(new ImageIcon(img));
 		return button;
 	}
 }

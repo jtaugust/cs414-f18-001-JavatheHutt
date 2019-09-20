@@ -1,23 +1,28 @@
 package Templates;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import GUI.Frame;
+import GUI.Helpers;
 import GUI.Panel;
 
 public class MainTemplate {
 	public static void generateMain(JFrame frame){
+		//set the frame dimensions
+		Frame.setDimensions(1000,1000);
+		
 		//create the background panel to hold all new panels
 		JPanel background = new JPanel();
 		background.setLayout(new BorderLayout());
 		
 		//create the taskbar
 		JPanel taskbar = new JPanel();
-		taskbar.setBackground(Color.BLACK);
+		
+		generateTaskbar(taskbar);
 		
 		//create the working panel
 		JPanel workingPanel = new JPanel();
@@ -34,14 +39,20 @@ public class MainTemplate {
 		//set the panel that a screen should load into
 		Panel.setWorkingPanel(workingPanel);
 		
-		//set the frame dimensions
-		Frame.setDimensions(1000,1000);
-		
 		//set the entire background into the pane
 		frame.setContentPane(background);
+		
 	}
 	
-	private static void generateTaskbar(JFrame taskbar){
+	private static void generateTaskbar(JPanel taskbar){
 		//create the 5 buttons (account, new game, existing games, rules, logout)
+		taskbar.setLayout(new GridLayout(1, 5));
+
+		//add image button to taskbar
+		taskbar.add(Helpers.Button(Helpers.getImage("./Images/AccountDefaultImage.jpg"), new Dimension(100, 100)));
+		taskbar.add(Helpers.Button("New Game"));
+		taskbar.add(Helpers.Button("Existing Games"));
+		taskbar.add(Helpers.Button("Rules"));
+		taskbar.add(Helpers.Button("Logout"));
 	}
 }

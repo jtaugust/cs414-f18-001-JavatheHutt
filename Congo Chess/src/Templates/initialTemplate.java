@@ -10,6 +10,9 @@ import Screens.Login_Screen;
 
 public class initialTemplate {
 	public static void generateInitial(JFrame frame) {
+		//set the frame dimensions
+		Frame.setDimensions(600, 800);
+		
 		//create background panel
 		JPanel backgroundPanel = Panel.setBackground("./Images/Background.jpg");
 		backgroundPanel.setLayout(new BorderLayout());
@@ -23,14 +26,12 @@ public class initialTemplate {
 		//make working panel background invisible so it wont cover the Frame background
 		workingPanel.setOpaque(false);
 		
+		
 		//add panel to background panel
 		backgroundPanel.add(workingPanel, BorderLayout.CENTER);
 		
 		//set the panel that a screen should load into
 		Panel.setWorkingPanel(workingPanel);
-		
-		//set the frame dimensions
-		Frame.setDimensions(600, 800);
 		
 		//set the entire background into the pane
 		frame.setContentPane(backgroundPanel);

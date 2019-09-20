@@ -16,14 +16,15 @@ public class Panel {
 		//determine which pane, generate its template
 		switch (template) {
 			case 1: Templates.initialTemplate.generateInitial(frame); break; //initial
-			case 2: Templates.MainTemplate.generateMain(frame); break; //TODO //main
-			case 3: break; //TODO //Account
+			case 2: Templates.MainTemplate.generateMain(frame); break; //main
+			case 3: Templates.AccountTemplate.generateAccount(frame); break; //Account
 			default: break; //error, should never reach here
 		}
 	}
 	
 	public static JPanel setBackground(String path) {
 		int width = Frame.getWidth(), height = Frame.getHeight();
+		System.out.println(width);
 		
 		//paint the panel as the image provided
 		JPanel background = new JPanel() {
@@ -34,6 +35,19 @@ public class Panel {
 			}
 		};
 		
+		return background;
+	}
+	
+	public static JPanel setBackground(String path, Dimension size) {
+		int width = size.width, height = size.height;
+		//paint the panel as the image provided
+		JPanel background = new JPanel() {
+			BufferedImage image = Helpers.getImage(path);
+			public void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(image, 0, 0, width, height, this);
+			}
+		};
 		return background;
 	}
 	
