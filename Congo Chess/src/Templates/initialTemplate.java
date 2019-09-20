@@ -23,10 +23,6 @@ public class initialTemplate {
 		//create panel for working area
 		JPanel workingPanel = new JPanel();
 		
-		//make working panel background invisible so it wont cover the Frame background
-		workingPanel.setOpaque(false);
-		
-		
 		//add panel to background panel
 		backgroundPanel.add(workingPanel, BorderLayout.CENTER);
 		

@@ -27,9 +27,6 @@ public class MainTemplate {
 		
 		//create the working panel
 		JPanel workingPanel = new JPanel();
-
-		//make working panel background invisible so it wont cover the Frame background
-		workingPanel.setOpaque(false);
 		
 		//add taskbar to background panel
 		background.add(taskbar, BorderLayout.PAGE_START);
@@ -38,7 +35,7 @@ public class MainTemplate {
 		background.add(workingPanel, BorderLayout.CENTER);
 		
 		//set the panel that a screen should load into
-		Panel.setWorkingPanel(workingPanel, true);
+		Panel.setWorkingPanel(workingPanel, false);
 		
 		//set the entire background into the pane
 		frame.setContentPane(background);
