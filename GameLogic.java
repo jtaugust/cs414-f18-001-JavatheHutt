@@ -40,13 +40,48 @@ public class GameLogic extends State{
 		return null;
 	}
 	
+	//TODO: Logic that changes pawn to super pawn(possibly in moves)
 	public String[] allPossiblePawnMove(State state){
-		return null;
-	}
+		String[][] board = state.getBoard();
+		
+		//  Set to 10 as its above pawn max avaiable moves 
+		String[] allPossibleMoves = new String[10];
+		int count = 0; 
+		if(state.currentClick.charAt(3) == 'S'){
+			// for (int i = 0 ; i < 7; i ++){
+			// 	for(int j = 0; j < 7; j++){
+					
+			// 		// Check if an empty space or enemy piece
+			// 		if(board[i][j].charAt(2) == 'N' || board[i][j] == enemyColor){
+			// 			allPossibleMoves[count] = board[i][j];
+			// 		}
+			// 	}
+			// }	
+
+		} else {
+			// Go through three tiles in front of pawn 
+			int[] pieceLocaiton = {state.currentClick.charAt(0), state.currentClick.charAt(1)};
+			
+			for (int i = (pieceLocaiton[0] - 1) ; i < pieceLocaiton[1]; i ++){
+				for(int j = pieceLocation[1]; j < 3; j++){
+					
+					// Check if an empty space or enemy piece
+					if(board[i][j].charAt(2) == 'N' || board[i][j] == enemyColor){
+						allPossibleMoves[count] = board[i][j];
+					}
+				}
+			}
+
+
+		}
+		return allPossibleMoves;
+	}	
+
+
 
 	// Update the GUI with all the possible moves 
 	public void displayPossibleMoves(State state){
-		int[][] moveArray;
+		String[][] moveArray;
 		switch(state.getPieceSelected()) {
 			case 'G':
 				moveArray = allPossibleGiraffeMove(state);
@@ -65,8 +100,9 @@ public class GameLogic extends State{
 					break;
 			case 'Z':
 				moveArray = allPossibleZebraMove(state);
-					break;
+				break;
 			case 'P':
+			case 'S':
 				moveArray = allPossiblePawnMove(state);
 			case 'N':
 					break;  
@@ -95,7 +131,9 @@ public class GameLogic extends State{
 	public boolean isMovePossible(State state){
 		String newPosition = state.getCurrentClick();
 		
-		
+		//String[] possibleMoves;
+		// TODO: Remove later, just for testing
+		String[] possibleMoves = {"40NN"};
 		switch(state.getPieceSelected().charAt(3)) {
 			case 'G':
 				possibleMoves = allPossibleGiraffeMove(state);
@@ -122,8 +160,6 @@ public class GameLogic extends State{
 				return containsMove(possibleMoves, newPosition);
 			  	
 			case 'P':
-				// TODO: Remove later, just for testing
-				String[] possibleMoves = {"40NN"};
 				//possibleMoves = allPossiblePawnMove(state);
 				return containsMove(possibleMoves, newPosition);
 
@@ -179,7 +215,7 @@ public class GameLogic extends State{
 				return; 
 			}
 
-			// If current space has no piece or is attempting to attack other plaayer, 
+			// If current clicked  space has no piece or is attempting to attack other plaayer, 
 			String currentSpace = Character.toString(state.getCurrentClick().charAt(3));
 			String selectedColor = Character.toString(state.getCurrentClick().charAt(2));
 			if( (currentSpace == "N" ) || (selectedColor != state.currentTurnColor) ) {
@@ -193,6 +229,7 @@ public class GameLogic extends State{
 				}
 			}	
 		}	
+
 	}
 
 	public static void main (String[] args){
@@ -201,14 +238,14 @@ public class GameLogic extends State{
 
 		// Example state values 
 		String[][] board = {
-								{"00BG", "01BM", "02BE", "03BL", "04BE", "05BC", "06BZ"}, 
-								{"10BP", "11BP", "12BP", "13BP", "14BP", "15BP", "16BP"},
-								{"20NN", "21NN", "22NN", "23NN", "24NN", "25NN", "26NN"}, 
-								{"30NN", "31NN", "32NN", "33NN", "34NN", "35NN", "36NN"}, 
-								{"40NN", "41NN", "42NN", "43NN", "44NN", "45NN", "46NN"}, 
-								{"50WP", "51WP", "52WP", "53WP", "54WP", "55WP", "56WP"}, 
-								{"60WG", "61WM", "62WE", "63WL", "64WE", "65WC", "66WZ"}
-							};
+					{"00BG", "01BM", "02BE", "03BL", "04BE", "05BC", "06BZ"}, 
+					{"10BP", "11BP", "12BP", "13BP", "14BP", "15BP", "16BP"},
+					{"20NN", "21NN", "22NN", "23NN", "24NN", "25NN", "26NN"}, 
+					{"30NN", "31NN", "32NN", "33NN", "34NN", "35NN", "36NN"}, 
+					{"40NN", "41NN", "42NN", "43NN", "44NN", "45NN", "46NN"}, 
+					{"50WP", "51WP", "52WP", "53WP", "54WP", "55WP", "56WP"}, 
+					{"60WG", "61WM", "62WE", "63WL", "64WE", "65WC", "66WZ"}
+				    };
 		
 		// TODO: Change to recieve from database
 		State state = new State(board,"W","40NN","50WP");    
