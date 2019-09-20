@@ -1,6 +1,7 @@
 package Templates;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
@@ -22,6 +23,9 @@ public class AccountTemplate{
 		workingPanel.setLayout(new BorderLayout());
 		
 		workingPanel.add(generateSidebar(), BorderLayout.LINE_START);
+		
+		//set the panel that a screen should load into
+		Panel.setWorkingPanel(workingPanel, true);
 	}
 	
 	private static JPanel generateSidebar(){

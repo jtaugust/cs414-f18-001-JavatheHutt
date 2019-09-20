@@ -24,8 +24,7 @@ public class Panel {
 	
 	public static JPanel setBackground(String path) {
 		int width = Frame.getWidth(), height = Frame.getHeight();
-		System.out.println(width);
-		
+
 		//paint the panel as the image provided
 		JPanel background = new JPanel() {
 			BufferedImage image = Helpers.getImage(path);
@@ -55,7 +54,8 @@ public class Panel {
 		return workingPanel;
 	}
 	
-	public static void setWorkingPanel(JPanel panel) {
+	public static void setWorkingPanel(JPanel panel, Boolean opaque) {
 		workingPanel = panel;
+		workingPanel.setOpaque(opaque);
 	}
 }

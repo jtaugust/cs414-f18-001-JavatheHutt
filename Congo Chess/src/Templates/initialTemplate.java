@@ -31,10 +31,12 @@ public class initialTemplate {
 		backgroundPanel.add(workingPanel, BorderLayout.CENTER);
 		
 		//set the panel that a screen should load into
-		Panel.setWorkingPanel(workingPanel);
+		Panel.setWorkingPanel(workingPanel, false);
 		
 		//set the entire background into the pane
 		frame.setContentPane(backgroundPanel);
 		
+		//finalize the frame
+		Frame.finalize(frame);
 	}
 }

@@ -12,6 +12,7 @@ import GUI.Panel;
 
 public class MainTemplate {
 	public static void generateMain(JFrame frame){
+		
 		//set the frame dimensions
 		Frame.setDimensions(1000,1000);
 		
@@ -37,11 +38,13 @@ public class MainTemplate {
 		background.add(workingPanel, BorderLayout.CENTER);
 		
 		//set the panel that a screen should load into
-		Panel.setWorkingPanel(workingPanel);
+		Panel.setWorkingPanel(workingPanel, true);
 		
 		//set the entire background into the pane
 		frame.setContentPane(background);
 		
+		//finalize the frame
+		Frame.finalize(frame);
 	}
 	
 	private static void generateTaskbar(JPanel taskbar){
