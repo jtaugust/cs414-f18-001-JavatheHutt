@@ -25,7 +25,7 @@ public class AccountTemplate{
 		workingPanel.add(generateSidebar(), BorderLayout.LINE_START);
 		
 		//set the panel that a screen should load into
-		Panel.setWorkingPanel(workingPanel, true);
+		Panel.setWorkingPanel(workingPanel, false);
 	}
 	
 	private static JPanel generateSidebar(){
@@ -35,7 +35,7 @@ public class AccountTemplate{
 		//set the sidePanel layout to a 3 row by 1 column grid
 		sidebar.setLayout(new GridLayout(2, 1));
 		
-		//create and add the 3 buttons
+		//create and add the 2 buttons
 		sidebar.add(Helpers.Button("Match History"));
 		sidebar.add(Helpers.Button("UnRegister"));
 		

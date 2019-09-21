@@ -35,7 +35,7 @@ public class MainTemplate {
 		background.add(workingPanel, BorderLayout.CENTER);
 		
 		//set the panel that a screen should load into
-		Panel.setWorkingPanel(workingPanel, false);
+		Panel.setWorkingPanel(workingPanel, true);
 		
 		//set the entire background into the pane
 		frame.setContentPane(background);
