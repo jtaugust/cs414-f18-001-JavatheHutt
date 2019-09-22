@@ -19,7 +19,7 @@ public class Application extends JFrame{
 		window = GUI.Frame.createFrame(1);
 		
 		//fill the working frame with the login details
-		changeScreen("Login");	
+		//changeScreen("Login");	
 	}
 	
 	//all page changes use this method

@@ -14,7 +14,27 @@ public class Frame {
 		JFrame frame = new JFrame();
 		frame.setLayout(new BorderLayout());
 		//load background as well as the required template
-		Panel.fillFrame(frame, template);
+		Panel.createPanels(frame, template);
+
+		return frame;
+	}
+
+	public static void changeTemplate(String screen) {
+		
+			boolean change = false;
+			switch(screen) {
+			case "Login":
+			case "Registration":
+			case "Captcha": 
+				if (template != 1) {
+					Panel.createPanels(Application.window, 1);
+				}
+				break;
+			//TODO other cases
+			}
+	}
+	
+	public static void finalize(JFrame frame) {
 		//set frame size
 		frame.setSize(width, height);
 		//set the start position to center of the screen
@@ -27,23 +47,6 @@ public class Frame {
 		frame.setResizable(false);
 		//make frame visible
 		frame.setVisible(true);
-
-		return frame;
-	}
-
-	public static void changeTemplate(String screen) {
-			boolean change = false;
-			switch(screen) {
-			case "Login":
-			case "Registration":
-			case "Captcha": 
-				if (template != 1) {
-					System.out.println("Here");
-					Panel.fillFrame(Application.window, 1);
-				}
-				break;
-			//TODO other cases
-			}
 	}
 
 	public static void setDimensions(int w, int h) {
