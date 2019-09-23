@@ -1,0 +1,16 @@
+Name: 
+  Tejaswini Kancharla
+
+Major and Year:
+  Second year Masters in Computer Science
+
+Languages:
+  Go-lang, Python, C++, C, Javascript, Java
+
+Tools:
+  VisualStudio Code, Trello, BigQuery, Eclipse, Github
+  
+  
+I am really interested in Machine Learning and Deep Learning. I am doing a remote internship which involves deep learning models from 
+dataset creation to deploying the models on Google Cloud Platform. I am doing this course as I believe this course could help me build 
+products in a more organized and effecient way.
