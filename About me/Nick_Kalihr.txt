@@ -1,0 +1,13 @@
+Name: 
+  Nick Kaliher
+
+Major and Year:
+  Senior in Computer Science
+
+Languages:
+  Java, SQL, C, C++, Bash, Python 
+
+Tools:
+  Eclipse, Git, Github, GitLab, Anchore, Cypress, Docker, VSCode
+  
+I have been interested in computer science ever since highschool and loved in ever since CS163. I play video games, watch a lot of media, and like to hang out with friends.  
