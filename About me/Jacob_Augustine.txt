@@ -1,0 +1,15 @@
+Name: 
+  Jacob Augustine
+
+Major and Year:
+  Senior in Computer Science
+
+Languages:
+  Java, SQL, C, C++, Python 
+
+Tools:
+  Eclipse, IntelliJ, Github, TravisCI
+  
+ I have taken a few CS classes back in high school and since then it has been an intrest to me. 
+ I put togeather and take apart computers on a regular bases for work as well as working on software.
+ I also enjoy playing vidoegames to relaxe at the end of the day or watch speedruns on YouTube.
