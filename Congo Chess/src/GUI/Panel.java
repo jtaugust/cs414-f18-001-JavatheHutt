@@ -22,7 +22,7 @@ public class Panel {
 		}
 	}
 	
-	public static JPanel setBackground(String path) {
+	public static JPanel setBackground(String path) { //will cover the panel using the frames width and height
 		int width = Frame.getWidth(), height = Frame.getHeight();
 
 		//paint the panel as the image provided
@@ -37,7 +37,7 @@ public class Panel {
 		return background;
 	}
 	
-	public static JPanel setBackground(String path, Dimension size) {
+	public static JPanel setBackground(String path, Dimension size) { //will cover the panel using the provided width and height
 		int width = size.width, height = size.height;
 		//paint the panel as the image provided
 		JPanel background = new JPanel() {
@@ -50,12 +50,32 @@ public class Panel {
 		return background;
 	}
 	
+	public static JPanel setBackground(String path, JPanel panel) { //adds existing panel on top of background using the frames width and height
+		JPanel background = new JPanel();
+		background = setBackground(path);
+		background.add(panel);
+		return background;
+	}
+	
+	public static JPanel setBackground(String path, Dimension size, JPanel panel) { //adds existing panel on top of background using provided width and height
+		JPanel background = new JPanel();
+		background = setBackground(path, size);
+		background.add(panel);
+		return background;
+	}
+	
 	public static JPanel getWorkingPanel() {
 		return workingPanel;
 	}
 	
-	public static void setWorkingPanel(JPanel panel, Boolean opaque) {
+	public static void setWorkingPanel(JPanel panel) { //set the working panel with provided panel, will not be see-through
+		workingPanel = panel;
+		workingPanel.setOpaque(true);
+	}
+	
+	public static void setWorkingPanel(JPanel panel, Boolean opaque) { //set the working panel with provided panel and opacity
 		workingPanel = panel;
 		workingPanel.setOpaque(opaque);
 	}
+	
 }
