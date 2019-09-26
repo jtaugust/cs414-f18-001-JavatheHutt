@@ -68,7 +68,12 @@ public class Panel {
 		return workingPanel;
 	}
 	
-	public static void setWorkingPanel(JPanel panel, Boolean opaque) {
+	public static void setWorkingPanel(JPanel panel) { //set the working panel with provided panel, will not be see-through
+		workingPanel = panel;
+		workingPanel.setOpaque(true);
+	}
+	
+	public static void setWorkingPanel(JPanel panel, Boolean opaque) { //set the working panel with provided panel and opacity
 		workingPanel = panel;
 		workingPanel.setOpaque(opaque);
 	}
