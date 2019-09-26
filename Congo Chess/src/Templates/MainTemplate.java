@@ -49,10 +49,10 @@ public class MainTemplate {
 		taskbar.setLayout(new GridLayout(1, 5));
 
 		//add image button to taskbar
-		taskbar.add(Helpers.Button(Helpers.getImage("./Images/AccountDefaultImage.jpg"), new Dimension(100, 100)));
-		taskbar.add(Helpers.Button("New Game"));
-		taskbar.add(Helpers.Button("Existing Games"));
-		taskbar.add(Helpers.Button("Rules"));
-		taskbar.add(Helpers.Button("Logout"));
+		taskbar.add(Helpers.button(Helpers.getImage("./Images/AccountDefaultImage.jpg"), new Dimension(100, 100)));
+		taskbar.add(Helpers.button("New Game"));
+		taskbar.add(Helpers.button("Existing Games"));
+		taskbar.add(Helpers.button("Rules"));
+		taskbar.add(Helpers.button("Logout"));
 	}
 }

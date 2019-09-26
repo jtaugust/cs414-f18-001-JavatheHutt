@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.*;
 
-import Screens.Login_Screen;
+import Screens.LoginScreen;
 
 public class Panel {
 	
@@ -15,7 +15,7 @@ public class Panel {
 	public static void createPanels(JFrame frame, int template) {
 		//determine which pane, generate its template
 		switch (template) {
-			case 1: Templates.initialTemplate.generateInitial(frame); break; //initial
+			case 1: Templates.InitialTemplate.generateInitial(frame); break; //initial
 			case 2: Templates.MainTemplate.generateMain(frame); break; //main
 			case 3: Templates.AccountTemplate.generateAccount(frame); break; //Account
 			default: break; //error, should never reach here

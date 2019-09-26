@@ -6,9 +6,9 @@ import javax.swing.*;
 
 import GUI.Frame;
 import GUI.Panel;
-import Screens.Login_Screen;
+import Screens.LoginScreen;
 
-public class initialTemplate {
+public class InitialTemplate {
 	public static void generateInitial(JFrame frame) {
 		//set the frame dimensions
 		Frame.setDimensions(600, 800);

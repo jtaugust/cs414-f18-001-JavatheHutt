@@ -36,8 +36,8 @@ public class AccountTemplate{
 		sidebar.setLayout(new GridLayout(2, 1));
 		
 		//create and add the 2 buttons
-		sidebar.add(Helpers.Button("Match History"));
-		sidebar.add(Helpers.Button("UnRegister"));
+		sidebar.add(Helpers.button("Match History"));
+		sidebar.add(Helpers.button("UnRegister"));
 		
 		return sidebar;
 	}

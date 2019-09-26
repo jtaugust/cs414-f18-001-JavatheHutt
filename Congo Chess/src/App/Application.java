@@ -14,12 +14,14 @@ import javax.imageio.*;
 
 public class Application extends JFrame{
 	public static JFrame window = null;
+	private static String username = null;
+	
 	public static void main(String[] args) {
 		//create start up frame: initial width and height (600,800), initial template
 		window = GUI.Frame.createFrame(1);
 		
 		//fill the working frame with the login details
-		//changeScreen("Login");	
+		changeScreen("Login");	
 	}
 	
 	//all page changes use this method
@@ -29,12 +31,20 @@ public class Application extends JFrame{
 		
 		//update the working panel
 		switch (screen) {
-			case "Login": Login_Screen.Screen(); break;
+			case "Login": LoginScreen.screen(); break;
 		}
 		
 		//All changes to working panel must include this to update changes
 		window.validate();
 		window.repaint();
+	}
+	
+	public static void setUser(String user){
+		username = user;
+	}
+	
+	public static String getUser(){
+		return username;
 	}
 }
 
