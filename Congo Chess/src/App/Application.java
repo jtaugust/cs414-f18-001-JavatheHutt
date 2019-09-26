@@ -32,6 +32,7 @@ public class Application extends JFrame{
 		//update the working panel
 		switch (screen) {
 			case "Login": LoginScreen.screen(); break;
+			case "Registration": RegistrationScreen.screen(); break;
 		}
 		
 		//All changes to working panel must include this to update changes

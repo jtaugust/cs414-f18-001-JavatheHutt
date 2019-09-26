@@ -60,7 +60,17 @@ public class LoginScreen {
 		panel.add(login);
 		
 		panel.add(Helpers.spacer(200, 50));
-		panel.add(Helpers.button("Dont have an account? Create one now!", new Dimension(250, 30)));
+		
+		JButton register = Helpers.button("Dont have an account? Create one now!", new Dimension(250, 30));
+		register.addActionListener(
+				new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						Application.changeScreen("Registration");
+					}
+				}
+		);
+		panel.add(register);
 	}
 
 	public static void setLoginError(){
