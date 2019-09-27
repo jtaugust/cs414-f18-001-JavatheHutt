@@ -7,6 +7,7 @@ import java.io.*;
 import javax.swing.*;
 
 import Screens.*;
+import Templates.*;
 import GUI.Frame;
 import GUI.Panel;
 
@@ -26,6 +27,9 @@ public class Application extends JFrame{
 	
 	//all page changes use this method
 	public static void changeScreen(String screen) {
+		//remove the working panel
+		Panel.clearWorkingPanel();
+		
 		//change the template if required
 		Frame.changeTemplate(screen);
 		
@@ -34,8 +38,12 @@ public class Application extends JFrame{
 			case "Login": LoginScreen.screen(); break;
 			case "Registration": RegistrationScreen.screen(); break;
 		}
-		
+
+	}
+	
+	public static void update(){
 		//All changes to working panel must include this to update changes
+		window.setContentPane(Panel.combineWorkingBackground());
 		window.validate();
 		window.repaint();
 	}

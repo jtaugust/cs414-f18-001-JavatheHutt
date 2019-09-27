@@ -12,4 +12,11 @@ public class Label {
 		JLabel label = new JLabel(new ImageIcon(image));
 		return label;
 	}
+	
+	public static JLabel errorLabel(String error, Color color){
+		JLabel label = new JLabel(error);
+		label.setFont(new Font("Verdana",1, 18));
+		label.setForeground(color);
+		return label;
+	}
 }

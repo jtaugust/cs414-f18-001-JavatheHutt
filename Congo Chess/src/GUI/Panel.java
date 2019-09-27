@@ -6,11 +6,12 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.*;
 
+import App.Application;
 import Screens.LoginScreen;
 
 public class Panel {
 	
-	private static JPanel workingPanel = null;
+	private static JPanel workingPanel = null, workingPanelBackground = null;
 	
 	public static void createPanels(JFrame frame, int template) {
 		//determine which pane, generate its template
@@ -78,4 +79,23 @@ public class Panel {
 		workingPanel.setOpaque(opaque);
 	}
 	
+	public static void clearWorkingPanel(){
+		Application.window.getContentPane().remove(Panel.getWorkingPanel());
+		setWorkingPanel(new JPanel(), false);
+	}
+	
+	public static void setWorkingPanelBackground(JPanel panel){
+		workingPanelBackground = panel;
+	}
+	
+	public static JPanel getWorkingPanelBackground(){
+		return workingPanelBackground;
+	}
+	
+	public static JPanel combineWorkingBackground(){
+		JPanel temp = getWorkingPanelBackground();
+		temp.add(getWorkingPanel());
+		return temp;
+	}
+
 }

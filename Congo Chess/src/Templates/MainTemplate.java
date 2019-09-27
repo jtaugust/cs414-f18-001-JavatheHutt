@@ -40,6 +40,9 @@ public class MainTemplate {
 		//set the entire background into the pane
 		frame.setContentPane(background);
 		
+		//set the template variable
+		Frame.setTemplate(2);
+		
 		//finalize the frame
 		Frame.finalize(frame);
 	}

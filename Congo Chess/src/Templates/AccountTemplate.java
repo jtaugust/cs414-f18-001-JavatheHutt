@@ -8,6 +8,7 @@ import java.awt.GridLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import GUI.Frame;
 import GUI.Helpers;
 import GUI.Panel;
 
@@ -23,6 +24,9 @@ public class AccountTemplate{
 		workingPanel.setLayout(new BorderLayout());
 		
 		workingPanel.add(generateSidebar(), BorderLayout.LINE_START);
+		
+		//set the template variable
+		Frame.setTemplate(3);
 		
 		//set the panel that a screen should load into
 		Panel.setWorkingPanel(workingPanel, false);
