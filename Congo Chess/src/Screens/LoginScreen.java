@@ -83,7 +83,6 @@ public class LoginScreen {
 		if (loginError == true){
 			loginError = false;
 		}
-		Application.update();
 	}
 
 	public static void setLoginError(){

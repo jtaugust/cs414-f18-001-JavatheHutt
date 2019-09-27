@@ -38,7 +38,7 @@ public class Application extends JFrame{
 			case "Login": LoginScreen.screen(); break;
 			case "Registration": RegistrationScreen.screen(); break;
 		}
-
+		update();
 	}
 	
 	public static void update(){
