@@ -22,12 +22,12 @@ public class Application extends JFrame{
 		window = GUI.Frame.createFrame(1);
 		
 		//fill the working frame with the login details
-		changeScreen("Login");	
+	    changeScreen("Login");	
 	}
 	
 	//all page changes use this method
 	public static void changeScreen(String screen) {
-		//remove the working panel
+		//clear the working panel
 		Panel.clearWorkingPanel();
 		
 		//change the template if required
@@ -42,8 +42,8 @@ public class Application extends JFrame{
 	}
 	
 	public static void update(){
-		//All changes to working panel must include this to update changes
-		window.setContentPane(Panel.combineWorkingBackground());
+		//set the content 
+		window.getContentPane().add(Panel.getWorkingPanel());
 		window.validate();
 		window.repaint();
 	}

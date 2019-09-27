@@ -17,8 +17,8 @@ public class MainTemplate {
 		Frame.setDimensions(1000,1000);
 		
 		//create the background panel to hold all new panels
-		JPanel background = new JPanel();
-		background.setLayout(new BorderLayout());
+		JPanel backgroundPanel = new JPanel();
+		backgroundPanel.setLayout(new BorderLayout());
 		
 		//create the taskbar
 		JPanel taskbar = new JPanel();
@@ -29,16 +29,23 @@ public class MainTemplate {
 		JPanel workingPanel = new JPanel();
 		
 		//add taskbar to background panel
-		background.add(taskbar, BorderLayout.PAGE_START);
-		
+		backgroundPanel.add(taskbar, BorderLayout.PAGE_START);
+	
+		//TODO: once a main screen has been implemented, remove below
 		//add working panel to background panel
-		background.add(workingPanel, BorderLayout.CENTER);
+		backgroundPanel.add(workingPanel, BorderLayout.CENTER);
+		
+		//TODO: once a main screen has been implemented, uncomment below
+		//Panel.setWorkingPanelBackground(backgroundPanel);
+		
 		
 		//set the panel that a screen should load into
 		Panel.setWorkingPanel(workingPanel, true);
 		
+		
+		//TODO: once a main screen has been implemented, remove below
 		//set the entire background into the pane
-		frame.setContentPane(background);
+		frame.setContentPane(backgroundPanel);
 		
 		//set the template variable
 		Frame.setTemplate(2);

@@ -11,7 +11,7 @@ import Screens.LoginScreen;
 public class InitialTemplate {
 	public static void generateInitial(JFrame frame) {
 		//set the frame dimensions
-		Frame.setDimensions(1000, 1000);
+		Frame.setDimensions(600, 800);
 		
 		//create background panel
 		JPanel backgroundPanel = Panel.setBackground("./Images/Background.jpg");
@@ -20,23 +20,11 @@ public class InitialTemplate {
 		//add the logo to top of background panel
 		backgroundPanel.add(GUI.Label.getImageLabel("./Images/Logo.png"), BorderLayout.PAGE_START);
 		
+		//set the working panel background
 		Panel.setWorkingPanelBackground(backgroundPanel);
 		
-		//create panel for working area
-		JPanel workingPanel = new JPanel();
-		
 		//make working panel background invisible so it wont cover the Frame background
-		workingPanel.setOpaque(false);
-		
-		
-		//add panel to background panel
-		backgroundPanel.add(workingPanel, BorderLayout.CENTER);
-		
-		//set the panel that a screen should load into
-		Panel.setWorkingPanel(workingPanel, false);
-		
-		//set the entire background into the pane
-		frame.setContentPane(backgroundPanel);
+		Panel.setWorkingPanel(false);
 		
 		//set the template variable
 		Frame.setTemplate(1);

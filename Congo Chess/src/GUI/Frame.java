@@ -47,6 +47,8 @@ public class Frame {
 		frame.setResizable(false);
 		//make frame visible
 		frame.setVisible(true);
+		
+		frame.setContentPane(Panel.getWorkingPanelBackground());
 	}
 
 	public static void setDimensions(int w, int h) {

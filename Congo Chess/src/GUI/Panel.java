@@ -11,7 +11,7 @@ import Screens.LoginScreen;
 
 public class Panel {
 	
-	private static JPanel workingPanel = null, workingPanelBackground = null;
+	private static JPanel workingPanel = new JPanel(), workingPanelBackground = new JPanel();
 	
 	public static void createPanels(JFrame frame, int template) {
 		//determine which pane, generate its template
@@ -79,8 +79,13 @@ public class Panel {
 		workingPanel.setOpaque(opaque);
 	}
 	
+	public static void setWorkingPanel(Boolean opaque){
+		workingPanel.setOpaque(opaque);
+	}
+	
 	public static void clearWorkingPanel(){
-		Application.window.getContentPane().remove(Panel.getWorkingPanel());
+		//remove workingPanel from background
+		Panel.getWorkingPanelBackground().remove(Panel.getWorkingPanel());
 		setWorkingPanel(new JPanel(), false);
 	}
 	
@@ -90,12 +95,6 @@ public class Panel {
 	
 	public static JPanel getWorkingPanelBackground(){
 		return workingPanelBackground;
-	}
-	
-	public static JPanel combineWorkingBackground(){
-		JPanel temp = getWorkingPanelBackground();
-		temp.add(getWorkingPanel());
-		return temp;
 	}
 
 }

@@ -42,7 +42,7 @@ public class LoginScreen {
 	    error.setMaximumSize(new Dimension(400,50));
 	    if (loginError == true){ //if login failed, update panel to an error label
 	    	error.setOpaque(false);
-	    	error.add(Label.errorLabel("Incorrect username or password.", Color.red));
+	    	error.add(Label.errorLabel("<html>Incorrect username or password.<html>", Color.red));
 	    }
 	    panel.add(error);
 	    
@@ -88,4 +88,6 @@ public class LoginScreen {
 	public static void setLoginError(){
 		loginError = true;
 	}
+	
+	
 }
