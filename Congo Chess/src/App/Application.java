@@ -37,6 +37,7 @@ public class Application extends JFrame{
 		switch (screen) {
 			case "Login": LoginScreen.screen(); break;
 			case "Registration": RegistrationScreen.screen(); break;
+			case "InitialMain": InitialMainScreen.screen(); break;
 		}
 		update();
 	}
