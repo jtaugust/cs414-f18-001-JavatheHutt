@@ -10,6 +10,6 @@ public class InitialMainScreen {
 	public static void screen(){
 		JPanel panel = Panel.getWorkingPanel();
 		
-		System.out.println(Application.getUser());
+		//System.out.println(Application.getUser());
 	}
 }

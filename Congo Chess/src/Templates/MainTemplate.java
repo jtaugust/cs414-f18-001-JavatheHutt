@@ -13,8 +13,6 @@ import GUI.Panel;
 public class MainTemplate {
 	public static void generateMain(JFrame frame){
 		
-		
-		System.out.println("here");
 		//set the frame dimensions
 		Frame.setDimensions(1000,1000);
 		

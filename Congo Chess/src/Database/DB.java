@@ -1,5 +1,6 @@
 package Database;
 
+import java.io.*;
 import java.sql.*;
 
 public class DB {
@@ -22,13 +23,28 @@ public class DB {
 		 * the connection issue can be diagnosed
 		 */
 		
-		
-		if (user.equals("Admin1") && pass.equals("tempPass")) {
-			return true;
-		}else {
-			return false;
+		try{
+			BufferedReader in = new BufferedReader(new FileReader("./temporary/registeredUsers"));
+			String savedUser;
+			String savedPass;
+			while ((savedUser = in.readLine()) != null){
+				if (savedUser.equals(user)){
+					savedPass = in.readLine(); //read pass
+					if (savedPass.equals(pass)){
+						return true;
+					}else{
+						return false;
+					}
+				}else{
+					in.readLine();//skip pass
+				}
+			}
+			return false; //user doesnt exist
+		}catch (Exception e){
+			
 		}
 		
+		return false;
 	}
 		
 		
