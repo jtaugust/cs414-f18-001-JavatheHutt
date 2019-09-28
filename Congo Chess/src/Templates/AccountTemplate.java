@@ -8,6 +8,7 @@ import java.awt.GridLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import GUI.Frame;
 import GUI.Helpers;
 import GUI.Panel;
 
@@ -24,6 +25,9 @@ public class AccountTemplate{
 		
 		workingPanel.add(generateSidebar(), BorderLayout.LINE_START);
 		
+		//set the template variable
+		Frame.setTemplate(3);
+		
 		//set the panel that a screen should load into
 		Panel.setWorkingPanel(workingPanel, false);
 	}
@@ -36,8 +40,8 @@ public class AccountTemplate{
 		sidebar.setLayout(new GridLayout(2, 1));
 		
 		//create and add the 2 buttons
-		sidebar.add(Helpers.Button("Match History"));
-		sidebar.add(Helpers.Button("UnRegister"));
+		sidebar.add(Helpers.button("Match History"));
+		sidebar.add(Helpers.button("UnRegister"));
 		
 		return sidebar;
 	}

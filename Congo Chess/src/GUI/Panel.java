@@ -6,16 +6,17 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.*;
 
-import Screens.Login_Screen;
+import App.Application;
+import Screens.LoginScreen;
 
 public class Panel {
 	
-	private static JPanel workingPanel = null;
+	private static JPanel workingPanel = new JPanel(), workingPanelBackground = new JPanel();
 	
 	public static void createPanels(JFrame frame, int template) {
 		//determine which pane, generate its template
 		switch (template) {
-			case 1: Templates.initialTemplate.generateInitial(frame); break; //initial
+			case 1: Templates.InitialTemplate.generateInitial(frame); break; //initial
 			case 2: Templates.MainTemplate.generateMain(frame); break; //main
 			case 3: Templates.AccountTemplate.generateAccount(frame); break; //Account
 			default: break; //error, should never reach here
@@ -78,4 +79,22 @@ public class Panel {
 		workingPanel.setOpaque(opaque);
 	}
 	
+	public static void setWorkingPanel(Boolean opaque){
+		workingPanel.setOpaque(opaque);
+	}
+	
+	public static void clearWorkingPanel(){
+		//remove workingPanel from background
+		Panel.getWorkingPanelBackground().remove(Panel.getWorkingPanel());
+		setWorkingPanel(new JPanel(), false);
+	}
+	
+	public static void setWorkingPanelBackground(JPanel panel){
+		workingPanelBackground = panel;
+	}
+	
+	public static JPanel getWorkingPanelBackground(){
+		return workingPanelBackground;
+	}
+
 }

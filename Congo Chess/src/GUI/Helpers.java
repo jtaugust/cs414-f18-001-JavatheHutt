@@ -1,6 +1,7 @@
 package GUI;
 
 import java.awt.*;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 
@@ -32,17 +33,20 @@ public class Helpers {
 	    return newImage;
 	}
 	
-	public static JTextField textField(String text, Dimension size, Font font) {
+	public static JTextField textField(String name, String text, Dimension size, Font font) {
 		JTextField field = new JTextField(text);
 		field.setPreferredSize(size);
 		field.setMaximumSize(size);
 		field.setMinimumSize(size);
 		field.setAlignmentX(Component.CENTER_ALIGNMENT);
 		field.setFont(font);
+		field.setName(name);
+		field.setText(text);
+
 		return field;
 	}
 	
-	public static Component Spacer(int width, int height) {
+	public static Component spacer(int width, int height) {
 		return Box.createRigidArea(new Dimension(width, height));
 	}
 	
@@ -50,22 +54,38 @@ public class Helpers {
 		return new Font("SansSerif", Font.BOLD, fontSize);
 	}
 	
-	public static JButton Button(String name) {
+	public static JButton button(String name) {
 		JButton button = new JButton(name);
 		return button;
 	}
 	
-	public static JButton Button(String name, Dimension size) {
-		JButton button = new JButton(name);
+	public static JButton button(String name, Dimension size) {
+		JButton button = button(name);
 		button.setPreferredSize(size);
 		button.setAlignmentX(Component.CENTER_ALIGNMENT);
 		return button;
 	}
 	
-	public static JButton Button(BufferedImage img, Dimension imgSize) {
+	public static JButton button(BufferedImage img, Dimension imgSize) {
 		JButton button = new JButton();
 		img = resizeImg(img, imgSize);
 		button.setIcon(new ImageIcon(img));
 		return button;
 	}
+	
+	public static JTextField newTextField(String name, String text){ //creates a textField with ID as given name, fills in the field with the text given,width of 200, height of 50, and font size of 22
+		JTextField field = textField(name, text, new Dimension(200, 50), newFont(22));
+		return field;
+	}
+	
+	public static JTextField newTextField(String name, String text, Dimension size){
+		JTextField field = textField(name,text, size, newFont(22));
+		return field;
+	}
+	
+	public static JTextField newTextField(String name, String text, Dimension size, Font font){
+		JTextField field = textField(name,text, size, font);
+		return field;
+	}
+
 }

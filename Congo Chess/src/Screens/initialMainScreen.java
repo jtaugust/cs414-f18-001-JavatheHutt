@@ -1,5 +1,5 @@
 package Screens;
 
-public class initialMain_Screen {
+public class initialMainScreen {
 	//background + (logo + panel with buttons for the pages)
 }
