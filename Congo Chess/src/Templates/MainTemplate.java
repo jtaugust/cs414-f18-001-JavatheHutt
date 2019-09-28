@@ -1,11 +1,15 @@
 package Templates;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import App.Application;
 import GUI.Frame;
 import GUI.Helpers;
 import GUI.Panel;
@@ -57,6 +61,16 @@ public class MainTemplate {
 		taskbar.add(Helpers.button("New Game"));
 		taskbar.add(Helpers.button("Existing Games"));
 		taskbar.add(Helpers.button("Rules"));
-		taskbar.add(Helpers.button("Logout"));
+		
+		JButton logout = Helpers.button("Logout", new Dimension(250, 30));
+		logout.addActionListener(
+				new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						Application.changeScreen("Login");
+					}
+				}
+		);
+		taskbar.add(logout);
 	}
 }
