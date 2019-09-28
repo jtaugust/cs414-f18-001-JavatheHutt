@@ -29,8 +29,12 @@ public class Frame {
 					Panel.createPanels(Application.window, 1);
 				}
 				break;
+			case "InitialMain":
+				if (template != 2) {
+					Panel.createPanels(Application.window, 2);
+				}
 			default: break;
-			//TODO other cases
+			
 			}
 	}
 	

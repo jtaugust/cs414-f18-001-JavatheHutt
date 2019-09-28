@@ -13,6 +13,8 @@ import GUI.Panel;
 public class MainTemplate {
 	public static void generateMain(JFrame frame){
 		
+		
+		System.out.println("here");
 		//set the frame dimensions
 		Frame.setDimensions(1000,1000);
 		
@@ -31,21 +33,15 @@ public class MainTemplate {
 		//add taskbar to background panel
 		backgroundPanel.add(taskbar, BorderLayout.PAGE_START);
 	
-		//TODO: once a main screen has been implemented, remove below
-		//add working panel to background panel
-		backgroundPanel.add(workingPanel, BorderLayout.CENTER);
-		
-		//TODO: once a main screen has been implemented, uncomment below
-		//Panel.setWorkingPanelBackground(backgroundPanel);
+		//backgroundPanel.add(workingPanel, BorderLayout.CENTER);
+	
+		Panel.setWorkingPanelBackground(backgroundPanel);
 		
 		
 		//set the panel that a screen should load into
 		Panel.setWorkingPanel(workingPanel, true);
 		
-		
-		//TODO: once a main screen has been implemented, remove below
-		//set the entire background into the pane
-		frame.setContentPane(backgroundPanel);
+		//frame.setContentPane(backgroundPanel);
 		
 		//set the template variable
 		Frame.setTemplate(2);

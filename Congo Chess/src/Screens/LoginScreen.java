@@ -26,14 +26,14 @@ public class LoginScreen {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		
 		//build the panel
-		JTextField username = Helpers.newTextField("username", "username");
+		JTextField username = Helpers.newTextField("username", "Admin1");
 		panel.add(Helpers.spacer(100, 150));
 		panel.add(username);
 		
 		//create space under username textfield
 		panel.add(Helpers.spacer(200, 50));
 	
-		JTextField password = Helpers.newTextField("Password", "Password");
+		JTextField password = Helpers.newTextField("Password", "tempPass");
 	    panel.add(password);
 		
 	    //create the panel below password
@@ -59,7 +59,7 @@ public class LoginScreen {
 							//update application variable "User" to username.getText()
 							Application.setUser(name);
 							//redirect to main page
-							//TODO
+							Application.changeScreen("InitialMain");
 						}
 					}
 				}
