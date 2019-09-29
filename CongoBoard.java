@@ -34,7 +34,6 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
  
   //Add a congo board to the Layered Pane 
   congoBoard = new JPanel();
-//  JPanel bottomPanel = new JPanel();
   layeredPane.add(congoBoard, JLayeredPane.DEFAULT_LAYER);
   congoBoard.setLayout( new GridLayout(8, 8) );
   congoBoard.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
@@ -48,17 +47,13 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		  congoBoard.add( square );
 		  if(i==7) {
 			  JLabel l = new JLabel();
-//			  l.setText("A");			  
-		      // add label to panel 
 			  square.add(l); 
 			  congoBoard.add( square );
 
 		  }
 		  else if(j==0) {
 			  JLabel l = new JLabel();
-//			  l.setText("A");
 			  
-		      // add label to panel 
 			  square.add(l); 
 		  }
 		  else if(i==3) {
