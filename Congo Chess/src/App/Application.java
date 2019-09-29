@@ -16,6 +16,7 @@ import javax.imageio.*;
 public class Application extends JFrame{
 	public static JFrame window = null;
 	private static String username = null;
+	private static String currentScreen = null;
 	
 	public static void main(String[] args) {
 		//create start up frame: initial width and height (600,800), initial template
@@ -27,19 +28,29 @@ public class Application extends JFrame{
 	
 	//all page changes use this method
 	public static void changeScreen(String screen) {
-		//clear the working panel
-		Panel.clearWorkingPanel();
+		if (!screen.equals(currentScreen)) {
+			Panel.clearWorkingPanel();
 		
-		//change the template if required
-		Frame.changeTemplate(screen);
+			//change the template if required
+			Frame.changeTemplate(screen);
 		
-		//update the working panel
-		switch (screen) {
-			case "Login": LoginScreen.screen(); break;
-			case "Registration": RegistrationScreen.screen(); break;
-			case "InitialMain": InitialMainScreen.screen(); break;
+			//update the working panel
+			switch (screen) {
+				case "Login": LoginScreen.screen(); break;
+				case "Registration": RegistrationScreen.screen(); break;
+				case "Captcha": CaptchaScreen.screen(); break;
+				
+				case "InitialMain": InitialMainScreen.screen(); break;
+				case "New Game": NewGameScreen.screen(); break;
+				case "Existing Games": ExistingGamesScreen.screen(); break;
+				case "Rules": RulesScreen.screen(); break;
+				
+				case "Account": AccountScreen.screen(); break;
+				case "UnRegister": UnRegisterScreen.screen(); break;
+				case "Match History": MatchHistoryScreen.screen(); break;	
+			}
+			update();
 		}
-		update();
 	}
 	
 	public static void update(){
@@ -55,6 +66,14 @@ public class Application extends JFrame{
 	
 	public static String getUser(){
 		return username;
+	}
+	
+	public static String getCurrentScreen() {
+		return currentScreen;
+	}
+	
+	public static void setCurrentScreen(String str) {
+		currentScreen = str;
 	}
 }
 

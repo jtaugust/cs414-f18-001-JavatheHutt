@@ -17,7 +17,7 @@ public class Panel {
 		//determine which pane, generate its template
 		switch (template) {
 			case 1: Templates.InitialTemplate.generateInitial(frame); break; //initial
-			case 2: Templates.MainTemplate.generateMain(frame); break; //main
+			case 2: Templates.MainTemplate.generateMain(frame, true); break; //main
 			case 3: Templates.AccountTemplate.generateAccount(frame); break; //Account
 			default: break; //error, should never reach here
 		}
@@ -71,22 +71,28 @@ public class Panel {
 	
 	public static void setWorkingPanel(JPanel panel) { //set the working panel with provided panel, will not be see-through
 		workingPanel = panel;
-		workingPanel.setOpaque(true);
 	}
 	
 	public static void setWorkingPanel(JPanel panel, Boolean opaque) { //set the working panel with provided panel and opacity
+		panel.setOpaque(opaque);
 		workingPanel = panel;
-		workingPanel.setOpaque(opaque);
+	}
+	
+	public static void clearWorkingPanel() {
+		JPanel temp = new JPanel();
+		//get current workingPanel opacity
+		Boolean opaque = workingPanel.isOpaque();
+		temp.setOpaque(opaque);
+		//remove workingPanel from background
+		workingPanelBackground.remove(workingPanel);
+		//add the new panel to the background
+		workingPanelBackground.add(temp, BorderLayout.CENTER);
+		//update workingPanel
+		workingPanel = temp;
 	}
 	
 	public static void setWorkingPanel(Boolean opaque){
 		workingPanel.setOpaque(opaque);
-	}
-	
-	public static void clearWorkingPanel(){
-		//remove workingPanel from background
-		Panel.getWorkingPanelBackground().remove(Panel.getWorkingPanel());
-		setWorkingPanel(new JPanel(), false);
 	}
 	
 	public static void setWorkingPanelBackground(JPanel panel){

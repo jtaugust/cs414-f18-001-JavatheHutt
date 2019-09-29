@@ -15,7 +15,7 @@ import GUI.Helpers;
 import GUI.Panel;
 
 public class MainTemplate {
-	public static void generateMain(JFrame frame){
+	public static void generateMain(JFrame frame, Boolean finalize){
 		
 		//set the frame dimensions
 		Frame.setDimensions(1000,1000);
@@ -32,36 +32,76 @@ public class MainTemplate {
 		//create the working panel
 		JPanel workingPanel = new JPanel();
 		
-		//add taskbar to background panel
-		backgroundPanel.add(taskbar, BorderLayout.PAGE_START);
-	
-		//backgroundPanel.add(workingPanel, BorderLayout.CENTER);
-	
-		Panel.setWorkingPanelBackground(backgroundPanel);
-		
-		
 		//set the panel that a screen should load into
 		Panel.setWorkingPanel(workingPanel, true);
 		
-		//frame.setContentPane(backgroundPanel);
-		
-		//set the template variable
-		Frame.setTemplate(2);
+		//add taskbar to background panel
+		backgroundPanel.add(taskbar, BorderLayout.PAGE_START);
+	
+		backgroundPanel.add(workingPanel, BorderLayout.CENTER);
+	
+		Panel.setWorkingPanelBackground(backgroundPanel);
 		
 		//finalize the frame
-		Frame.finalize(frame);
+		if (finalize) {
+			//set the template variable
+			Frame.setTemplate(2);
+			Frame.finalize(frame);}
 	}
 	
 	private static void generateTaskbar(JPanel taskbar){
 		//create the 5 buttons (account, new game, existing games, rules, logout)
 		taskbar.setLayout(new GridLayout(1, 5));
 
-		//add image button to taskbar
-		taskbar.add(Helpers.button(Helpers.getImage("./Images/AccountDefaultImage.jpg"), new Dimension(100, 100)));
-		taskbar.add(Helpers.button("New Game"));
-		taskbar.add(Helpers.button("Existing Games"));
-		taskbar.add(Helpers.button("Rules"));
+		//account button
+		JButton account = Helpers.button(Helpers.getImage("./Images/AccountDefaultImage.jpg"), new Dimension(100, 100));
+		account.addActionListener(
+				new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						Application.changeScreen("Account");
+					}
+				}
+		);
+		taskbar.add(account);
 		
+		//new game button
+		JButton newGame = Helpers.button("New Game", new Dimension(250, 30));
+		newGame.addActionListener(
+					new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						Application.changeScreen("New Game");
+					}
+				}
+		);
+		taskbar.add(newGame);
+		
+		//existing games button
+		JButton existing = Helpers.button("Existing Games", new Dimension(250, 30));
+		existing.addActionListener(
+					new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						Application.changeScreen("Existing Games");
+					}
+				}
+		);
+		taskbar.add(existing);
+		
+		//rules button
+		JButton rules = Helpers.button("Rules", new Dimension(250, 30));
+		rules.addActionListener(
+					new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						Application.changeScreen("Rules");
+					}
+				}
+		);
+		taskbar.add(rules);
+		
+		//logout button
 		JButton logout = Helpers.button("Logout", new Dimension(250, 30));
 		logout.addActionListener(
 				new ActionListener() {

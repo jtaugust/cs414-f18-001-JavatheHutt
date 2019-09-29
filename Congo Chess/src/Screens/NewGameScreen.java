@@ -7,11 +7,11 @@ import javax.swing.JPanel;
 import App.Application;
 import GUI.Panel;
 
-public class CaptchaScreen {
+public class NewGameScreen {
 	public static void screen() {
-		Application.setCurrentScreen("Captcha");
-		System.out.println("here in captcha");
+		Application.setCurrentScreen("New Game");
+		System.out.println("here in new game");
 		JPanel panel = Panel.getWorkingPanel();
-		panel.setBackground(Color.blue);
+		panel.setBackground(Color.magenta);
 	}
 }
