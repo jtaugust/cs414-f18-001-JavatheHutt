@@ -52,7 +52,7 @@ public class LoginScreen {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						String name = username.getText(), pass = password.getText();
-						if (!Database.DB.isUser(name, pass)){ // user doesnt exist
+						if (!Database.DB.isUser(name, pass)){ // user doesn't exist
 							LoginScreen.setLoginError();
 							Application.changeScreen("Login");
 						}else{

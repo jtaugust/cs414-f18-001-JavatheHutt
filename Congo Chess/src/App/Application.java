@@ -23,14 +23,13 @@ public class Application extends JFrame{
 		window = GUI.Frame.createFrame(1);
 		
 		//fill the working frame with the login details
-	    changeScreen("Login");	
+	    changeScreen("Login");
 	}
 	
 	//all page changes use this method
 	public static void changeScreen(String screen) {
 		if (!screen.equals(currentScreen)) {
 			Panel.clearWorkingPanel();
-		
 			//change the template if required
 			Frame.changeTemplate(screen);
 		
