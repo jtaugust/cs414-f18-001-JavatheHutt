@@ -16,7 +16,7 @@ import GUI.Frame;
 import GUI.Helpers;
 import GUI.Panel;
 
-public class AccountTemplate {
+public class AccountTemplate{
 	public static void generateAccount(JFrame frame) {
 		// this template is the exact same as the main, except it must also have the
 		// sidebar

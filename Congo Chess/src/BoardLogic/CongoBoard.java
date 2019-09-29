@@ -1,4 +1,5 @@
-package congo;
+package BoardLogic;
+
 import java.awt.*;
 import java.awt.Color;
 
