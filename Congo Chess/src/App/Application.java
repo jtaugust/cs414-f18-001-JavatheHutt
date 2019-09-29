@@ -30,7 +30,6 @@ public class Application extends JFrame{
 	public static void changeScreen(String screen) {
 		if (!screen.equals(currentScreen)) {
 			Panel.clearWorkingPanel();
-		
 			//change the template if required
 			Frame.changeTemplate(screen);
 		
