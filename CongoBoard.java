@@ -48,17 +48,13 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		  congoBoard.add( square );
 		  if(i==7) {
 			  JLabel l = new JLabel();
-//			  l.setText("A");			  
-		      // add label to panel 
 			  square.add(l); 
 			  congoBoard.add( square );
 
 		  }
 		  else if(j==0) {
 			  JLabel l = new JLabel();
-//			  l.setText("A");
 			  
-		      // add label to panel 
 			  square.add(l); 
 		  }
 		  else if(i==3) {
