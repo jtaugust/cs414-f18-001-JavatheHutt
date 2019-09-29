@@ -70,7 +70,6 @@ public class Panel {
 	}
 	
 	public static void setWorkingPanel(JPanel panel) { //set the working panel with provided panel, will not be see-through
-		panel.setOpaque(true);
 		workingPanel = panel;
 	}
 	
@@ -79,14 +78,21 @@ public class Panel {
 		workingPanel = panel;
 	}
 	
-	public static void setWorkingPanel(Boolean opaque){
-		workingPanel.setOpaque(opaque);
+	public static void clearWorkingPanel() {
+		JPanel temp = new JPanel();
+		//get current workingPanel opacity
+		Boolean opaque = workingPanel.isOpaque();
+		temp.setOpaque(opaque);
+		//remove workingPanel from background
+		workingPanelBackground.remove(workingPanel);
+		//add the new panel to the background
+		workingPanelBackground.add(temp, BorderLayout.CENTER);
+		//update workingPanel
+		workingPanel = temp;
 	}
 	
-	public static void clearWorkingPanel(){
-		//remove workingPanel from background
-		Panel.getWorkingPanelBackground().remove(Panel.getWorkingPanel());
-		setWorkingPanel(new JPanel(), false);
+	public static void setWorkingPanel(Boolean opaque){
+		workingPanel.setOpaque(opaque);
 	}
 	
 	public static void setWorkingPanelBackground(JPanel panel){

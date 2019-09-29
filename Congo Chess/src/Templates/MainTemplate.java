@@ -53,7 +53,7 @@ public class MainTemplate {
 		//create the 5 buttons (account, new game, existing games, rules, logout)
 		taskbar.setLayout(new GridLayout(1, 5));
 
-		//add image button to taskbar
+		//account button
 		JButton account = Helpers.button(Helpers.getImage("./Images/AccountDefaultImage.jpg"), new Dimension(100, 100));
 		account.addActionListener(
 				new ActionListener() {
@@ -65,8 +65,31 @@ public class MainTemplate {
 		);
 		taskbar.add(account);
 		
-		taskbar.add(Helpers.button("New Game"));
-		taskbar.add(Helpers.button("Existing Games"));
+		//new game button
+		JButton newGame = Helpers.button("New Game", new Dimension(250, 30));
+		newGame.addActionListener(
+					new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						Application.changeScreen("New Game");
+					}
+				}
+		);
+		taskbar.add(newGame);
+		
+		//existing games button
+		JButton existing = Helpers.button("Existing Games", new Dimension(250, 30));
+		existing.addActionListener(
+					new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						Application.changeScreen("Existing Games");
+					}
+				}
+		);
+		taskbar.add(existing);
+		
+		//rules button
 		JButton rules = Helpers.button("Rules", new Dimension(250, 30));
 		rules.addActionListener(
 					new ActionListener() {
@@ -78,6 +101,7 @@ public class MainTemplate {
 		);
 		taskbar.add(rules);
 		
+		//logout button
 		JButton logout = Helpers.button("Logout", new Dimension(250, 30));
 		logout.addActionListener(
 				new ActionListener() {
