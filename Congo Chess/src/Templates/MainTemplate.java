@@ -1,11 +1,15 @@
 package Templates;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import App.Application;
 import GUI.Frame;
 import GUI.Helpers;
 import GUI.Panel;
@@ -17,8 +21,8 @@ public class MainTemplate {
 		Frame.setDimensions(1000,1000);
 		
 		//create the background panel to hold all new panels
-		JPanel background = new JPanel();
-		background.setLayout(new BorderLayout());
+		JPanel backgroundPanel = new JPanel();
+		backgroundPanel.setLayout(new BorderLayout());
 		
 		//create the taskbar
 		JPanel taskbar = new JPanel();
@@ -29,16 +33,20 @@ public class MainTemplate {
 		JPanel workingPanel = new JPanel();
 		
 		//add taskbar to background panel
-		background.add(taskbar, BorderLayout.PAGE_START);
+		backgroundPanel.add(taskbar, BorderLayout.PAGE_START);
+	
+		//backgroundPanel.add(workingPanel, BorderLayout.CENTER);
+	
+		Panel.setWorkingPanelBackground(backgroundPanel);
 		
-		//add working panel to background panel
-		background.add(workingPanel, BorderLayout.CENTER);
 		
 		//set the panel that a screen should load into
 		Panel.setWorkingPanel(workingPanel, true);
 		
-		//set the entire background into the pane
-		frame.setContentPane(background);
+		//frame.setContentPane(backgroundPanel);
+		
+		//set the template variable
+		Frame.setTemplate(2);
 		
 		//finalize the frame
 		Frame.finalize(frame);
@@ -49,10 +57,20 @@ public class MainTemplate {
 		taskbar.setLayout(new GridLayout(1, 5));
 
 		//add image button to taskbar
-		taskbar.add(Helpers.Button(Helpers.getImage("./Images/AccountDefaultImage.jpg"), new Dimension(100, 100)));
-		taskbar.add(Helpers.Button("New Game"));
-		taskbar.add(Helpers.Button("Existing Games"));
-		taskbar.add(Helpers.Button("Rules"));
-		taskbar.add(Helpers.Button("Logout"));
+		taskbar.add(Helpers.button(Helpers.getImage("./Images/AccountDefaultImage.jpg"), new Dimension(100, 100)));
+		taskbar.add(Helpers.button("New Game"));
+		taskbar.add(Helpers.button("Existing Games"));
+		taskbar.add(Helpers.button("Rules"));
+		
+		JButton logout = Helpers.button("Logout", new Dimension(250, 30));
+		logout.addActionListener(
+				new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						Application.changeScreen("Login");
+					}
+				}
+		);
+		taskbar.add(logout);
 	}
 }

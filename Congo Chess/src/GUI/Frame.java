@@ -20,7 +20,6 @@ public class Frame {
 	}
 
 	public static void changeTemplate(String screen) {
-		
 			boolean change = false;
 			switch(screen) {
 			case "Login":
@@ -30,7 +29,12 @@ public class Frame {
 					Panel.createPanels(Application.window, 1);
 				}
 				break;
-			//TODO other cases
+			case "InitialMain":
+				if (template != 2) {
+					Panel.createPanels(Application.window, 2);
+				}
+			default: break;
+			
 			}
 	}
 	
@@ -47,6 +51,8 @@ public class Frame {
 		frame.setResizable(false);
 		//make frame visible
 		frame.setVisible(true);
+		
+		frame.setContentPane(Panel.getWorkingPanelBackground());
 	}
 
 	public static void setDimensions(int w, int h) {
