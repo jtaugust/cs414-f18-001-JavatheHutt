@@ -18,7 +18,7 @@ import Templates.InitialTemplate;
 public class LoginScreen {
 	private static boolean loginError = false;
 	public static void screen(){
-		
+		Application.setCurrentScreen("Login");
 		//get the working panel
 		JPanel panel = Panel.getWorkingPanel();
 		

@@ -1,5 +1,7 @@
 package Screens;
 
+import java.awt.Color;
+
 import javax.swing.*;
 
 import App.Application;
@@ -8,8 +10,9 @@ import GUI.Panel;
 public class InitialMainScreen {
 	
 	public static void screen(){
+		Application.setCurrentScreen("InitialMain");
+		System.out.println("here in initial main");
 		JPanel panel = Panel.getWorkingPanel();
-		
-		//System.out.println(Application.getUser());
+		panel.setBackground(Color.DARK_GRAY);
 	}
 }
