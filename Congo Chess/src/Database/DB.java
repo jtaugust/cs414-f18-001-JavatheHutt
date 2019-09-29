@@ -12,17 +12,16 @@ public class DB {
 	//login credentials
 	private static final String USER = "jwelch31";
 	private static final String PASSWORD = "cyberpunkisawesome";
-			
+	
+	
 	public static boolean isUser(String user, String pass){
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
-		
 		/* 
 		 * This is just a temporary fix until
 		 * the connection issue can be diagnosed
 		 */
-		
 		try{
 			BufferedReader in = new BufferedReader(new FileReader("./temporary/registeredUsers"));
 			String savedUser;
@@ -37,6 +36,7 @@ public class DB {
 					}
 				}else{
 					in.readLine();//skip pass
+					in.readLine();//skip email
 				}
 			}
 			return false; //user doesnt exist
@@ -45,6 +45,59 @@ public class DB {
 		}
 		
 		return false;
+	}
+	
+	//Check if username or email is already in file
+	public static boolean isTaken(String user, String email){
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		/* 
+		 * This is just a temporary fix until
+		 * the connection issue can be diagnosed
+		 */
+		try{
+			BufferedReader in = new BufferedReader(new FileReader("./temporary/registeredUsers"));
+			String savedUser;
+			String savedEmail;
+
+			while ((savedUser = in.readLine()) != null){
+				if (savedUser.equals(user)){ //user is taken
+					return true;
+				}
+				in.readLine(); savedEmail = in.readLine();
+				if (savedEmail.equals(email)){ //email is taken
+					return true;
+				}
+				
+			}
+		
+		}catch (Exception e){
+			
+		}
+		
+		return false;
+	}
+	
+	//Create new user in file
+	public static void createUser(String user, String password, String email){
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		/* 
+		 * This is just a temporary fix until
+		 * the connection issue can be diagnosed
+		 */
+		try{
+			Writer output = new BufferedWriter(new FileWriter("./temporary/registeredUsers", true));
+			String newUser = System.lineSeparator() + user + System.lineSeparator() + password + System.lineSeparator() + email;
+			output.append(newUser);
+			output.close();
+			
+		}catch (Exception e){
+			
+		}
+		
 	}
 		
 		
