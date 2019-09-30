@@ -1,3 +1,4 @@
+package BoardLogic;
 import java.util.Currency;
 
 public class State {

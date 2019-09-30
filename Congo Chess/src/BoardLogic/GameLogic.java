@@ -1,3 +1,4 @@
+package BoardLogic;
 //
 // GameLogic.java 
 // 
