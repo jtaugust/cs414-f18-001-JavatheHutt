@@ -35,6 +35,28 @@ public class GameLogic extends State{
 	public String[] allPossibleCrocodileMove(State state){
 		return null;
 	}
+//	public ArrayList<String> allPossibleCrocodileMove(State state){
+//	ArrayList<String> legalMoves=new ArrayList<String>();
+//	int row=Character.getNumericValue(state.currentClick.charAt(0));
+//	int column=Character.getNumericValue(state.currentClick.charAt(1));
+//	char colour=state.currentClick.charAt(2);
+//    if(row==4) {
+//    	for(int i=column; i<7; i++) {
+//    		if(!illegalPosition(row,i)){
+//    			String move= Integer.toString(row)+Integer.toString(i);
+//    			legalMoves.add(move);
+//    		}
+//    	}
+//    		for(int i=7-column; i>=0; i--) {
+//        		if(!illegalPosition(row,i)){
+//        			String move= Integer.toString(row)+Integer.toString(i);
+//        			legalMoves.add(move);
+//        		}
+//    	}
+//    }
+//    
+//	return null;
+//}
 
 	public String[] allPossibleZebraMove(State state){
 		return null;
