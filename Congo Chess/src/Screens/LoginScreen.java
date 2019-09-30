@@ -18,21 +18,27 @@ import Templates.InitialTemplate;
 public class LoginScreen {
 	private static boolean loginError = false;
 	public static void screen(){
+		//set the current screen to the login screen
 		Application.setCurrentScreen("Login");
+		
 		//get the working panel
 		JPanel panel = Panel.getWorkingPanel();
 		
 		//set the working panel's layout
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		
-		//build the panel
-		JTextField username = Helpers.newTextField("username", "Admin1");
+		//create a space between the xgames label and the login panel
 		panel.add(Helpers.spacer(100, 150));
+		
+		//add the username text field
+		JTextField username = Helpers.newTextField("username", "Admin1");
+		
 		panel.add(username);
 		
 		//create space under username textfield
 		panel.add(Helpers.spacer(200, 50));
 	
+		//add the password textfield
 		JTextField password = Helpers.newTextField("Password", "tempPass");
 	    panel.add(password);
 		
@@ -40,12 +46,15 @@ public class LoginScreen {
 	    JPanel error = new JPanel();
 	    error.setOpaque(false);
 	    error.setMaximumSize(new Dimension(400,50));
-	    if (loginError == true){ //if login failed, update panel to an error label
+	    
+	    //if login failed, add an error label below the password textfield
+	    if (loginError == true){ 
 	    	error.setOpaque(false);
 	    	error.add(Label.errorLabel("<html>Incorrect username or password.<html>", Color.red));
 	    }
 	    panel.add(error);
 	    
+	    //login button
 		JButton login = Helpers.button("Login", new Dimension(100, 30));
 		login.addActionListener(
 				new ActionListener() {
@@ -68,6 +77,7 @@ public class LoginScreen {
 		
 		panel.add(Helpers.spacer(200, 50));
 		
+		//register button
 		JButton register = Helpers.button("Dont have an account? Create one now!", new Dimension(250, 30));
 		register.addActionListener(
 				new ActionListener() {
@@ -85,7 +95,7 @@ public class LoginScreen {
 		}
 	}
 
-	public static void setLoginError(){
+	private static void setLoginError(){
 		loginError = true;
 	}
 	

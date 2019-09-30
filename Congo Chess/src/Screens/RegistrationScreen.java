@@ -55,16 +55,18 @@ public class RegistrationScreen {
 	    JPanel error = new JPanel();
 	    error.setOpaque(false);
 	    error.setMaximumSize(new Dimension(400,50));
-	    if (registrationError == true){ //if login failed, update panel to an error label
+	    
+	    //if registration failed
+	    //TODO if registration failed, email is already taken or username is already taken
+	    if (registrationError == true){
 	    	error.setOpaque(false);
 	    	error.add(Label.errorLabel("<html>Error while trying to register<html>", Color.red));
 	    }
 	    panel.add(error);
 	    
-	    
-		JButton login = Helpers.button("Register", new Dimension(100, 30));
-		
-		login.addActionListener(
+	    //create registration button
+		JButton register = Helpers.button("Register", new Dimension(100, 30));
+		register.addActionListener(
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -95,12 +97,13 @@ public class RegistrationScreen {
 					}
 				}
 		);
-		panel.add(login);
+		panel.add(register);
 		
 		panel.add(Helpers.spacer(200, 50));
 		
-		JButton register = Helpers.button("Go back to login page.", new Dimension(250, 30));
-		register.addActionListener(
+		//Return to login button
+		JButton login = Helpers.button("Already have an account? Login!", new Dimension(250, 30));
+		login.addActionListener(
 				new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -108,15 +111,16 @@ public class RegistrationScreen {
 					}
 				}
 		);
-		panel.add(register);
+		panel.add(login);
 		
-		//if loginError was set, change it back
+		//if registrationError was set, change it back
 		if (registrationError == true){
 			registrationError = false;
 		}
 	}
 	
-	public static void setRegistrationError(){
+	//set the registration error
+	private static void setRegistrationError(){
 		registrationError = true;
 	}
 	

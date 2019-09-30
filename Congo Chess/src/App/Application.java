@@ -29,11 +29,12 @@ public class Application extends JFrame{
 	//all page changes use this method
 	public static void changeScreen(String screen) {
 		if (!screen.equals(currentScreen)) {
+			//remove the working panel so the next screen has a fresh panel to work with
 			Panel.clearWorkingPanel();
 			//change the template if required
 			Frame.changeTemplate(screen);
 		
-			//update the working panel
+			//update the working panel with the requested screen
 			switch (screen) {
 				case "Login": LoginScreen.screen(); break;
 				case "Registration": RegistrationScreen.screen(); break;
@@ -52,25 +53,28 @@ public class Application extends JFrame{
 		}
 	}
 	
+	//tells the frame to update itself with the new screen
 	public static void update(){
-		//set the content 
-		window.getContentPane().add(Panel.getWorkingPanel());
 		window.validate();
 		window.repaint();
 	}
 	
+	//when the user logs in, set the user
 	public static void setUser(String user){
 		username = user;
 	}
 	
+	//returns the current user's username
 	public static String getUser(){
 		return username;
 	}
 	
+	//returns which screen is currently being shown
 	public static String getCurrentScreen() {
 		return currentScreen;
 	}
 	
+	//sets which screen is current being shown
 	public static void setCurrentScreen(String str) {
 		currentScreen = str;
 	}

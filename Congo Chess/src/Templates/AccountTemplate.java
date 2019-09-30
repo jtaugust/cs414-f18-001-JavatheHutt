@@ -43,8 +43,8 @@ public class AccountTemplate{
 		Frame.finalize(frame);
 	}
 
+	//create the 2 buttons (match history and unregister)
 	private static JPanel generateSidebar() {
-		// create the sidepanel
 		JPanel sidebar = new JPanel();
 
 		// set the sidePanel layout to a 3 row by 1 column grid
