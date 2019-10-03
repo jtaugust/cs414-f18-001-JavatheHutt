@@ -1,14 +1,18 @@
 package Screens;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.GridBagLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.MatteBorder;
 
 import App.Application;
 import GUI.Helpers;
@@ -21,97 +25,159 @@ public class RegistrationScreen {
 		//Set current screen to Registration
 		Application.setCurrentScreen("Registration");
 		
+		
 		//get the working panel
-		JPanel panel = Panel.getWorkingPanel();
-		
+		JPanel workingPanel = Panel.getWorkingPanel();
 		//set the working panel's layout
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		workingPanel.setLayout(new BorderLayout());
 		
-		//build the panel
-		JTextField emailfield = Helpers.newTextField("email", "temp@fake.com");
-		panel.add(Helpers.spacer(100, 50));
-		panel.add(emailfield);
-
+		
+		//create section for email, username, password, and password confirmation
+		JPanel textFields = new JPanel();
+		textFields.setLayout(new BoxLayout(textFields, BoxLayout.Y_AXIS));
+		
+		
+		
+		//create email field 
+		JTextField emailfield = Helpers.newTextField("Email", "Email Address");
+		emailfield.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,6,0,0,new Color(79,175,255)),new MatteBorder(8,8,8,8, Color.white)));
+		
+		//add space before username
+		textFields.add(Helpers.spacer(100, 50));
+		
+		//add email field
+		textFields.add(emailfield);
+		
 		//create space under email textfield
-		panel.add(Helpers.spacer(200, 50));
+		textFields.add(Helpers.spacer(200, 50));
 		
-		JTextField username = Helpers.newTextField("username", "Admin1");
-		panel.add(username);
 		
-		//create space under username textfield
-		panel.add(Helpers.spacer(200, 50));
-	
-		JTextField passwordField = Helpers.newTextField("Password", "tempPass");
-	    panel.add(passwordField);
-	    
-		//create space under password textfield
-		panel.add(Helpers.spacer(200, 50));
-	    
-	    JTextField passwordConfirm = Helpers.newTextField("Confirm Password", "tempPass");
-	    panel.add(passwordConfirm);
-	    
+		
+		//create username field 
+		JTextField username = Helpers.newTextField("Username", "Username");
+		username.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,6,0,0,new Color(79,175,255)),new MatteBorder(8,8,8,8, Color.white)));
+		
+		//add username field
+		textFields.add(username);
+		
+		//create space under username field
+		textFields.add(Helpers.spacer(200, 50));
+
+		
+		
+		//create password field
+		JTextField passwordField = Helpers.newTextField("Password", "Password");
+		passwordField.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,6,0,0,new Color(79,175,255)),new MatteBorder(8,8,8,8, Color.white)));
+		
+		//add password field
+		textFields.add(passwordField);
+		
+		//create space under password field (for password error)
+		textFields.add(Helpers.spacer(200, 50));
+		
+		
+		
+		//create password confirmation field
+		JTextField passwordConfirm = Helpers.newTextField("Confirm Password", "Confirm Password");
+		passwordConfirm.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,6,0,0,new Color(79,175,255)),new MatteBorder(8,8,8,8, Color.white)));
+		
+		//add password confirmation field
+		textFields.add(passwordConfirm);
+		
+		//make sure background is transparent so the template background will show
+		textFields.setOpaque(false);
+		
+		//create space under password confirmation field (for password error)
+		textFields.add(Helpers.spacer(200, 10));
+		
+		
+		
 		
 	    //create the panel below password
 	    JPanel error = new JPanel();
 	    error.setOpaque(false);
 	    error.setMaximumSize(new Dimension(400,50));
-	    
-	    //if registration failed
-	    //TODO if registration failed, email is already taken or username is already taken
-	    if (registrationError == true){
+
+	    if (registrationError == true){ //if registration failed, update panel to an error label
+
 	    	error.setOpaque(false);
-	    	error.add(Label.errorLabel("<html>Error while trying to register<html>", Color.red));
+	    	error.add(Label.errorLabel("<html>Error attempting to register new user.<html>", Color.red));
 	    }
-	    panel.add(error);
+	    textFields.add(error);	    
+
 	    
-	    //create registration button
-		JButton register = Helpers.button("Register", new Dimension(100, 30));
-		register.addActionListener(
-				new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						String name = username.getText();
-						String email = emailfield.getText();
-						String password = passwordField.getText();
-						String passwordCon = passwordConfirm.getText();
-						if(!password.equals(passwordCon)){ // passwords don't match
-							setRegistrationError();
-						} else {
-							//if passwords match, make sure name or email isn't already taken.
-							if (!Database.DB.isTaken(name, email)){ // user or email isn't taken, add new user to file.
-								Database.DB.createUser(name, password, email);
-								Application.setUser(name);
-								Application.changeScreen("InitialMain");
-							}else{ // user or email is taken
-								//update application variable "User" to username.getText()
-								RegistrationScreen.setRegistrationError();
-								Application.changeScreen("Registration");
-								//redirect to main page
-				
-							}
-							
-						}
-						
-			
-						
+	    //create section for buttons (below the fields section)
+	    JPanel bottomButtons = new JPanel();
+	    bottomButtons.setLayout(new BoxLayout(bottomButtons, BoxLayout.LINE_AXIS));
+	    bottomButtons.setBackground(Color.black);
+	    bottomButtons.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(6,0,0,0,new Color(79,175,255)),new MatteBorder(5,5,5,5, Color.black)));
+	    bottomButtons.setPreferredSize(new Dimension(600,75));
+	    
+	    //create and add "Register" button
+	    JPanel login = new JPanel();
+	    login.setBackground(new Color(79,175,255));
+	  	login.setLayout(new GridBagLayout());
+	  	login.add(new JLabel("Register"));
+	  	login.addMouseListener(new MouseAdapter() {
+	  		@Override
+	  		public void mousePressed(final MouseEvent e) {
+	  			login.setBackground(new Color(110,190,255));
+	  		}
+	  		@Override
+	  		public void mouseReleased(final MouseEvent e) {
+	  			String name = username.getText();
+				String email = emailfield.getText();
+				String password = passwordField.getText();
+				String passwordCon = passwordConfirm.getText();
+				if(!password.equals(passwordCon)){ // passwords don't match, show error
+					RegistrationScreen.setRegistrationError();
+					Application.changeScreen("Registration");
+				} else {
+					//if passwords match, make sure name or email isn't already taken.
+					if (!Database.DB.isTaken(name, email)){ // user or email isn't taken, add new user to file.
+						Database.DB.createUser(name, password, email);
+						Application.setUser(name);
+						Application.changeScreen("InitialMain");
+					}else{ // user or email is taken, show error
+						//update application variable "User" to username.getText()
+						RegistrationScreen.setRegistrationError();
+						Application.changeScreen("Registration");
+						//redirect to main page
+
 					}
+					
 				}
-		);
-		panel.add(register);
+	  		}
+		});
+	    login.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(10,10,10,10,Color.black), new MatteBorder(2,2,2,2,new Color(79,175,255))));
+	    bottomButtons.add(login);
+
 		
-		panel.add(Helpers.spacer(200, 50));
 		
-		//Return to login button
-		JButton login = Helpers.button("Already have an account? Login!", new Dimension(250, 30));
-		login.addActionListener(
-				new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						Application.changeScreen("Login");
-					}
-				}
-		);
-		panel.add(login);
+
+		//create and add "Back to Login" button
+	    JPanel register = new JPanel();
+	    register.setBackground(new Color(90,90,90));
+	    register.setLayout(new GridBagLayout());
+	    register.add(new JLabel("Back to Login"));
+	    register.addMouseListener(new MouseAdapter() {
+	  		@Override
+	  		public void mousePressed(final MouseEvent e) {
+	  			register.setBackground(new Color(255,255,255));
+	  		}
+	  		@Override
+	  		public void mouseReleased(final MouseEvent e) {
+	  			Application.changeScreen("Login");
+	  		}
+		});
+	    register.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(10,10,10,10,Color.black), new MatteBorder(2,2,2,2,new Color(79,175,255))));
+	    bottomButtons.add(register);
+	    
+	    //add field and button panels to the working panel
+	    workingPanel.add(textFields, BorderLayout.PAGE_START);
+	    workingPanel.add(bottomButtons, BorderLayout.PAGE_END);
+
+
 		
 		//if registrationError was set, change it back
 		if (registrationError == true){

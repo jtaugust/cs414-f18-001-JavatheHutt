@@ -1,10 +1,7 @@
 package GUI;
 
 import java.awt.BorderLayout;
-import java.awt.Label;
-
 import javax.swing.JFrame;
-
 import App.*;
 
 public class Frame {

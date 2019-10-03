@@ -28,8 +28,10 @@ public class Application extends JFrame{
 	
 	//all page changes use this method
 	public static void changeScreen(String screen) {
-		if (!screen.equals(currentScreen)) {
-			//remove the working panel so the next screen has a fresh panel to work with
+
+		
+		if (!screen.equals(currentScreen) || screen == "Login" || screen == "Registration") {
+
 			Panel.clearWorkingPanel();
 			//change the template if required
 			Frame.changeTemplate(screen);
@@ -47,7 +49,7 @@ public class Application extends JFrame{
 				
 				case "Account": AccountScreen.screen(); break;
 				case "UnRegister": UnRegisterScreen.screen(); break;
-				case "Match History": MatchHistoryScreen.screen(); break;	
+				case "Match History": MatchHistoryScreen.screen(); break;
 			}
 			update();
 		}
