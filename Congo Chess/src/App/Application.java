@@ -57,6 +57,7 @@ public class Application extends JFrame{
 	
 	//tells the frame to update itself with the new screen
 	public static void update(){
+		window.getContentPane().add(Panel.getWorkingPanel());
 		window.validate();
 		window.repaint();
 	}
