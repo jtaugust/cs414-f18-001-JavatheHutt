@@ -1,3 +1,4 @@
+package BoardLogic;
 //
 // GameLogic.java 
 // 
@@ -35,6 +36,28 @@ public class GameLogic extends State{
 	public String[] allPossibleCrocodileMove(State state){
 		return null;
 	}
+//	public ArrayList<String> allPossibleCrocodileMove(State state){
+//	ArrayList<String> legalMoves=new ArrayList<String>();
+//	int row=Character.getNumericValue(state.currentClick.charAt(0));
+//	int column=Character.getNumericValue(state.currentClick.charAt(1));
+//	char colour=state.currentClick.charAt(2);
+//    if(row==4) {
+//    	for(int i=column; i<7; i++) {
+//    		if(!illegalPosition(row,i)){
+//    			String move= Integer.toString(row)+Integer.toString(i);
+//    			legalMoves.add(move);
+//    		}
+//    	}
+//    		for(int i=7-column; i>=0; i--) {
+//        		if(!illegalPosition(row,i)){
+//        			String move= Integer.toString(row)+Integer.toString(i);
+//        			legalMoves.add(move);
+//        		}
+//    	}
+//    }
+//    
+//	return null;
+//}
 
 	public String[] allPossibleZebraMove(State state){
 		return null;
@@ -48,22 +71,28 @@ public class GameLogic extends State{
 		String[] allPossibleMoves = new String[10];
 		int count = 0; 
 		if(state.currentClick.charAt(3) == 'S'){
-			// for (int i = 0 ; i < 7; i ++){
-			// 	for(int j = 0; j < 7; j++){
-					
-			// 		// Check if an empty space or enemy piece
-			// 		if(board[i][j].charAt(2) == 'N' || board[i][j] == enemyColor){
-			// 			allPossibleMoves[count] = board[i][j];
-			// 		}
-			// 	}
-			// }	
+			
+			int i = 0;
+			int j = 0;
+			while (true){
+				
+				// Check if an empty space or enemy piece
+				if(board[i][j].charAt(2) == 'N' || board[i][j] == enemyColor){
+					allPossibleMoves[count] = board[i][j];
+				}
+				
+				
+			}
+
 
 		} else {
 			// Go through three tiles in front of pawn 
 			int[] pieceLocaiton = {state.currentClick.charAt(0), state.currentClick.charAt(1)};
 			
-			for (int i = (pieceLocaiton[0] - 1) ; i < pieceLocaiton[1]; i ++){
-				for(int j = pieceLocation[1]; j < 3; j++){
+			// 
+
+			for (int i = (pieceLocaiton[0] - 1) ; i < pieceLocaiton[0] + 3; i ++){
+				for(int j = pieceLocation[1] - 1; j < pieceLocation[1]; j++){
 					
 					// Check if an empty space or enemy piece
 					if(board[i][j].charAt(2) == 'N' || board[i][j] == enemyColor){
@@ -234,18 +263,16 @@ public class GameLogic extends State{
 
 	public static void main (String[] args){
 		
-		
-
 		// Example state values 
 		String[][] board = {
-					{"00BG", "01BM", "02BE", "03BL", "04BE", "05BC", "06BZ"}, 
-					{"10BP", "11BP", "12BP", "13BP", "14BP", "15BP", "16BP"},
-					{"20NN", "21NN", "22NN", "23NN", "24NN", "25NN", "26NN"}, 
-					{"30NN", "31NN", "32NN", "33NN", "34NN", "35NN", "36NN"}, 
-					{"40NN", "41NN", "42NN", "43NN", "44NN", "45NN", "46NN"}, 
-					{"50WP", "51WP", "52WP", "53WP", "54WP", "55WP", "56WP"}, 
-					{"60WG", "61WM", "62WE", "63WL", "64WE", "65WC", "66WZ"}
-				    };
+								{"00BG", "01BM", "02BE", "03BL", "04BE", "05BC", "06BZ"}, 
+								{"10BP", "11BP", "12BP", "13BP", "14BP", "15BP", "16BP"},
+								{"20NN", "21NN", "22NN", "23NN", "24NN", "25NN", "26NN"}, 
+								{"30NN", "31NN", "32NN", "33NN", "34NN", "35NN", "36NN"}, 
+								{"40NN", "41NN", "42NN", "43NN", "44NN", "45NN", "46NN"}, 
+								{"50WP", "51WP", "52WP", "53WP", "54WP", "55WP", "56WP"}, 
+								{"60WG", "61WM", "62WE", "63WL", "64WE", "65WC", "66WZ"}
+							};
 		
 		// TODO: Change to recieve from database
 		State state = new State(board,"W","40NN","50WP");    

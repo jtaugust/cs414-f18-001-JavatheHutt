@@ -1,3 +1,4 @@
+
 //package Templates;
 //
 //import java.awt.BorderLayout;
@@ -77,3 +78,4 @@
 //		return sidebar;
 //	}
 //}
+

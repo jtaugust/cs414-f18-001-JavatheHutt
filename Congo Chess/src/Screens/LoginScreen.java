@@ -19,7 +19,9 @@ public class LoginScreen {
 	private static boolean loginError = false;
 	public static void screen(){
 
+
 		Application.setCurrentScreen("Login");
+
 		
 		//get the working panel
 		JPanel workingPanel = Panel.getWorkingPanel();
@@ -27,6 +29,7 @@ public class LoginScreen {
 		workingPanel.setLayout(new BorderLayout());
 		
 		
+
 		//create section for username and password
 		JPanel textFields = new JPanel();
 		textFields.setLayout(new BoxLayout(textFields, BoxLayout.Y_AXIS));
@@ -56,12 +59,15 @@ public class LoginScreen {
 		
 		//create space under password textfield (for password error)
 		textFields.add(Helpers.spacer(200, 50));
+
 		
 	    //create the panel below password
 	    JPanel error = new JPanel();
 	    error.setOpaque(false);
 	    error.setMaximumSize(new Dimension(400,50));
-	    if (loginError == true){ //if login failed, update panel to an error label
+	    
+	    //if login failed, add an error label below the password textfield
+	    if (loginError == true){ 
 	    	error.setOpaque(false);
 	    	error.add(Label.errorLabel("<html>Incorrect username or password.<html>", Color.red));
 	    }
@@ -96,6 +102,7 @@ public class LoginScreen {
 					Application.setUser(name);
 					//redirect to main page
 					Application.changeScreen("InitialMain");
+
 				}
 	  		}
 		});
@@ -103,6 +110,7 @@ public class LoginScreen {
 	    bottomButtons.add(login);
 		
 		
+
 		//create and add "Register" button
 	    JPanel register = new JPanel();
 	    register.setBackground(new Color(90,90,90));
@@ -124,6 +132,7 @@ public class LoginScreen {
 	    //add field and button panels to the working panel
 	    workingPanel.add(textFields, BorderLayout.PAGE_START);
 	    workingPanel.add(bottomButtons, BorderLayout.PAGE_END);
+
 		
 		//if loginError was set, change it back
 		if (loginError == true){
@@ -131,7 +140,7 @@ public class LoginScreen {
 		}
 	}
 
-	public static void setLoginError(){
+	private static void setLoginError(){
 		loginError = true;
 	}
 	

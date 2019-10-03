@@ -97,12 +97,14 @@ public class RegistrationScreen {
 	    JPanel error = new JPanel();
 	    error.setOpaque(false);
 	    error.setMaximumSize(new Dimension(400,50));
+
 	    if (registrationError == true){ //if registration failed, update panel to an error label
+
 	    	error.setOpaque(false);
 	    	error.add(Label.errorLabel("<html>Error attempting to register new user.<html>", Color.red));
 	    }
 	    textFields.add(error);	    
-	    
+
 	    
 	    //create section for buttons (below the fields section)
 	    JPanel bottomButtons = new JPanel();
@@ -141,6 +143,7 @@ public class RegistrationScreen {
 						RegistrationScreen.setRegistrationError();
 						Application.changeScreen("Registration");
 						//redirect to main page
+
 					}
 					
 				}
@@ -148,8 +151,10 @@ public class RegistrationScreen {
 		});
 	    login.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(10,10,10,10,Color.black), new MatteBorder(2,2,2,2,new Color(79,175,255))));
 	    bottomButtons.add(login);
+
 		
 		
+
 		//create and add "Back to Login" button
 	    JPanel register = new JPanel();
 	    register.setBackground(new Color(90,90,90));
@@ -172,15 +177,16 @@ public class RegistrationScreen {
 	    workingPanel.add(textFields, BorderLayout.PAGE_START);
 	    workingPanel.add(bottomButtons, BorderLayout.PAGE_END);
 
+
 		
-		
-		//if loginError was set, change it back
+		//if registrationError was set, change it back
 		if (registrationError == true){
 			registrationError = false;
 		}
 	}
 	
-	public static void setRegistrationError(){
+	//set the registration error
+	private static void setRegistrationError(){
 		registrationError = true;
 	}
 	

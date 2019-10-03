@@ -1,4 +1,4 @@
-package congo;
+package BoardLogic;
 import java.awt.*;
 import java.awt.Color;
 
@@ -72,21 +72,66 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	  }
   }
  
- 
-  //Add a few pieces to the board
- 
-  JLabel piece = new JLabel(new ImageIcon( new ImageIcon("crocodile.jpg").getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT) ));
-  JPanel panel = (JPanel)congoBoard.getComponent(1);
+  
+  String[] white_pieces= {"WG","WM","WE","WL","WE","WC","WZ"};
+  String[] black_pieces= {"BG","BM","BE","BL","BE","BC","BZ"};
+  String[] letters= {"a","b","c","d","e","f","g"};
+  
+  for(int i=1; i<8;i++) {
+	  JLabel piece = new JLabel(black_pieces[i-1]);
+	  piece.setFont(new Font("Serif", Font.BOLD, 30));
+	  JPanel panel = (JPanel)congoBoard.getComponent(i);
+	  panel.add(piece);  
+  }
+  
+  for(int i=49;i<56;i++) {
+	  JLabel piece = new JLabel(white_pieces[i-49]);
+	  piece.setFont(new Font("Serif", Font.BOLD, 30));
+	  JPanel panel = (JPanel)congoBoard.getComponent(i);
+	  panel.add(piece);  
+  }
+  
+  for(int i=9;i<16;i++) {
+	  JLabel piece = new JLabel("BP");
+	  piece.setFont(new Font("Serif", Font.BOLD, 30));
+	  JPanel panel = (JPanel)congoBoard.getComponent(i);
+	  panel.add(piece);  
+  }
+  for(int i=41;i<48;i++) {
+	  JLabel piece = new JLabel("WP");
+	  piece.setFont(new Font("Serif", Font.BOLD, 30));
+	  JPanel panel = (JPanel)congoBoard.getComponent(i);
+	  panel.add(piece);  
+  }
+  
+  for(int i=1;i<8;i++) {
+	  JLabel piece = new JLabel(Integer.toString(i));
+	  piece.setFont(new Font("Serif", Font.BOLD, 60));
+	  JPanel panel = (JPanel)congoBoard.getComponent((i-1)*8);
+	  panel.add(piece);  
+  }
+  for(int i=57;i<64;i++) {
+	  JLabel piece = new JLabel(letters[i-57]);
+	  piece.setFont(new Font("Serif", Font.BOLD, 60));
+	  JPanel panel = (JPanel)congoBoard.getComponent(i);
+	  panel.add(piece);  
+  }
+  
+  JLabel piece = new JLabel("KT");
+  piece.setFont(new Font("Serif", Font.BOLD, 30));
+
+  JPanel panel = (JPanel)congoBoard.getComponent(44);
   panel.add(piece);
-  piece = new JLabel(new ImageIcon("D:/semester3/projects/king.png"));
-  panel = (JPanel)congoBoard.getComponent(9);
-  panel.add(piece);
-  piece = new JLabel(new ImageIcon("D:/semester3/projects/king.png"));
-  panel = (JPanel)congoBoard.getComponent(22);
-  panel.add(piece);
-  piece = new JLabel(new ImageIcon("D:/semester3/projects/king.png"));
-  panel = (JPanel)congoBoard.getComponent(23);
-  panel.add(piece);
+//  piece = new JLabel(new ImageIcon("D:/semester3/projects/king.png"));
+//  panel = (JPanel)congoBoard.getComponent(9);
+//  panel.add(piece);
+//  piece = new JLabel(new ImageIcon("D:/semester3/projects/king.png"));
+//  panel = (JPanel)congoBoard.getComponent(22);
+//  panel.add(piece);
+//  piece = new JLabel(new ImageIcon("D:/semester3/projects/king.png"));
+//  panel = (JPanel)congoBoard.getComponent(23);
+//  panel.add(piece);
+  
  
   }
  
@@ -100,6 +145,8 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
   Point parentLocation = c.getParent().getLocation();
   xAdjustment = parentLocation.x - e.getX();
   yAdjustment = parentLocation.y - e.getY();
+  System.out.println(findRow(parentLocation.y)+","+findColumn(parentLocation.x));
+//  System.out.println(congoPiece.getName());
   congoPiece = (JLabel)c;
   congoPiece.setLocation(e.getX() + xAdjustment, e.getY() + yAdjustment);
   congoPiece.setSize(congoPiece.getWidth(), congoPiece.getHeight());
@@ -144,6 +191,15 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
   }
   public void mouseExited(MouseEvent e) {
   
+  }
+  
+  private int findRow(int parentLocationY) {
+	  return parentLocationY/70;
+  }
+	  
+	
+  private int findColumn(int parentLocationX) {
+	  return parentLocationX/70;
   }
  
   public static void main(String[] args) {

@@ -1,13 +1,18 @@
+package BoardLogic;
+import java.util.Currency;
+
 public class State {
 
     //Board Syntax: Xposition Yposition Color Animal 
     // W: White B: Black 
     // L: Lion 
     // Z: Zebra 
-    // E:Elephant 
+    // E: Elephant 
     // G: Giraffe 
     // M: Monkey 
     // C: Crocidile 
+    // P: Pawn 
+    // S: Super pawn 
     // N: Null (Empty space)
     // Exs: [14WL] [16NN] [45BC]
 
