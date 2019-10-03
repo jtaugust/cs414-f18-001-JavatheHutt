@@ -2,6 +2,7 @@ package Screens;
 
 import java.awt.Color;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import App.Application;
@@ -11,7 +12,6 @@ public class RulesScreen {
 	public static void screen() {
 		Application.setCurrentScreen("Rules");
 		JPanel panel = Panel.getWorkingPanel();
-		System.out.println("here in rules");
-		panel.setBackground(Color.red);
+		panel.setBackground(new Color(50,50,50));
 	}
 }

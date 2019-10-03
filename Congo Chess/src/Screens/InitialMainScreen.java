@@ -11,7 +11,6 @@ public class InitialMainScreen {
 	
 	public static void screen(){
 		Application.setCurrentScreen("InitialMain");
-		System.out.println("here in initial main");
 		JPanel panel = Panel.getWorkingPanel();
 		panel.setBackground(Color.DARK_GRAY);
 	}

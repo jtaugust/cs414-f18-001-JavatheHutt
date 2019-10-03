@@ -18,7 +18,7 @@ public class Panel {
 		switch (template) {
 			case 1: Templates.InitialTemplate.generateInitial(frame); break; //initial
 			case 2: Templates.MainTemplate.generateMain(frame, true); break; //main
-			case 3: Templates.AccountTemplate.generateAccount(frame); break; //Account
+//			case 3: Templates.AccountTemplate.generateAccount(frame); break; //Account
 			default: break; //error, should never reach here
 		}
 	}

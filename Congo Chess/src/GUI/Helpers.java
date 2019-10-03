@@ -74,7 +74,22 @@ public class Helpers {
 	}
 	
 	public static JTextField newTextField(String name, String text){ //creates a textField with ID as given name, fills in the field with the text given,width of 200, height of 50, and font size of 22
-		JTextField field = textField(name, text, new Dimension(200, 50), newFont(22));
+		JTextField field = textField(name, text, new Dimension(400, 50), newFont(22));
+		//clear default fields
+		field.addFocusListener(new FocusListener() {
+			public void focusGained(FocusEvent e) {
+				if(field.getText().equals(text)) {
+					field.setText(""); 
+				}
+			}
+			public void focusLost(FocusEvent e) {
+				if(field.getText().isEmpty()) {
+					field.setText(text);
+				
+				}
+				
+			}
+		}); 
 		return field;
 	}
 	
