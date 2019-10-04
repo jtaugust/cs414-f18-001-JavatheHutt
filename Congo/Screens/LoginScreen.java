@@ -11,12 +11,13 @@ import javax.swing.*;
 import javax.swing.border.MatteBorder;
 
 import App.Application;
+import Database.DB;
 import GUI.Helpers;
 import GUI.Label;
 import GUI.Panel;
 
 public class LoginScreen {
-	private static boolean loginError = false;
+	private static int loginError = 0;
 	public static void screen(){
 		Application.setCurrentScreen("Login");
 		
@@ -62,9 +63,13 @@ public class LoginScreen {
 	    error.setMaximumSize(new Dimension(400,50));
 
 	    //if login failed, add an error label below the password textfield
-	    if (loginError == true){ 
+	    if (loginError != 0){ 
 	    	error.setOpaque(false);
+	    	if (loginError == 1) {
+	    		
+	    	}
 	    	error.add(Label.errorLabel("<html>Incorrect username or password.<html>", Color.red));
+	    	loginError = 0;
 	    }
 	    textFields.add(error);	    
 
@@ -89,16 +94,14 @@ public class LoginScreen {
 	  		@Override
 	  		public void mouseReleased(final MouseEvent e) {
 	  			String name = username.getText(), pass = password.getText();
-				if (!Database.DB.isUser(name, pass)){ // user doesn't exist
-					LoginScreen.setLoginError();
+	  			int err = DB.isUser(name, pass);
+				if (err == 0){ // authentic user
+					Application.setUser(name);
+					Application.changeScreen("InitialMain");
+				}else{
+					LoginScreen.setLoginError(err);
 					Application.setErr();
 					Application.changeScreen("Login");
-				}else{
-					//update application variable "User" to username.getText()
-					Application.setUser(name);
-					//redirect to main page
-					Application.changeScreen("InitialMain");
-
 				}
 	  		}
 		});
@@ -128,16 +131,10 @@ public class LoginScreen {
 	    //add field and button panels to the working panel
 	    workingPanel.add(textFields, BorderLayout.PAGE_START);
 	    workingPanel.add(bottomButtons, BorderLayout.PAGE_END);
-
-
-		//if loginError was set, change it back
-		if (loginError == true){
-			loginError = false;
-		}
 	}
 
-	private static void setLoginError(){
-		loginError = true;
+	private static void setLoginError(int err){
+		loginError = err;
 	}
 
 

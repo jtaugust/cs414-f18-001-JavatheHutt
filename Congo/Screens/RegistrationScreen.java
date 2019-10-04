@@ -100,15 +100,14 @@ public class RegistrationScreen {
 	    error.setMaximumSize(new Dimension(400,50));
 
 	    if (registrationError != 0){ //if registration failed, update panel to an error label
-	    	System.out.println("here");
 	    	error.setOpaque(false);
 	    	String errStr = "";
-	    	if (registrationError == 1) {
-	    		errStr = "<html>You must fill out the entire form.</html>";
-	    	}else if (registrationError == 2) {
-	    		errStr = "<html>Passwords do not match.</html>";
-	    	}else {
-	    		errStr = "<html></html>";
+	    	switch (registrationError) {
+	    		case 1: errStr = "<html>You must fill out the entire form.</html>"; break;
+	    		case 2: errStr = "<html>Passwords do not match.</html>"; break;
+	    		case 3: errStr = "<html>That username is already in use.</html>"; break;
+	    		case 4: errStr = "<html>That email is already in use.</html>"; break;
+	    		default: break;
 	    	}
 	    	error.add(Label.errorLabel(errStr, Color.red));
 	    	

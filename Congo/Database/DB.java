@@ -14,14 +14,16 @@ public class DB {
 	private static final String PASSWORD = "cyberpunkisawesome";
 	
 	
-	public static boolean isUser(String user, String pass){
+	public static int isUser(String user, String pass){
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
-		/* 
-		 * This is just a temporary fix until
-		 * the connection issue can be diagnosed
-		 */
+		
+		
+		if (user.contentEquals("Username") || pass.contentEquals("Password")){
+			return 1; // username or password is blank
+		}
+		
 		try{
 			BufferedReader in = new BufferedReader(new FileReader("./temporary/registeredUsers"));
 			String savedUser;
@@ -30,21 +32,18 @@ public class DB {
 				if (savedUser.equals(user)){
 					savedPass = in.readLine(); //read pass
 					if (savedPass.equals(pass)){
-						return true;
+						return 0;
 					}else{
-						return false;
+						return 2; //password is wrong
 					}
 				}else{
 					in.readLine();//skip pass
 					in.readLine();//skip email
 				}
 			}
-			return false; //user doesnt exist
-		}catch (Exception e){
-			
-		}
-		
-		return false;
+			return 3; //user doesnt exist
+		}catch (Exception e){/* do nothing */}
+		return 4; //couldnt read file
 	}
 	
 	//Check if username or email is already in file
