@@ -33,7 +33,33 @@ public class ExistingGamesScreen {
 		
 		String user1 = "Admin1";
 		String user2 = "Admin2";
-		//this method should be moved to the invitation class, once user 2 accepts, create board
+		
+		/*
+		 * 
+		 * TODO:
+		 * 
+		 * DB method:
+		 * SQL connection
+		 * sql update to userMatches (completely separate table from all users, primary key is an incrementing number)
+		 * userMatches stores: game #, user1, user2, turn (white or black), java object 
+		 * 			-java object to SQL table: http://www.java2s.com/Code/Java/Database-SQL-JDBC/Storeandretrieveanobjectfromatable.htm
+		 * 
+		 * 
+		 * 
+		 * TODO:
+		 * method that calls matchboard
+		 * when user clicks on a game from the existing games sideboard, it should have the game #
+		 *      -existing games sideboard is a scrollable list, perhaps its id is the game #
+		 * 
+		 * select * from userMatches where game# = existingGames#
+		 * 
+		 * this method should call the lock check method to lock and flip the board if necessary 
+		 * 
+		 * 
+		 */
+		
+		
+		//line below should be moved to the invitation class, once user 2 accepts, create board
 		//a sent invite should include the user1 in some way to actually create the board.
 		board.add(CongoBoard.createBoard(user1, user2));
 	
