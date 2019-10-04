@@ -38,19 +38,23 @@ public class MainTemplate {
 		//add taskbar to background panel
 		backgroundPanel.add(taskbar, BorderLayout.PAGE_START);
 	
+		//add the working panel to the background panel so it is actually visible and can be worked with
 		backgroundPanel.add(workingPanel, BorderLayout.CENTER);
 	
+		//set the workingPanelBakground variable
 		Panel.setWorkingPanelBackground(backgroundPanel);
 		
-		//finalize the frame
+		//if the requested template is the main template, continue
 		if (finalize) {
 			//set the template variable
 			Frame.setTemplate(2);
-			Frame.finalize(frame);}
+			Frame.finalize(frame);
+		}//else, the requested template is the account template and needs to do more work
 	}
 	
+	
+	//create the 5 buttons (account, new game, existing games, rules, logout)
 	private static void generateTaskbar(JPanel taskbar){
-		//create the 5 buttons (account, new game, existing games, rules, logout)
 		taskbar.setLayout(new GridLayout(1, 5));
 
 		//account button
