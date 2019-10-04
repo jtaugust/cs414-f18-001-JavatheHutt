@@ -177,6 +177,7 @@ public class MainTemplate {
             }
             @Override
             public void mouseReleased(final MouseEvent e) {
+            	Application.setUser(null);
             	Application.changeScreen("Login");
             	buttonAccount.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0, 0, 6, 0, new Color(0,0,0)), new MatteBorder(3, 3, 3, 3, new Color(90,90,90))));
             	buttonNewGame.setBackground(new Color(90,90,90));
