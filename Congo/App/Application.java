@@ -17,6 +17,7 @@ public class Application extends JFrame{
 	public static JFrame window = null;
 	private static String username = null;
 	private static String currentScreen = null;
+	private static boolean err = false;
 	
 	public static void main(String[] args) {
 		//create start up frame: initial width and height (600,800), initial template
@@ -28,7 +29,8 @@ public class Application extends JFrame{
 	
 	//all page changes use this method
 	public static void changeScreen(String screen) {
-		if (!screen.equals(currentScreen)) {
+		if (!screen.equals(currentScreen) || err) {
+			err = false;
 			//remove the working panel so the next screen has a fresh panel to work with
 			Panel.clearWorkingPanel();
 			//change the template if required
@@ -77,6 +79,10 @@ public class Application extends JFrame{
 	//sets which screen is current being shown
 	public static void setCurrentScreen(String str) {
 		currentScreen = str;
+	}
+	
+	public static void setErr() {
+		err = true;
 	}
 }
 
