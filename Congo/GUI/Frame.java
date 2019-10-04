@@ -42,19 +42,15 @@ public class Frame {
 			case "Existing Games":
 			case "Rules":
 			case "InitialMain":
+			case "Notifications":
+			case "Match History":
+			case "UnRegister":
+			case "Account":
 				if (template != 2) {
 					Panel.createPanels(Application.window, 2);
 				}
 				break;
 				
-			case "Notifications":
-			case "Match History":
-			case "UnRegister":
-			case "Account":
-				if (template != 3) {
-					Panel.createPanels(Application.window, 3);
-				}
-			default: break;
 			
 			}
 	}
