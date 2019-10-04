@@ -15,7 +15,7 @@ import javax.imageio.*;
 
 public class Application extends JFrame{
 	public static JFrame window = null;
-	private static String username = "Admin1";
+	private static String username = null;
 	private static String currentScreen = null;
 	private static boolean err = false;
 	
