@@ -15,11 +15,10 @@ public class Panel {
 	
 	//generates the desired template
 	public static void createPanels(JFrame frame, int template) {
-		switch (template) {
-			case 1: Templates.InitialTemplate.generateInitial(frame); break; //initial
-			case 2: Templates.MainTemplate.generateMain(frame, true); break; //main
-			case 3: Templates.AccountTemplate.generateAccount(frame); break; //Account
-			default: break; //error, should never reach here
+		if (template == 1) {
+			Templates.InitialTemplate.generateInitial(frame);
+		}else {
+			Templates.MainTemplate.generateMain(frame, true);
 		}
 	}
 	
