@@ -48,7 +48,7 @@ public class DB {
 	}
 	
 	//Check if username or email is already in file
-	public static boolean isTaken(String user, String email){
+	public static int isTaken(String user, String email){
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -63,11 +63,11 @@ public class DB {
 
 			while ((savedUser = in.readLine()) != null){
 				if (savedUser.equals(user)){ //user is taken
-					return true;
+					return 3;
 				}
 				in.readLine(); savedEmail = in.readLine();
 				if (savedEmail.equals(email)){ //email is taken
-					return true;
+					return 4;
 				}
 				
 			}
@@ -76,7 +76,7 @@ public class DB {
 			
 		}
 		
-		return false;
+		return 0;
 	}
 	
 	//Create new user in file

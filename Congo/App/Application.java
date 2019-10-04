@@ -15,7 +15,7 @@ import javax.imageio.*;
 
 public class Application extends JFrame{
 	public static JFrame window = null;
-	private static String username = null;
+	private static String username = "Admin1";
 	private static String currentScreen = null;
 	private static boolean err = false;
 	
@@ -31,11 +31,13 @@ public class Application extends JFrame{
 	public static void changeScreen(String screen) {
 		if (!screen.equals(currentScreen) || err) {
 			err = false;
-			//remove the working panel so the next screen has a fresh panel to work with
-			Panel.clearWorkingPanel();
+
 			//change the template if required
 			Frame.changeTemplate(screen);
-		
+			
+			//remove the working panel so the next screen has a fresh panel to work with
+			Panel.clearWorkingPanel();
+			
 			//update the working panel with the requested screen
 			switch (screen) {
 				case "Login": LoginScreen.screen(); break;

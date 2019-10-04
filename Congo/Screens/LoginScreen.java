@@ -18,17 +18,12 @@ import GUI.Panel;
 public class LoginScreen {
 	private static boolean loginError = false;
 	public static void screen(){
-
-
 		Application.setCurrentScreen("Login");
-
-
+		
 		//get the working panel
 		JPanel workingPanel = Panel.getWorkingPanel();
 		//set the working panel's layout
 		workingPanel.setLayout(new BorderLayout());
-
-
 
 		//create section for username and password
 		JPanel textFields = new JPanel();
