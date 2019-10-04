@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path=""/>
-	<classpathentry kind="lib" path="Congo Chess/lib/mariadb-java-client-2.4.4.jar"/>
+	<classpathentry kind="src" path="Congo"/>
+	<classpathentry kind="lib" path="lib/com.mysql.jdbc_5.1.5.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
