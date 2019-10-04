@@ -41,9 +41,9 @@ public class DB {
 					in.readLine();//skip email
 				}
 			}
-			return 3; //user doesnt exist
+			return 2; //user doesnt exist
 		}catch (Exception e){/* do nothing */}
-		return 4; //couldnt read file
+		return 3; //couldnt read file
 	}
 	
 	//Check if username or email is already in file

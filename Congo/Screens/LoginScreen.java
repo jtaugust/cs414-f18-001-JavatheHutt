@@ -65,10 +65,13 @@ public class LoginScreen {
 	    //if login failed, add an error label below the password textfield
 	    if (loginError != 0){ 
 	    	error.setOpaque(false);
-	    	if (loginError == 1) {
-	    		
+	    	String err = "";
+	    	switch (loginError) {
+	    		case 1: err = "<html>You must fill out the entire form.</html>"; break;
+	    		case 2: err = "<html>Username or password is incorrect</html>"; break;
+	    		default: break; //should only be reached by file that cannot be read
 	    	}
-	    	error.add(Label.errorLabel("<html>Incorrect username or password.<html>", Color.red));
+	    	error.add(Label.errorLabel(err, Color.red));
 	    	loginError = 0;
 	    }
 	    textFields.add(error);	    
