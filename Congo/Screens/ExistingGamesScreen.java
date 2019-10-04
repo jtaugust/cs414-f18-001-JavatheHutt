@@ -12,6 +12,6 @@ public class ExistingGamesScreen {
 		Application.setCurrentScreen("Existing Games");
 		System.out.println("here in existing games");
 		JPanel panel = Panel.getWorkingPanel();
-		panel.setBackground(Color.cyan);
+		panel.setBackground(new Color(50,50,50));
 	}
 }

@@ -96,6 +96,7 @@ public class LoginScreen {
 	  			String name = username.getText(), pass = password.getText();
 				if (!Database.DB.isUser(name, pass)){ // user doesn't exist
 					LoginScreen.setLoginError();
+					Application.setErr();
 					Application.changeScreen("Login");
 				}else{
 					//update application variable "User" to username.getText()

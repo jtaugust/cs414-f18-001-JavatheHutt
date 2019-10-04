@@ -13,5 +13,6 @@ public class AccountScreen {
 		Application.setCurrentScreen("Account");
 		JPanel panel = Panel.getWorkingPanel();
 		panel.setBackground(Color.black);
+		panel.setBackground(new Color(50,50,50));
 	}
 }
