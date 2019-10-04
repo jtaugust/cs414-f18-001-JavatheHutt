@@ -42,7 +42,7 @@ public class State {
 
     // Update the state object and update in database
     public void updateState(State newState){
-        state = newState;
+        //state = newState;
         
         //TODO: Update in database
     }
@@ -78,7 +78,7 @@ public class State {
     }
 
     public void setCurrentClick(String newClick){
-        currentPosition = newClick;
+        currentClick = newClick;
     }
 
     public void setPieceSelected(String newPieceSelected){
