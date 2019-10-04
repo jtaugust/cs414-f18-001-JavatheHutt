@@ -12,6 +12,6 @@ public class RulesScreen {
 		Application.setCurrentScreen("Rules");
 		JPanel panel = Panel.getWorkingPanel();
 		System.out.println("here in rules");
-		panel.setBackground(Color.red);
+		panel.setBackground(new Color(50,50,50));
 	}
 }

@@ -77,7 +77,7 @@ public class TestDB {
 	@Test
 	public void testIsTaken() {
 
-		assertTrue(DB.isTaken(user, password));
+		assertEquals(3, DB.isTaken(user, password));
 
 	}
 
