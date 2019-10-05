@@ -7,14 +7,34 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
+
+
+
+
  
 public class CongoBoard extends JFrame implements MouseListener, MouseMotionListener {
   public static final Color lakeColor = new Color(51,153,255);
   public static final Color castleColor= new Color(153,153,153);
   public static final Color tileColor= new Color(204,204,204);
   public static final Color borderColor= new Color(255,255,0);
+  
+  private boolean lock = false;
+  private String user1 = "", user2 = "";
+  String turn = "White"; //starting turn is white
+  String players[] = new String[] {user1, user2};
+  
 
 
+  String[][] board = {
+			{"00BG", "01BM", "02BE", "03BL", "04BE", "05BC", "06BZ"},
+			{"10BP", "11BP", "12BP", "13BP", "14BP", "15BP", "16BP"},
+			{"20NN", "21NN", "22NN", "23NN", "24NN", "25NN", "26NN"},
+			{"30NN", "31NN", "32NN", "33NN", "34NN", "35NN", "36NN"},
+			{"40NN", "41NN", "42NN", "43NN", "44NN", "45NN", "46NN"},
+			{"50WP", "51WP", "52WP", "53WP", "54WP", "55WP", "56WP"},
+			{"60WG", "61WM", "62WE", "63WL", "64WE", "65WC", "66WZ"}
+		};
+  
 
   JLayeredPane layeredPane;
   JPanel congoBoard;
@@ -26,7 +46,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
   Dimension boardSize = new Dimension(600, 600);
  
   //  Use a Layered Pane for this this application
- layeredPane = new JLayeredPane();
+  layeredPane = new JLayeredPane();
   getContentPane().add(layeredPane);
   layeredPane.setPreferredSize(boardSize);
   layeredPane.addMouseListener(this);
@@ -81,6 +101,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	  JLabel piece = new JLabel(black_pieces[i-1]);
 	  piece.setFont(new Font("Serif", Font.BOLD, 30));
 	  JPanel panel = (JPanel)congoBoard.getComponent(i);
+	  panel.setName(black_pieces[i-1]);
 	  panel.add(piece);  
   }
   
@@ -88,6 +109,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	  JLabel piece = new JLabel(white_pieces[i-49]);
 	  piece.setFont(new Font("Serif", Font.BOLD, 30));
 	  JPanel panel = (JPanel)congoBoard.getComponent(i);
+	  panel.setName(white_pieces[i-49]);
 	  panel.add(piece);  
   }
   
@@ -95,12 +117,14 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	  JLabel piece = new JLabel("BP");
 	  piece.setFont(new Font("Serif", Font.BOLD, 30));
 	  JPanel panel = (JPanel)congoBoard.getComponent(i);
+	  panel.setName("BP");
 	  panel.add(piece);  
   }
   for(int i=41;i<48;i++) {
 	  JLabel piece = new JLabel("WP");
 	  piece.setFont(new Font("Serif", Font.BOLD, 30));
 	  JPanel panel = (JPanel)congoBoard.getComponent(i);
+	  panel.setName("WP");
 	  panel.add(piece);  
   }
   
@@ -117,11 +141,13 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	  panel.add(piece);  
   }
   
-  JLabel piece = new JLabel("KT");
-  piece.setFont(new Font("Serif", Font.BOLD, 30));
-
-  JPanel panel = (JPanel)congoBoard.getComponent(44);
-  panel.add(piece);
+//  JLabel piece = new JLabel("KT");
+//  piece.setFont(new Font("Serif", Font.BOLD, 30));
+//
+//  JPanel panel = (JPanel)congoBoard.getComponent(44);
+//  panel.add(piece);
+  
+  
 //  piece = new JLabel(new ImageIcon("D:/semester3/projects/king.png"));
 //  panel = (JPanel)congoBoard.getComponent(9);
 //  panel.add(piece);
@@ -145,10 +171,20 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
   Point parentLocation = c.getParent().getLocation();
   xAdjustment = parentLocation.x - e.getX();
   yAdjustment = parentLocation.y - e.getY();
-  System.out.println(findRow(parentLocation.y)+","+findColumn(parentLocation.x));
+  
+  
+  int row=findRow(parentLocation.y);
+  int col=findColumn(parentLocation.x);
+  System.out.println(row+","+col);
 //  System.out.println(congoPiece.getName());
   congoPiece = (JLabel)c;
+  System.out.println(congoPiece.getText());
+  String pieceName=congoPiece.getText();
+  char pieceColor=pieceName.charAt(0);
+  String pieceSelected=pieceName+Integer.toString(row)+Integer.toString(col);
   congoPiece.setLocation(e.getX() + xAdjustment, e.getY() + yAdjustment);
+//  State state = new State(board,"W","40NN","50WP");
+  
   congoPiece.setSize(congoPiece.getWidth(), congoPiece.getHeight());
   layeredPane.add(congoPiece, JLayeredPane.DRAG_LAYER);
   }
@@ -192,7 +228,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
   public void mouseExited(MouseEvent e) {
   
   }
-  
+ 
   private int findRow(int parentLocationY) {
 	  return parentLocationY/70;
   }
@@ -202,12 +238,16 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	  return parentLocationX/70;
   }
  
-  public static void main(String[] args) {
-  JFrame frame = new CongoBoard();
-  frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE );
-  frame.pack();
-  frame.setResizable(true);
-  frame.setLocationRelativeTo( null );
-  frame.setVisible(true);
- }
+  public static JLayeredPane createBoard(String user1, String user2){
+		//generate a fresh board
+		CongoBoard board = new CongoBoard();
+		setUsers(user1, user2, board);
+		return board.layeredPane;
+	}
+  
+	private static void setUsers(String user1, String user2, CongoBoard board) {
+  		board.user1 = user1;
+  		board.user2 = user2;
+  	}
+  
 }
