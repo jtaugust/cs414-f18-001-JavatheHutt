@@ -192,7 +192,6 @@ public class GameLogic extends State{
 		return allPossibleMoves;
 	}
 
-	
 	// Displays all possible moves for the lion piece 
 	public String[] allPossibleLionMove(State state){
 		int i = Character.getNumericValue(state.getPieceSelected().charAt(0));
@@ -200,56 +199,130 @@ public class GameLogic extends State{
 		
 		String[][] board = state.getBoard();
 		
-		// Set to 15 for max amount of moves 
-		String[] allPossibleMoves = new String[15];
+		// Set to 10 for max amount of moves 
+		String[] allPossibleMoves = new String[10];
 		int count = 0; 
 		
 		// Check all around for standard move 
-		for(int x = i -1; x < i + 1; x++) {
-			for(int y = j-1; y < j+ 1; y++) {
-				if(board[i][j].charAt(2) == 'N' ) {
-					allPossibleMoves[count] = board[i][j];
+		for(int x = 4; x < 7; x++) {
+			for(int y = 2; y < 5; y++) {
+				if(board[x][y].charAt(2) == 'N' ) {
+					allPossibleMoves[count] = board[x][y];
 					count++;
 				}
 			}
 		}
 		
 		// Check for 'Flying General' conditions 
-		if(i == 4) {
-			
+		boolean pieceInbetween = false;
+		int counter = i - 1;
+		while(!pieceInbetween && counter >= 0) {
+			System.out.println("Checking: " + counter + " "+ j);
+			if(board[counter][j].charAt(2) != 'N') {
+				if(board[counter][j].charAt(3) == 'L' && counter != i ) {
+					allPossibleMoves[count] = board[counter][j];
+					count++;
+				} else {
+					pieceInbetween = true; 
+				}
+				
+			}
+			counter--;
+		}
+		// Diagonal Case
+		if( (i == 4 && j == 2) || (i == 4 && j == 4) ) {
+			if(board[2][4].charAt(3) == 'L' || board[2][2].charAt(3) == 'L') {
+				allPossibleMoves[count] = board[i][j];
+				count++;
+			}
+		}
+	
+//		for(int k = 0; k < allPossibleMoves.length; k++) {
+//			System.out.println(allPossibleMoves[k]);
+//		}
+		
+		return allPossibleMoves;
+	}
+
+	// Displays all possible moves for the crocodile piece
+	public String[] allPossibleCrocodileMove(State state){
+		int i = Character.getNumericValue(state.getPieceSelected().charAt(0));
+		int j = Character.getNumericValue(state.getPieceSelected().charAt(1));
+		
+		String[][] board = state.getBoard();
+		
+		// Set to 15 for max amount of moves 
+		String[] allPossibleMoves = new String[10];
+		int count = 0; 
+		
+		// Check for river moves
+		if(i == 3) {
+			for(int y = 0; y < 6; y++) {
+				if(board[i][y].charAt(2) == 'N' || board[i][y].charAt(2) != state.getCurrentTurnColor().charAt(0)) {
+					allPossibleMoves[count] = board[i][y];
+					count++;
+				}
+			}
 		}
 		
-		return null;
-	}
+		// Check 3x3 with piece in center 
+		for(int x = i - 1; x <= i + 1; x++) {
+			for(int y = j - 1; y <= j + 1; y++) {
+				//System.out.println("Checking "  + " X: " + x + " Y: "+ y);
+				if(isIndexBounded(x,y)){
+					if(board[x][y].charAt(2) == 'N' || board[x][y].charAt(2) != state.getCurrentTurnColor().charAt(0)) {
+						//System.out.println("Adding " + board[x][y] + " X: " + x + " Y: "+ y);
+						allPossibleMoves[count] = board[x][y];
+						count++;
+					}
+				}
+			}
+		}
 
-	// 
-	public String[] allPossibleCrocodileMove(State state){
-		return null;
+		// If above or below the river 
+		if(i > 3) {
+			int riverCounter = i - 1;
+			while( riverCounter != 3) {
+				//System.out.println("RC: "+riverCounter);
+				if((board[riverCounter][j].charAt(2) != 'N')){
+					break;
+				}else {
+					if(!containsMove(allPossibleMoves, board[riverCounter][j])){
+						allPossibleMoves[count] = board[riverCounter][j];
+						count++;
+					}
+						
+				}
+				riverCounter--;
+			}
+			allPossibleMoves[count] = board[3][j];
+			count++;
+		}else {
+			int riverCounter = i + 1;
+			while( riverCounter != 3) {
+				//System.out.println("RC: "+riverCounter);
+				if((board[riverCounter][j].charAt(2) != 'N')){
+					break;
+				}
+				else {
+					if(!containsMove(allPossibleMoves, board[riverCounter][j])){
+						allPossibleMoves[count] = board[riverCounter][j];
+						count++;
+					}
+				}
+				riverCounter++;
+			}
+			allPossibleMoves[count] = board[3][j];
+		}
+		
+		
+		
+//		for(int k = 0; k < allPossibleMoves.length; k++) {
+//			System.out.println(allPossibleMoves[k]);
+//		}
+		
+		return allPossibleMoves;
 	}
-//	public ArrayList<String> allPossibleCrocodileMove(State state){
-//	ArrayList<String> legalMoves=new ArrayList<String>();
-//	int row=Character.getNumericValue(state.currentClick.charAt(0));
-//	int column=Character.getNumericValue(state.currentClick.charAt(1));
-//	char colour=state.currentClick.charAt(2);
-//    if(row==4) {
-//    	for(int i=column; i<7; i++) {
-//    		if(!illegalPosition(row,i)){
-//    			String move= Integer.toString(row)+Integer.toString(i);
-//    			legalMoves.add(move);
-//    		}
-//    	}
-//    		for(int i=7-column; i>=0; i--) {
-//        		if(!illegalPosition(row,i)){
-//        			String move= Integer.toString(row)+Integer.toString(i);
-//        			legalMoves.add(move);
-//        		}
-//    	}
-//    }
-//    
-//	return null;
-//}
-
-	// Returns all the possible moves for the zebra piece, updates GUI 
 
 	// Displays all possible moves for the zebra piece 
 	public String[] allPossibleZebraMove(State state){	
@@ -336,7 +409,6 @@ public class GameLogic extends State{
 		
 		return allPossibleMoves;
 	}
-	
 	
 	//TODO: Logic that deals with river and capture/move mechanic 
 	public String[] allPossiblePawnMove(State state){
@@ -468,7 +540,8 @@ public class GameLogic extends State{
 		
 		return allPossibleMoves;
 	}	
-
+	
+	//TODO: Update GUI with after found moves 
 	// Update the GUI with all the possible moves 
 	public void displayPossibleMoves(State state){
 
@@ -509,7 +582,6 @@ public class GameLogic extends State{
 	}
 
 	// Checks if new move is in list of all possible moves
-	
 	public boolean containsMove(String[] possibleMoves, String newPosition) {
 		for (int i = 0; i < possibleMoves.length; i++) {
 			if (possibleMoves[i] == newPosition){
@@ -565,8 +637,6 @@ public class GameLogic extends State{
 		
 	}
 	
-	// Moves any piece given a new position 
-
 	// Move piece to destination and update GUI 
 	public void movePiece(State state, String newPosition){
 
@@ -592,37 +662,44 @@ public class GameLogic extends State{
 		//state.updateState(state);
 	}
 	
-	
 	// Takes in the current state 
 	// TODO: ensure this works when no piece is selected yet (selecting upon click)
 	public void mainLogic(State state) {
 	
 		// If a piece is selected 
-		if (state.getPieceSelected() != null ) {
+		if (state.getPieceSelected().charAt(2) != 'N' ) {
 			
 			// If selecting your own piece, display the possible moves to the GUI
 			if (state.getCurrentClick().charAt(3) == state.currentTurnColor.charAt(0)){
 				// This method would highlight the possible moves of the player on the game board 
 				displayPossibleMoves(state);
 		
-				//Only one function call per turn 
+				//Only one function call per click 
 				return; 
 			}
 
-			// If current clicked  space has no piece or is attempting to attack other plaayer, 
+			// If current clicked  space has no piece or is attempting to attack other player, 
 			String currentSpace = Character.toString(state.getCurrentClick().charAt(3));
 			String selectedColor = Character.toString(state.getCurrentClick().charAt(2));
-			if( (currentSpace == "N" ) || (selectedColor != state.currentTurnColor) ) {
-			
+			if( (currentSpace == "N" ) || (selectedColor != state.currentTurnColor) ) { 
 				// If move is possible, move the piece to desired position (the click event)
 				if (isMovePossible(state)) {
 					movePiece(state, state.getCurrentClick());
 					
-					// Only one call function call per turn 
+					// Only one call function call per click 
 					return;
 				}
 			}	
-		}	
+			
+		}
+		// If no piece selected, set selected and display possible moves 
+		else if(state.getCurrentClick().charAt(2) == state.getCurrentTurnColor().charAt(0)) {
+			state.setPieceSelected(state.getCurrentClick());
+			displayPossibleMoves(state);
+			
+			// Only one function call per click
+			return;
+		}
 
 	}
 
@@ -641,24 +718,23 @@ public class GameLogic extends State{
 							};
 		
 		String[][] board2 = {
-				{"00BG", "01BM", "02BE", "03BL", "04BE", "05BC", "06BZ"}, 
-				{"10BP", "11BP", "12BP", "13BP", "14BP", "15BP", "16BP"},
-				{"20NN", "21NN", "22NN", "23NN", "24NN", "25NN", "26NN"}, 
-				{"30NN", "31NN", "32WG", "33NN", "34NN", "35NN", "36NN"}, 
-				{"40NN", "41NN", "42NN", "43NN", "44NN", "45NN", "46NN"}, 
-				{"50WP", "51WP", "52WP", "53WP", "54WP", "55WP", "56WP"}, 
-				{"60NN", "61WM", "62WE", "63WL", "64WE", "65WC", "66WZ"}
-			};
+								{"00BG", "01BM", "02BE", "03BL", "04BE", "05BC", "06BZ"}, 
+								{"10BP", "11BP", "12BP", "13NN", "14BP", "15BP", "16BP"},
+								{"20NN", "21NN", "22NN", "23NN", "24NN", "25NN", "26NN"}, 
+								{"30NN", "31NN", "32NN", "33NN", "34NN", "35NN", "36NN"}, 
+								{"40NN", "41NN", "42NN", "43NN", "44NN", "45NN", "46NN"}, 
+								{"50WP", "51WP", "52NN", "53WL", "54NN", "55NN", "56NN"}, 
+								{"60WG", "61WM", "62WE", "63NN", "64NN", "65WC", "66NN"}
+							};
 		
 		// TODO: Change to receive from database
-		State state = new State(board2,"W","11BP","32WG");    
+		State state = new State(board2,"W","35NN","65WC");    
 		
 		// Starts all the logic
 		GameLogic game = new GameLogic(state);
 		game.mainLogic(state);
 		
-		game.allPossibleGiraffeMove(state);
-
+		
 		System.out.println("Done");
 		System.out.print(state.toString());
 	}
