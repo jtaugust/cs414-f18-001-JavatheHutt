@@ -114,8 +114,8 @@ public class GameLogic extends State{
 
 	// Displays all possible moves for the elephant piece 
 	public String[] allPossibleElephantMove(State state){
-		int i = state.getPieceSelected().charAt(0);
-		int j = state.getPieceSelected().charAt(1);
+		int i = Character.getNumericValue(state.getPieceSelected().charAt(0));
+		int j = Character.getNumericValue(state.getPieceSelected().charAt(1));
 		
 		String[][] board = state.getBoard();
 		
@@ -326,8 +326,8 @@ public class GameLogic extends State{
 
 	// Displays all possible moves for the zebra piece 
 	public String[] allPossibleZebraMove(State state){	
-		int i = state.getPieceSelected().charAt(0);
-		int j = state.getPieceSelected().charAt(1);
+		int i = Character.getNumericValue(state.getPieceSelected().charAt(0));
+		int j = Character.getNumericValue(state.getPieceSelected().charAt(1));
 		
 		String[][] board = state.getBoard();
 		
@@ -335,14 +335,14 @@ public class GameLogic extends State{
 		String[] allPossibleMoves = new String[8];
 		int count = 0; 
 		
-		
+		System.out.println("State in Z: "+ state.toString());
 		// Top left 1
 		if (isIndexBounded(i-1,j-2)) {
 			if(board[i-1][j-2].charAt(2) == 'N' || board[i-1][j-2].charAt(2) != state.getCurrentTurnColor().charAt(0)) {
 				allPossibleMoves[count] = board[i-1][j-2];
 				count++;
 			}
-		}
+		} 
 		
 		// Top Left 2
 		if (isIndexBounded(i-2,j-1)) {
@@ -352,7 +352,7 @@ public class GameLogic extends State{
 			}
 			
 		}
-		
+
 		// Top Right 1
 		if (isIndexBounded(i-2,j+1)) {
 			if(board[i-2][j+1].charAt(2) == 'N' || board[i-2][j+1].charAt(2) != state.getCurrentTurnColor().charAt(0)) {
@@ -407,6 +407,10 @@ public class GameLogic extends State{
 			
 		}
 		
+		for(int k = 0; k < allPossibleMoves.length;k++) {
+			System.out.println("Possible Zebra: " + allPossibleMoves[k]);
+		}
+		
 		return allPossibleMoves;
 	}
 	
@@ -418,27 +422,25 @@ public class GameLogic extends State{
 		//  Set to 10 as its above pawn max available moves 
 		String[] allPossibleMoves = new String[10];
 		int count = 0; 
-
+		
+		int i = Character.getNumericValue(state.getPieceSelected().charAt(0));
+		int j = Character.getNumericValue(state.getPieceSelected().charAt(1));
+		
 		// Go through three tiles in front of pawn 
-		int[] pieceLocation = {state.currentClick.charAt(0), state.currentClick.charAt(1)};
-		
-		
-		for (int i = (pieceLocation[0] - 1) ; i < pieceLocation[0] + 3; i ++){
-			for(int j = (pieceLocation[1] - 1); j < pieceLocation[1]; j++){
-				
-				// Check if an empty space or enemy piece
-				if(board[i][j].charAt(2) == 'N' || board[i][j].charAt(2) != state.getCurrentTurnColor().charAt(0)){
-					allPossibleMoves[count] = board[i][j];
-					count++;
-				}
+		for (int x = (i - 1); x < i; x ++){
+			for(int y = (j - 1); y <= j + 1; y++){
+				if(isIndexBounded(x,y))
+					// Check if an empty space or enemy piece
+					if(board[x][y].charAt(2) == 'N' || board[x][y].charAt(2) != state.getCurrentTurnColor().charAt(0)){
+						allPossibleMoves[count] = board[x][y];
+						count++;
+					}
 			}
 		}
 		
 		// Check for beyond river moves 
 		if(state.getPieceSelected().charAt(0) == 'P' && state.getPieceSelected().charAt(0) <= 3) {
 			
-			int i = state.getPieceSelected().charAt(0);
-			int j = state.getPieceSelected().charAt(1);
 			
 			// Check first backwards 
 			if (isIndexBounded(i+1,j)) {
@@ -461,9 +463,6 @@ public class GameLogic extends State{
 		
 		// TODO: These do not capture and do not deal with river 
 		if(state.getPieceSelected().charAt(3) == 'S') {
-			
-			int i = state.getPieceSelected().charAt(0);
-			int j = state.getPieceSelected().charAt(1);
 			
 			//Check bounds then check if null for move and enemy opponent for capture 
 			
@@ -536,7 +535,9 @@ public class GameLogic extends State{
 			
 		}
 
-
+		for(int k = 0; k < allPossibleMoves.length;k++) {
+			System.out.println("Possible Pawn: " + allPossibleMoves[k]);
+		}
 		
 		return allPossibleMoves;
 	}	
@@ -546,7 +547,8 @@ public class GameLogic extends State{
 	public void displayPossibleMoves(State state){
 
 		String[] moveArray;
-		switch(state.getPieceSelected().charAt(0)) {
+		System.out.println("State in displayPossibleMoves: " + state.toString());
+		switch(state.getPieceSelected().charAt(3)) {
 			case 'G':
 				moveArray = allPossibleGiraffeMove(state);
 				break;
@@ -595,6 +597,7 @@ public class GameLogic extends State{
 	public boolean isMovePossible(State state){
 		String newPosition = state.getCurrentClick();
 		
+		System.out.println("State Value in movePossible: " + state.toString());
 		String[] possibleMoves;
 		switch(state.getPieceSelected().charAt(3)) {
 			case 'G':
@@ -665,7 +668,8 @@ public class GameLogic extends State{
 	// Takes in the current state 
 	// TODO: ensure this works when no piece is selected yet (selecting upon click)
 	public void mainLogic(State state) {
-	
+		
+		System.out.println("In logic");
 		// If a piece is selected 
 		if (state.getPieceSelected().charAt(2) != 'N' ) {
 			

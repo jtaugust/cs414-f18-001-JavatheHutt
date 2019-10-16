@@ -42,179 +42,188 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
   int xAdjustment;
   int yAdjustment;
  
-  public CongoBoard(){
-  Dimension boardSize = new Dimension(600, 600);
- 
-  //  Use a Layered Pane for this this application
-  layeredPane = new JLayeredPane();
-  getContentPane().add(layeredPane);
-  layeredPane.setPreferredSize(boardSize);
-  layeredPane.addMouseListener(this);
-  layeredPane.addMouseMotionListener(this);
- 
-  //Add a congo board to the Layered Pane 
-  congoBoard = new JPanel();
-//  JPanel bottomPanel = new JPanel();
-  layeredPane.add(congoBoard, JLayeredPane.DEFAULT_LAYER);
-  congoBoard.setLayout( new GridLayout(8, 8) );
-  congoBoard.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
-
-  congoBoard.setPreferredSize( boardSize );
-  congoBoard.setBounds(0, 0, boardSize.width, boardSize.height);
-  
-  for (int i = 0; i < 8; i++) {
-	  for (int j=0;j<8;j++) {
-		  JPanel square = new JPanel( new BorderLayout() );
-		  congoBoard.add( square );
-		  if(i==7) {
-			  JLabel l = new JLabel();
-//			  l.setText("A");			  
-		      // add label to panel 
-			  square.add(l); 
+  public CongoBoard() {
+	  Dimension boardSize = new Dimension(600, 600);
+	 
+	  //  Use a Layered Pane for this this application
+	  layeredPane = new JLayeredPane();
+	  getContentPane().add(layeredPane);
+	  layeredPane.setPreferredSize(boardSize);
+	  layeredPane.addMouseListener(this);
+	  layeredPane.addMouseMotionListener(this);
+	 
+	  //Add a congo board to the Layered Pane 
+	  congoBoard = new JPanel();
+	//  JPanel bottomPanel = new JPanel();
+	  layeredPane.add(congoBoard, JLayeredPane.DEFAULT_LAYER);
+	  congoBoard.setLayout( new GridLayout(8, 8) );
+	  congoBoard.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
+	
+	  congoBoard.setPreferredSize( boardSize );
+	  congoBoard.setBounds(0, 0, boardSize.width, boardSize.height);
+	  
+	  for (int i = 0; i < 8; i++) {
+		  for (int j=0;j<8;j++) {
+			  JPanel square = new JPanel( new BorderLayout() );
 			  congoBoard.add( square );
-
+			  if(i==7) {
+				  JLabel l = new JLabel();
+	//			  l.setText("A");			  
+			      // add label to panel 
+				  square.add(l); 
+				  congoBoard.add( square );
+	
+			  }
+			  else if(j==0) {
+				  JLabel l = new JLabel();
+	//			  l.setText("A");
+				  
+			      // add label to panel 
+				  square.add(l); 
+			  }
+			  else if(i==3) {
+				  square.setBackground(lakeColor);
+			  }
+			  else {
+				  square.setBackground( j==3 || j==4 || j==5 ? castleColor : tileColor );
+				  square.setBorder(BorderFactory.createLineBorder(borderColor));
+			  }
+				  
 		  }
-		  else if(j==0) {
-			  JLabel l = new JLabel();
-//			  l.setText("A");
-			  
-		      // add label to panel 
-			  square.add(l); 
-		  }
-		  else if(i==3) {
-			  square.setBackground(lakeColor);
-		  }
-		  else {
-			  square.setBackground( j==3 || j==4 || j==5 ? castleColor : tileColor );
-			  square.setBorder(BorderFactory.createLineBorder(borderColor));
-		  }
-			  
 	  }
-  }
- 
-  
-  String[] white_pieces= {"WG","WM","WE","WL","WE","WC","WZ"};
-  String[] black_pieces= {"BG","BM","BE","BL","BE","BC","BZ"};
-  String[] letters= {"a","b","c","d","e","f","g"};
-  
-  for(int i=1; i<8;i++) {
-	  JLabel piece = new JLabel(black_pieces[i-1]);
-	  piece.setFont(new Font("Serif", Font.BOLD, 30));
-	  JPanel panel = (JPanel)congoBoard.getComponent(i);
-	  panel.setName(black_pieces[i-1]);
-	  panel.add(piece);  
-  }
-  
-  for(int i=49;i<56;i++) {
-	  JLabel piece = new JLabel(white_pieces[i-49]);
-	  piece.setFont(new Font("Serif", Font.BOLD, 30));
-	  JPanel panel = (JPanel)congoBoard.getComponent(i);
-	  panel.setName(white_pieces[i-49]);
-	  panel.add(piece);  
-  }
-  
-  for(int i=9;i<16;i++) {
-	  JLabel piece = new JLabel("BP");
-	  piece.setFont(new Font("Serif", Font.BOLD, 30));
-	  JPanel panel = (JPanel)congoBoard.getComponent(i);
-	  panel.setName("BP");
-	  panel.add(piece);  
-  }
-  for(int i=41;i<48;i++) {
-	  JLabel piece = new JLabel("WP");
-	  piece.setFont(new Font("Serif", Font.BOLD, 30));
-	  JPanel panel = (JPanel)congoBoard.getComponent(i);
-	  panel.setName("WP");
-	  panel.add(piece);  
-  }
-  
-  for(int i=1;i<8;i++) {
-	  JLabel piece = new JLabel(Integer.toString(i));
-	  piece.setFont(new Font("Serif", Font.BOLD, 60));
-	  JPanel panel = (JPanel)congoBoard.getComponent((i-1)*8);
-	  panel.add(piece);  
-  }
-  for(int i=57;i<64;i++) {
-	  JLabel piece = new JLabel(letters[i-57]);
-	  piece.setFont(new Font("Serif", Font.BOLD, 60));
-	  JPanel panel = (JPanel)congoBoard.getComponent(i);
-	  panel.add(piece);  
-  }
-  
-//  JLabel piece = new JLabel("KT");
-//  piece.setFont(new Font("Serif", Font.BOLD, 30));
-//
-//  JPanel panel = (JPanel)congoBoard.getComponent(44);
-//  panel.add(piece);
-  
-  
-//  piece = new JLabel(new ImageIcon("D:/semester3/projects/king.png"));
-//  panel = (JPanel)congoBoard.getComponent(9);
-//  panel.add(piece);
-//  piece = new JLabel(new ImageIcon("D:/semester3/projects/king.png"));
-//  panel = (JPanel)congoBoard.getComponent(22);
-//  panel.add(piece);
-//  piece = new JLabel(new ImageIcon("D:/semester3/projects/king.png"));
-//  panel = (JPanel)congoBoard.getComponent(23);
-//  panel.add(piece);
-  
- 
+	 
+	  
+	  String[] white_pieces= {"WG","WM","WE","WL","WE","WC","WZ"};
+	  String[] black_pieces= {"BG","BM","BE","BL","BE","BC","BZ"};
+	  String[] letters= {"a","b","c","d","e","f","g"};
+	  
+	  for(int i=1; i<8;i++) {
+		  JLabel piece = new JLabel(black_pieces[i-1]);
+		  piece.setFont(new Font("Serif", Font.BOLD, 30));
+		  JPanel panel = (JPanel)congoBoard.getComponent(i);
+		  panel.setName(black_pieces[i-1]);
+		  panel.add(piece);  
+	  }
+	  
+	  for(int i=49;i<56;i++) {
+		  JLabel piece = new JLabel(white_pieces[i-49]);
+		  piece.setFont(new Font("Serif", Font.BOLD, 30));
+		  JPanel panel = (JPanel)congoBoard.getComponent(i);
+		  panel.setName(white_pieces[i-49]);
+		  panel.add(piece);  
+	  }
+	  
+	  for(int i=9;i<16;i++) {
+		  JLabel piece = new JLabel("BP");
+		  piece.setFont(new Font("Serif", Font.BOLD, 30));
+		  JPanel panel = (JPanel)congoBoard.getComponent(i);
+		  panel.setName("BP");
+		  panel.add(piece);  
+	  }
+	  for(int i=41;i<48;i++) {
+		  JLabel piece = new JLabel("WP");
+		  piece.setFont(new Font("Serif", Font.BOLD, 30));
+		  JPanel panel = (JPanel)congoBoard.getComponent(i);
+		  panel.setName("WP");
+		  panel.add(piece);  
+	  }
+	  
+	  for(int i=1;i<8;i++) {
+		  JLabel piece = new JLabel(Integer.toString(i));
+		  piece.setFont(new Font("Serif", Font.BOLD, 60));
+		  JPanel panel = (JPanel)congoBoard.getComponent((i-1)*8);
+		  panel.add(piece);  
+	  }
+	  for(int i=57;i<64;i++) {
+		  JLabel piece = new JLabel(letters[i-57]);
+		  piece.setFont(new Font("Serif", Font.BOLD, 60));
+		  JPanel panel = (JPanel)congoBoard.getComponent(i);
+		  panel.add(piece);  
+	  }
+	  
+	//  JLabel piece = new JLabel("KT");
+	//  piece.setFont(new Font("Serif", Font.BOLD, 30));
+	//
+	//  JPanel panel = (JPanel)congoBoard.getComponent(44);
+	//  panel.add(piece);
+	  
+	  
+	//  piece = new JLabel(new ImageIcon("D:/semester3/projects/king.png"));
+	//  panel = (JPanel)congoBoard.getComponent(9);
+	//  panel.add(piece);
+	//  piece = new JLabel(new ImageIcon("D:/semester3/projects/king.png"));
+	//  panel = (JPanel)congoBoard.getComponent(22);
+	//  panel.add(piece);
+	//  piece = new JLabel(new ImageIcon("D:/semester3/projects/king.png"));
+	//  panel = (JPanel)congoBoard.getComponent(23);
+	//  panel.add(piece);
+	  
+	 
   }
  
   public void mousePressed(MouseEvent e){
-  congoPiece = null;
-  Component c =  congoBoard.findComponentAt(e.getX(), e.getY());
+	  congoPiece = null;
+	  Component c =  congoBoard.findComponentAt(e.getX(), e.getY());
  
-  if (c instanceof JPanel) 
-  return;
+	  if (c instanceof JPanel) 
+		  return;
  
-  Point parentLocation = c.getParent().getLocation();
-  xAdjustment = parentLocation.x - e.getX();
-  yAdjustment = parentLocation.y - e.getY();
-  
-  
-  int row=findRow(parentLocation.y);
-  int col=findColumn(parentLocation.x);
-  System.out.println(row+","+col);
-//  System.out.println(congoPiece.getName());
-  congoPiece = (JLabel)c;
-  System.out.println(congoPiece.getText());
-  String pieceName=congoPiece.getText();
-  char pieceColor=pieceName.charAt(0);
-  String pieceSelected=pieceName+Integer.toString(row)+Integer.toString(col);
-  congoPiece.setLocation(e.getX() + xAdjustment, e.getY() + yAdjustment);
-//  State state = new State(board,"W","40NN","50WP");
-  
-  congoPiece.setSize(congoPiece.getWidth(), congoPiece.getHeight());
-  layeredPane.add(congoPiece, JLayeredPane.DRAG_LAYER);
+	  Point parentLocation = c.getParent().getLocation();
+	  xAdjustment = parentLocation.x - e.getX();
+	  yAdjustment = parentLocation.y - e.getY();
+	  
+	  
+	  int row=findRow(parentLocation.y);
+	  int col=findColumn(parentLocation.x);
+	  System.out.println(row+","+col);
+	//  System.out.println(congoPiece.getName());
+	  congoPiece = (JLabel)c;
+	  System.out.println(congoPiece.getText());
+	  String pieceName=congoPiece.getText();
+	  char pieceColor=pieceName.charAt(0);
+	  String pieceSelected=Integer.toString(row)+Integer.toString(col-1) + pieceName;
+	  congoPiece.setLocation(e.getX() + xAdjustment, e.getY() + yAdjustment);
+	  
+	  System.out.println("PieceSelected in Board: "+pieceSelected);
+	  //Create State
+	  State state = new State(board,"W",pieceSelected,pieceSelected);
+	  
+	  System.out.println("Before");
+	  // Call Gameboard logic 
+	  GameLogic game = new GameLogic(state);
+	  game.mainLogic(state);
+	  System.out.println("After");
+	  
+	  congoPiece.setSize(congoPiece.getWidth(), congoPiece.getHeight());
+	  layeredPane.add(congoPiece, JLayeredPane.DRAG_LAYER);
   }
  
   //Move the congo piece around
   
   public void mouseDragged(MouseEvent me) {
-  if (congoPiece == null) return;
- congoPiece.setLocation(me.getX() + xAdjustment, me.getY() + yAdjustment);
+	  if (congoPiece == null) return;
+	  congoPiece.setLocation(me.getX() + xAdjustment, me.getY() + yAdjustment);
  }
  
   //Drop the congo piece back onto the congo board
  
   public void mouseReleased(MouseEvent e) {
-  if(congoPiece == null) return;
- 
-  congoPiece.setVisible(false);
-  Component c =  congoBoard.findComponentAt(e.getX(), e.getY());
- 
-  if (c instanceof JLabel){
-  Container parent = c.getParent();
-  parent.remove(0);
-  parent.add( congoPiece );
-  }
-  else {
-  Container parent = (Container)c;
-  parent.add( congoPiece );
-  }
- 
-  congoPiece.setVisible(true);
+	  if(congoPiece == null) return;
+	 
+	  congoPiece.setVisible(false);
+	  Component c =  congoBoard.findComponentAt(e.getX(), e.getY());
+	 
+	  if (c instanceof JLabel){
+		  Container parent = c.getParent();
+		  parent.remove(0);
+		  parent.add( congoPiece );
+	  }
+	  else {
+		  Container parent = (Container)c;
+		  parent.add( congoPiece );
+	  }
+	 
+	  congoPiece.setVisible(true);
   }
  
   public void mouseClicked(MouseEvent e) {
