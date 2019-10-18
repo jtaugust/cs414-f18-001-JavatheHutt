@@ -49,7 +49,8 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	  layeredPane.addMouseListener(this);
 	  layeredPane.addMouseMotionListener(this);
 	 
-	  //Add a congo board to the Layered Pane
+
+	  //Add a congo board to the Layered Pane 
 	  congoBoard = new JPanel();
 	//  JPanel bottomPanel = new JPanel();
 	  layeredPane.add(congoBoard, JLayeredPane.DEFAULT_LAYER);

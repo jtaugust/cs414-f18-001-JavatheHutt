@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -45,6 +47,30 @@ public class LoginScreen {
 
 		//create password field
 		JTextField password = Helpers.newTextField("Password", "Password");
+		
+		//allow enter key to login while on password field
+        password.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {}
+            @Override
+            public void keyPressed(KeyEvent e) {}
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode()==KeyEvent.VK_ENTER){
+                    String name = username.getText(), pass = password.getText();
+                      int err = DB.isUser(name, pass);
+                    if (err == 0){ // authentic user
+                        Application.setUser(name);
+                        Application.changeScreen("InitialMain");
+                    }else{
+                        LoginScreen.setLoginError(err);
+                        Application.setErr();
+                        Application.changeScreen("Login");
+                    }
+                }
+            }
+        });
+		
 		password.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,6,0,0,new Color(79,175,255)),new MatteBorder(8,8,8,8, Color.white)));
 
 		//add password field
