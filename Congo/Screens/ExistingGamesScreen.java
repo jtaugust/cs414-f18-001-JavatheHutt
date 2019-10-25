@@ -62,6 +62,7 @@ public class ExistingGamesScreen {
 		//line below should be moved to the invitation class, once user 2 accepts, create board
 		//a sent invite should include the user1 in some way to actually create the board.
 		board.add(CongoBoard.createBoard(user1, user2));
+		board.setBackground(new Color(90,90,90));
 	
 		workingPanel.add(board);
 		
