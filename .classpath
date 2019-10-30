@@ -11,5 +11,6 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/Josh/git/cs414-f18-001-JavatheHutt/lib/mariadb-java-client-2.4.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

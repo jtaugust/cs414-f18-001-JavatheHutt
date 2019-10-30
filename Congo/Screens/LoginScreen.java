@@ -58,7 +58,7 @@ public class LoginScreen {
             public void keyReleased(KeyEvent e) {
                 if (e.getKeyCode()==KeyEvent.VK_ENTER){
                     String name = username.getText(), pass = password.getText();
-                      int err = DB.isUser(name, pass);
+                    int err = DB.tryLogin(name, pass);
                     if (err == 0){ // authentic user
                         Application.setUser(name);
                         Application.changeScreen("InitialMain");
@@ -89,13 +89,13 @@ public class LoginScreen {
 	    error.setMaximumSize(new Dimension(400,50));
 
 	    //if login failed, add an error label below the password textfield
-	    if (loginError != 0){ 
+	    if (loginError != 0){
 	    	error.setOpaque(false);
 	    	String err = "";
 	    	switch (loginError) {
 	    		case 1: err = "<html>You must fill out the entire form.</html>"; break;
 	    		case 2: err = "<html>Username or password is incorrect</html>"; break;
-	    		default: break; //should only be reached by file that cannot be read
+	    		default: break; //connection error
 	    	}
 	    	error.add(Label.errorLabel(err, Color.red));
 	    	loginError = 0;
@@ -123,7 +123,7 @@ public class LoginScreen {
 	  		@Override
 	  		public void mouseReleased(final MouseEvent e) {
 	  			String name = username.getText(), pass = password.getText();
-	  			int err = DB.isUser(name, pass);
+	  			int err = DB.tryLogin(name, pass);
 				if (err == 0){ // authentic user
 					Application.setUser(name);
 					Application.changeScreen("InitialMain");
