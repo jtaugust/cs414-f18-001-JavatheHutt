@@ -28,12 +28,9 @@ public class Application extends JFrame{
 	    //changeScreen("Login");
 	    serverUsersHelpers doa = new serverUsersHelpers();
 	    
-	    try {
-			doa.deleteUser("test");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	    window = GUI.Frame.createFrame(1);
+	    
+	    changeScreen("Login");
 	    
 	}
 	

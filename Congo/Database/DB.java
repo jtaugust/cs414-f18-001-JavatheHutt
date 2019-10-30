@@ -3,6 +3,8 @@ package Database;
 import java.io.*;
 import java.sql.*;
 
+import Server.serverUsersHelpers;
+
 public class DB {
 	
 	//JDBC driver and database
@@ -14,7 +16,7 @@ public class DB {
 	private static final String PASSWORD = "cyberpunkisawesome";
 	
 	
-	public static int isUser(String user, String pass){
+	public static int tryLogin(String user, String pass){
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -24,26 +26,7 @@ public class DB {
 			return 1; // username or password is blank
 		}
 		
-		try{
-			BufferedReader in = new BufferedReader(new FileReader("./temporary/registeredUsers"));
-			String savedUser;
-			String savedPass;
-			while ((savedUser = in.readLine()) != null){
-				if (savedUser.equals(user)){
-					savedPass = in.readLine(); //read pass
-					if (savedPass.equals(pass)){
-						return 0;
-					}else{
-						return 2; //password is wrong
-					}
-				}else{
-					in.readLine();//skip pass
-					in.readLine();//skip email
-				}
-			}
-			return 2; //user doesnt exist
-		}catch (Exception e){/* do nothing */}
-		return 3; //couldnt read file
+		return serverUsersHelpers.login(user, pass);
 	}
 	
 	//Check if username or email is already in file

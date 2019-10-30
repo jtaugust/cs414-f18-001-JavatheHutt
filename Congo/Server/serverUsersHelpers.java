@@ -9,10 +9,10 @@ import java.sql.Timestamp;
 import java.sql.Blob;
 
 public class serverUsersHelpers {
-	private Connection connect = null;
-	private Statement statement = null;
-	private PreparedStatement preparedStatement = null;
-	private ResultSet resultSet = null;
+	private static Connection connect = null;
+	private static Statement statement = null;
+	private static PreparedStatement preparedStatement = null;
+	private static ResultSet resultSet = null;
 
 	// Returns String[] that shows table Column Names for Users DataBase
 	// The list of tables are AccountStats_T, MatchHistory_T, UserCaptcha_T,
@@ -523,9 +523,9 @@ public class serverUsersHelpers {
 
 			preparedStatement.setString(1, sender);
 			int val = (status) ? 1 : 0;
-			preparedStatement.setInt(2, val);
-			preparedStatement.setString(3, receiver);
-
+			preparedStatement.setString(2, receiver);
+			preparedStatement.setInt(3, val);
+			
 			preparedStatement.executeUpdate();
 
 		} catch (Exception e) {
@@ -640,7 +640,7 @@ public class serverUsersHelpers {
 	}
 
 	// returns a String[] of data values for a give user from UserLogin_T
-	public String[] readUserLogin_T(String Username) throws Exception {
+	public static String readUserLogin_T(String Username) throws Exception {
 
 		try {
 
@@ -655,16 +655,14 @@ public class serverUsersHelpers {
 
 			preparedStatement.setString(1, Username);
 			resultSet = preparedStatement.executeQuery();
+			
+			//this needs to occur everywhere
+			//if resultSet is null, return
+			if (!resultSet.first()) {
+				return null;
+			}
 
-			String[] returnArray = new String[resultSet.getMetaData().getColumnCount()];
-
-			returnArray[0] = Username;
-
-			resultSet.next();
-
-			returnArray[1] = resultSet.getString("Password");
-
-			return returnArray;
+			return resultSet.getString("Password");
 
 		} catch (Exception e) {
 			throw e;
@@ -702,12 +700,33 @@ public class serverUsersHelpers {
 		}
 
 	}
+	
+	public static int login(String username, String password) {
+		String loginPass;
+		
+		try {
+			loginPass = readUserLogin_T(username);
+			if (loginPass == null) { // no such user
+				return 2; //bad user or password
+			}else {
+				if (loginPass.equals(password)) {
+					return 0; // good user
+				}else {
+					return 2; //bad user or pass
+				}
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+			return 3;
+			//readUserLogin can throw either a bad connection to pi or a bad sql query
+		}
+	}
 
 	// When creating a new user call this with their new account info like
 	public void createNewUser(String Username, String email, String password) throws Exception {
-
-		String[] feeder = new String[] { Username, "0", "0", "0", "0", "0", "0" };
-		createAccountStats_T(feeder);
+		
+		String[] stats = new String[] { Username, "0", "0", "0", "0", "0", "0" };
+		createAccountStats_T(stats);
 		createUserInfo_T(Username, email, null, null);
 		createUserLogin_T(Username, password);
 
@@ -722,26 +741,11 @@ public class serverUsersHelpers {
 			connect = DriverManager
 					.getConnection("jdbc:mysql://68.234.149.213:8555/Users?" + "user=cs414&password=cs414");
 
-			//Clear from AccountStats_T
-			preparedStatement = connect.prepareStatement("DELETE FROM Users.AccountStats_T WHERE Username = (?)");
-			preparedStatement.setString(1, Username);
-			preparedStatement.executeUpdate();
 			//Clear from UserInfo_T
 			preparedStatement = connect.prepareStatement("DELETE FROM Users.UserInfo_T WHERE Username = (?)");
 			preparedStatement.setString(1, Username);
 			preparedStatement.executeUpdate();
-			//Clear from UserLogin_T
-			preparedStatement = connect.prepareStatement("DELETE FROM Users.UserLogin_T WHERE Username = (?)");
-			preparedStatement.setString(1, Username);
-			preparedStatement.executeUpdate();
-			//Clear from UserCaptcha_T
-			preparedStatement = connect.prepareStatement("DELETE FROM Users.UserCaptcha_T WHERE Username = (?)");
-			preparedStatement.setString(1, Username);
-			preparedStatement.executeUpdate();
-			//Clear from MatchHistory_T
-			preparedStatement = connect.prepareStatement("DELETE FROM Users.MatchHistory_T WHERE Username = (?)");
-			preparedStatement.setString(1, Username);
-			preparedStatement.executeUpdate();
+
 
 		} catch (Exception e) {
 			throw e;
@@ -751,7 +755,7 @@ public class serverUsersHelpers {
 
 	}
 
-	private void close() {
+	private static void close() {
 		try {
 			if (resultSet != null) {
 				resultSet.close();
