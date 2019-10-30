@@ -523,9 +523,9 @@ public class serverUsersHelpers {
 
 			preparedStatement.setString(1, sender);
 			int val = (status) ? 1 : 0;
-			preparedStatement.setInt(2, val);
-			preparedStatement.setString(3, receiver);
-
+			preparedStatement.setString(2, receiver);
+			preparedStatement.setInt(3, val);
+			
 			preparedStatement.executeUpdate();
 
 		} catch (Exception e) {
@@ -705,9 +705,9 @@ public class serverUsersHelpers {
 
 	// When creating a new user call this with their new account info like
 	public void createNewUser(String Username, String email, String password) throws Exception {
-
-		String[] feeder = new String[] { Username, "0", "0", "0", "0", "0", "0" };
-		createAccountStats_T(feeder);
+		
+		String[] stats = new String[] { Username, "0", "0", "0", "0", "0", "0" };
+		createAccountStats_T(stats);
 		createUserInfo_T(Username, email, null, null);
 		createUserLogin_T(Username, password);
 
@@ -722,26 +722,11 @@ public class serverUsersHelpers {
 			connect = DriverManager
 					.getConnection("jdbc:mysql://68.234.149.213:8555/Users?" + "user=cs414&password=cs414");
 
-			//Clear from AccountStats_T
-			preparedStatement = connect.prepareStatement("DELETE FROM Users.AccountStats_T WHERE Username = (?)");
-			preparedStatement.setString(1, Username);
-			preparedStatement.executeUpdate();
 			//Clear from UserInfo_T
 			preparedStatement = connect.prepareStatement("DELETE FROM Users.UserInfo_T WHERE Username = (?)");
 			preparedStatement.setString(1, Username);
 			preparedStatement.executeUpdate();
-			//Clear from UserLogin_T
-			preparedStatement = connect.prepareStatement("DELETE FROM Users.UserLogin_T WHERE Username = (?)");
-			preparedStatement.setString(1, Username);
-			preparedStatement.executeUpdate();
-			//Clear from UserCaptcha_T
-			preparedStatement = connect.prepareStatement("DELETE FROM Users.UserCaptcha_T WHERE Username = (?)");
-			preparedStatement.setString(1, Username);
-			preparedStatement.executeUpdate();
-			//Clear from MatchHistory_T
-			preparedStatement = connect.prepareStatement("DELETE FROM Users.MatchHistory_T WHERE Username = (?)");
-			preparedStatement.setString(1, Username);
-			preparedStatement.executeUpdate();
+
 
 		} catch (Exception e) {
 			throw e;
