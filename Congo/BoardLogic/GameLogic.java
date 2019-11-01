@@ -930,7 +930,7 @@ public class GameLogic extends State{
 		// Starts all the logic
 		GameLogic game = new GameLogic();
 		game.mainLogic(state);
-		//game.flipBoard(state);
+		game.flipBoard(state);
 		
 		System.out.println("Done");
 		System.out.print(state.toString());

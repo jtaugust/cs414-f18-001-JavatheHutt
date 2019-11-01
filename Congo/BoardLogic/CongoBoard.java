@@ -117,6 +117,9 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	 
 			}
 		}
+		
+// Mapping pieces Names with Images
+	    Hashtable pieceImages = new Hashtable(); 
 	 
 		String[] white_pieces= {"WG","WM","WE","WL","WE","WC","WZ"};
 		String[] white_piece_images= {"./Images/whiteGiraffe.png","./Images/whiteMonkey.png","./Images/whiteElephant.png"
@@ -126,46 +129,31 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		String[] black_pieces= {"BG","BM","BE","BL","BE","BC","BZ"};
 		String[] letters= {"a","b","c","d","e","f","g"};
 		 
-		//Top row black pieces
-		for(int i=1; i<8;i++) {
-			ImageIcon image = new ImageIcon(new ImageIcon(black_piece_images[i-1]).getImage().getScaledInstance(65, 65, Image.SCALE_DEFAULT));
-			JLabel piece = new JLabel(image);
-			piece.setName(black_pieces[i-1]);
-			JPanel panel = (JPanel)congoBoard.getComponent(i);
-			panel.setName(black_pieces[i-1]);
-			panel.add(piece);  
+		for(int i=0; i<white_pieces.length;i++) {
+			pieceImages.put(white_pieces[i], white_piece_images[i]);
+			pieceImages.put(black_pieces[i], black_piece_images[i]);
 		}
-		
-		//Bottom row white pieces 
-		for(int i=49;i<56;i++) {
-			ImageIcon image = new ImageIcon(new ImageIcon(white_piece_images[i-49]).getImage().getScaledInstance(65, 65, Image.SCALE_DEFAULT));
-			JLabel piece = new JLabel(image);
-			piece.setName(white_pieces[i-49]);
-			JPanel panel = (JPanel)congoBoard.getComponent(i);
-			panel.setName(white_pieces[i-49]);
-			panel.add(piece);  
+		pieceImages.put("WP", "./Images/whitePawn.png");
+		pieceImages.put("BP", "./Images/blackPawn.png");
+
+//		Placing Pieces on the GUI of Board
+		for(int i=0; i<7;i++) {
+			for(int j=0; j<7; j++) {
+				String str=board[i][j];
+				String pieceName=str.substring(str.length()-2);
+				if (!pieceName.contentEquals("NN")){
+					String pieceImage=(String) pieceImages.get(pieceName);
+					ImageIcon image = new ImageIcon(new ImageIcon(pieceImage).getImage().getScaledInstance(65, 65, Image.SCALE_DEFAULT));
+					JLabel piece = new JLabel(image);
+					piece.setName(pieceName);
+					JPanel panel = (JPanel)congoBoard.getComponent(8*i+j+1);
+					panel.setName(pieceName);
+					panel.add(piece);  
+				}
+				
+			}
 		}
-		
-		//Black pawns
-		for(int i=9;i<16;i++) {
-			ImageIcon image = new ImageIcon(new ImageIcon("./Images/blackPawn.png").getImage().getScaledInstance(55, 55, Image.SCALE_DEFAULT));
-			JLabel piece = new JLabel(image);
-			piece.setName("BP");
-			JPanel panel = (JPanel)congoBoard.getComponent(i);
-			panel.setName("BP");
-			panel.add(piece);  
-		}
-		
-		//White pawns
-		for(int i=41;i<48;i++) {
-			ImageIcon image = new ImageIcon(new ImageIcon("./Images/whitePawn.png").getImage().getScaledInstance(55, 55, Image.SCALE_DEFAULT));
-			JLabel piece = new JLabel(image);
-			piece.setName("WP");
-			JPanel panel = (JPanel)congoBoard.getComponent(i);
-			panel.setName("WP");
-			panel.add(piece);  
-		}
-		
+
 		//Row indices
 		for(int i=1;i<8;i++) {
 			JLabel piece = new JLabel(Integer.toString(i));
@@ -231,8 +219,9 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 			int row=findRow(parentLocation.y);
 			int col=findColumn(parentLocation.x);
 			System.out.println(row+","+col);
-			//  System.out.println(congoPiece.getName());
 			congoPiece = (JLabel)c;
+			System.out.println(congoPiece.getName());
+
 			String pieceName=congoPiece.getName();
 			char pieceColor=pieceName.charAt(0);
 			String pieceSelected=pieceName+Integer.toString(row)+Integer.toString(col);

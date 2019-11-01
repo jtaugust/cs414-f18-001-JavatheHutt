@@ -26,6 +26,8 @@ public class DB {
 			return 1; // username or password is blank
 		}
 		
+		System.out.println("here");
+		
 		return serverUsersHelpers.login(user, pass);
 	}
 	

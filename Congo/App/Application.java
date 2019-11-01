@@ -28,6 +28,8 @@ public class Application extends JFrame{
 	    //changeScreen("Login");
 	    serverUsersHelpers doa = new serverUsersHelpers();
 	    
+	    System.out.println("here");
+	    
 	    window = GUI.Frame.createFrame(1);
 	    
 	    changeScreen("Login");

@@ -703,12 +703,13 @@ public class serverUsersHelpers {
 	
 	public static int login(String username, String password) {
 		String loginPass;
-		
+		System.out.println(username);
 		try {
 			loginPass = readUserLogin_T(username);
 			if (loginPass == null) { // no such user
 				return 2; //bad user or password
 			}else {
+				System.out.println(loginPass);
 				if (loginPass.equals(password)) {
 					return 0; // good user
 				}else {
