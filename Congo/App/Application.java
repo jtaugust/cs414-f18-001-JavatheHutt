@@ -10,7 +10,7 @@ import Screens.*;
 import Templates.*;
 import GUI.Frame;
 import GUI.Panel;
-import Server.serverUsersHelpers;
+import Server.serverHelpers;
 
 import javax.imageio.*;
 
@@ -21,17 +21,11 @@ public class Application extends JFrame{
 	private static boolean err = false;
 	
 	public static void main(String[] args) {
-		//create start up frame: initial width and height (600,800), initial template
-		//window = GUI.Frame.createFrame(1);
-		
-		//fill the working frame with the login details
-	    //changeScreen("Login");
-	    serverUsersHelpers doa = new serverUsersHelpers();
-	    
+		//create start up frame: initial width and height (600,800), initial template	    
 	    window = GUI.Frame.createFrame(1);
 	    
+	    //initialize the screen to the login screen
 	    changeScreen("Login");
-	    
 	}
 	
 	//all page changes use this method

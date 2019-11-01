@@ -131,7 +131,35 @@ public class Helpers {
 
 			}
 		}); 
+		return field;
+	}
+	
+	public static JPasswordField newPasswordField(int size, String text) {
+		JPasswordField field = new JPasswordField(text, size);
+		field.setEchoChar((char)0);
+		Dimension s = new Dimension(400, 50);
+		field.setPreferredSize(s);
+		field.setFont(newFont(22));
+		field.setMaximumSize(s);
+		field.setMinimumSize(s);
+		field.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
+		field.addFocusListener(new FocusListener() {
+			public void focusGained(FocusEvent e) {
+				char[] defaultPass = text.toCharArray();
+				if(Arrays.equals(field.getPassword(), defaultPass)) {
+					field.setText("");
+					field.setEchoChar('*');
+				}
+			}
+			public void focusLost(FocusEvent e) {
+				if(field.getPassword().length == 0) {
+					field.setText(text);
+					field.setEchoChar((char)0);
+				}
+
+			}
+		}); 
 		return field;
 	}
 
