@@ -4,11 +4,13 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 public class Helpers {
@@ -100,6 +102,36 @@ public class Helpers {
 			}
 		}); 
 
+		return field;
+	}
+	
+	public static JPasswordField newPasswordField(int size) {
+		JPasswordField field = new JPasswordField("Password", size);
+		field.setEchoChar((char)0);
+		Dimension s = new Dimension(400, 50);
+		field.setPreferredSize(s);
+		field.setFont(newFont(22));
+		field.setMaximumSize(s);
+		field.setMinimumSize(s);
+		field.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+		field.addFocusListener(new FocusListener() {
+			public void focusGained(FocusEvent e) {
+				char[] defaultPass = {'P','a','s','s','w','o','r','d'};
+				if(Arrays.equals(field.getPassword(), defaultPass)) {
+					field.setText("");
+					field.setEchoChar('*');
+				}
+			}
+			public void focusLost(FocusEvent e) {
+				if(field.getPassword().length == 0) {
+					field.setText("Password");
+					field.setEchoChar((char)0);
+				}
+
+			}
+		}); 
+		
 		return field;
 	}
 
