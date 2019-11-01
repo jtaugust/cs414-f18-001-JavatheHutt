@@ -44,9 +44,9 @@ public class LoginScreen {
 
 		//create space under username textfield
 		textFields.add(Helpers.spacer(200, 50));
-
+		
 		//create password field
-		JTextField password = Helpers.newTextField("Password", "Password");
+		JPasswordField password = Helpers.newPasswordField(16);
 		
 		//allow enter key to login while on password field
         password.addKeyListener(new KeyListener() {
@@ -57,7 +57,7 @@ public class LoginScreen {
             @Override
             public void keyReleased(KeyEvent e) {
                 if (e.getKeyCode()==KeyEvent.VK_ENTER){
-                    String name = username.getText(), pass = password.getText();
+                    String name = username.getText(), pass = new String(password.getPassword());
                     int err = DB.tryLogin(name, pass);
                     if (err == 0){ // authentic user
                         Application.setUser(name);
