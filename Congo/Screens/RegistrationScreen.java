@@ -94,6 +94,7 @@ public class RegistrationScreen {
                 }
             }
         });
+		
 		//on enter in confirm password, submit
 		passwordConfirm.addKeyListener(new KeyListener() {
             @Override
@@ -102,24 +103,26 @@ public class RegistrationScreen {
             public void keyPressed(KeyEvent e) {}
             @Override
             public void keyReleased(KeyEvent e) {
-	  			String name = username.getText();
-				String email = emailfield.getText();
-				String password = new String(passwordField.getPassword());
-				String passwordCon = new String(passwordConfirm.getPassword());
-				if (isDefaultInput(username, emailfield, passwordField,passwordConfirm)) {
-					setRegistrationError(1);
-	  			}else if(!password.equals(passwordCon)){ // passwords don't match, show error
-					setRegistrationError(2);
-				} else {
-					int err = serverHelpers.tryRegister(name, email, password);
-					if (err == 0){ // 
-						Application.setUser(name);
-						Application.changeScreen("InitialMain");
-					}else{ //error was received
-						//update application variable "User" to username.getText()
-						setRegistrationError(err);
+            	if (e.getKeyCode()==KeyEvent.VK_ENTER){
+		  			String name = username.getText();
+					String email = emailfield.getText();
+					String password = new String(passwordField.getPassword());
+					String passwordCon = new String(passwordConfirm.getPassword());
+					if (isDefaultInput(username, emailfield, passwordField,passwordConfirm)) {
+						setRegistrationError(1);
+		  			}else if(!password.equals(passwordCon)){ // passwords don't match, show error
+						setRegistrationError(2);
+					} else {
+						int err = serverHelpers.tryRegister(name, email, password);
+						if (err == 0){ // 
+							Application.setUser(name);
+							Application.changeScreen("InitialMain");
+						}else{ //error was received
+							//update application variable "User" to username.getText()
+							setRegistrationError(err);
+						}
 					}
-				}
+            	}
             }
         });
 
