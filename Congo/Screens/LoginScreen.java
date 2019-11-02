@@ -34,7 +34,26 @@ public class LoginScreen {
 
 		//create username field 
 		JTextField username = Helpers.newTextField("Username", "Username");
+		
+		//create password field
+		JPasswordField password = Helpers.newPasswordField(16);
+		
+		//set username border
 		username.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,6,0,0,new Color(79,175,255)),new MatteBorder(8,8,8,8, Color.white)));
+		
+		//on enter in username, move to password
+		username.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {}
+            @Override
+            public void keyPressed(KeyEvent e) {}
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode()==KeyEvent.VK_ENTER){
+                	password.requestFocus();
+                }
+            }
+        });
 
 		//add space before username
 		textFields.add(Helpers.spacer(100, 150));
@@ -45,8 +64,7 @@ public class LoginScreen {
 		//create space under username textfield
 		textFields.add(Helpers.spacer(200, 50));
 		
-		//create password field
-		JPasswordField password = Helpers.newPasswordField(16);
+		
 		
 		//allow enter key to login while on password field
         password.addKeyListener(new KeyListener() {
