@@ -99,6 +99,7 @@ public class RegistrationScreen {
 	    		case 2: errStr = "<html>Passwords do not match.</html>"; break;
 	    		case 3: errStr = "<html>That username is already in use.</html>"; break;
 	    		case 4: errStr = "<html>That email is already in use.</html>"; break;
+	    		case 5: errStr = "<html>Password contains illegal characters.</html>"; break;
 	    		default: break;
 	    	}
 	    	error.add(Label.errorLabel(errStr, Color.red));
@@ -117,21 +118,21 @@ public class RegistrationScreen {
 	    bottomButtons.setPreferredSize(new Dimension(600,75));
 
 	    //create and add "Register" button
-	    JPanel login = new JPanel();
-	    login.setBackground(new Color(79,175,255));
-	  	login.setLayout(new GridBagLayout());
-	  	login.add(new JLabel("Register"));
-	  	login.addMouseListener(new MouseAdapter() {
+	    JPanel register = new JPanel();
+	    register.setBackground(new Color(79,175,255));
+	  	register.setLayout(new GridBagLayout());
+	  	register.add(new JLabel("Register"));
+	  	register.addMouseListener(new MouseAdapter() {
 	  		@Override
 	  		public void mousePressed(final MouseEvent e) {
-	  			login.setBackground(new Color(110,190,255));
+	  			register.setBackground(new Color(110,190,255));
 	  		}
 	  		@Override
 	  		public void mouseReleased(final MouseEvent e) {
 	  			String name = username.getText();
 				String email = emailfield.getText();
-				String password = passwordField.getText();
-				String passwordCon = passwordConfirm.getText();
+				String password = new String(passwordField.getPassword());
+				String passwordCon = new String(passwordConfirm.getPassword());
 				if (isDefaultInput(username, emailfield, passwordField,passwordConfirm)) {
 					setRegistrationError(1);
 	  			}else if(!password.equals(passwordCon)){ // passwords don't match, show error
@@ -149,26 +150,26 @@ public class RegistrationScreen {
 				}
 	  		}
 		});
-	    login.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(10,10,10,10,Color.black), new MatteBorder(2,2,2,2,new Color(79,175,255))));
-	    bottomButtons.add(login);
+	    register.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(10,10,10,10,Color.black), new MatteBorder(2,2,2,2,new Color(79,175,255))));
+	    bottomButtons.add(register);
 
 		//create and add "Back to Login" button
-	    JPanel register = new JPanel();
-	    register.setBackground(new Color(90,90,90));
-	    register.setLayout(new GridBagLayout());
-	    register.add(new JLabel("Back to Login"));
-	    register.addMouseListener(new MouseAdapter() {
+	    JPanel login = new JPanel();
+	    login.setBackground(new Color(90,90,90));
+	    login.setLayout(new GridBagLayout());
+	    login.add(new JLabel("Back to Login"));
+	    login.addMouseListener(new MouseAdapter() {
 	  		@Override
 	  		public void mousePressed(final MouseEvent e) {
-	  			register.setBackground(new Color(255,255,255));
+	  			login.setBackground(new Color(255,255,255));
 	  		}
 	  		@Override
 	  		public void mouseReleased(final MouseEvent e) {
 	  			Application.changeScreen("Login");
 	  		}
 		});
-	    register.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(10,10,10,10,Color.black), new MatteBorder(2,2,2,2,new Color(79,175,255))));
-	    bottomButtons.add(register);
+	    login.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(10,10,10,10,Color.black), new MatteBorder(2,2,2,2,new Color(79,175,255))));
+	    bottomButtons.add(login);
 
 	    //add field and button panels to the working panel
 	    workingPanel.add(textFields, BorderLayout.PAGE_START);

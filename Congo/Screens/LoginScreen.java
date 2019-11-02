@@ -113,7 +113,9 @@ public class LoginScreen {
 	    	switch (loginError) {
 	    		case 1: err = "<html>You must fill out the entire form.</html>"; break;
 	    		case 2: err = "<html>Username or password is incorrect</html>"; break;
-	    		default: break; //connection error
+	    		case 3: err = "<html>Sql connection error occured.</html>"; break;
+	    		case 4: err = "<html>Password contains illegal characters.</html>"; break;
+	    		default: break; //unkown error occured
 	    	}
 	    	error.add(Label.errorLabel(err, Color.red));
 	    	loginError = 0;
