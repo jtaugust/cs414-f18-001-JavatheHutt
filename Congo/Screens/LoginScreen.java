@@ -13,10 +13,10 @@ import javax.swing.*;
 import javax.swing.border.MatteBorder;
 
 import App.Application;
-import Database.DB;
 import GUI.Helpers;
 import GUI.Label;
 import GUI.Panel;
+import Server.serverHelpers;
 
 public class LoginScreen {
 	private static int loginError = 0;
@@ -58,7 +58,7 @@ public class LoginScreen {
             public void keyReleased(KeyEvent e) {
                 if (e.getKeyCode()==KeyEvent.VK_ENTER){
                     String name = username.getText(), pass = new String(password.getPassword());
-                    int err = DB.tryLogin(name, pass);
+                    int err = serverHelpers.tryLogin(name, pass);
                     if (err == 0){ // authentic user
                         Application.setUser(name);
                         Application.changeScreen("InitialMain");
@@ -122,16 +122,21 @@ public class LoginScreen {
 	  		}
 	  		@Override
 	  		public void mouseReleased(final MouseEvent e) {
-	  			String name = username.getText(), pass = password.getText();
-	  			int err = DB.tryLogin(name, pass);
-				if (err == 0){ // authentic user
-					Application.setUser(name);
-					Application.changeScreen("InitialMain");
-				}else{
-					LoginScreen.setLoginError(err);
-					Application.setErr();
-					Application.changeScreen("Login");
-				}
+	  			String name = username.getText(), pass = new String(password.getPassword());
+	  			
+	  			if (pass.equals("Password") || username.equals("Username")){
+	  				setLoginError(1);
+	  			}else{
+		  			int err = serverHelpers.tryLogin(name, pass);
+					if (err == 0){ // authentic user
+						Application.setUser(name);
+						Application.changeScreen("InitialMain");
+					}else{
+						LoginScreen.setLoginError(err);
+						Application.setErr();
+						Application.changeScreen("Login");
+					}
+	  			}
 	  		}
 		});
 	    login.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(10,10,10,10,Color.black), new MatteBorder(2,2,2,2,new Color(79,175,255))));

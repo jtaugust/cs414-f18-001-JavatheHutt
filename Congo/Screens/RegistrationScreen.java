@@ -11,14 +11,15 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.MatteBorder;
 
 import App.Application;
-import Database.DB;
 import GUI.Helpers;
 import GUI.Label;
 import GUI.Panel;
+import Server.serverHelpers;
 
 public class RegistrationScreen {
 	private static int registrationError = 0;
@@ -52,8 +53,6 @@ public class RegistrationScreen {
 		//create space under email textfield
 		textFields.add(Helpers.spacer(200, 50));
 
-
-
 		//create username field 
 		JTextField username = Helpers.newTextField("Username", "Username");
 		username.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,6,0,0,new Color(79,175,255)),new MatteBorder(8,8,8,8, Color.white)));
@@ -64,10 +63,8 @@ public class RegistrationScreen {
 		//create space under username field
 		textFields.add(Helpers.spacer(200, 50));
 
-
-
-		//create password field
-		JTextField passwordField = Helpers.newTextField("Password", "Password");
+		//create password fields
+		JPasswordField passwordField = Helpers.newPasswordField(16);
 		passwordField.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,6,0,0,new Color(79,175,255)),new MatteBorder(8,8,8,8, Color.white)));
 
 		//add password field
@@ -76,10 +73,8 @@ public class RegistrationScreen {
 		//create space under password field (for password error)
 		textFields.add(Helpers.spacer(200, 50));
 
-
-
 		//create password confirmation field
-		JTextField passwordConfirm = Helpers.newTextField("Confirm Password", "Confirm Password");
+		JPasswordField passwordConfirm = Helpers.newPasswordField(16, "Confirm Password");
 		passwordConfirm.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,6,0,0,new Color(79,175,255)),new MatteBorder(8,8,8,8, Color.white)));
 
 		//add password confirmation field
@@ -90,9 +85,6 @@ public class RegistrationScreen {
 
 		//create space under password confirmation field (for password error)
 		textFields.add(Helpers.spacer(200, 10));
-
-
-
 
 	    //create the panel below password
 	    JPanel error = new JPanel();
@@ -145,13 +137,11 @@ public class RegistrationScreen {
 	  			}else if(!password.equals(passwordCon)){ // passwords don't match, show error
 					setRegistrationError(2);
 				} else {
-					int err = DB.isTaken(name, email);
-					//if passwords match, make sure name or email isn't already taken.
-					if (err == 0){ // user or email isn't taken, add new user to file.
-						DB.createUser(name, password, email);
+					int err = serverHelpers.tryRegister(name, email, password);
+					if (err == 0){ // 
 						Application.setUser(name);
 						Application.changeScreen("InitialMain");
-					}else{ // user or email is taken, show error
+					}else{ //error was received
 						//update application variable "User" to username.getText()
 						setRegistrationError(err);
 					}
@@ -161,9 +151,6 @@ public class RegistrationScreen {
 		});
 	    login.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(10,10,10,10,Color.black), new MatteBorder(2,2,2,2,new Color(79,175,255))));
 	    bottomButtons.add(login);
-
-
-
 
 		//create and add "Back to Login" button
 	    JPanel register = new JPanel();

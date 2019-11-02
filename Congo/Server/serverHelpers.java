@@ -8,7 +8,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.sql.Blob;
 
-public class serverUsersHelpers {
+public class serverHelpers {
 	private static Connection connect = null;
 	private static Statement statement = null;
 	private static PreparedStatement preparedStatement = null;
@@ -152,7 +152,7 @@ public class serverUsersHelpers {
 	}
 
 	// Creates new row in UserInfo_T
-	public void createUserInfo_T(String username, String email, String description, byte[] profilePic)
+	public static void createUserInfo_T(String username, String email, String description, byte[] profilePic)
 			throws Exception {
 
 		try {
@@ -615,7 +615,7 @@ public class serverUsersHelpers {
 	}
 
 	// Adds a new row to UserLogin_T
-	public void createUserLogin_T(String Username, String Password) throws Exception {
+	public static void createUserLogin_T(String Username, String Password) throws Exception {
 
 		try {
 
@@ -701,15 +701,14 @@ public class serverUsersHelpers {
 
 	}
 	
-	public static int login(String username, String password) {
+	public static int tryLogin(String username, String password) {
 		String loginPass;
-		System.out.println(username);
+		
 		try {
 			loginPass = readUserLogin_T(username);
 			if (loginPass == null) { // no such user
 				return 2; //bad user or password
 			}else {
-				System.out.println(loginPass);
 				if (loginPass.equals(password)) {
 					return 0; // good user
 				}else {
@@ -717,20 +716,31 @@ public class serverUsersHelpers {
 				}
 			}
 		} catch (Exception e) {
-			System.out.println(e);
 			return 3;
 			//readUserLogin can throw either a bad connection to pi or a bad sql query
 		}
 	}
 
 	// When creating a new user call this with their new account info like
-	public void createNewUser(String Username, String email, String password) throws Exception {
-		
-		String[] stats = new String[] { Username, "0", "0", "0", "0", "0", "0" };
-		createAccountStats_T(stats);
-		createUserInfo_T(Username, email, null, null);
-		createUserLogin_T(Username, password);
-
+	public static int tryRegister(String Username, String email, String password){
+		try{
+			createUserInfo_T(Username, email, null, null);
+			createUserLogin_T(Username, password);
+		}catch (Exception e){
+			//parse error, is it on username or email
+			String sqlerr = e.getLocalizedMessage();
+			String sql[] = sqlerr.split("\'");
+			sqlerr = sql[1];
+			if (sqlerr.equals(email)){
+				return 4;
+			}else if (sqlerr.equals(Username)){
+				return 3;
+			}else{
+				return 5;
+			}
+		}
+		//createUserLogin_T(Username, password);
+		return 0;
 	}
 
 	public void deleteUser(String Username) throws Exception {
