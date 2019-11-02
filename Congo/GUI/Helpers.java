@@ -7,11 +7,13 @@ import java.io.*;
 import java.util.Arrays;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.border.MatteBorder;
 
 public class Helpers {
 
@@ -47,7 +49,7 @@ public class Helpers {
 		field.setFont(font);
 		field.setName(name);
 		field.setText(text);
-
+		field.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,6,0,0,new Color(79,175,255)),new MatteBorder(8,8,8,8, Color.white)));
 		return field;
 	}
 

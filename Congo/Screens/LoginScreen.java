@@ -38,9 +38,6 @@ public class LoginScreen {
 		//create password field
 		JPasswordField password = Helpers.newPasswordField(16);
 		
-		//set username border
-		username.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,6,0,0,new Color(79,175,255)),new MatteBorder(8,8,8,8, Color.white)));
-		
 		//on enter in username, move to password
 		username.addKeyListener(new KeyListener() {
             @Override
@@ -88,8 +85,6 @@ public class LoginScreen {
                 }
             }
         });
-		
-		password.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,6,0,0,new Color(79,175,255)),new MatteBorder(8,8,8,8, Color.white)));
 
 		//add password field
 		textFields.add(password);
@@ -127,7 +122,6 @@ public class LoginScreen {
 	    JPanel bottomButtons = new JPanel();
 	    bottomButtons.setLayout(new BoxLayout(bottomButtons, BoxLayout.LINE_AXIS));
 	    bottomButtons.setBackground(Color.black);
-	    bottomButtons.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(6,0,0,0,new Color(79,175,255)),new MatteBorder(5,5,5,5, Color.black)));
 	    bottomButtons.setPreferredSize(new Dimension(600,75));
 
 	    //create and add "Login" button

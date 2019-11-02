@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -38,12 +40,90 @@ public class RegistrationScreen {
 		JPanel textFields = new JPanel();
 		textFields.setLayout(new BoxLayout(textFields, BoxLayout.Y_AXIS));
 
-
+		
 
 		//create email field 
 		JTextField emailfield = Helpers.newTextField("Email", "Email Address");
-		emailfield.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,6,0,0,new Color(79,175,255)),new MatteBorder(8,8,8,8, Color.white)));
+		
+		//create username field 
+		JTextField username = Helpers.newTextField("Username", "Username");
+		
+		//create password fields
+		JPasswordField passwordField = Helpers.newPasswordField(16);
+		
+		//create password confirmation field
+		JPasswordField passwordConfirm = Helpers.newPasswordField(16, "Confirm Password");
+		
+		
+		//on enter in email, move to username
+		emailfield.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {}
+            @Override
+            public void keyPressed(KeyEvent e) {}
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode()==KeyEvent.VK_ENTER){
+                	username.requestFocus();
+                }
+            }
+        });
+		//on enter in username, move to password
+		username.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {}
+            @Override
+            public void keyPressed(KeyEvent e) {}
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode()==KeyEvent.VK_ENTER){
+                	passwordField.requestFocus();
+                }
+            }
+        });
+		//on enter in password, move to confirm password
+		passwordField.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {}
+            @Override
+            public void keyPressed(KeyEvent e) {}
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode()==KeyEvent.VK_ENTER){
+                	passwordConfirm.requestFocus();
+                }
+            }
+        });
+		//on enter in confirm password, submit
+		passwordConfirm.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {}
+            @Override
+            public void keyPressed(KeyEvent e) {}
+            @Override
+            public void keyReleased(KeyEvent e) {
+	  			String name = username.getText();
+				String email = emailfield.getText();
+				String password = new String(passwordField.getPassword());
+				String passwordCon = new String(passwordConfirm.getPassword());
+				if (isDefaultInput(username, emailfield, passwordField,passwordConfirm)) {
+					setRegistrationError(1);
+	  			}else if(!password.equals(passwordCon)){ // passwords don't match, show error
+					setRegistrationError(2);
+				} else {
+					int err = serverHelpers.tryRegister(name, email, password);
+					if (err == 0){ // 
+						Application.setUser(name);
+						Application.changeScreen("InitialMain");
+					}else{ //error was received
+						//update application variable "User" to username.getText()
+						setRegistrationError(err);
+					}
+				}
+            }
+        });
 
+		
 		//add space before username
 		textFields.add(Helpers.spacer(100, 50));
 
@@ -53,29 +133,17 @@ public class RegistrationScreen {
 		//create space under email textfield
 		textFields.add(Helpers.spacer(200, 50));
 
-		//create username field 
-		JTextField username = Helpers.newTextField("Username", "Username");
-		username.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,6,0,0,new Color(79,175,255)),new MatteBorder(8,8,8,8, Color.white)));
-
 		//add username field
 		textFields.add(username);
 
 		//create space under username field
 		textFields.add(Helpers.spacer(200, 50));
 
-		//create password fields
-		JPasswordField passwordField = Helpers.newPasswordField(16);
-		passwordField.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,6,0,0,new Color(79,175,255)),new MatteBorder(8,8,8,8, Color.white)));
-
 		//add password field
 		textFields.add(passwordField);
 
 		//create space under password field (for password error)
 		textFields.add(Helpers.spacer(200, 50));
-
-		//create password confirmation field
-		JPasswordField passwordConfirm = Helpers.newPasswordField(16, "Confirm Password");
-		passwordConfirm.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,6,0,0,new Color(79,175,255)),new MatteBorder(8,8,8,8, Color.white)));
 
 		//add password confirmation field
 		textFields.add(passwordConfirm);
@@ -146,7 +214,6 @@ public class RegistrationScreen {
 						//update application variable "User" to username.getText()
 						setRegistrationError(err);
 					}
-
 				}
 	  		}
 		});
