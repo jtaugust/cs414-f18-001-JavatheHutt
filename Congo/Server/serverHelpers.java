@@ -743,7 +743,26 @@ public class serverHelpers {
 		return 0;
 	}
 
-	public void deleteUser(String Username) throws Exception {
+	public int tryUnregister(String Username) {
+		
+		try {
+			deleteUser(Username);
+		}catch (Exception e) {
+			
+			String sqlerr = e.getLocalizedMessage();
+			String sql[] = sqlerr.split("\'");
+			sqlerr = sql[1];
+			
+			if(sqlerr.equals(Username)) {
+				return 1;
+			}else {
+				return 2;
+			}
+		}
+		return 0;	
+	}
+	
+	public static void deleteUser(String Username) throws Exception {
 
 		try {
 
