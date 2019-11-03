@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 public class serverGamesHelpers {
 
@@ -51,7 +52,7 @@ public class serverGamesHelpers {
 	// creates a new row in CurrentGame_T also creates a new Gameboard with 7 rows
 	// by default
 	// Leave out both GameNumber and boardID from String[].
-	public void createCurrentGames_T(String[] values) throws Exception {
+	public int createCurrentGames_T(String[] values) throws Exception {
 
 		try {
 
@@ -68,16 +69,11 @@ public class serverGamesHelpers {
 			resultSet.next();
 			int id = resultSet.getInt(1);
 
-			for (int i = 7; i > 0; i--) {
-
-				createGameBoards(id, i);
-
-			}
 			connect = DriverManager
 					.getConnection("jdbc:mysql://68.234.149.213:8555/Games?" + "user=cs414&password=cs414");
 
 			preparedStatement = connect
-					.prepareStatement("INSERT INTO Games.CurrentGames_T VALUES (default, ?, ?, ?, ?, ?)");
+					.prepareStatement("INSERT INTO Games.CurrentGames_T VALUES (default, ?, ?, ?, ?)");
 
 			preparedStatement.setString(1, values[0]);
 			preparedStatement.setString(2, values[1]);
@@ -85,9 +81,9 @@ public class serverGamesHelpers {
 			preparedStatement.setInt(3, Integer.parseInt(values[2]));
 			preparedStatement.setInt(4, Integer.parseInt(values[3]));
 
-			preparedStatement.setInt(5, id);
-
 			preparedStatement.executeUpdate();
+			
+			return id;
 
 		} catch (Exception e) {
 			throw e;
@@ -125,7 +121,47 @@ public class serverGamesHelpers {
 
 			returnArray[3] = Integer.toString(resultSet.getInt(4));
 			returnArray[4] = Integer.toString(resultSet.getInt(5));
-			returnArray[5] = Integer.toString(resultSet.getInt(6));
+
+			return returnArray;
+
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			close();
+		}
+
+	}
+	
+	//Overload to get all current games a given user is in.
+	public ArrayList<String[]> readCurrentGames_T(String Username) throws Exception {
+
+		try {
+
+			Class.forName("org.mariadb.jdbc.Driver");
+
+			connect = DriverManager
+					.getConnection("jdbc:mysql://68.234.149.213:8555/Games?" + "user=cs414&password=cs414");
+
+			statement = connect.createStatement();
+
+			preparedStatement = connect.prepareStatement("SELECT * FROM Games.CurrentGames_T WHERE User1=(?) OR User2=(?)");
+
+			preparedStatement.setString(1, Username);
+			preparedStatement.setString(2, Username);
+			resultSet = preparedStatement.executeQuery();
+			ArrayList<String[]> returnArray = new ArrayList<String[]>();
+			
+			while(resultSet.next()) {
+				String[] rowArray = new String[resultSet.getMetaData().getColumnCount()];
+				rowArray[0] = resultSet.getString(1);
+				rowArray[1] = resultSet.getString(2);
+				rowArray[2] = resultSet.getString(3);
+
+				rowArray[3] = Integer.toString(resultSet.getInt(4));
+				rowArray[4] = Integer.toString(resultSet.getInt(5));
+				returnArray.add(rowArray);
+			}
+			
 
 			return returnArray;
 
@@ -196,7 +232,7 @@ public class serverGamesHelpers {
 					.getConnection("jdbc:mysql://68.234.149.213:8555/Games?" + "user=cs414&password=cs414");
 
 			preparedStatement = connect.prepareStatement(
-					"INSERT INTO Games.GameBoards VALUES (?, ?, default, default, default, default, default, default, default)");
+					"INSERT INTO Games.GameBoards_T VALUES (?, ?, default, default, default, default, default, default, default)");
 
 			preparedStatement.setInt(1, id);
 			preparedStatement.setInt(2, row);
@@ -225,7 +261,7 @@ public class serverGamesHelpers {
 				connect = DriverManager
 						.getConnection("jdbc:mysql://68.234.149.213:8555/Games?" + "user=cs414&password=cs414");
 
-				preparedStatement = connect.prepareStatement("SELECT * FROM Games.GameBoards WHERE ID=(?) AND row=(?)");
+				preparedStatement = connect.prepareStatement("SELECT * FROM Games.GameBoards_T WHERE ID=(?) AND row=(?)");
 
 				preparedStatement.setInt(1, id);
 				preparedStatement.setInt(2, i + 1);
@@ -269,7 +305,7 @@ public class serverGamesHelpers {
 			if (column != "ID" && column != "row") {
 
 				preparedStatement = connect.prepareStatement(
-						"UPDATE Games.GameBoards SET " + column + " = '" + value + "' WHERE ID = (?) AND row = (?)");
+						"UPDATE Games.GameBoards_T SET " + column + " = '" + value + "' WHERE ID = (?) AND row = (?)");
 
 				preparedStatement.setInt(1, id);
 				preparedStatement.setInt(2, row);
