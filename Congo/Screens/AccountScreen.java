@@ -40,9 +40,8 @@ public class AccountScreen {
 	  		@Override
 	  		public void mouseReleased(final MouseEvent e) {
 	  			unregister.setBackground(new Color(90,90,90));
-	  			serverHelpers server = new serverHelpers();
 	  			String Username = Application.getUser();
-	  			int err = server.tryUnregister(Username);
+	  			int err = serverHelpers.tryUnregister(Username);
 	  			
 	  			if (err == 0) {
 	  				Application.changeScreen("Login");

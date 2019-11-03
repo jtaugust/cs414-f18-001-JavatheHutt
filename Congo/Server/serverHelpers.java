@@ -743,7 +743,7 @@ public class serverHelpers {
 		return 0;
 	}
 
-	public int tryUnregister(String Username) {
+	public static int tryUnregister(String Username) {
 		
 		try {
 			deleteUser(Username);
