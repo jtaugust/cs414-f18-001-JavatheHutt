@@ -104,24 +104,15 @@ public class RegistrationScreen {
             @Override
             public void keyReleased(KeyEvent e) {
             	if (e.getKeyCode()==KeyEvent.VK_ENTER){
-		  			String name = username.getText();
-					String email = emailfield.getText();
-					String password = new String(passwordField.getPassword());
-					String passwordCon = new String(passwordConfirm.getPassword());
-					if (isDefaultInput(username, emailfield, passwordField,passwordConfirm)) {
+		  			if (isDefaultInput(username, emailfield, passwordField,passwordConfirm)) {
 						setRegistrationError(1);
-		  			}else if(!password.equals(passwordCon)){ // passwords don't match, show error
-						setRegistrationError(2);
-					} else {
-						int err = serverHelpers.tryRegister(name, email, password);
-						if (err == 0){ // 
-							Application.setUser(name);
-							Application.changeScreen("InitialMain");
-						}else{ //error was received
-							//update application variable "User" to username.getText()
-							setRegistrationError(err);
-						}
-					}
+		  			}else{
+						String name = username.getText();
+						String email = emailfield.getText();
+						String password = new String(passwordField.getPassword());
+						String passwordCon = new String(passwordConfirm.getPassword());
+						register(name, email, password, passwordCon);
+		  			}
             	}
             }
         });
@@ -171,6 +162,8 @@ public class RegistrationScreen {
 	    		case 3: errStr = "<html>That username is already in use.</html>"; break;
 	    		case 4: errStr = "<html>That email is already in use.</html>"; break;
 	    		case 5: errStr = "<html>Password contains illegal characters.</html>"; break;
+	    		case 6: errStr = "<html>Username contains illegal characters.</html>"; break;
+	    		case 7: errStr = "<html>Email contains illegal characters.</html>"; break;
 	    		default: break;
 	    	}
 	    	error.add(Label.errorLabel(errStr, Color.red));
@@ -200,24 +193,15 @@ public class RegistrationScreen {
 	  		}
 	  		@Override
 	  		public void mouseReleased(final MouseEvent e) {
-	  			String name = username.getText();
-				String email = emailfield.getText();
-				String password = new String(passwordField.getPassword());
-				String passwordCon = new String(passwordConfirm.getPassword());
-				if (isDefaultInput(username, emailfield, passwordField,passwordConfirm)) {
-					setRegistrationError(1);
-	  			}else if(!password.equals(passwordCon)){ // passwords don't match, show error
-					setRegistrationError(2);
-				} else {
-					int err = serverHelpers.tryRegister(name, email, password);
-					if (err == 0){ // 
-						Application.setUser(name);
-						Application.changeScreen("InitialMain");
-					}else{ //error was received
-						//update application variable "User" to username.getText()
-						setRegistrationError(err);
-					}
-				}
+	  			if (isDefaultInput(username, emailfield, passwordField, passwordConfirm)){
+	  				setRegistrationError(1);
+	  			}else{
+		  			String name = username.getText();
+					String email = emailfield.getText();
+					String password = new String(passwordField.getPassword());
+					String passwordCon = new String(passwordConfirm.getPassword());
+					register(name, email, password, passwordCon);
+	  			}
 	  		}
 		});
 	    register.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(10,10,10,10,Color.black), new MatteBorder(2,2,2,2,new Color(79,175,255))));
@@ -251,6 +235,21 @@ public class RegistrationScreen {
 		registrationError = err;
 		Application.setErr();
 		Application.changeScreen("Registration");
+	}
+	
+	private static void register(String name, String email, String pass, String passCon){
+		if(!pass.equals(passCon)){ // passwords don't match, show error
+			setRegistrationError(2);
+		} else {
+			int err = serverHelpers.tryRegister(name, email, pass);
+			if (err == 0){ // 
+				Application.setUser(name);
+				Application.changeScreen("InitialMain");
+			}else{ //error was received
+				//update application variable "User" to username.getText()
+				setRegistrationError(err);
+			}
+		}
 	}
 
 	private static boolean isDefaultInput(JTextField username, JTextField emailfield, JTextField passwordField, JTextField passwordConfirm) {

@@ -701,8 +701,10 @@ public class serverHelpers {
 	
 	public static int tryLogin(String username, String password) {
 		String loginPass;
-		if (!validPassword(password)){
+		if (!validString(password)){
 			return 4; //password contains illegal characters
+		}else if (!validString(username)){
+			return 5; //Username contains illegal characters
 		}
 		try {
 			loginPass = readUserLogin_T(username);
@@ -723,8 +725,12 @@ public class serverHelpers {
 
 	// When creating a new user call this with their new account info like
 	public static int tryRegister(String Username, String email, String password){
-		if (!validPassword(password)){
-			return 5;
+		if (!validString(password)){
+			return 5; //password contains illegal characters
+		}else if (!validString(Username)){
+			return 6;
+		}else if (!validEmail(email)){
+			return 7;
 		}
 		try{
 			createUserInfo_T(Username, email, null, null);
@@ -768,15 +774,20 @@ public class serverHelpers {
 		}
 	}
 	
-	private static boolean validPassword(String password){
-		char compare;
-		for (int i = 0; i < password.length(); i++){
-			compare = password.charAt(i);
-			if (compare < '0' || (compare > '9' && compare < 'A') || (compare > 'Z' && compare < 'a') || compare > 'z'){
-				return false;
-			}
+	private static boolean validString(String str){
+		if (str.matches("^[A-Za-z0-9]+$")){
+			return true;
+		}else{
+			return false;
 		}
-		return true;
+	}
+	
+	private static boolean validEmail(String email){
+		if (email.matches("^[A-Za-z0-9.-+]+@[A-Za-z0-9.-]+$")){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	private static void close() {
