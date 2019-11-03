@@ -783,7 +783,7 @@ public class serverHelpers {
 	}
 	
 	private static boolean validEmail(String email){
-		if (email.matches("^[A-Za-z0-9.-+]+@[A-Za-z0-9.-]+$")){
+		if (email.matches("^[A-Za-z0-9\\Q.-+\\E]+@[A-Za-z0-9\\Q.-\\E]+$")){
 			return true;
 		}else{
 			return false;

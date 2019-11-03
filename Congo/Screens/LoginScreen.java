@@ -144,8 +144,6 @@ public class LoginScreen {
 	    login.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(10,10,10,10,Color.black), new MatteBorder(2,2,2,2,new Color(79,175,255))));
 	    bottomButtons.add(login);
 
-
-
 		//create and add "Register" button
 	    JPanel register = new JPanel();
 	    register.setBackground(new Color(90,90,90));
