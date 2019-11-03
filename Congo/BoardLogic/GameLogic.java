@@ -49,23 +49,27 @@ public class GameLogic extends State{
 	}
 	
 	// Flips board to ensure same logic for both sides 
+	// Flips board to ensure same logic for both sides 
+
 	public String[][] flipBoard(State state){
 		String[][] board = state.getBoard();
 		String[][] newBoard = new String[7][7];
-		
-		// Go through backwards and swap pieces 
+		String[][] indexBoard = board;
+		// Go through backwards and swap pieces by taking index of array copy and piece color and type from real board
 		int countI = 0;
 		int countJ = 0;
 		for (int i = 6; i >= 0; i--) { 
             for (int j = 6; j >= 0; j--) {
-            	newBoard[countI][countJ] = board[i][j];
+            	newBoard[countI][countJ] =  Character.toString(indexBoard[countI][countJ].charAt(0)) + 
+					            			Character.toString(indexBoard[countI][countJ].charAt(1)) + 
+					            			Character.toString(board[i][j].charAt(2)) + 
+					            			Character.toString(board[i][j].charAt(3));
                 countJ++;
             }
             countI++;
     		countJ = 0;
         } 
 		state.setBoard(newBoard);
-		
 		return newBoard;
 	}
 	
@@ -117,8 +121,7 @@ public class GameLogic extends State{
 							allPossibleMoves[count] = board[x][y];
 							count++;
 						}
-					}
-					
+					}	
 				}
 			}
 		}	
@@ -126,20 +129,46 @@ public class GameLogic extends State{
 		return allPossibleMoves;
 	} 
 
-	// Monkey Helper Method 
+//	 Monkey Helper Method 
+
 	public boolean monkeyCanJump(State state, int toX, int toY) {
 		String[][] board = state.getBoard();
-		
 		// Check if out of bounds 
 		if(toX < 0 || toX > 6 || toY < 0 || toY > 6) {
 			return false;
 		}
-		
 		// Check if empty space
 		if(board[toX][toY].charAt(3) != 'N') {
 			return false;
 		}
-		
+		// If own piece return false
+		int fromX = Character.getNumericValue(state.getPieceSelected().charAt(0));
+		int fromY = Character.getNumericValue(state.getPieceSelected().charAt(1));
+		int cX = 0;
+		int cY = 0;
+		//System.out.println("X: "+fromX+" Y: "+fromY);
+		// Adjust cX and cY to be equal to piece inbetween 
+		if(fromX < toX) {
+			cX = toX - 1;
+		}else if (fromX == toX){
+			cX = toX;
+		}
+		else {
+			cX = toX + 1;
+		}
+		if(fromY < toY) {
+			cY = toY - 1;
+		}else if (fromY == toY){
+			cY = toY;
+		}
+		else {
+			cY = toY + 1;
+		}
+		// Check if piece in between is own color 
+		if(board[cX][cY].charAt(2) == state.getCurrentTurnColor().charAt(0)) {
+			 return false;
+		}
+		//System.out.println("True");
 		return true;
 	}
 	
@@ -161,7 +190,7 @@ public class GameLogic extends State{
 		for(int x = i - 1; x <= i + 1; x++) {
 			for(int y = j - 1; y <= j + 1; y++) {
 				if(isIndexBounded(x,y)){
-					if(board[x][y].charAt(2) == 'N' || board[x][y].charAt(2) != state.getCurrentTurnColor().charAt(0)) {
+					if(board[x][y].charAt(2) == 'N' ) {
 						allPossibleMoves[count] = board[x][y];
 						count++;
 					}
@@ -327,15 +356,19 @@ public class GameLogic extends State{
 		String[] allPossibleMoves = new String[10];
 		int count = 0; 
 		
-		// Check all around for standard move 
-		for(int x = 4; x < 7; x++) {
-			for(int y = 2; y < 5; y++) {
-				if(board[x][y].charAt(2) == 'N' ) {
-					allPossibleMoves[count] = board[x][y];
-					count++;
+		// Check 3x3 around piece
+				for(int x = i - 1; x <= i + 1; x++) {
+					for(int y = j - 1; y <= j + 1; y++) {
+						if(isIndexBounded(x,y)){
+							if(x > 3 && y > 1 && y < 5) {
+								if(board[x][y].charAt(2) == 'N' || board[x][y].charAt(2) != state.getCurrentTurnColor().charAt(0)) {
+									allPossibleMoves[count] = board[x][y];
+									count++;
+								}
+							}
+						}
+					}
 				}
-			}
-		}
 		
 		// Check for 'Flying General' conditions 
 		boolean pieceInbetween = false;
@@ -456,7 +489,7 @@ public class GameLogic extends State{
 		String[] allPossibleMoves = new String[8];
 		int count = 0; 
 		
-		System.out.println("State in Z: "+ state.toString());
+//		System.out.println("State in Z: "+ state.toString());
 		// Top left 1
 		if (isIndexBounded(i-1,j-2)) {
 			if(board[i-1][j-2].charAt(2) == 'N' || board[i-1][j-2].charAt(2) != state.getCurrentTurnColor().charAt(0)) {
@@ -536,139 +569,113 @@ public class GameLogic extends State{
 	}
 	
 	//TODO: Logic that deals with river and capture/move mechanic (when moving backwards cant jump or capture)
-	public String[] allPossiblePawnMove(State state){
-		
-		String[][] board = state.getBoard();
-		
-		//  Set to 10 as its above pawn max available moves 
-		String[] allPossibleMoves = new String[10];
-		int count = 0; 
-		
-		int i = Character.getNumericValue(state.getPieceSelected().charAt(0));
-		int j = Character.getNumericValue(state.getPieceSelected().charAt(1));
-		
-		// Go through three tiles in front of pawn 
-		for (int x = (i - 1); x < i; x ++){
-			for(int y = (j - 1); y <= j + 1; y++){
-				if(isIndexBounded(x,y))
-					// Check if an empty space or enemy piece
-					if(board[x][y].charAt(2) == 'N' || board[x][y].charAt(2) != state.getCurrentTurnColor().charAt(0)){
-						allPossibleMoves[count] = board[x][y];
+	// Displays the possible moves for the pawn and super pawn
+		public String[] allPossiblePawnMove(State state){
+			String[][] board = state.getBoard();
+			//  Set to 10 as its above pawn max available moves 
+			String[] allPossibleMoves = new String[20];
+			int count = 0; 
+			int i = Character.getNumericValue(state.getPieceSelected().charAt(0));
+			int j = Character.getNumericValue(state.getPieceSelected().charAt(1));
+			// Go through three tiles in front of pawn 
+			for (int x = (i - 1); x < i; x ++){
+				for(int y = (j - 1); y <= j + 1; y++){
+					if(isIndexBounded(x,y))
+						// Check if an empty space or enemy piece
+						if(board[x][y].charAt(2) == 'N' || board[x][y].charAt(2) != state.getCurrentTurnColor().charAt(0)){
+							allPossibleMoves[count] = board[x][y];
+							count++;
+						}
+				}
+			}
+			// Check for beyond river moves 
+			if(state.getPieceSelected().charAt(0) == 'P' && state.getPieceSelected().charAt(0) <= 3) {
+				// Check first backwards 
+				if (isIndexBounded(i+1,j)) {
+					if(state.board[i-1][j-1].charAt(3) == 'N') {
+						allPossibleMoves[count] = board[i+1][j];
 						count++;
 					}
+				}
+				// Check second backwards 
+				if (isIndexBounded(i+2,j)) {
+					if(state.board[i-1][j-1].charAt(3) == 'N') {
+						allPossibleMoves[count] = board[i+2][j];
+						count++;
+					}
+				}
 			}
-		}
+			if(state.getPieceSelected().charAt(3) == 'S') {
+				//Check bounds then check if null for move and enemy opponent for capture 
+				// Check left side 
+				if (isIndexBounded(i,j-1)) {
+					if(board[i][j-1].charAt(3) == 'N' || board[i][j-1].charAt(2) != state.getCurrentTurnColor().charAt(0)) {
+						allPossibleMoves[count] = board[i][j-1];
+						count++;
+					}
+				}
+				// Check right side 
+				if (isIndexBounded(i,j+1) ) {
+					if(board[i][j+1].charAt(3) == 'N' || board[i][j+1].charAt(2) != state.getCurrentTurnColor().charAt(0)) {
+						allPossibleMoves[count] = board[i][j+1];
+						count++;
+					}
+				}
+				// Check first left diagonal  
+				if (isIndexBounded(i+1,j-1)) {
+					if(state.board[i+1][j-1].charAt(3) == 'N') {
+						allPossibleMoves[count] = board[i+1][j-1];
+						count++;
+						// Check second further left diagonal  
+						if (isIndexBounded(i+2,j-2)) {
+							if(state.board[i+2][j-2].charAt(3) == 'N') {
+								allPossibleMoves[count] = board[i+2][j-2];
+								count++;
+							}
+						}
+					}
+				}
+				// Check first backwards 
+				if (isIndexBounded(i+1,j)) {
+					if(state.board[i+1][j].charAt(3) == 'N') {
+						allPossibleMoves[count] = board[i+1][j];
+						count++;
+						// Check second backwards 
+						if (isIndexBounded(i+2,j)) {
+							if(state.board[i+2][j].charAt(3) == 'N') {
+								allPossibleMoves[count] = board[i+2][j];
+								count++;
+							}
+						}
+					}
+				}
+				// Check first right orthogonal  
+				if (isIndexBounded(i+1,j+1)) {
+					if(state.board[i+1][j+1].charAt(3) == 'N') {
+						allPossibleMoves[count] = board[i+1][j+1];
+						count++;
+						// Check second further right orthogonal  
+						if (isIndexBounded(i+2,j+2)) {
+							if(state.board[i+2][j+2].charAt(3) == 'N') {
+								allPossibleMoves[count] = board[i+2][j+2];
+								count++;
+							}
+						}
+					}
+				}
+			}
+//			for(int k = 0; k < allPossibleMoves.length; k++) {
+//				System.out.println(allPossibleMoves[k]);
+//			}
+			return allPossibleMoves;
+		}	
 		
-		// Check for beyond river moves 
-		if(state.getPieceSelected().charAt(0) == 'P' && state.getPieceSelected().charAt(0) <= 3) {
-			
-			
-			// Check first backwards 
-			if (isIndexBounded(i+1,j)) {
-				if(state.board[i-1][j-1].charAt(3) == 'N') {
-					allPossibleMoves[count] = board[i+1][j];
-					count++;
-				}
-			}
-
-			// Check second backwards 
-			if (isIndexBounded(i+2,j)) {
-				if(state.board[i-1][j-1].charAt(3) == 'N') {
-					allPossibleMoves[count] = board[i+2][j];
-					count++;
-				}
-			}
-		}
-		
-		
-		
-		// TODO: These do not capture and do not deal with river 
-		if(state.getPieceSelected().charAt(3) == 'S') {
-			
-			//Check bounds then check if null for move and enemy opponent for capture 
-			
-			// Check left side 
-			if (isIndexBounded(i,j-1)) {
-				if(board[i][j-1].charAt(3) == 'N' || board[i][j-1].charAt(2) != state.getCurrentTurnColor().charAt(0)) {
-					allPossibleMoves[count] = board[i-1][j-1];
-					count++;
-				}
-			}
-			
-			// Check right side 
-			if (isIndexBounded(i,j+1) || board[i][j+1].charAt(2) != state.getCurrentTurnColor().charAt(0)) {
-				if(board[i-1][j+1].charAt(3) == 'N') {
-					allPossibleMoves[count] = board[i][j+1];
-					count++;
-				}
-			}
-			
-			// Check first left orthogonal  
-			if (isIndexBounded(i+1,j-1)) {
-				if(state.board[i-1][j-1].charAt(3) == 'N') {
-					allPossibleMoves[count] = board[i-1][j-1];
-					count++;
-				}
-			}
-			
-			// Check second further left orthogonal  
-			if (isIndexBounded(i+2,j-2)) {
-				if(state.board[i+2][j-2].charAt(3) == 'N') {
-					allPossibleMoves[count] = board[i+2][j-2];
-					count++;
-				}
-			}
-			
-			
-			// Check first backwards 
-			if (isIndexBounded(i+1,j)) {
-				if(state.board[i+1][j].charAt(3) == 'N') {
-					allPossibleMoves[count] = board[i+1][j];
-					count++;
-				}
-			}
-
-			// Check second backwards 
-			if (isIndexBounded(i+2,j)) {
-				if(state.board[i+2][j].charAt(3) == 'N') {
-					allPossibleMoves[count] = board[i+2][j];
-					count++;
-				}
-			}
-			
-			
-			// Check first right orthogonal  
-			if (isIndexBounded(i+1,j+1)) {
-				if(state.board[i+1][j+1].charAt(3) == 'N') {
-					allPossibleMoves[count] = board[i+1][j+1];
-					count++;
-				}
-			}
-			
-			// Check second further right orthogonal  
-			if (isIndexBounded(i+2,j+2)) {
-				if(state.board[i+2][j+2].charAt(3) == 'N') {
-					allPossibleMoves[count] = board[i+2][j+2];
-					count++;
-				}
-			}
-			
-			
-		}
-
-//		for(int k = 0; k < allPossibleMoves.length;k++) {
-//			System.out.println("Possible Pawn: " + allPossibleMoves[k]);
-//		}
-		
-		return allPossibleMoves;
-	}	
-	
-	//TODO: Update GUI with after found moves 
+		//TODO: Update GUI with after found moves 
 	// Update the GUI with all the possible moves 
 	public void displayPossibleMoves(State state){
 
 		String[] moveArray;
-		System.out.println("State in displayPossibleMoves: " + state.toString());
+//		System.out.println("State in displayPossibleMoves: " + state.toString());
 		switch(state.getPieceSelected().charAt(3)) {
 			case 'G':
 				moveArray = allPossibleGiraffeMove(state);
@@ -718,7 +725,7 @@ public class GameLogic extends State{
 	public boolean isMovePossible(State state){
 		String newPosition = state.getCurrentClick();
 		
-		System.out.println("State Value in movePossible: " + state.toString());
+//		System.out.println("State Value in movePossible: " + state.toString());
 		String[] possibleMoves;
 		switch(state.getPieceSelected().charAt(3)) {
 			case 'G':
@@ -748,7 +755,9 @@ public class GameLogic extends State{
 			case 'P':
 				possibleMoves = allPossiblePawnMove(state);
 				return containsMove(possibleMoves, newPosition);
-
+			case 'S':
+				possibleMoves = allPossiblePawnMove(state);
+				return containsMove(possibleMoves, newPosition);
 			case 'N':
 				// TODO: Error message or handle somehow
 				System.out.println("Error: Empty tile passed into piece logic");
@@ -789,64 +798,64 @@ public class GameLogic extends State{
 	
 	
 	// Checks for the three end game conditions
-	public boolean isGameOver(State state){
-		
-		String[][] board = state.getBoard();
-		
-		// Lion captured 
-		boolean visited = false;
-		for(int i = 0; i < 7; i++) {
-			for(int j = 0; j < 7; j++) {
-				if( board[i][j].charAt(3) == 'L') {
-					// If visited twice, return false 
-					if(visited) {
-						return false;
-					} else {
-						visited  = true;
-					}
-				}
-			}
-		}
-		
-		// Lion against lion and at least one piece
-		int lionCounter = 0;
-		int pieceCounter = 0;
-		for(int i = 0; i < 7; i++) {
-			for(int j = 0; j < 7; j++) {
-				if( board[i][j].charAt(3) == 'L') {
-					if( board[i][j].charAt(3) == 'L' || board[i][j].charAt(3) == 'N') {
+		public boolean isGameOver(State state){
+			String[][] board = state.getBoard();
+			boolean returnVar = false;
+			// Lion against lion and at least one piece
+			int lionCounter = 0;
+			int pieceCounter = 0;
+			char lionColor = '\0';
+			for(int i = 0; i < 7; i++) {
+				for(int j = 0; j < 7; j++) {
+					if(board[i][j].charAt(3) == 'L' ) {
+						if(lionColor != '\0') {
+							lionColor = board[i][j].charAt(2);
+						}
 						lionCounter++;
-					} else {
+					}
+					if( board[i][j].charAt(3) != 'L' && board[i][j].charAt(3) != 'N') { 
+						if(board[i][j].charAt(2) == lionColor) {
+							returnVar = false;
+						}
 						pieceCounter++;
 					}
-					
-					if(lionCounter == 2 && pieceCounter == 1) {
+					if(lionCounter == 2 && pieceCounter >= 1) {
 						return true;
 					}
 				}
 			}
-		}
-		
-		// Draw condition. Only two lions left 
-		lionCounter = 0;
-		for(int i = 0; i < 7; i++) {
-			for(int j = 0; j < 7; j++) {
-				// If any other piece but lion, return false
-				if( board[i][j].charAt(3) == 'L' || board[i][j].charAt(3) == 'N') {
-					lionCounter++;
-				}else {
-					return false;
-				}
-				
-				if(lionCounter == 2) {
-					return true;
+			// Lion captured 
+			lionCounter = 0;
+			for(int i = 0; i < 7; i++) {
+				for(int j = 0; j < 7; j++) {
+					if( board[i][j].charAt(3) == 'L') {
+						lionCounter++;
+					}
 				}
 			}
-		} 
-		
-		return true;
-	}
-	
+			if(lionCounter == 1) {
+
+				return true;
+			}
+			// Draw condition. Only two lions left 
+			lionCounter = 0;
+			for(int i = 0; i < 7; i++) {
+				for(int j = 0; j < 7; j++) {
+					// If any other piece but lion, return false
+					if(board[i][j].charAt(3) == 'N') {
+						if(board[i][j].charAt(3) == 'L') {
+							lionCounter++;
+						}
+					}else {
+						returnVar = false;
+					}
+					if(lionCounter == 2) {
+						return true;
+					}
+				}
+			} 
+			return returnVar;
+		}
 	//
 	// Main Logic 
 	// 
@@ -855,7 +864,7 @@ public class GameLogic extends State{
 	// Gets called for every click on the board, checks validity of moves and displays possible moves 
 	public void mainLogic(State state) {
 		
-		System.out.println("In logic");
+//		System.out.println("In logic");
 		
 		// If end turn button is clicked
 		if (state.getCurrentClick() == "ENDT") {
@@ -932,7 +941,7 @@ public class GameLogic extends State{
 		game.mainLogic(state);
 		game.flipBoard(state);
 		
-		System.out.println("Done");
-		System.out.print(state.toString());
+//		System.out.println("Done");
+//		System.out.print(state.toString());
 	}
 }

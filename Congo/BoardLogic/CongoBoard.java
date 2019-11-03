@@ -44,6 +44,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		 
 		  //  Use a Layered Pane for this this application
 		layeredPane = new JLayeredPane();
+//		getContentPane().setPreferredSize(boardSize);
 		getContentPane().add(layeredPane);
 		layeredPane.setPreferredSize(boardSize);
 		layeredPane.addMouseListener(this);
@@ -56,7 +57,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		//  JPanel bottomPanel = new JPanel();
 		layeredPane.add(congoBoard, JLayeredPane.DEFAULT_LAYER);
 		congoBoard.setLayout( new GridLayout(8, 8) );
-		congoBoard.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+//		congoBoard.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		
 		congoBoard.setPreferredSize( boardSize );
 		congoBoard.setBounds(0, 0, boardSize.width, boardSize.height);
@@ -222,6 +223,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 			congoPiece = (JLabel)c;
 			System.out.println(congoPiece.getName());
 
+			String currentClick;
 			String pieceName=congoPiece.getName();
 			char pieceColor=pieceName.charAt(0);
 			String pieceSelected=pieceName+Integer.toString(row)+Integer.toString(col);
@@ -233,19 +235,19 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 			layeredPane.add(congoPiece, JLayeredPane.DRAG_LAYER);
 
 			isPieceClicked=true;
-		} else if(!isPiecePresent(e)) {
-
-			
+		} else if(!isPiecePresent(e)) {			
+		
 			isPieceClicked=false;
 			
 			if(congoPiece == null) 
 				return;
 	 
 			congoPiece.setVisible(false);
-			Component c =  congoBoard.findComponentAt(e.getX(), e.getY());
+			Component c =  congoBoard.findComponentAt(e.getX(), e.getY());			
 	
 			if (c instanceof JLabel && !isIndex(congoPiece)){
 				Container parent = c.getParent();
+				
 				parent.remove(0);
 				parent.add( congoPiece );
 			} else if (!isIndex(congoPiece)){
@@ -302,6 +304,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		board.user1 = user1;
 		board.user2 = user2;
 	}
+	
 	
 	public static void main(String[] args) {
 		JFrame frame = new CongoBoard();
