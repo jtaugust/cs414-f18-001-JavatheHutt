@@ -34,7 +34,23 @@ public class LoginScreen {
 
 		//create username field 
 		JTextField username = Helpers.newTextField("Username", "Username");
-		username.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,6,0,0,new Color(79,175,255)),new MatteBorder(8,8,8,8, Color.white)));
+		
+		//create password field
+		JPasswordField password = Helpers.newPasswordField(16);
+		
+		//on enter in username, move to password
+		username.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {}
+            @Override
+            public void keyPressed(KeyEvent e) {}
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode()==KeyEvent.VK_ENTER){
+                	password.requestFocus();
+                }
+            }
+        });
 
 		//add space before username
 		textFields.add(Helpers.spacer(100, 150));
@@ -45,8 +61,7 @@ public class LoginScreen {
 		//create space under username textfield
 		textFields.add(Helpers.spacer(200, 50));
 		
-		//create password field
-		JPasswordField password = Helpers.newPasswordField(16);
+		
 		
 		//allow enter key to login while on password field
         password.addKeyListener(new KeyListener() {
@@ -58,20 +73,14 @@ public class LoginScreen {
             public void keyReleased(KeyEvent e) {
                 if (e.getKeyCode()==KeyEvent.VK_ENTER){
                     String name = username.getText(), pass = new String(password.getPassword());
-                    int err = serverHelpers.tryLogin(name, pass);
-                    if (err == 0){ // authentic user
-                        Application.setUser(name);
-                        Application.changeScreen("InitialMain");
-                    }else{
-                        LoginScreen.setLoginError(err);
-                        Application.setErr();
-                        Application.changeScreen("Login");
-                    }
+    	  			if (isDefaultInput(name, pass)){
+    	  				setLoginError(1);
+    	  			}else{
+    	  				login(name, pass);
+    	  			}
                 }
             }
         });
-		
-		password.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,6,0,0,new Color(79,175,255)),new MatteBorder(8,8,8,8, Color.white)));
 
 		//add password field
 		textFields.add(password);
@@ -95,7 +104,10 @@ public class LoginScreen {
 	    	switch (loginError) {
 	    		case 1: err = "<html>You must fill out the entire form.</html>"; break;
 	    		case 2: err = "<html>Username or password is incorrect</html>"; break;
-	    		default: break; //connection error
+	    		case 3: err = "<html>Sql connection error occured.</html>"; break;
+	    		case 4: err = "<html>Password contains illegal characters, <br> only letters and numbers are allowed.</html>"; break;
+	    		case 5: err = "<html>Username contains illegal characters, <br> only letters and numbers are allowed.</html>"; break;
+	    		default: break; //unkown error occured
 	    	}
 	    	error.add(Label.errorLabel(err, Color.red));
 	    	loginError = 0;
@@ -107,7 +119,6 @@ public class LoginScreen {
 	    JPanel bottomButtons = new JPanel();
 	    bottomButtons.setLayout(new BoxLayout(bottomButtons, BoxLayout.LINE_AXIS));
 	    bottomButtons.setBackground(Color.black);
-	    bottomButtons.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(6,0,0,0,new Color(79,175,255)),new MatteBorder(5,5,5,5, Color.black)));
 	    bottomButtons.setPreferredSize(new Dimension(600,75));
 
 	    //create and add "Login" button
@@ -123,26 +134,15 @@ public class LoginScreen {
 	  		@Override
 	  		public void mouseReleased(final MouseEvent e) {
 	  			String name = username.getText(), pass = new String(password.getPassword());
-	  			
-	  			if (pass.equals("Password") || username.equals("Username")){
+	  			if (isDefaultInput(name, pass)){
 	  				setLoginError(1);
 	  			}else{
-		  			int err = serverHelpers.tryLogin(name, pass);
-					if (err == 0){ // authentic user
-						Application.setUser(name);
-						Application.changeScreen("InitialMain");
-					}else{
-						LoginScreen.setLoginError(err);
-						Application.setErr();
-						Application.changeScreen("Login");
-					}
+	  				login(name, pass);
 	  			}
 	  		}
 		});
 	    login.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(10,10,10,10,Color.black), new MatteBorder(2,2,2,2,new Color(79,175,255))));
 	    bottomButtons.add(login);
-
-
 
 		//create and add "Register" button
 	    JPanel register = new JPanel();
@@ -166,9 +166,29 @@ public class LoginScreen {
 	    workingPanel.add(textFields, BorderLayout.PAGE_START);
 	    workingPanel.add(bottomButtons, BorderLayout.PAGE_END);
 	}
+	
+	private static boolean isDefaultInput(String user, String pass){
+		if (user.equals("Username") || pass.equals("Password")){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	private static void login(String user, String pass){
+        int err = serverHelpers.tryLogin(user, pass);
+        if (err == 0){ // authentic user
+            Application.setUser(user);
+            Application.changeScreen("InitialMain");
+        }else{
+            LoginScreen.setLoginError(err);
+        }
+	}
 
 	private static void setLoginError(int err){
 		loginError = err;
+		Application.setErr();
+        Application.changeScreen("Login");
 	}
 
 

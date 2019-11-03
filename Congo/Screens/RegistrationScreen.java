@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -38,12 +40,84 @@ public class RegistrationScreen {
 		JPanel textFields = new JPanel();
 		textFields.setLayout(new BoxLayout(textFields, BoxLayout.Y_AXIS));
 
-
+		
 
 		//create email field 
 		JTextField emailfield = Helpers.newTextField("Email", "Email Address");
-		emailfield.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,6,0,0,new Color(79,175,255)),new MatteBorder(8,8,8,8, Color.white)));
+		
+		//create username field 
+		JTextField username = Helpers.newTextField("Username", "Username");
+		
+		//create password fields
+		JPasswordField passwordField = Helpers.newPasswordField(16);
+		
+		//create password confirmation field
+		JPasswordField passwordConfirm = Helpers.newPasswordField(16, "Confirm Password");
+		
+		
+		//on enter in email, move to username
+		emailfield.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {}
+            @Override
+            public void keyPressed(KeyEvent e) {}
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode()==KeyEvent.VK_ENTER){
+                	username.requestFocus();
+                }
+            }
+        });
+		//on enter in username, move to password
+		username.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {}
+            @Override
+            public void keyPressed(KeyEvent e) {}
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode()==KeyEvent.VK_ENTER){
+                	passwordField.requestFocus();
+                }
+            }
+        });
+		//on enter in password, move to confirm password
+		passwordField.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {}
+            @Override
+            public void keyPressed(KeyEvent e) {}
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode()==KeyEvent.VK_ENTER){
+                	passwordConfirm.requestFocus();
+                }
+            }
+        });
+		
+		//on enter in confirm password, submit
+		passwordConfirm.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {}
+            @Override
+            public void keyPressed(KeyEvent e) {}
+            @Override
+            public void keyReleased(KeyEvent e) {
+            	if (e.getKeyCode()==KeyEvent.VK_ENTER){
+		  			if (isDefaultInput(username, emailfield, passwordField,passwordConfirm)) {
+						setRegistrationError(1);
+		  			}else{
+						String name = username.getText();
+						String email = emailfield.getText();
+						String password = new String(passwordField.getPassword());
+						String passwordCon = new String(passwordConfirm.getPassword());
+						register(name, email, password, passwordCon);
+		  			}
+            	}
+            }
+        });
 
+		
 		//add space before username
 		textFields.add(Helpers.spacer(100, 50));
 
@@ -53,29 +127,17 @@ public class RegistrationScreen {
 		//create space under email textfield
 		textFields.add(Helpers.spacer(200, 50));
 
-		//create username field 
-		JTextField username = Helpers.newTextField("Username", "Username");
-		username.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,6,0,0,new Color(79,175,255)),new MatteBorder(8,8,8,8, Color.white)));
-
 		//add username field
 		textFields.add(username);
 
 		//create space under username field
 		textFields.add(Helpers.spacer(200, 50));
 
-		//create password fields
-		JPasswordField passwordField = Helpers.newPasswordField(16);
-		passwordField.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,6,0,0,new Color(79,175,255)),new MatteBorder(8,8,8,8, Color.white)));
-
 		//add password field
 		textFields.add(passwordField);
 
 		//create space under password field (for password error)
 		textFields.add(Helpers.spacer(200, 50));
-
-		//create password confirmation field
-		JPasswordField passwordConfirm = Helpers.newPasswordField(16, "Confirm Password");
-		passwordConfirm.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,6,0,0,new Color(79,175,255)),new MatteBorder(8,8,8,8, Color.white)));
 
 		//add password confirmation field
 		textFields.add(passwordConfirm);
@@ -99,6 +161,9 @@ public class RegistrationScreen {
 	    		case 2: errStr = "<html>Passwords do not match.</html>"; break;
 	    		case 3: errStr = "<html>That username is already in use.</html>"; break;
 	    		case 4: errStr = "<html>That email is already in use.</html>"; break;
+	    		case 5: errStr = "<html>Password contains illegal characters.</html>"; break;
+	    		case 6: errStr = "<html>Username contains illegal characters.</html>"; break;
+	    		case 7: errStr = "<html>Email contains illegal characters.</html>"; break;
 	    		default: break;
 	    	}
 	    	error.add(Label.errorLabel(errStr, Color.red));
@@ -117,58 +182,48 @@ public class RegistrationScreen {
 	    bottomButtons.setPreferredSize(new Dimension(600,75));
 
 	    //create and add "Register" button
-	    JPanel login = new JPanel();
-	    login.setBackground(new Color(79,175,255));
-	  	login.setLayout(new GridBagLayout());
-	  	login.add(new JLabel("Register"));
-	  	login.addMouseListener(new MouseAdapter() {
+	    JPanel register = new JPanel();
+	    register.setBackground(new Color(79,175,255));
+	  	register.setLayout(new GridBagLayout());
+	  	register.add(new JLabel("Register"));
+	  	register.addMouseListener(new MouseAdapter() {
 	  		@Override
 	  		public void mousePressed(final MouseEvent e) {
-	  			login.setBackground(new Color(110,190,255));
+	  			register.setBackground(new Color(110,190,255));
 	  		}
 	  		@Override
 	  		public void mouseReleased(final MouseEvent e) {
-	  			String name = username.getText();
-				String email = emailfield.getText();
-				String password = passwordField.getText();
-				String passwordCon = passwordConfirm.getText();
-				if (isDefaultInput(username, emailfield, passwordField,passwordConfirm)) {
-					setRegistrationError(1);
-	  			}else if(!password.equals(passwordCon)){ // passwords don't match, show error
-					setRegistrationError(2);
-				} else {
-					int err = serverHelpers.tryRegister(name, email, password);
-					if (err == 0){ // 
-						Application.setUser(name);
-						Application.changeScreen("InitialMain");
-					}else{ //error was received
-						//update application variable "User" to username.getText()
-						setRegistrationError(err);
-					}
-
-				}
+	  			if (isDefaultInput(username, emailfield, passwordField, passwordConfirm)){
+	  				setRegistrationError(1);
+	  			}else{
+		  			String name = username.getText();
+					String email = emailfield.getText();
+					String password = new String(passwordField.getPassword());
+					String passwordCon = new String(passwordConfirm.getPassword());
+					register(name, email, password, passwordCon);
+	  			}
 	  		}
 		});
-	    login.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(10,10,10,10,Color.black), new MatteBorder(2,2,2,2,new Color(79,175,255))));
-	    bottomButtons.add(login);
+	    register.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(10,10,10,10,Color.black), new MatteBorder(2,2,2,2,new Color(79,175,255))));
+	    bottomButtons.add(register);
 
 		//create and add "Back to Login" button
-	    JPanel register = new JPanel();
-	    register.setBackground(new Color(90,90,90));
-	    register.setLayout(new GridBagLayout());
-	    register.add(new JLabel("Back to Login"));
-	    register.addMouseListener(new MouseAdapter() {
+	    JPanel login = new JPanel();
+	    login.setBackground(new Color(90,90,90));
+	    login.setLayout(new GridBagLayout());
+	    login.add(new JLabel("Back to Login"));
+	    login.addMouseListener(new MouseAdapter() {
 	  		@Override
 	  		public void mousePressed(final MouseEvent e) {
-	  			register.setBackground(new Color(255,255,255));
+	  			login.setBackground(new Color(255,255,255));
 	  		}
 	  		@Override
 	  		public void mouseReleased(final MouseEvent e) {
 	  			Application.changeScreen("Login");
 	  		}
 		});
-	    register.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(10,10,10,10,Color.black), new MatteBorder(2,2,2,2,new Color(79,175,255))));
-	    bottomButtons.add(register);
+	    login.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(10,10,10,10,Color.black), new MatteBorder(2,2,2,2,new Color(79,175,255))));
+	    bottomButtons.add(login);
 
 	    //add field and button panels to the working panel
 	    workingPanel.add(textFields, BorderLayout.PAGE_START);
@@ -180,6 +235,21 @@ public class RegistrationScreen {
 		registrationError = err;
 		Application.setErr();
 		Application.changeScreen("Registration");
+	}
+	
+	private static void register(String name, String email, String pass, String passCon){
+		if(!pass.equals(passCon)){ // passwords don't match, show error
+			setRegistrationError(2);
+		} else {
+			int err = serverHelpers.tryRegister(name, email, pass);
+			if (err == 0){ // 
+				Application.setUser(name);
+				Application.changeScreen("InitialMain");
+			}else{ //error was received
+				//update application variable "User" to username.getText()
+				setRegistrationError(err);
+			}
+		}
 	}
 
 	private static boolean isDefaultInput(JTextField username, JTextField emailfield, JTextField passwordField, JTextField passwordConfirm) {

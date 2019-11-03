@@ -678,7 +678,6 @@ public class serverHelpers {
 		try {
 
 			Class.forName("org.mariadb.jdbc.Driver");
-
 			connect = DriverManager
 					.getConnection("jdbc:mysql://68.234.149.213:8555/Users?" + "user=cs414&password=cs414");
 
@@ -698,12 +697,15 @@ public class serverHelpers {
 		} finally {
 			close();
 		}
-
 	}
 	
 	public static int tryLogin(String username, String password) {
 		String loginPass;
-		
+		if (!validString(password)){
+			return 4; //password contains illegal characters
+		}else if (!validString(username)){
+			return 5; //Username contains illegal characters
+		}
 		try {
 			loginPass = readUserLogin_T(username);
 			if (loginPass == null) { // no such user
@@ -723,6 +725,13 @@ public class serverHelpers {
 
 	// When creating a new user call this with their new account info like
 	public static int tryRegister(String Username, String email, String password){
+		if (!validString(password)){
+			return 5; //password contains illegal characters
+		}else if (!validString(Username)){
+			return 6;
+		}else if (!validEmail(email)){
+			return 7;
+		}
 		try{
 			createUserInfo_T(Username, email, null, null);
 			createUserLogin_T(Username, password);
@@ -736,7 +745,7 @@ public class serverHelpers {
 			}else if (sqlerr.equals(Username)){
 				return 3;
 			}else{
-				return 5;
+				return 6; //unknown error
 			}
 		}
 		//createUserLogin_T(Username, password);
@@ -763,7 +772,22 @@ public class serverHelpers {
 		} finally {
 			close();
 		}
-
+	}
+	
+	private static boolean validString(String str){
+		if (str.matches("^[A-Za-z0-9]+$")){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	private static boolean validEmail(String email){
+		if (email.matches("^[A-Za-z0-9.-+]+@[A-Za-z0-9.-]+$")){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	private static void close() {
