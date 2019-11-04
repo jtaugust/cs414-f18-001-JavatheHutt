@@ -22,6 +22,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	ArrayList<String> indexList = new ArrayList<>();
 	String currentPossibleMoves[];
 	ArrayList<String> possibleMoves=new ArrayList<>();
+	Container currentParent;
 	
 	String[][] board = {
 		{"00BG", "01BM", "02BE", "03BL", "04BE", "05BC", "06BZ"},
@@ -39,6 +40,12 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	JLabel congoPiece;
 	int xAdjustment;
 	int yAdjustment;
+	
+	// Initializing State
+	State state=new State(board, "W", "", "");
+	GameLogic testMove = new GameLogic();
+
+
 	 
 	public CongoBoard(){
 		
@@ -87,16 +94,16 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 			
 				if(i==7) {
 					JPanel square = new JPanel( new BorderLayout());
-					JLabel l = new JLabel();
+//					JLabel l = new JLabel();
 					// add label to panel
-					square.add(l);
+//					square.add(l);
 					square.setBackground(new Color(50,50,50));
 					congoBoard.add(square);
 				} else if(j==0) {
 					JPanel square = new JPanel( new BorderLayout());
-					JLabel l = new JLabel();  
+//					JLabel l = new JLabel();  
 					// add label to panel
-					square.add(l);
+//					square.add(l);
 					square.setBackground(new Color(50,50,50));
 					congoBoard.add(square);
 				} else if(i==3) {
@@ -170,7 +177,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 					JLabel piece = new JLabel(image);
 					piece.setName(pieceName);
 					JPanel panel = (JPanel)congoBoard.getComponent(8*i+j+1);
-					panel.setName(pieceName);
+//					panel.setName(pieceName);
 					panel.add(piece);  
 				}
 				
@@ -238,7 +245,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 				System.out.println("It is JPanel");
 				return;
 			}
-	
+		    currentParent = c.getParent();
 			Point parentLocation = c.getParent().getLocation();
 			xAdjustment = parentLocation.x - e.getX();
 			yAdjustment = parentLocation.y - e.getY();
@@ -264,11 +271,11 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 			congoPiece.setLocation(e.getX() + xAdjustment, e.getY() + yAdjustment);
 			
 			// get possible moves based on piece clicked.
-			GameLogic testMove = new GameLogic();
 
 			System.out.println("Selected: " + pieceSelected);
-			State state = new State(board, "W", pieceSelected, pieceSelected);
-
+			board=state.getBoard();
+			state.setPieceSelected(pieceSelected);
+            System.out.println(state.toString());
 			currentPossibleMoves = testMove.displayPossibleMoves(state);
 			for(int i = 0; i < currentPossibleMoves.length; i++) {
 				if(currentPossibleMoves[i] != null) {
@@ -302,21 +309,35 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 
 			congoPiece.setVisible(false);
 			
-			
 			if (c instanceof JLabel && !isIndex(congoPiece)){
 				System.out.println("FIRST IF");
 				Container parent = c.getParent();
 				//My Code
+				System.out.println("It is JLabel");
 				Point parentLocation = parent.getLocation();
 				int row=findRow(parentLocation.y);
 				int col=findColumn(parentLocation.x);
+				JLabel futurePiece=(JLabel)c;
 				String futurePosition=Integer.toString(row)+Integer.toString(col-1);
+				String futurePieceName;
+				if(futurePiece.getName()==null) {
+					 futurePieceName="NN";
+				}
+				else {
+					 futurePieceName=futurePiece.getName();
+				}
+				String futureStatePosition=futurePosition+futurePieceName;
+
 				System.out.println("Future Move:"+futurePosition);
 				
 				if(possibleMoves.contains(futurePosition)) {
 				//My Code
 				parent.add(congoPiece);
-
+				testMove.movePiece(state,futureStatePosition);
+				System.out.println(state.toString());
+				}
+				else {
+					currentParent.add(congoPiece);
 				}
 				possibleMoves.clear();
 //				parent.remove(0);
@@ -329,11 +350,18 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 				int row=findRow(parentLocation.y);
 				int col=findColumn(parentLocation.x);
 				String futurePosition=Integer.toString(row)+Integer.toString(col-1);
+				String futureStatePosition=futurePosition+"NN";
 				System.out.println("Future Move:"+futurePosition);
 				System.out.println(possibleMoves);
 				if(possibleMoves.contains(futurePosition)) {
 				//My Code
 				parent.add(congoPiece);
+				testMove.movePiece(state,futureStatePosition);
+				System.out.println(state.toString());
+
+				}
+				else {
+					currentParent.add(congoPiece);
 				}
 				possibleMoves.clear();
 			}
