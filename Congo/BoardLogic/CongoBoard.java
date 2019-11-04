@@ -57,7 +57,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		//  JPanel bottomPanel = new JPanel();
 		layeredPane.add(congoBoard, JLayeredPane.DEFAULT_LAYER);
 		congoBoard.setLayout( new GridLayout(8, 8) );
-//		congoBoard.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+		congoBoard.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		
 		congoBoard.setPreferredSize( boardSize );
 		congoBoard.setBounds(0, 0, boardSize.width, boardSize.height);
@@ -204,12 +204,12 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	 
 	  
 	public void mousePressed(MouseEvent e){
-	
+		Component c =  congoBoard.findComponentAt(e.getX(), e.getY());
 		if(!isPieceClicked ) {
 			congoPiece = null;
-			Component c =  congoBoard.findComponentAt(e.getX(), e.getY());
 			
-			if (c instanceof JPanel)
+			
+			if (c instanceof JPanel || c.getName() == null)
 				return;
 	
 			Point parentLocation = c.getParent().getLocation();
@@ -239,11 +239,10 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		
 			isPieceClicked=false;
 			
-			if(congoPiece == null) 
+			if(congoPiece == null || c.getWidth() != 70) 
 				return;
 	 
-			congoPiece.setVisible(false);
-			Component c =  congoBoard.findComponentAt(e.getX(), e.getY());			
+			congoPiece.setVisible(false);			
 	
 			if (c instanceof JLabel && !isIndex(congoPiece)){
 				Container parent = c.getParent();
