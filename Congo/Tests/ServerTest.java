@@ -25,6 +25,15 @@ public class ServerTest {
 			} else {
 				fail();
 			}
+		
+			//username is in use
+			assertEquals(3, serverHelpers.tryRegister(Username, email, password));
+			
+			Username = "testingRegister";
+			
+			//email is in use
+			assertEquals(4, serverHelpers.tryRegister(Username, email, password));
+			
 		}
 		
 	@Test
