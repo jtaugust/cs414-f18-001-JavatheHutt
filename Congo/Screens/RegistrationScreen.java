@@ -163,7 +163,7 @@ public class RegistrationScreen {
 	    		case 4: errStr = "<html>That email is already in use.</html>"; break;
 	    		case 5: errStr = "<html>Password contains illegal characters.</html>"; break;
 	    		case 6: errStr = "<html>Username contains illegal characters.</html>"; break;
-	    		case 7: errStr = "<html>Email contains illegal characters.</html>"; break;
+	    		case 7: errStr = "<html>Provided email is invalid.</html>"; break;
 	    		default: break;
 	    	}
 	    	error.add(Label.errorLabel(errStr, Color.red));
