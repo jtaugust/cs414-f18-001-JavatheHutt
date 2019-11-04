@@ -295,8 +295,10 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		} else {
 			System.out.println("In second click");
 			
-			if (c.getWidth() != 70)
-				return;
+//			if (c.getWidth() != 70) {
+//				System.out.println("Width is less");
+//				return;
+//			}
 			
 			
 			
@@ -332,6 +334,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 				
 				if(possibleMoves.contains(futurePosition)) {
 				//My Code
+				parent.remove(0);
 				parent.add(congoPiece);
 				testMove.movePiece(state,futureStatePosition);
 				System.out.println(state.toString());
