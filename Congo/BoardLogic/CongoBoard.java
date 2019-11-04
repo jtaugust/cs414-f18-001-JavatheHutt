@@ -16,11 +16,12 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	 
 	private boolean lock = false;
 	private String user1 = "", user2 = "";
-	String turn = "White"; //starting turn is white
+	String turn = "W"; //starting turn is white
 	String players[] = new String[] {user1, user2};
 	boolean isPieceClicked;
 	ArrayList<String> indexList = new ArrayList<>();
-	
+	String currentPossibleMoves[];
+	ArrayList<String> possibleMoves=new ArrayList<>();
 	
 	String[][] board = {
 		{"00BG", "01BM", "02BE", "03BL", "04BE", "05BC", "06BZ"},
@@ -32,7 +33,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		{"60WG", "61WM", "62WE", "63WL", "64WE", "65WC", "66WZ"}
 	};
 	 
-	
+	String pieceSelected;
 	JLayeredPane layeredPane;
 	JPanel congoBoard;
 	JLabel congoPiece;
@@ -40,44 +41,63 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	int yAdjustment;
 	 
 	public CongoBoard(){
+		
+		
 		Dimension boardSize = new Dimension(600, 600);
-		 
-		  //  Use a Layered Pane for this this application
+		//  Use a Layered Pane for this this application
 		layeredPane = new JLayeredPane();
-//		getContentPane().setPreferredSize(boardSize);
 		getContentPane().add(layeredPane);
 		layeredPane.setPreferredSize(boardSize);
 		layeredPane.addMouseListener(this);
 		layeredPane.addMouseMotionListener(this);
-		layeredPane.setBackground(new Color(90,90,90));
+		layeredPane.setBackground(new Color(50,50,50));
 		 
 		 //Add a congo board to the Layered Pane 
 		congoBoard = new JPanel();
-		congoBoard.setBackground(new Color(90,90,90));
+		congoBoard.setBackground(new Color(50,50,50));
 		//  JPanel bottomPanel = new JPanel();
+		
+		JPanel endTurn = new JPanel();
+	    endTurn.setBackground(new Color(90,90,90));
+	    endTurn.setLayout(new GridBagLayout());
+	    JLabel label = new JLabel("End turn");
+	    label.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+	    endTurn.add(label);
+	    endTurn.addMouseListener(new MouseAdapter() {
+	  		@Override
+	  		public void mousePressed(final MouseEvent e) {
+	  			endTurn.setBackground(new Color(120,120,120));
+	  		}
+	  		@Override
+	  		public void mouseReleased(final MouseEvent e) {
+	  			endTurn.setBackground(new Color(90,90,90));
+	  			switchTurn();
+	  		}
+		});
+	    
 		layeredPane.add(congoBoard, JLayeredPane.DEFAULT_LAYER);
 		congoBoard.setLayout( new GridLayout(8, 8) );
-//		congoBoard.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+		congoBoard.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		
 		congoBoard.setPreferredSize( boardSize );
 		congoBoard.setBounds(0, 0, boardSize.width, boardSize.height);
 		 
 		for (int i = 0; i < 8; i++) {
 			for (int j=0;j<8;j++) {
-				 
+			
 				if(i==7) {
 					JPanel square = new JPanel( new BorderLayout());
 					JLabel l = new JLabel();
 					// add label to panel
 					square.add(l);
-					square.setBackground(new Color(90,90,90));
+					square.setBackground(new Color(50,50,50));
 					congoBoard.add(square);
 				} else if(j==0) {
 					JPanel square = new JPanel( new BorderLayout());
 					JLabel l = new JLabel();  
 					// add label to panel
 					square.add(l);
-					square.setBackground(new Color(90,90,90));
+					square.setBackground(new Color(50,50,50));
 					congoBoard.add(square);
 				} else if(i==3) {
 					JPanel square = new JPanel(new BorderLayout()) {
@@ -117,10 +137,12 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 				}
 	 
 			}
+			
+			
 		}
 		
 // Mapping pieces Names with Images
-	    Hashtable pieceImages = new Hashtable(); 
+	    Hashtable<String, String> pieceImages = new Hashtable<String, String>(); 
 	 
 		String[] white_pieces= {"WG","WM","WE","WL","WE","WC","WZ"};
 		String[] white_piece_images= {"./Images/whiteGiraffe.png","./Images/whiteMonkey.png","./Images/whiteElephant.png"
@@ -178,6 +200,8 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 			panel.add(piece);  
 			piece.setEnabled(false);
 		}
+		
+
 	 
 	}
 	 
@@ -204,13 +228,16 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	 
 	  
 	public void mousePressed(MouseEvent e){
+		Component c =  congoBoard.findComponentAt(e.getX(), e.getY());
+		// First click (piece select)
+		if(!isPieceClicked) {
 	
-		if(!isPieceClicked ) {
 			congoPiece = null;
-			Component c =  congoBoard.findComponentAt(e.getX(), e.getY());
-			
-			if (c instanceof JPanel)
+			System.out.println("pieceName clicked"+c.getName());
+			if (c instanceof JPanel ||c.getName()==null) {
+				System.out.println("It is JPanel");
 				return;
+			}
 	
 			Point parentLocation = c.getParent().getLocation();
 			xAdjustment = parentLocation.x - e.getX();
@@ -219,62 +246,124 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	 
 			int row=findRow(parentLocation.y);
 			int col=findColumn(parentLocation.x);
-			System.out.println(row+","+col);
 			congoPiece = (JLabel)c;
-			System.out.println(congoPiece.getName());
-
-			String currentClick;
 			String pieceName=congoPiece.getName();
 			char pieceColor=pieceName.charAt(0);
-			String pieceSelected=pieceName+Integer.toString(row)+Integer.toString(col);
+			
+			System.out.println("Piece color: " + pieceColor);
+			
+			if(pieceColor == 'W' && turn == "B") {
+				return;
+			}
+			if(pieceColor == 'B' && turn == "W") {
+				return;
+			}
+			
+			pieceSelected = Integer.toString(row)+Integer.toString(col-1)+pieceName;
+			System.out.println("Piece Selected:"+pieceSelected);
 			congoPiece.setLocation(e.getX() + xAdjustment, e.getY() + yAdjustment);
-			//  State state = new State(board,"W","40NN","50WP");
+			
+			// get possible moves based on piece clicked.
+			GameLogic testMove = new GameLogic();
+
+			System.out.println("Selected: " + pieceSelected);
+			State state = new State(board, "W", pieceSelected, pieceSelected);
+
+			currentPossibleMoves = testMove.displayPossibleMoves(state);
+			for(int i = 0; i < currentPossibleMoves.length; i++) {
+				if(currentPossibleMoves[i] != null) {
+					System.out.println(currentPossibleMoves[i].substring(0, 2));
+					possibleMoves.add(currentPossibleMoves[i].substring(0, 2));
+					congoBoard.getComponent(convertIndex(currentPossibleMoves[i].substring(0, 2))).setBackground(Color.white);
+				}
+			}
 	 
 			congoPiece.setSize(congoPiece.getWidth(), congoPiece.getHeight());
 			//  layeredPane.add(congoPiece, JLayeredPane.DRAG_LAYER);
 			layeredPane.add(congoPiece, JLayeredPane.DRAG_LAYER);
 
 			isPieceClicked=true;
-		} else if(!isPiecePresent(e)) {			
-		
+			
+		// Second click (place select)
+		} else {
+			System.out.println("In second click");
+			
+			if (c.getWidth() != 70)
+				return;
+			
+			
+			
 			isPieceClicked=false;
 			
-			if(congoPiece == null) 
+			if(congoPiece == null) {
+				System.out.println("null");
 				return;
-	 
+			}
+
 			congoPiece.setVisible(false);
-			Component c =  congoBoard.findComponentAt(e.getX(), e.getY());			
-	
-			if (c instanceof JLabel && !isIndex(congoPiece)){
-				Container parent = c.getParent();
-				
-				parent.remove(0);
-				parent.add( congoPiece );
-			} else if (!isIndex(congoPiece)){
-				Container parent = (Container)c;
-				parent.add( congoPiece );
-			}  
-			congoPiece.setVisible(true);
-	//  	if (congoPiece == null) return;
-	//  	congoPiece.setLocation(e.getX() + xAdjustment, e.getY() + yAdjustment);
 			
-		}
-	 
+			
+			if (c instanceof JLabel && !isIndex(congoPiece)){
+				System.out.println("FIRST IF");
+				Container parent = c.getParent();
+				//My Code
+				Point parentLocation = parent.getLocation();
+				int row=findRow(parentLocation.y);
+				int col=findColumn(parentLocation.x);
+				String futurePosition=Integer.toString(row)+Integer.toString(col-1);
+				System.out.println("Future Move:"+futurePosition);
+				
+				if(possibleMoves.contains(futurePosition)) {
+				//My Code
+				parent.add(congoPiece);
+
+				}
+				possibleMoves.clear();
+//				parent.remove(0);
+//				parent.add(congoPiece);
+			} else if (!isIndex(congoPiece)){
+				System.out.println("SECOND IF");
+				Container parent = (Container)c;
+				//My Code
+				Point parentLocation = parent.getLocation();
+				int row=findRow(parentLocation.y);
+				int col=findColumn(parentLocation.x);
+				String futurePosition=Integer.toString(row)+Integer.toString(col-1);
+				System.out.println("Future Move:"+futurePosition);
+				System.out.println(possibleMoves);
+				if(possibleMoves.contains(futurePosition)) {
+				//My Code
+				parent.add(congoPiece);
+				}
+				possibleMoves.clear();
+			}
+			congoPiece.setVisible(true);
+			revertColors();
+		} 
 	}
 	  
 	public boolean isIndex(JLabel c) {
-		if(indexList.contains(c.getText()))
+		
+		if(indexList.contains(c.getText())) {
 			return true;
+		}
+
+		
+		
 		return false;
+		
 	 
 	}
 	 
-	  // Checks whether a piece is already present in the square
+	// Checks whether a piece is already present in the square
 	public boolean isPiecePresent(MouseEvent e) {
 		Component c =  congoBoard.findComponentAt(e.getX(), e.getY());
-	
-		if (c instanceof JLabel)
+		System.out.println("In isPiecePresent");
+		if (c instanceof JLabel) {
+			System.out.println("in if" + c);
 			return true;
+		}
+		System.out.println("Past if");
 	 
 		return false;
 	}
@@ -305,7 +394,6 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		board.user2 = user2;
 	}
 	
-	
 	public static void main(String[] args) {
 		JFrame frame = new CongoBoard();
 		frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE );
@@ -313,6 +401,152 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		frame.setResizable(true);
 		frame.setLocationRelativeTo( null );
 		frame.setVisible(true);
+	}
+	
+	public void switchTurn() {
+		
+		System.out.println("Turn before change: " + turn);
+
+		if(turn == "W") {
+			turn = "B";
+		}
+		if(turn == "B") {
+			turn = "W";
+		}
+		
+		System.out.println("Turn after change: " + turn);
+	}
+	
+	private void revertColors() {
+		
+		int index = 0;
+		
+		for (int i = 0; i < 8; i++) {
+			for (int j=0;j<8;j++) {
+				if(i==7) {
+					congoBoard.getComponent(index).setBackground(new Color(50,50,50));
+				} else if(j==0) {
+					congoBoard.getComponent(index).setBackground(new Color(50,50,50));
+				} else if(i==3) {
+					congoBoard.getComponent(index).setBackground(lakeColor);
+				} else {
+					congoBoard.getComponent(index).setBackground( j==3 || j==4 || j==5 ? castleColor : tileColor );
+				}
+				index += 1;
+	 
+			}
+		}
+		
+		
+	}
+	
+	private static int convertIndex(String position) {
+		int index = 0;
+			
+		switch(position) {
+	
+			case "00": index = 1;
+				break;
+			case "01": index = 2;
+				break;
+			case "02": index = 3;
+				break;
+			case "03": index = 4;
+				break;
+			case "04": index = 5;
+				break;
+			case "05": index = 6;
+				break;
+			case "06": index = 7;
+				break;
+			case "10": index = 9;
+				break;
+			case "11": index = 10;
+				break;
+			case "12": index = 11;
+				break;
+			case "13": index = 12;
+				break;
+			case "14": index = 13;
+				break;
+			case "15": index = 14;
+				break;
+			case "16": index = 15;
+				break;
+			case "20": index = 17;
+				break;
+			case "21": index = 18;
+				break;
+			case "22": index = 19;
+				break;
+			case "23": index = 20;
+				break;
+			case "24": index = 21;
+				break;
+			case "25": index = 22;
+				break;
+			case "26": index = 23;
+				break;
+			case "30": index = 25;
+				break;
+			case "31": index = 26;
+				break;
+			case "32": index = 27;
+				break;
+			case "33": index = 28;
+				break;
+			case "34": index = 29;
+				break;
+			case "35": index = 30;
+				break;
+			case "36": index = 31;
+				break;
+			case "40": index = 33;
+				break;
+			case "41": index = 34;
+				break;
+			case "42": index = 35;
+				break;
+			case "43": index = 36;
+				break;
+			case "44": index = 37;
+				break;
+			case "45": index = 38;
+				break;
+			case "46": index = 39;
+				break;
+			case "50": index = 41;
+				break;
+			case "51": index = 42;
+				break;
+			case "52": index = 43;
+				break;
+			case "53": index = 44;
+				break;
+			case "54": index = 45;
+				break;
+			case "55": index = 46;
+				break;
+			case "56": index = 47;
+				break;
+			case "60": index = 49;
+				break;
+			case "61": index = 50;
+				break;
+			case "62": index = 51;
+				break;
+			case "63": index = 52;
+				break;
+			case "64": index = 53;
+				break;
+			case "65": index = 54;
+				break;
+			case "66": index = 55;
+				break;
+			default:
+		}
+		
+		return index;
 	}
  
 }
