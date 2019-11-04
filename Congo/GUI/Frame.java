@@ -32,7 +32,6 @@ public class Frame {
 			switch(screen) {
 			case "Login":
 			case "Registration":
-			case "Captcha": 
 				if (template != 1) {
 					Panel.createPanels(Application.window, 1);
 				}

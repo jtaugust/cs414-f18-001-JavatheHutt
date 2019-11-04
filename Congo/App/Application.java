@@ -43,7 +43,6 @@ public class Application extends JFrame{
 			switch (screen) {
 				case "Login": LoginScreen.screen(); break;
 				case "Registration": RegistrationScreen.screen(); break;
-				case "Captcha": CaptchaScreen.screen(); break;
 				
 				case "InitialMain": InitialMainScreen.screen(); break;
 				case "New Game": NewGameScreen.screen(); break;
