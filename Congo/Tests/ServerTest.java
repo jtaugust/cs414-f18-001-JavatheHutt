@@ -34,6 +34,21 @@ public class ServerTest {
 			//email is in use
 			assertEquals(4, serverHelpers.tryRegister(Username, email, password));
 			
+			password = ";";
+			
+			//password contains illegal character
+			assertEquals(5, serverHelpers.tryRegister(Username, email, password));
+			
+			password = "Unregister";
+			Username = "testingRegisterAgain;";
+			
+			assertEquals(6, serverHelpers.tryRegister(Username, email, password));
+			
+			Username = "testingRegisterAgain";
+			email = "test";
+			
+			assertEquals(7, serverHelpers.tryRegister(Username, email, password));
+			
 		}
 		
 	@Test
