@@ -64,6 +64,10 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		congoBoard.setBackground(new Color(50,50,50));
 		//  JPanel bottomPanel = new JPanel();
 		
+		
+		buildBoard();
+		fillBoard(board);
+		
 		JPanel endTurn = new JPanel();
 	    endTurn.setBackground(new Color(90,90,90));
 	    endTurn.setLayout(new GridBagLayout());
@@ -78,7 +82,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	  		@Override
 	  		public void mouseReleased(final MouseEvent e) {
 	  			endTurn.setBackground(new Color(90,90,90));
-	  			switchTurn();
+	  			switchTurn(congoBoard);
 	  		}
 		});
 	    
@@ -87,8 +91,74 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		congoBoard.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		
 		congoBoard.setPreferredSize( boardSize );
-		congoBoard.setBounds(0, 0, boardSize.width, boardSize.height);
-		 
+		congoBoard.setBounds(0, 0, boardSize.width, boardSize.height); 
+	}
+	
+	public void fillBoard(String[][] board) {
+		
+		// Mapping pieces Names with Images
+			    Hashtable<String, String> pieceImages = new Hashtable<String, String>(); 
+			 
+				String[] white_pieces= {"WG","WM","WE","WL","WE","WC","WZ"};
+				String[] white_piece_images= {"./Images/whiteGiraffe.png","./Images/whiteMonkey.png","./Images/whiteElephant.png"
+						,"./Images/whiteLion.png","./Images/whiteElephant.png","./Images/whiteCrocodile.png","./Images/whiteZebra.png"};
+				String[] black_piece_images= {"./Images/blackGiraffe.png","./Images/blackMonkey.png","./Images/blackElephant.png"
+						,"./Images/blackLion.png","./Images/blackElephant.png","./Images/blackCrocodile.png","./Images/blackZebra.png"};
+				String[] black_pieces= {"BG","BM","BE","BL","BE","BC","BZ"};
+				String[] letters= {"a","b","c","d","e","f","g"};
+				 
+				for(int i=0; i<white_pieces.length;i++) {
+					pieceImages.put(white_pieces[i], white_piece_images[i]);
+					pieceImages.put(black_pieces[i], black_piece_images[i]);
+				}
+				pieceImages.put("WP", "./Images/whitePawn.png");
+				pieceImages.put("BP", "./Images/blackPawn.png");
+
+//				Placing Pieces on the GUI of Board
+				for(int i=0; i<7;i++) {
+					for(int j=0; j<7; j++) {
+						String str=board[i][j];
+						String pieceName=str.substring(str.length()-2);
+						if (!pieceName.contentEquals("NN")){
+							String pieceImage=(String) pieceImages.get(pieceName);
+							ImageIcon image = new ImageIcon(new ImageIcon(pieceImage).getImage().getScaledInstance(65, 65, Image.SCALE_DEFAULT));
+							JLabel piece = new JLabel(image);
+							piece.setName(pieceName);
+							JPanel panel = (JPanel)congoBoard.getComponent(8*i+j+1);
+//							panel.setName(pieceName);
+							panel.add(piece);  
+						}
+						
+					}
+				}
+
+				//Row indices
+				for(int i=1;i<8;i++) {
+					JLabel piece = new JLabel(Integer.toString(i));
+					indexList.add(Integer.toString(i));
+					piece.setFont(new Font("Serif", Font.BOLD, 30));
+					piece.setForeground(Color.white);
+					JPanel panel = (JPanel)congoBoard.getComponent((i-1)*8);
+					panel.setLayout(new GridLayout());
+					panel.add(piece);  
+					piece.setEnabled(false);
+				}
+				
+				//Column indices
+				for(int i=57;i<64;i++) {
+					JLabel piece = new JLabel(letters[i-57]);
+					indexList.add(letters[i-57]);
+					piece.setFont(new Font("Serif", Font.BOLD, 30));
+					piece.setForeground(Color.white);
+					JPanel panel = (JPanel)congoBoard.getComponent(i);
+					panel.setLayout(new GridLayout());
+					panel.add(piece);  
+					piece.setEnabled(false);
+				}
+				
+
+	}
+	public void buildBoard() {
 		for (int i = 0; i < 8; i++) {
 			for (int j=0;j<8;j++) {
 			
@@ -142,76 +212,9 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 					square.setBorder(BorderFactory.createMatteBorder(1,1,1,1, borderColor));
 					congoBoard.add(square);
 				}
-	 
-			}
-			
-			
+			}	
 		}
-		
-// Mapping pieces Names with Images
-	    Hashtable<String, String> pieceImages = new Hashtable<String, String>(); 
-	 
-		String[] white_pieces= {"WG","WM","WE","WL","WE","WC","WZ"};
-		String[] white_piece_images= {"./Images/whiteGiraffe.png","./Images/whiteMonkey.png","./Images/whiteElephant.png"
-				,"./Images/whiteLion.png","./Images/whiteElephant.png","./Images/whiteCrocodile.png","./Images/whiteZebra.png"};
-		String[] black_piece_images= {"./Images/blackGiraffe.png","./Images/blackMonkey.png","./Images/blackElephant.png"
-				,"./Images/blackLion.png","./Images/blackElephant.png","./Images/blackCrocodile.png","./Images/blackZebra.png"};
-		String[] black_pieces= {"BG","BM","BE","BL","BE","BC","BZ"};
-		String[] letters= {"a","b","c","d","e","f","g"};
-		 
-		for(int i=0; i<white_pieces.length;i++) {
-			pieceImages.put(white_pieces[i], white_piece_images[i]);
-			pieceImages.put(black_pieces[i], black_piece_images[i]);
-		}
-		pieceImages.put("WP", "./Images/whitePawn.png");
-		pieceImages.put("BP", "./Images/blackPawn.png");
-
-//		Placing Pieces on the GUI of Board
-		for(int i=0; i<7;i++) {
-			for(int j=0; j<7; j++) {
-				String str=board[i][j];
-				String pieceName=str.substring(str.length()-2);
-				if (!pieceName.contentEquals("NN")){
-					String pieceImage=(String) pieceImages.get(pieceName);
-					ImageIcon image = new ImageIcon(new ImageIcon(pieceImage).getImage().getScaledInstance(65, 65, Image.SCALE_DEFAULT));
-					JLabel piece = new JLabel(image);
-					piece.setName(pieceName);
-					JPanel panel = (JPanel)congoBoard.getComponent(8*i+j+1);
-//					panel.setName(pieceName);
-					panel.add(piece);  
-				}
-				
-			}
-		}
-
-		//Row indices
-		for(int i=1;i<8;i++) {
-			JLabel piece = new JLabel(Integer.toString(i));
-			indexList.add(Integer.toString(i));
-			piece.setFont(new Font("Serif", Font.BOLD, 30));
-			piece.setForeground(Color.white);
-			JPanel panel = (JPanel)congoBoard.getComponent((i-1)*8);
-			panel.setLayout(new GridLayout());
-			panel.add(piece);  
-			piece.setEnabled(false);
-		}
-		
-		//Column indices
-		for(int i=57;i<64;i++) {
-			JLabel piece = new JLabel(letters[i-57]);
-			indexList.add(letters[i-57]);
-			piece.setFont(new Font("Serif", Font.BOLD, 30));
-			piece.setForeground(Color.white);
-			JPanel panel = (JPanel)congoBoard.getComponent(i);
-			panel.setLayout(new GridLayout());
-			panel.add(piece);  
-			piece.setEnabled(false);
-		}
-		
-
-	 
 	}
-	 
 	  //Move the congo piece around
 	 
 	public void mouseDragged(MouseEvent me) {
@@ -338,6 +341,12 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 				parent.add(congoPiece);
 				testMove.movePiece(state,futureStatePosition);
 				System.out.println(state.toString());
+				switchTurn(congoBoard);
+				congoBoard.removeAll();
+				congoBoard.repaint();
+				buildBoard();
+				testMove.flipBoard(state);
+				fillBoard(state.getBoard());
 				}
 				else {
 					currentParent.add(congoPiece);
@@ -361,6 +370,12 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 				parent.add(congoPiece);
 				testMove.movePiece(state,futureStatePosition);
 				System.out.println(state.toString());
+				switchTurn(congoBoard);
+				congoBoard.removeAll();
+				congoBoard.repaint();
+				buildBoard();
+				testMove.flipBoard(state);
+				fillBoard(state.getBoard());
 
 				}
 				else {
@@ -369,7 +384,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 				possibleMoves.clear();
 			}
 			congoPiece.setVisible(true);
-			revertColors();
+//			revertColors();
 		} 
 	}
 	  
@@ -434,17 +449,21 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		frame.setVisible(true);
 	}
 	
-	public void switchTurn() {
+	public void switchTurn(JPanel congoBoard) {
 		
 		System.out.println("Turn before change: " + turn);
 
 		if(turn == "W") {
 			turn = "B";
 		}
-		if(turn == "B") {
+		else if(turn == "B") {
 			turn = "W";
 		}
-		
+//		congoBoard.removeAll();
+//		congoBoard.revalidate();
+//		congoBoard.repaint();
+//		buildBoard();
+//		fillBoard();
 		System.out.println("Turn after change: " + turn);
 	}
 	
