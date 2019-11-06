@@ -278,6 +278,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 			System.out.println("Selected: " + pieceSelected);
 			board=state.getBoard();
 			state.setPieceSelected(pieceSelected);
+			state.setCurrentTurnColor(testMove.getCurrentTurnColor());
             System.out.println(state.toString());
 			currentPossibleMoves = testMove.displayPossibleMoves(state);
 			for(int i = 0; i < currentPossibleMoves.length; i++) {
@@ -455,9 +456,14 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 
 		if(turn == "W") {
 			turn = "B";
+			testMove.setCurrentTurnColor("B");
+			System.out.println(testMove.getCurrentTurnColor());
+
 		}
 		else if(turn == "B") {
 			turn = "W";
+			testMove.setCurrentTurnColor("W");
+			System.out.println(testMove.getCurrentTurnColor());
 		}
 //		congoBoard.removeAll();
 //		congoBoard.revalidate();
