@@ -8,13 +8,12 @@ import GUI.Frame;
 import GUI.Panel;
 import Screens.LoginScreen;
 
-public class InitialTemplate {
-	public static void generateInitial(JFrame frame) {
-		//set the frame dimensions
-		Frame.setDimensions(600, 800);
+public class InitialTemplate extends BackgroundTemplate{
+	
+	public static JPanel generateInitial() {
 		
 		//create background panel
-		JPanel backgroundPanel = Panel.setBackground("./Images/BackgroundDark.jpg");
+		JPanel backgroundPanel = Panel.setBackground("./Images/BackgroundDark.jpg", 600, 800);
 		backgroundPanel.setLayout(new BorderLayout());
 		
 		//Create inner panel to hold both logos
@@ -40,16 +39,6 @@ public class InitialTemplate {
 		//add logo to background panel
 		backgroundPanel.add(logo, BorderLayout.PAGE_START);
 		
-		//set the working panel background
-		Panel.setWorkingPanelBackground(backgroundPanel);
-		
-		//make working panel background invisible so it wont cover the Frame background
-		Panel.setWorkingPanel(false);
-		
-		//set the template variable
-		Frame.setTemplate(1);
-		
-		//finalize the frame
-		Frame.finalize(frame);
+		return backgroundPanel;
 	}
 }

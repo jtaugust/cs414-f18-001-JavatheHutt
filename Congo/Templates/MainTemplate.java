@@ -11,12 +11,8 @@ import App.Application;
 import GUI.Frame;
 import GUI.Panel;
 
-public class MainTemplate {
-	public static void generateMain(JFrame frame, Boolean finalize){
-
-		//set the frame dimensions
-		Frame.setDimensions(1000,1000);
-
+public class MainTemplate extends BackgroundTemplate{
+	public static JPanel generateMain() {
 		//create the background panel to hold all new panels
 		JPanel backgroundPanel = new JPanel();
 		backgroundPanel.setLayout(new BorderLayout());
@@ -25,29 +21,10 @@ public class MainTemplate {
 		JPanel taskbar = new JPanel();
 		generateTaskbar(taskbar);
 
-		//create the working panel
-		JPanel workingPanel = new JPanel();
-
-		//set the panel that a screen should load into
-		Panel.setWorkingPanel(workingPanel, true);
-
 		//add taskbar to background panel
 		backgroundPanel.add(taskbar, BorderLayout.PAGE_START);
 
-		//add the working panel to the background panel so it is actually visible and can be worked with
-		backgroundPanel.add(workingPanel, BorderLayout.CENTER);
-
-		//set the workingPanelBakground variable
-		Panel.setWorkingPanelBackground(backgroundPanel);
-
-		//if the requested template is the main template, continue
-		if (finalize) {
-			//set the template variable
-			Frame.setTemplate(2);
-			Frame.finalize(frame);
-
-		}
-
+		return backgroundPanel;
 	}
 
 

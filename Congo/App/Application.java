@@ -15,17 +15,15 @@ import Server.serverHelpers;
 import javax.imageio.*;
 
 public class Application extends JFrame{
-	public static JFrame window = null;
-	private static String username = null;
-	private static String currentScreen = null;
-	private static boolean err = false;
+	public static Frame frame;
 	
 	public static void main(String[] args) {
+		
 		//create start up frame: initial width and height (600,800), initial template	    
-	    window = GUI.Frame.createFrame(1);
+	    frame = new Frame();
 	    
 	    //initialize the screen to the login screen
-	    changeScreen("Login");
+	    //changeScreen("Login");
 	}
 	
 	//all page changes use this method
