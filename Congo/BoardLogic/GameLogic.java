@@ -672,45 +672,48 @@ public class GameLogic extends State{
 		
 		//TODO: Update GUI with after found moves 
 	// Update the GUI with all the possible moves 
-	public void displayPossibleMoves(State state){
+		public String[] displayPossibleMoves(State state){
+			
+			String[] moveArray = null;
+//			System.out.println("State in displayPossibleMoves: " + state.toString());
+			switch(state.getPieceSelected().charAt(3)) {
+				case 'G':
+					moveArray = allPossibleGiraffeMove(state);
+					return moveArray;
+				case 'M':
+					moveArray = allPossibleMonkeyMove(state);
+					return moveArray;
+				case 'E':
+					moveArray = allPossibleElephantMove(state);
+					return moveArray;
+				case 'L':
+					moveArray = allPossibleLionMove(state);
+					return moveArray;
+				case 'C':
+					moveArray = allPossibleCrocodileMove(state);
+					return moveArray;
+				case 'Z':
+					moveArray = allPossibleZebraMove(state);
+					return moveArray;
+				case 'P':
+				case 'S':
+					moveArray = allPossiblePawnMove(state);
+					return moveArray;
+				case 'N':
+						break;  
+				default:
+					System.out.println("Error: Board value "+ state.getPieceSelected() + " not found");	  
+			}
+			
+			return moveArray;
+		
+			// TODO: Send signal to GUI with possible moves to display 
+			// updateGUI()
 
-		String[] moveArray;
-//		System.out.println("State in displayPossibleMoves: " + state.toString());
-		switch(state.getPieceSelected().charAt(3)) {
-			case 'G':
-				moveArray = allPossibleGiraffeMove(state);
-				break;
-			case 'M':
-				moveArray = allPossibleMonkeyMove(state);
-				break;		
-			case 'E':
-				moveArray = allPossibleElephantMove(state);
-				break;				  					
-			case 'L':
-				moveArray = allPossibleLionMove(state);
-				break;	  
-			case 'C':
-				moveArray = allPossibleCrocodileMove(state);
-					break;
-			case 'Z':
-				moveArray = allPossibleZebraMove(state);
-				break;
-			case 'P':
-			case 'S':
-				moveArray = allPossiblePawnMove(state);
-			case 'N':
-					break;  
-			default:
-				System.out.println("Error: Board value "+ state.getPieceSelected() + " not found");	  
+			// Update state in object form and database 
+			// TODO: Do we need to update state here, should possible moves be inside state object?
+			// state.updateState(state);
 		}
-		// TODO: Send signal to GUI with possible moves to display 
-		// updateGUI()
-
-		// Update state in object form and database 
-		// TODO: Do we need to update state here, should possible moves be inside state object?
-		// state.updateState(state);
-	}
-
 	// Checks if new move is in list of all possible moves
 	public boolean containsMove(String[] possibleMoves, String newPosition) {
 		for (int i = 0; i < possibleMoves.length; i++) {
@@ -778,13 +781,16 @@ public class GameLogic extends State{
 		String[][] newBoard = state.getBoard();
 
 		// Erase old piece location
+		System.out.println("GmaeLOgic"+state.getPieceSelected());
+//		System.out.println("Error line before:"+Character.toString(state.getPieceSelected().charAt(0))+Character.toString(state.getPieceSelected().charAt(1)));
 		String[] piecePosition = {Character.toString(state.getPieceSelected().charAt(0)), Character.toString(state.getPieceSelected().charAt(1))};
 		int[] pieceCoordinates = {Integer.parseInt(piecePosition[0]), Integer.parseInt(piecePosition[1])};
 		String deleteOld = Integer.toString(pieceCoordinates[0]) + Integer.toString(pieceCoordinates[1]) + "NN";
 		newBoard[(int)pieceCoordinates[0]][(int)pieceCoordinates[1]] = deleteOld;
 
 		// Move piece to new position 
-		String replaceNew = Character.toString(state.getCurrentClick().charAt(0)) + Character.toString(state.getCurrentClick().charAt(1)) + Character.toString(state.getPieceSelected().charAt(2)) + Character.toString(state.getPieceSelected().charAt(3)); 
+//		String replaceNew = Character.toString(state.getCurrentClick().charAt(0)) + Character.toString(state.getCurrentClick().charAt(1)) + Character.toString(state.getPieceSelected().charAt(2)) + Character.toString(state.getPieceSelected().charAt(3)); 
+		String replaceNew = Character.toString(newPosition.charAt(0)) + Character.toString(newPosition.charAt(1)) + Character.toString(state.getPieceSelected().charAt(2)) + Character.toString(state.getPieceSelected().charAt(3)); 
 		int[] newPositionCoordinates = {Integer.parseInt(Character.toString(newPosition.charAt(0))), Integer.parseInt(Character.toString(newPosition.charAt(1))) };
 		newBoard[newPositionCoordinates[0]][newPositionCoordinates[1]] = replaceNew;
 
