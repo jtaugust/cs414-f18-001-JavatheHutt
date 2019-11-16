@@ -19,14 +19,22 @@ import GUI.Panel;
 import Server.serverHelpers;
 
 public class LoginScreen extends Screen{
-	private static int loginError = 0;
-	public static void screen(){
-		Application.setCurrentScreen("Login");
+	
+	public LoginScreen(){
+		this.error = 0;
+		this.name = "Login";
+	}
+	
+	@Override
+	public void setPanel(){
 		
-		//get the working panel
-		JPanel workingPanel = Panel.getWorkingPanel();
+		workingPanel.setName("Login");
+		
 		//set the working panel's layout
 		workingPanel.setLayout(new BorderLayout());
+		
+		//hide the panel so the background shows
+		workingPanel.setOpaque(false);
 
 		//create section for username and password
 		JPanel textFields = new JPanel();
@@ -98,10 +106,10 @@ public class LoginScreen extends Screen{
 	    error.setMaximumSize(new Dimension(400,50));
 
 	    //if login failed, add an error label below the password textfield
-	    if (loginError != 0){
+	    if (this.error != 0){
 	    	error.setOpaque(false);
 	    	String err = "";
-	    	switch (loginError) {
+	    	switch (this.error) {
 	    		case 1: err = "<html>You must fill out the entire form.</html>"; break;
 	    		case 2: err = "<html>Username or password is incorrect</html>"; break;
 	    		case 3: err = "<html>Sql connection error occured.</html>"; break;
@@ -110,7 +118,7 @@ public class LoginScreen extends Screen{
 	    		default: break; //unkown error occured
 	    	}
 	    	error.add(Label.errorLabel(err, Color.red));
-	    	loginError = 0;
+	    	this.error = 0;
 	    }
 	    textFields.add(error);	    
 
@@ -156,7 +164,7 @@ public class LoginScreen extends Screen{
 	  		}
 	  		@Override
 	  		public void mouseReleased(final MouseEvent e) {
-	  			Application.changeScreen("Registration");
+	  			//frame.changeScreen(new RegistrationScreen());
 	  		}
 		});
 	    register.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(10,10,10,10,Color.black), new MatteBorder(2,2,2,2,new Color(79,175,255))));
@@ -165,6 +173,7 @@ public class LoginScreen extends Screen{
 	    //add field and button panels to the working panel
 	    workingPanel.add(textFields, BorderLayout.PAGE_START);
 	    workingPanel.add(bottomButtons, BorderLayout.PAGE_END);
+	    
 	}
 	
 	private static boolean isDefaultInput(String user, String pass){
@@ -175,21 +184,20 @@ public class LoginScreen extends Screen{
 		}
 	}
 	
-	private static void login(String user, String pass){
+	private void login(String user, String pass){
         int err = serverHelpers.tryLogin(user, pass);
         if (err == 0){ // authentic user
-            Application.setUser(user);
-            Application.changeScreen("InitialMain");
+        	WorkingPanel.requestSetUser(user);
+            WorkingPanel.changeScreen(new InitialMainScreen());
         }else{
-            LoginScreen.setLoginError(err);
+            setLoginError(err);
         }
 	}
 
-	private static void setLoginError(int err){
-		loginError = err;
-		Application.setErr();
-        Application.changeScreen("Login");
+	private void setLoginError(int err){
+		this.error = err;
 	}
+
 
 
 }
