@@ -26,17 +26,23 @@ public class Frame {
 		height = 800;
 		Background = new BackgroundTemplate();
 		WorkingPanel = new WorkingPanel();
+		changeScreen("Login");
 		finalize(frame);
 	}
 
 	public void changeScreen(String screen) {
-		if (screen.equals("Login") || screen.equals("Registration")) {
-			Background.setTemplate(1);
-		}else {
-			Background.setTemplate(2);
+		//change the template if necessary
+		if (Background.needChange(screen)) {
+			if (screen.equals("Login") || screen.equals("Registration")) {
+				Background.setTemplate(1);
+			}else {
+				Background.setTemplate(2);
+			}
+			this.width = Background.getWidth();
+			this.height = Background.getHeight();
 		}
-		this.width = Background.getWidth();
-		this.height = Background.getHeight();
+		//change the screen
+		//WorkingPanel.changeScreen(screen);
 	}
 	
 	/*

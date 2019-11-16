@@ -18,7 +18,7 @@ import GUI.Label;
 import GUI.Panel;
 import Server.serverHelpers;
 
-public class LoginScreen {
+public class LoginScreen extends Screen{
 	private static int loginError = 0;
 	public static void screen(){
 		Application.setCurrentScreen("Login");
