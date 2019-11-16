@@ -239,6 +239,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	  
 	public void mousePressed(MouseEvent e){
 		Component c =  congoBoard.findComponentAt(e.getX(), e.getY());
+
 		// First click (piece select)
 		if(!isPieceClicked) {
 	
@@ -246,6 +247,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 			System.out.println("pieceName clicked"+c.getName());
 			if (c instanceof JPanel ||c.getName()==null) {
 				System.out.println("It is JPanel");
+
 				return;
 			}
 		    currentParent = c.getParent();
@@ -308,13 +310,11 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 			
 			isPieceClicked=false;
 			
-			if(congoPiece == null) {
-				System.out.println("null");
+			if(congoPiece == null || c.getWidth() != 70) 
 				return;
-			}
-
-			congoPiece.setVisible(false);
-			
+	 
+			congoPiece.setVisible(false);			
+	
 			if (c instanceof JLabel && !isIndex(congoPiece)){
 				System.out.println("FIRST IF");
 				Container parent = c.getParent();
