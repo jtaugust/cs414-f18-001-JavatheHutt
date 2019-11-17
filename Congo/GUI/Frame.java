@@ -14,7 +14,7 @@ public class Frame {
 	JFrame frame;
 	
 	private int width, height;
-	private String Username;
+	private static String Username;
 	//store the GUI classes to build the application
 	private BackgroundTemplate Background;
 	private WorkingPanel WorkingPanel;
@@ -101,8 +101,8 @@ public class Frame {
 		this.height = Background.getHeight();
 	}
 	
-	public String getUser(){
-		return this.Username;
+	public static String getUser(){
+		return Username;
 	}
 	
 	public JFrame getThisFrame(){
