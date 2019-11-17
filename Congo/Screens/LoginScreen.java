@@ -91,7 +91,7 @@ public class LoginScreen extends Screen{
                 if (e.getKeyCode()==KeyEvent.VK_ENTER){
                     String name = username.getText(), pass = new String(password.getPassword());
     	  			if (isDefaultInput(name, pass)){
-    	  				setLoginError(1);
+    	  				setError(1);
     	  			}else{
     	  				login(name, pass);
     	  			}
@@ -138,11 +138,11 @@ public class LoginScreen extends Screen{
 	  		public void mouseReleased(final MouseEvent e) {
 	  			String name = username.getText(), pass = new String(password.getPassword());
 	  			if (isDefaultInput(name, pass)){
-	  				setLoginError(1);
+	  				setError(1);
 	  			}else{
 	  				login(name, pass);
-	  				login.setBackground(loginStartColor);
 	  			}
+	  			login.setBackground(loginStartColor);
 	  		}
 		});
 	    login.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(10,10,10,10,Color.black), new MatteBorder(2,2,2,2,new Color(79,175,255))));
@@ -188,18 +188,13 @@ public class LoginScreen extends Screen{
         	WorkingPanel.requestSetUser(user);
         	WorkingPanel.changeScreen(new InitialMainScreen());
         }else{
-            setLoginError(err);
+            setError(err);
         }
-	}
-
-	private void setLoginError(int err){
-		this.error = err;
-		showErrorCard();
 	}
 	
 	@Override
 	public void setErrorCards(){
-		errorCards = Panel.errorCards(new Dimension(200,200));
+		errorCards = Panel.errorCards(new Dimension(400,400));
 		boolean cont = true;
 		int err = 0;
 		String error = "";
@@ -211,17 +206,12 @@ public class LoginScreen extends Screen{
 	    		case 3: error = "<html>Sql connection error occured.</html>"; break;
 	    		case 4: error = "<html>Password contains illegal characters, <br> only letters and numbers are allowed.</html>"; break;
 	    		case 5: error = "<html>Username contains illegal characters, <br> only letters and numbers are allowed.</html>"; break;
-	    		default: cont = false; break; //unkown error occured
+	    		default: cont = false; break;
 			}
 			if (cont)
 				this.errorCards.add(Label.errorLabel(error, Color.red), String.valueOf(err));
 			
 			err++;
 		}	
-	}
-
-	@Override
-	public void showErrorCard(){
-		((CardLayout) errorCards.getLayout()).show(errorCards, String.valueOf(error));
 	}
 }

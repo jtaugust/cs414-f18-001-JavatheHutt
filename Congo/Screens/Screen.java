@@ -24,6 +24,13 @@ abstract class Screen {
 	
 	abstract void setErrorCards();
 	
-	abstract void showErrorCard();
+	protected void setError(int err){
+		this.error = err;
+		showErrorCard();
+	}
+	
+	protected void showErrorCard() {
+		((CardLayout) errorCards.getLayout()).show(errorCards, String.valueOf(error));
+	}
 	
 }

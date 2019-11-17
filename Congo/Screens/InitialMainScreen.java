@@ -27,10 +27,4 @@ public class InitialMainScreen extends Screen{
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	void showErrorCard() {
-		// TODO Auto-generated method stub
-		
-	}
 }
