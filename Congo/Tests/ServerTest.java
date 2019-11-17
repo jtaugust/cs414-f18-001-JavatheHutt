@@ -34,6 +34,21 @@ public class ServerTest {
 			//email is in use
 			assertEquals(4, serverHelpers.tryRegister(Username, email, password));
 			
+			password = ";";
+			
+			//password contains illegal character
+			assertEquals(5, serverHelpers.tryRegister(Username, email, password));
+			
+			password = "Unregister";
+			Username = "testingRegisterAgain;";
+			
+			assertEquals(6, serverHelpers.tryRegister(Username, email, password));
+			
+			Username = "testingRegisterAgain";
+			email = "test";
+			
+			assertEquals(7, serverHelpers.tryRegister(Username, email, password));
+			
 		}
 		
 	@Test
@@ -45,7 +60,28 @@ public class ServerTest {
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
+			}		
+	}
+	
+	@Test
+	public void testTryLoginWithGoodCredentials() {
+		String username="admin";
+		String password="test";
+		assertEquals(0,serverHelpers.tryLogin(username, password));
+	}
+	
+	@Test
+	public void testTryLoginWithBadUser() {
+		String username="admin3";
+		String password="test";
+		assertEquals(2,serverHelpers.tryLogin(username, password));
+	}
+	
+	@Test
+	public void testTryLoginWithGoodUserAndBadPassword() {
+		String username="admin";
+		String password="Test";
+		assertEquals(2,serverHelpers.tryLogin(username, password));
 	}
 
 }
