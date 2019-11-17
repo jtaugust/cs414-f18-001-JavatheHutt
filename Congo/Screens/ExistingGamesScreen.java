@@ -50,7 +50,6 @@ public class ExistingGamesScreen extends Screen{
 	
 		workingPanel.setLayout(new BorderLayout());
 
-		
 		//create panel for board to be placed on
 		JPanel board = new JPanel();
 		board.setLayout(new GridBagLayout());
