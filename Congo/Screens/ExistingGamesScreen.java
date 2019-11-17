@@ -1,5 +1,6 @@
 package Screens;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
@@ -38,18 +39,12 @@ public class ExistingGamesScreen extends Screen{
 		serverGamesHelpers current = new serverGamesHelpers();
 		ArrayList<String[]> games = null;
 		try {
-			games = current.readCurrentGames_T(Application.getUser());
+			games = current.readCurrentGames_T(WorkingPanel.getUser());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		//set the screen to existing games
-		Application.setCurrentScreen("Existing Games");
-		
-		//get the working panel
-		JPanel workingPanel = Panel.getWorkingPanel();
+
 		workingPanel.setLayout(new BorderLayout());
 
 		
