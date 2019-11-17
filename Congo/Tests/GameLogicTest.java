@@ -1,4 +1,5 @@
 package Tests;
+import package.BoardLogic; 
 
 import static org.junit.Assert.*;
 
@@ -7,8 +8,9 @@ import java.util.Collections;
 
 import org.junit.Test;
 
-import BoardLogic.GameLogic;
+import BoardLogic.*;
 import BoardLogic.State;
+import BoardLogic.Pawn;
 
 public class GameLogicTest {
 
@@ -276,7 +278,7 @@ public class GameLogicTest {
 				{"50WP", "51WP", "52WP", "53WP", "54WP", "55NN", "56BP"},
 				{"60WG", "61WM", "62WE", "63WL", "64WE", "65WC", "66WZ"}
 			};
-    	State state=new State(board,"W","55NN","65WC");
+    	State state = new State(board,"W","55NN","65WC");
 		GameLogic gameLogic=new GameLogic();
 		String[] movesReturned=gameLogic.allPossibleCrocodileMove(state);
 		String[] expectedMoves= new String[10];
@@ -309,24 +311,25 @@ public class GameLogicTest {
     }
     @Test
     public void testPossiblePawnMoves() {
-    	String[][] board = {
-				{"00BG", "01BM", "02BE", "03BL", "04BE", "05BC", "06BZ"},
-				{"10BP", "11BP", "12BP", "13BP", "14BP", "15BP", "16BP"},
-				{"20NN", "21NN", "22NN", "23NN", "24NN", "25NN", "26NN"},
-				{"30NN", "31NN", "32NN", "33NN", "34NN", "35NN", "36NN"},
-				{"40NN", "41NN", "42NN", "43NN", "44NN", "45NN", "46NN"},
-				{"50WP", "51WP", "52WP", "53WP", "54WP", "55WP", "56WP"},
-				{"60WG", "61WM", "62WE", "63WL", "64WE", "65WC", "66WZ"}
+		Pawn pawn = new Pawn(5,0,'W','P');
+		Piece[][] board = {
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{pawn, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null}
 			};
-    	State state=new State(board,"W","40NN","50WP");
+    	State state = new State(board,'W',"40NN","50WP");
 		GameLogic gameLogic=new GameLogic();
 		String[] movesReturned=gameLogic.allPossiblePawnMove(state);
-		String[] expectedMoves= new String[20];
-		expectedMoves[0]="40NN";
-		expectedMoves[1]="41NN";
-//		for(int i=0; i<movesReturned.length;i++) {
-//			System.out.println(movesReturned[i]);
-//		}
+		int[][] expectedMoves= new int[20][2];
+		expectedMoves[0][0]= 4; expectedMoves[0][1]= 0;
+		expectedMoves[0][0]= 4; expectedMoves[0][1]= 0;
+		for(int i=0; i<movesReturned.length;i++) {
+			System.out.println(movesReturned[i]);
+		}
 		assertTrue(Arrays.equals(movesReturned,expectedMoves));
     }
     @Test
