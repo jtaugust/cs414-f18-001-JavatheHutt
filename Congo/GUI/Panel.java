@@ -1,7 +1,6 @@
 package GUI;
 
 import java.awt.*;
-import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import javax.swing.*;
@@ -25,5 +24,12 @@ public class Panel {
 		};
 		
 		return background;
-	}	
+	}
+	
+	public static JPanel errorCards(Dimension size){
+		JPanel temp = new JPanel(new CardLayout());
+		temp.setMaximumSize(size);
+		temp.setOpaque(false);
+		return temp;
+	}
 }

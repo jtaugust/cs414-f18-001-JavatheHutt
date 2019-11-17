@@ -68,5 +68,13 @@ public class Frame {
 		}
 	}
 	
+	public String getUser(){
+		return this.Username;
+	}
+	
+	public JFrame getThisFrame(){
+		return this.frame;
+	}
+	
 	
 }

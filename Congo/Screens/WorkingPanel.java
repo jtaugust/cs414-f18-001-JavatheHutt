@@ -36,14 +36,16 @@ public class WorkingPanel {
 		
 		//set the workingPanel
 		this.screen.setPanel();
-		
-		System.out.println(this.workingPanel.getName());
+	
 	}
 	
 	public void requestSetUser(String user){
 		if (this.currentScreen == "Login"){
 			frame.setUser(user);
 		}
+		
+		System.out.println(frame.getUser());
+		
 	}
 	
 	public JPanel getWorkingPanel(){
@@ -56,6 +58,11 @@ public class WorkingPanel {
 	
 	public void setFrame(Frame frame){
 		this.frame = frame;
+	}
+	
+	public void updateWorking(){
+		this.workingPanel.validate();
+		this.workingPanel.repaint();
 	}
 	
 }

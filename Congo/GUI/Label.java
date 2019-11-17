@@ -18,6 +18,7 @@ public class Label {
 	//create a label for popup errors
 	public static JLabel errorLabel(String error, Color color){
 		JLabel label = new JLabel(error);
+		label.setName(error);
 		label.setFont(new Font("Verdana",1, 18));
 		label.setForeground(color);
 		return label;
