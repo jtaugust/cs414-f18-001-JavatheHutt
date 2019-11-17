@@ -16,6 +16,7 @@ public class BackgroundTemplate {
 	
 	public void setTemplate(int template) {
 		if (this.template != template){ //if there is a need to change the template, do so
+			backgroundPanel.removeAll();
 			this.template = template; //set the template int
 			if (template == 1) {
 				this.backgroundPanel = InitialTemplate.generateInitial();

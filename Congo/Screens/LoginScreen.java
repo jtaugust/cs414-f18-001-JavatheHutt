@@ -30,7 +30,7 @@ public class LoginScreen extends Screen{
 	}
 	
 	@Override
-	public void setPanel(){
+	public void setScreen(){
 		JTextField captureFocus = new JTextField();
 		captureFocus.setOpaque(false);
 		captureFocus.setBorder(null);
@@ -114,6 +114,7 @@ public class LoginScreen extends Screen{
 	    error.setOpaque(false);
 	    error.setMaximumSize(new Dimension(400,50));
 
+	    //add the error field beneath password
 	    textFields.add(errorCards);
 
 	    //create section for buttons (below the fields section)
@@ -124,8 +125,8 @@ public class LoginScreen extends Screen{
 
 	    //create and add "Login" button
 	    JPanel login = new JPanel();
-	    Color loginStart = new Color(79,175,255);
-	    login.setBackground(loginStart);
+	    Color loginStartColor = new Color(79,175,255);
+	    login.setBackground(loginStartColor);
 	  	login.setLayout(new GridBagLayout());
 	  	login.add(new JLabel("Login"));
 	  	login.addMouseListener(new MouseAdapter() {
@@ -140,8 +141,8 @@ public class LoginScreen extends Screen{
 	  				setLoginError(1);
 	  			}else{
 	  				login(name, pass);
+	  				login.setBackground(loginStartColor);
 	  			}
-	  			login.setBackground(loginStart);
 	  		}
 		});
 	    login.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(10,10,10,10,Color.black), new MatteBorder(2,2,2,2,new Color(79,175,255))));
@@ -149,7 +150,8 @@ public class LoginScreen extends Screen{
 
 		//create and add "Register" button
 	    JPanel register = new JPanel();
-	    register.setBackground(new Color(90,90,90));
+	    Color registerStartColor = new Color(90,90,90);
+	    register.setBackground(registerStartColor);
 	    register.setLayout(new GridBagLayout());
 	    register.add(new JLabel("Sign up here!"));
 	    register.addMouseListener(new MouseAdapter() {
@@ -159,7 +161,8 @@ public class LoginScreen extends Screen{
 	  		}
 	  		@Override
 	  		public void mouseReleased(final MouseEvent e) {
-	  			//frame.changeScreen(new RegistrationScreen());
+	  			WorkingPanel.changeScreen(new RegistrationScreen());
+	  			register.setBackground(registerStartColor);
 	  		}
 		});
 	    register.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(10,10,10,10,Color.black), new MatteBorder(2,2,2,2,new Color(79,175,255))));
@@ -181,11 +184,9 @@ public class LoginScreen extends Screen{
 	
 	private void login(String user, String pass){
         int err = serverHelpers.tryLogin(user, pass);
-        System.out.println(err);
         if (err == 0){ // authentic user
         	WorkingPanel.requestSetUser(user);
-
-            //WorkingPanel.changeScreen(new InitialMainScreen());
+        	WorkingPanel.changeScreen(new InitialMainScreen());
         }else{
             setLoginError(err);
         }
@@ -194,13 +195,11 @@ public class LoginScreen extends Screen{
 	private void setLoginError(int err){
 		this.error = err;
 		showErrorCard();
-		//WorkingPanel.updateWorking();
 	}
 	
 	@Override
 	public void setErrorCards(){
 		errorCards = Panel.errorCards(new Dimension(200,200));
-
 		boolean cont = true;
 		int err = 0;
 		String error = "";
@@ -218,8 +217,7 @@ public class LoginScreen extends Screen{
 				this.errorCards.add(Label.errorLabel(error, Color.red), String.valueOf(err));
 			
 			err++;
-		}
-		
+		}	
 	}
 
 	@Override

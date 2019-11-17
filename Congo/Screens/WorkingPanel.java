@@ -16,12 +16,27 @@ public class WorkingPanel {
 	public WorkingPanel(){
 		workingPanel = new JPanel();
 		workingPanel.setName("blankWorking");
-		changeScreen(new LoginScreen());
+		setScreenInfo(new LoginScreen());
+		this.screen.setScreen();
 	}
 	
 	public void changeScreen(Screen screen) {
-		//check if template needs to change
 		
+		//clear the working panel
+		this.workingPanel.removeAll();
+		
+		//set the screens information
+		setScreenInfo(screen);
+		
+		frame.changeTemplate(currentScreen);
+		
+		//set the workingPanel
+		this.screen.setScreen();
+	
+		updateWorking();
+	}
+	
+	private void setScreenInfo(Screen screen) {
 		//set the WorkingPanel objects screen to the new screen object
 		this.screen = screen;
 		
@@ -33,19 +48,12 @@ public class WorkingPanel {
 		
 		//give the new screen the workingPanel JPanel
 		this.screen.workingPanel = this.workingPanel;
-		
-		//set the workingPanel
-		this.screen.setPanel();
-	
 	}
 	
 	public void requestSetUser(String user){
 		if (this.currentScreen == "Login"){
 			frame.setUser(user);
 		}
-		
-		System.out.println(frame.getUser());
-		
 	}
 	
 	public JPanel getWorkingPanel(){

@@ -22,13 +22,10 @@ public class Frame {
 	public Frame() {
 		frame = new JFrame();
 		Username = null;
-		width = 600;
-		height = 800;
 		Background = new BackgroundTemplate();
 		WorkingPanel = new WorkingPanel();
-		Background.setTemplate(1);
 		WorkingPanel.setFrame(this);
-		finalize(frame);
+		changeTemplate("Login");
 	}
 	
 	/*
@@ -47,9 +44,6 @@ public class Frame {
 		frame.setResizable(false);
 		//make frame visible
 		frame.setVisible(true);
-	
-		//set the working panel into the background panel
-		Background.getBackgroundPanel().add(WorkingPanel.getWorkingPanel());
 		
 		//set the background panel into the frame
 		frame.setContentPane(Background.getBackgroundPanel());
@@ -66,6 +60,25 @@ public class Frame {
 		if (WorkingPanel.getCurrentScreen().equals("Login")){
 			this.Username = username;
 		}
+	}
+	
+	public void changeTemplate(String screen) {
+		if (Background.needChange(screen)) {
+			if (Background.getTemplate() == 1) {
+				Background.setTemplate(2);
+			}else {
+				Background.setTemplate(1);
+			}
+		//add working panel to background
+		Background.getBackgroundPanel().add(WorkingPanel.getWorkingPanel());	
+		}
+		setFrameDimensions();
+		finalize(frame);
+	}
+	
+	public void setFrameDimensions(){
+		this.width = Background.getWidth();
+		this.height = Background.getHeight();
 	}
 	
 	public String getUser(){

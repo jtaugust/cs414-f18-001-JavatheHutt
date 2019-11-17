@@ -23,15 +23,17 @@ import GUI.Label;
 import GUI.Panel;
 import Server.serverHelpers;
 
-public class RegistrationScreen {
-	private static int registrationError = 0;
-	public static void screen(){
-		//Set current screen to Registration
-		Application.setCurrentScreen("Registration");
+public class RegistrationScreen extends Screen{
+	
+	public RegistrationScreen() {
+		this.error = 0;
+		this.name = "Registration";
+		setErrorCards();
+	}
+	
+	@Override
+	public void setScreen(){
 
-
-		//get the working panel
-		JPanel workingPanel = Panel.getWorkingPanel();
 		//set the working panel's layout
 		workingPanel.setLayout(new BorderLayout());
 
@@ -153,25 +155,8 @@ public class RegistrationScreen {
 	    error.setOpaque(false);
 	    error.setMaximumSize(new Dimension(400,50));
 
-	    if (registrationError != 0){ //if registration failed, update panel to an error label
-	    	error.setOpaque(false);
-	    	String errStr = "";
-	    	switch (registrationError) {
-	    		case 1: errStr = "<html>You must fill out the entire form.</html>"; break;
-	    		case 2: errStr = "<html>Passwords do not match.</html>"; break;
-	    		case 3: errStr = "<html>That username is already in use.</html>"; break;
-	    		case 4: errStr = "<html>That email is already in use.</html>"; break;
-	    		case 5: errStr = "<html>Password contains illegal characters.</html>"; break;
-	    		case 6: errStr = "<html>Username contains illegal characters.</html>"; break;
-	    		case 7: errStr = "<html>Provided email is invalid.</html>"; break;
-	    		default: break;
-	    	}
-	    	error.add(Label.errorLabel(errStr, Color.red));
-	    	
-	    	//reset the error
-	    	registrationError = 0;
-	    }
-	    textFields.add(error);	    
+	    //add the error field
+	    //textFields.add(errorCards);	    
 
 
 	    //create section for buttons (below the fields section)
@@ -219,7 +204,7 @@ public class RegistrationScreen {
 	  		}
 	  		@Override
 	  		public void mouseReleased(final MouseEvent e) {
-	  			Application.changeScreen("Login");
+	  			WorkingPanel.changeScreen(new LoginScreen());
 	  		}
 		});
 	    login.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(10,10,10,10,Color.black), new MatteBorder(2,2,2,2,new Color(79,175,255))));
@@ -233,8 +218,7 @@ public class RegistrationScreen {
 	//set the registration error
 	private static void setRegistrationError(int err){
 		registrationError = err;
-		Application.setErr();
-		Application.changeScreen("Registration");
+		
 	}
 	
 	private static void register(String name, String email, String pass, String passCon){
@@ -258,5 +242,23 @@ public class RegistrationScreen {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	void setPanel() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	void setErrorCards() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	void showErrorCard() {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -20,7 +20,7 @@ abstract class Screen {
 	
 	JPanel errorCards;
 
-	abstract void setPanel();
+	abstract void setScreen();
 	
 	abstract void setErrorCards();
 	
