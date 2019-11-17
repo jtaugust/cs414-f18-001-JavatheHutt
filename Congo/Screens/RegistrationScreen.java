@@ -223,7 +223,7 @@ public class RegistrationScreen extends Screen{
 		} else {
 			int err = serverHelpers.tryRegister(name, email, pass);
 			if (err == 0){ // 
-				WorkingPanel.requestSetUser(name);
+				WorkingPanel.setUser(name);
 				WorkingPanel.changeScreen(new InitialMainScreen());
 			}else{ //error was received
 				setError(err);

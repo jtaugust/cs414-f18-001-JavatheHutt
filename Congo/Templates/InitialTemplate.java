@@ -10,7 +10,12 @@ import Screens.LoginScreen;
 
 public class InitialTemplate extends BackgroundTemplate{
 	
-	public static JPanel generateInitial() {
+	public InitialTemplate(Frame frame) {
+		this.frame = frame;
+	}
+	
+	@Override
+	public JPanel generateTemplate() {
 		
 		//create background panel
 		JPanel backgroundPanel = Panel.setBackground("./Images/BackgroundDark.jpg", 600, 800);

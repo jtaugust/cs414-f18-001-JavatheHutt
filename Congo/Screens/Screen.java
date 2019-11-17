@@ -8,19 +8,19 @@ import GUI.Frame;
 
 
 
-abstract class Screen {
+public abstract class Screen {
 	//this is the parent to all screens
 	int error;
 	
 	WorkingPanel WorkingPanel;
 	
-	String name;
+	public String name;
 	
 	JPanel workingPanel;
 	
 	JPanel errorCards;
 
-	abstract void setScreen();
+	public abstract void setScreen();
 	
 	abstract void setErrorCards();
 	

@@ -7,16 +7,26 @@ import java.awt.event.MouseEvent;
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 
-import App.Application;
+import Screens.AccountScreen;
+import Screens.ExistingGamesScreen;
+import Screens.LoginScreen;
+import Screens.NewGameScreen;
+import Screens.RulesScreen;
+
 import GUI.Frame;
-import GUI.Panel;
 
 public class MainTemplate extends BackgroundTemplate{
-	public static JPanel generateMain() {
+	
+	public MainTemplate(Frame frame) {
+		this.frame = frame;
+	}
+	
+	@Override
+	public JPanel generateTemplate() {
 		//create the background panel to hold all new panels
 		JPanel backgroundPanel = new JPanel();
 		backgroundPanel.setLayout(new BorderLayout());
-
+		
 		//create the taskbar
 		JPanel taskbar = new JPanel();
 		generateTaskbar(taskbar);
@@ -29,8 +39,7 @@ public class MainTemplate extends BackgroundTemplate{
 
 
 	//create the 5 buttons (account, new game, existing games, rules, logout)
-	private static void generateTaskbar(JPanel taskbar){
-
+	private void generateTaskbar(JPanel taskbar){
 
 		//set taskbar layout and background color (color between buttons)
 		taskbar.setLayout(new BoxLayout(taskbar, BoxLayout.LINE_AXIS));
@@ -58,7 +67,7 @@ public class MainTemplate extends BackgroundTemplate{
             }
             @Override
             public void mouseReleased(final MouseEvent e) {
-            	Application.changeScreen("Account");
+            	changeScreen(new AccountScreen());
             	buttonAccount.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0, 0, 6, 0, new Color(0,0,0)), new MatteBorder(3, 3, 3, 3, new Color(79,175,255))));
             	buttonNewGame.setBackground(new Color(90,90,90));
             	buttonExistingGames.setBackground(new Color(90,90,90));
@@ -82,7 +91,7 @@ public class MainTemplate extends BackgroundTemplate{
             }
             @Override
             public void mouseReleased(final MouseEvent e) {
-            	Application.changeScreen("New Game");
+            	changeScreen(new NewGameScreen());
             	buttonAccount.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0, 0, 6, 0, new Color(0,0,0)), new MatteBorder(3, 3, 3, 3, new Color(90,90,90))));
             	buttonNewGame.setBackground(new Color(79,175,255));
             	buttonExistingGames.setBackground(new Color(90,90,90));
@@ -106,7 +115,7 @@ public class MainTemplate extends BackgroundTemplate{
             }
             @Override
             public void mouseReleased(final MouseEvent e) {
-            	Application.changeScreen("Existing Games");
+            	changeScreen(new ExistingGamesScreen());
             	buttonAccount.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0, 0, 6, 0, new Color(0,0,0)), new MatteBorder(3, 3, 3, 3, new Color(90,90,90))));
             	buttonNewGame.setBackground(new Color(90,90,90));
             	buttonExistingGames.setBackground(new Color(79,175,255));
@@ -130,7 +139,7 @@ public class MainTemplate extends BackgroundTemplate{
             }
             @Override
             public void mouseReleased(final MouseEvent e) {
-            	Application.changeScreen("Rules");
+            	changeScreen(new RulesScreen());
             	buttonAccount.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0, 0, 6, 0, new Color(0,0,0)), new MatteBorder(3, 3, 3, 3, new Color(90,90,90))));
             	buttonNewGame.setBackground(new Color(90,90,90));
             	buttonExistingGames.setBackground(new Color(90,90,90));
@@ -154,8 +163,8 @@ public class MainTemplate extends BackgroundTemplate{
             }
             @Override
             public void mouseReleased(final MouseEvent e) {
-            	Application.setUser(null);
-            	Application.changeScreen("Login");
+            	setUser(null);
+            	changeScreen(new LoginScreen());
             	buttonAccount.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0, 0, 6, 0, new Color(0,0,0)), new MatteBorder(3, 3, 3, 3, new Color(90,90,90))));
             	buttonNewGame.setBackground(new Color(90,90,90));
             	buttonExistingGames.setBackground(new Color(90,90,90));

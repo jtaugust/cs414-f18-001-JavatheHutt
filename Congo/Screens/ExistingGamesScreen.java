@@ -1,6 +1,5 @@
 package Screens;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
@@ -9,18 +8,19 @@ import java.awt.GridLayout;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
-import App.Application;
 import BoardLogic.CongoBoard;
-import GUI.Panel;
 
-public class ExistingGamesScreen {
+public class ExistingGamesScreen extends Screen{
 	private static JLayeredPane mostRecent = null;
-	public static void screen() {
-		//set the screen to existing games
-		Application.setCurrentScreen("Existing Games");
-		
-		//get the working panel
-		JPanel workingPanel = Panel.getWorkingPanel();
+	
+	public ExistingGamesScreen() {
+		this.error = 0;
+		this.name = "Existing Games";
+		setErrorCards();
+	}
+	
+	@Override
+	public void setScreen() {
 		
 		workingPanel.setLayout(new GridBagLayout());
 	
@@ -67,5 +67,11 @@ public class ExistingGamesScreen {
 		workingPanel.add(board);
 		
 		workingPanel.setBackground(new Color(90,90,90));
+	}
+
+	@Override
+	void setErrorCards() {
+		// TODO Auto-generated method stub
+		
 	}
 }

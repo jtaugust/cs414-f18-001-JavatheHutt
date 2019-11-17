@@ -5,11 +5,11 @@ import javax.swing.JPanel;
 import GUI.Frame;
 
 public class WorkingPanel {
-	JPanel workingPanel;
+	public JPanel workingPanel;
 	
 	String currentScreen;
 	
-	Screen screen;
+	public Screen screen;
 	
 	Frame frame;
 	
@@ -20,30 +20,14 @@ public class WorkingPanel {
 		this.screen.setScreen();
 	}
 	
-	public void changeScreen(Screen screen) {
-		
-		//clear the working panel
-		this.workingPanel.removeAll();
-		
-		//set the screens information
-		setScreenInfo(screen);
-		
-		frame.changeTemplate(currentScreen);
-		
-		//set the workingPanel
-		this.screen.setScreen();
-	
-		updateWorking();
-	}
-	
-	private void setScreenInfo(Screen screen) {
+	public void setScreenInfo(Screen screen) {
 		//set the WorkingPanel objects screen to the new screen object
 		this.screen = screen;
 		
 		//set the currentScreen to the new screens name
 		this.currentScreen = this.screen.name;
 		
-		//give the screen this object
+		//give the new screen this object
 		this.screen.WorkingPanel = this;
 		
 		//give the new screen the workingPanel JPanel
@@ -71,6 +55,19 @@ public class WorkingPanel {
 	public void updateWorking(){
 		this.workingPanel.validate();
 		this.workingPanel.repaint();
+	}
+	
+	//pass off the screen object from the screens to the frame
+	protected void changeScreen(Screen screen) {
+		frame.changeScreen(screen);
+	}
+	
+	protected void setUser(String user) {
+		frame.setUser(user);
+	}
+	
+	protected String getUser() {
+		return frame.getUser();
 	}
 	
 }

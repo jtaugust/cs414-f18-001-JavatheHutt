@@ -7,12 +7,23 @@ import javax.swing.JPanel;
 import App.Application;
 import GUI.Panel;
 
-public class UnRegisterScreen {
-	public static void screen() {
-		Application.setCurrentScreen("UnRegister");
+public class UnRegisterScreen extends Screen {
+	
+	public UnRegisterScreen() {
+		error = 0;
+		name = "UnRegister";
+	}
+	
+	@Override
+	public void setScreen() {
 		System.out.println("here in unregister");
-		JPanel panel = Panel.getWorkingPanel();
-		panel.setBackground(Color.yellow);
+		workingPanel.setBackground(Color.yellow);
+	}
 
+
+	@Override
+	void setErrorCards() {
+		// TODO Auto-generated method stub
+		
 	}
 }

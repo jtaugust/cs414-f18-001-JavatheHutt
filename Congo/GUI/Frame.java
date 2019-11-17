@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 
 import App.*;
 import Templates.BackgroundTemplate;
+import Screens.Screen;
 import Screens.WorkingPanel;
 
 public class Frame {
@@ -24,8 +25,29 @@ public class Frame {
 		Username = null;
 		Background = new BackgroundTemplate();
 		WorkingPanel = new WorkingPanel();
-		WorkingPanel.setFrame(this);
+		setFrames();
 		changeTemplate("Login");
+	}
+	
+	public void changeScreen(Screen screen) {
+		
+		//clear the working panel
+		WorkingPanel.workingPanel.removeAll();
+		
+		//set the screens information
+		WorkingPanel.setScreenInfo(screen);
+		
+		changeTemplate(screen.name);
+		
+		//set the workingPanel
+		WorkingPanel.screen.setScreen();
+	
+		WorkingPanel.updateWorking();
+	}
+	
+	private void setFrames() {
+		WorkingPanel.setFrame(this);
+		Background.setFrame(this);
 	}
 	
 	/*
@@ -57,9 +79,7 @@ public class Frame {
 	}
 	
 	public void setUser(String username){
-		if (WorkingPanel.getCurrentScreen().equals("Login")){
-			this.Username = username;
-		}
+		this.Username = username;
 	}
 	
 	public void changeTemplate(String screen) {

@@ -22,7 +22,7 @@ import Server.serverHelpers;
 public class LoginScreen extends Screen{
 	
 	public LoginScreen(){
-		this.error = 4;
+		this.error = 0;
 		this.name = "Login";
 		//set up error cards
 		
@@ -185,7 +185,7 @@ public class LoginScreen extends Screen{
 	private void login(String user, String pass){
         int err = serverHelpers.tryLogin(user, pass);
         if (err == 0){ // authentic user
-        	WorkingPanel.requestSetUser(user);
+        	WorkingPanel.setUser(user);
         	WorkingPanel.changeScreen(new InitialMainScreen());
         }else{
             setError(err);

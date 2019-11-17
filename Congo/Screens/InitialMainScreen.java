@@ -16,8 +16,7 @@ public class InitialMainScreen extends Screen{
 	}
 
 	@Override
-	void setScreen() {
-		//unhide the working panel (login hides it)
+	public void setScreen() {
 		workingPanel.setOpaque(true);
 		workingPanel.setBackground(Color.black);
 	}
