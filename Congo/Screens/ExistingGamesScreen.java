@@ -46,8 +46,7 @@ public class ExistingGamesScreen extends Screen{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-	
+
 		workingPanel.setLayout(new BorderLayout());
 
 		//create panel for board to be placed on
