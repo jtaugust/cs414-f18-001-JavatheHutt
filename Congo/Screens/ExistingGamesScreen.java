@@ -41,7 +41,7 @@ public class ExistingGamesScreen extends Screen{
 		serverGamesHelpers current = new serverGamesHelpers();
 		ArrayList<String[]> games = null;
 		try {
-			games = current.readCurrentGames_T(Frame.getUser());
+			games = current.readCurrentGames_T(WorkingPanel.getUser());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
