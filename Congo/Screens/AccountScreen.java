@@ -53,7 +53,7 @@ public class AccountScreen {
 	  			}
 	  		}
 		});
-	    unregister.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(10,10,10,10,Color.black), new MatteBorder(2,2,2,2,new Color(79,175,255))));
+	    unregister.setBorder(BorderFactory.createMatteBorder(2,2,2,2,new Color(79,175,255)));
 	    panel.add(unregister);
 	}
 	
