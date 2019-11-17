@@ -7,11 +7,23 @@ import javax.swing.JPanel;
 import App.Application;
 import GUI.Panel;
 
-public class RulesScreen {
-	public static void screen() {
-		Application.setCurrentScreen("Rules");
-		JPanel panel = Panel.getWorkingPanel();
+public class RulesScreen extends Screen{
+	
+	public RulesScreen() {
+		this.error = 0;
+		this.name = "Rules";
+		setErrorCards();
+	}
+	
+	@Override
+	public void setScreen() {
 		System.out.println("here in rules");
-		panel.setBackground(new Color(50,50,50));
+		workingPanel.setBackground(new Color(50,50,50));
+	}
+
+	@Override
+	void setErrorCards() {
+		// TODO Auto-generated method stub
+		
 	}
 }

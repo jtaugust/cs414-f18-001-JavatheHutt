@@ -1,6 +1,7 @@
 package Screens;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
@@ -18,18 +19,36 @@ import GUI.Label;
 import GUI.Panel;
 import Server.serverHelpers;
 
-public class LoginScreen {
-	private static int loginError = 0;
-	public static void screen(){
-		Application.setCurrentScreen("Login");
+public class LoginScreen extends Screen{
+	
+	public LoginScreen(){
+		this.error = 0;
+		this.name = "Login";
+		//set up error cards
 		
-		//get the working panel
-		JPanel workingPanel = Panel.getWorkingPanel();
+		setErrorCards();
+	}
+	
+	@Override
+	public void setScreen(){
+		JTextField captureFocus = new JTextField();
+		captureFocus.setOpaque(false);
+		captureFocus.setBorder(null);
+		
+		workingPanel.setName("Login");
+		
 		//set the working panel's layout
 		workingPanel.setLayout(new BorderLayout());
+		
+		//hide the panel so the background shows
+		workingPanel.setOpaque(false);
 
 		//create section for username and password
 		JPanel textFields = new JPanel();
+		
+		//add the empty focus field because swing is weird
+		textFields.add(captureFocus);
+		
 		textFields.setLayout(new BoxLayout(textFields, BoxLayout.Y_AXIS));
 
 		//create username field 
@@ -61,8 +80,6 @@ public class LoginScreen {
 		//create space under username textfield
 		textFields.add(Helpers.spacer(200, 50));
 		
-		
-		
 		//allow enter key to login while on password field
         password.addKeyListener(new KeyListener() {
             @Override
@@ -74,7 +91,7 @@ public class LoginScreen {
                 if (e.getKeyCode()==KeyEvent.VK_ENTER){
                     String name = username.getText(), pass = new String(password.getPassword());
     	  			if (isDefaultInput(name, pass)){
-    	  				setLoginError(1);
+    	  				setError(1);
     	  			}else{
     	  				login(name, pass);
     	  			}
@@ -93,27 +110,12 @@ public class LoginScreen {
 
 
 	    //create the panel below password
-	    JPanel error = new JPanel();
+	    JPanel error = new JPanel(new CardLayout());
 	    error.setOpaque(false);
 	    error.setMaximumSize(new Dimension(400,50));
 
-	    //if login failed, add an error label below the password textfield
-	    if (loginError != 0){
-	    	error.setOpaque(false);
-	    	String err = "";
-	    	switch (loginError) {
-	    		case 1: err = "<html>You must fill out the entire form.</html>"; break;
-	    		case 2: err = "<html>Username or password is incorrect</html>"; break;
-	    		case 3: err = "<html>Sql connection error occured.</html>"; break;
-	    		case 4: err = "<html>Password contains illegal characters, <br> only letters and numbers are allowed.</html>"; break;
-	    		case 5: err = "<html>Username contains illegal characters, <br> only letters and numbers are allowed.</html>"; break;
-	    		default: break; //unkown error occured
-	    	}
-	    	error.add(Label.errorLabel(err, Color.red));
-	    	loginError = 0;
-	    }
-	    textFields.add(error);	    
-
+	    //add the error field beneath password
+	    textFields.add(errorCards);
 
 	    //create section for buttons (below the fields section)
 	    JPanel bottomButtons = new JPanel();
@@ -123,7 +125,8 @@ public class LoginScreen {
 
 	    //create and add "Login" button
 	    JPanel login = new JPanel();
-	    login.setBackground(new Color(79,175,255));
+	    Color loginStartColor = new Color(79,175,255);
+	    login.setBackground(loginStartColor);
 	  	login.setLayout(new GridBagLayout());
 	  	login.add(new JLabel("Login"));
 	  	login.addMouseListener(new MouseAdapter() {
@@ -135,10 +138,11 @@ public class LoginScreen {
 	  		public void mouseReleased(final MouseEvent e) {
 	  			String name = username.getText(), pass = new String(password.getPassword());
 	  			if (isDefaultInput(name, pass)){
-	  				setLoginError(1);
+	  				setError(1);
 	  			}else{
 	  				login(name, pass);
 	  			}
+	  			login.setBackground(loginStartColor);
 	  		}
 		});
 	    login.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(10,10,10,10,Color.black), new MatteBorder(2,2,2,2,new Color(79,175,255))));
@@ -146,7 +150,8 @@ public class LoginScreen {
 
 		//create and add "Register" button
 	    JPanel register = new JPanel();
-	    register.setBackground(new Color(90,90,90));
+	    Color registerStartColor = new Color(90,90,90);
+	    register.setBackground(registerStartColor);
 	    register.setLayout(new GridBagLayout());
 	    register.add(new JLabel("Sign up here!"));
 	    register.addMouseListener(new MouseAdapter() {
@@ -156,40 +161,57 @@ public class LoginScreen {
 	  		}
 	  		@Override
 	  		public void mouseReleased(final MouseEvent e) {
-	  			Application.changeScreen("Registration");
+	  			WorkingPanel.changeScreen(new RegistrationScreen());
+	  			register.setBackground(registerStartColor);
 	  		}
 		});
 	    register.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(10,10,10,10,Color.black), new MatteBorder(2,2,2,2,new Color(79,175,255))));
 	    bottomButtons.add(register);
-
+	    
 	    //add field and button panels to the working panel
 	    workingPanel.add(textFields, BorderLayout.PAGE_START);
 	    workingPanel.add(bottomButtons, BorderLayout.PAGE_END);
+	    
 	}
 	
 	private static boolean isDefaultInput(String user, String pass){
-		if (user.equals("Username") || pass.equals("Password")){
+		if (user.equals("Username") || pass.equals("Password") || user.equals("") || pass.equals("")){
 			return true;
 		}else{
 			return false;
 		}
 	}
 	
-	private static void login(String user, String pass){
+	private void login(String user, String pass){
         int err = serverHelpers.tryLogin(user, pass);
         if (err == 0){ // authentic user
-            Application.setUser(user);
-            Application.changeScreen("InitialMain");
+        	WorkingPanel.setUser(user);
+        	WorkingPanel.changeScreen(new InitialMainScreen());
         }else{
-            LoginScreen.setLoginError(err);
+            setError(err);
         }
 	}
-
-	private static void setLoginError(int err){
-		loginError = err;
-		Application.setErr();
-        Application.changeScreen("Login");
+	
+	@Override
+	public void setErrorCards(){
+		errorCards = Panel.errorCards(new Dimension(400,400));
+		boolean cont = true;
+		int err = 0;
+		String error = "";
+		while(cont){
+			switch(err){
+				case 0: break;
+				case 1: error = "<html>You must fill out the entire form.</html>"; break;
+	    		case 2: error = "<html>Username or password is incorrect</html>"; break;
+	    		case 3: error = "<html>Sql connection error occured.</html>"; break;
+	    		case 4: error = "<html>Password contains illegal characters, <br> only letters and numbers are allowed.</html>"; break;
+	    		case 5: error = "<html>Username contains illegal characters, <br> only letters and numbers are allowed.</html>"; break;
+	    		default: cont = false; break;
+			}
+			if (cont)
+				this.errorCards.add(Label.errorLabel(error, Color.red), String.valueOf(err));
+			
+			err++;
+		}	
 	}
-
-
 }

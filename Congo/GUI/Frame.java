@@ -6,58 +6,54 @@ import java.awt.Label;
 import javax.swing.JFrame;
 
 import App.*;
+import Templates.BackgroundTemplate;
+import Screens.Screen;
+import Screens.WorkingPanel;
 
 public class Frame {
-	private static int width = 0, height = 0, template = 0;
+	JFrame frame;
 	
-	/*
-	 * create the frame to build off of
-	 * then create the required template panel
-	 */
-	public static JFrame createFrame(int template) {
-		JFrame frame = new JFrame();
-		frame.setLayout(new BorderLayout());
-		//load background as well as the required template
-		Panel.createPanels(frame, template);
-
-		return frame;
+	private int width, height;
+	private String Username;
+	//store the GUI classes to build the application
+	private BackgroundTemplate Background;
+	private WorkingPanel WorkingPanel;
+	
+	//create all initial objects
+	public Frame() {
+		frame = new JFrame();
+		Username = null;
+		Background = new BackgroundTemplate();
+		WorkingPanel = new WorkingPanel();
+		setFrames();
+		changeTemplate("Login");
 	}
-
-	/*
-	 * if the template requested is not the current template
-	 * build the requested template
-	 */
-	public static void changeTemplate(String screen) {
-			boolean change = false;
-			switch(screen) {
-			case "Login":
-			case "Registration":
-				if (template != 1) {
-					Panel.createPanels(Application.window, 1);
-				}
-				break;
 	
-			case "New Game":
-			case "Existing Games":
-			case "Rules":
-			case "InitialMain":
-			case "Notifications":
-			case "Match History":
-			case "UnRegister":
-			case "Account":
-				if (template != 2) {
-					Panel.createPanels(Application.window, 2);
-				}
-				break;
-				
-			
-			}
+	public void changeScreen(Screen screen) {
+		
+		//clear the working panel
+		WorkingPanel.workingPanel.removeAll();
+		
+		//set the screens information
+		WorkingPanel.setScreenInfo(screen);
+		
+		changeTemplate(screen.name);
+		
+		//set the workingPanel
+		WorkingPanel.screen.setScreen();
+	
+		WorkingPanel.updateWorking();
+	}
+	
+	private void setFrames() {
+		WorkingPanel.setFrame(this);
+		Background.setFrame(this);
 	}
 	
 	/*
 	 * Sets the frames common settings 
 	 */
-	public static void finalize(JFrame frame) {
+	public void finalize(JFrame frame) {
 		//set frame size
 		frame.setSize(width, height);
 		//set the start position to center of the screen
@@ -70,34 +66,48 @@ public class Frame {
 		frame.setResizable(false);
 		//make frame visible
 		frame.setVisible(true);
-		//add the built panels to the frame
-		frame.setContentPane(Panel.getWorkingPanelBackground());
-	}
-
-	//sets the frames dimensions
-	public static void setDimensions(int w, int h) {
-		width = w;
-		height = h;
+		
+		//set the background panel into the frame
+		frame.setContentPane(Background.getBackgroundPanel());
+		
+		update();
 	}
 	
-	//returns the frame width
-	public static int getWidth(){
-		return width;
+	private void update() {
+		frame.validate();
+		frame.repaint();
 	}
 	
-	//returns the frame height
-	public static int getHeight(){
-		return height;
+	public void setUser(String username){
+		this.Username = username;
 	}
 	
-	//sets the template being used
-	public static void setTemplate(int t) {
-		template = t;
+	public void changeTemplate(String screen) {
+		if (Background.needChange(screen)) {
+			if (Background.getTemplate() == 1) {
+				Background.setTemplate(2);
+			}else {
+				Background.setTemplate(1);
+			}
+		//add working panel to background
+		Background.getBackgroundPanel().add(WorkingPanel.getWorkingPanel());	
+		}
+		setFrameDimensions();
+		finalize(frame);
 	}
 	
-	//returns the template being used
-	public static int getTemplate() {
-		return template;
+	public void setFrameDimensions(){
+		this.width = Background.getWidth();
+		this.height = Background.getHeight();
 	}
+	
+	public String getUser(){
+		return this.Username;
+	}
+	
+	public JFrame getThisFrame(){
+		return this.frame;
+	}
+	
 	
 }

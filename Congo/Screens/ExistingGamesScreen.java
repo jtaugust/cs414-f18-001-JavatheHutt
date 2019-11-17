@@ -1,6 +1,5 @@
 package Screens;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
@@ -19,16 +18,22 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
-import App.Application;
 import BoardLogic.CongoBoard;
 import GUI.Helpers;
 import GUI.Panel;
 import Server.serverGamesHelpers;
 
-public class ExistingGamesScreen {
+public class ExistingGamesScreen extends Screen{
 	private static JLayeredPane mostRecent = null;
-	public static void screen() {
-		
+	public ExistingGamesScreen() {
+		this.error = 0;
+		this.name = "Existing Games";
+		setErrorCards();
+	}
+	
+	@Override
+	public void setScreen() {
+
 		//get current games info from database
 		serverGamesHelpers current = new serverGamesHelpers();
 		ArrayList<String[]> games = null;
@@ -46,6 +51,7 @@ public class ExistingGamesScreen {
 		//get the working panel
 		JPanel workingPanel = Panel.getWorkingPanel();
 		workingPanel.setLayout(new BorderLayout());
+
 		
 		//create panel for board to be placed on
 		JPanel board = new JPanel();
@@ -157,5 +163,11 @@ public class ExistingGamesScreen {
 		workingPanel.add(scrollPane, BorderLayout.CENTER);
 		workingPanel.add(rightSide, BorderLayout.LINE_END);
 		workingPanel.setBackground(new Color(90,90,90));
+	}
+
+	@Override
+	void setErrorCards() {
+		// TODO Auto-generated method stub
+		
 	}
 }

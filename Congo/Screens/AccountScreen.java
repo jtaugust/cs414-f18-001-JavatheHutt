@@ -14,16 +14,17 @@ import App.Application;
 import GUI.Panel;
 import Server.serverHelpers;
 
-public class AccountScreen {
+public class AccountScreen extends Screen{
 	
-	private static int unregisterError = 0;
+	public AccountScreen() {
+		error = 0;
+		name = "Acccount";
+		
+	}
 	
-	public static void screen() {
-		System.out.println("here in account");
-		Application.setCurrentScreen("Account");
-		JPanel panel = Panel.getWorkingPanel();
-		panel.setBackground(Color.black);
-		panel.setBackground(new Color(50,50,50));
+	public void setScreen() {
+		workingPanel.setBackground(Color.black);
+		workingPanel.setBackground(new Color(50,50,50));
 		
 		//create and add "Unregister" button
 	    JPanel unregister = new JPanel();
@@ -40,25 +41,25 @@ public class AccountScreen {
 	  		@Override
 	  		public void mouseReleased(final MouseEvent e) {
 	  			unregister.setBackground(new Color(90,90,90));
-	  			String Username = Application.getUser();
+	  			String Username = WorkingPanel.getUser();
 	  			int err = serverHelpers.tryUnregister(Username);
 	  			
 	  			if (err == 0) {
-	  				Application.changeScreen("Login");
+	  				WorkingPanel.changeScreen(new LoginScreen());
 	  			}
 	  			else {
-	  				AccountScreen.setUnregisterError(err);
-	  				Application.setErr();
-					Application.changeScreen("Account");
+	  				setError(err);
 	  			}
 	  		}
 		});
-	    unregister.setBorder(BorderFactory.createMatteBorder(2,2,2,2,new Color(79,175,255)));
-	    panel.add(unregister);
+	    unregister.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(10,10,10,10,Color.black), new MatteBorder(2,2,2,2,new Color(79,175,255))));
+	    workingPanel.add(unregister);
 	}
 	
-	private static void setUnregisterError(int err){
-		unregisterError = err;
+	@Override
+	void setErrorCards() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

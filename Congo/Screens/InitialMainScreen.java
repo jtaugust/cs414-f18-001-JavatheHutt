@@ -7,11 +7,23 @@ import javax.swing.*;
 import App.Application;
 import GUI.Panel;
 
-public class InitialMainScreen {
+public class InitialMainScreen extends Screen{
 	
-	public static void screen(){
-		Application.setCurrentScreen("InitialMain");
-		JPanel panel = Panel.getWorkingPanel();
-		panel.setBackground(Color.DARK_GRAY);
+	public InitialMainScreen() {
+		this.error = 0;
+		this.name = "InitialMain";
+		
+	}
+
+	@Override
+	public void setScreen() {
+		workingPanel.setOpaque(true);
+		workingPanel.setBackground(Color.black);
+	}
+
+	@Override
+	void setErrorCards() {
+		// TODO Auto-generated method stub
+		
 	}
 }

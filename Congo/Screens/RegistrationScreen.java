@@ -1,6 +1,7 @@
 package Screens;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
@@ -23,15 +24,17 @@ import GUI.Label;
 import GUI.Panel;
 import Server.serverHelpers;
 
-public class RegistrationScreen {
-	private static int registrationError = 0;
-	public static void screen(){
-		//Set current screen to Registration
-		Application.setCurrentScreen("Registration");
+public class RegistrationScreen extends Screen{
+	
+	public RegistrationScreen() {
+		this.error = 0;
+		this.name = "Registration";
+		setErrorCards();
+	}
+	
+	@Override
+	public void setScreen(){
 
-
-		//get the working panel
-		JPanel workingPanel = Panel.getWorkingPanel();
 		//set the working panel's layout
 		workingPanel.setLayout(new BorderLayout());
 
@@ -105,7 +108,7 @@ public class RegistrationScreen {
             public void keyReleased(KeyEvent e) {
             	if (e.getKeyCode()==KeyEvent.VK_ENTER){
 		  			if (isDefaultInput(username, emailfield, passwordField,passwordConfirm)) {
-						setRegistrationError(1);
+						setError(1);
 		  			}else{
 						String name = username.getText();
 						String email = emailfield.getText();
@@ -153,26 +156,8 @@ public class RegistrationScreen {
 	    error.setOpaque(false);
 	    error.setMaximumSize(new Dimension(400,50));
 
-	    if (registrationError != 0){ //if registration failed, update panel to an error label
-	    	error.setOpaque(false);
-	    	String errStr = "";
-	    	switch (registrationError) {
-	    		case 1: errStr = "<html>You must fill out the entire form.</html>"; break;
-	    		case 2: errStr = "<html>Passwords do not match.</html>"; break;
-	    		case 3: errStr = "<html>That username is already in use.</html>"; break;
-	    		case 4: errStr = "<html>That email is already in use.</html>"; break;
-	    		case 5: errStr = "<html>Password contains illegal characters.</html>"; break;
-	    		case 6: errStr = "<html>Username contains illegal characters.</html>"; break;
-	    		case 7: errStr = "<html>Provided email is invalid.</html>"; break;
-	    		default: break;
-	    	}
-	    	error.add(Label.errorLabel(errStr, Color.red));
-	    	
-	    	//reset the error
-	    	registrationError = 0;
-	    }
-	    textFields.add(error);	    
-
+	    //add the error field beneath the passwords
+	    textFields.add(errorCards);	    
 
 	    //create section for buttons (below the fields section)
 	    JPanel bottomButtons = new JPanel();
@@ -183,18 +168,19 @@ public class RegistrationScreen {
 
 	    //create and add "Register" button
 	    JPanel register = new JPanel();
-	    register.setBackground(new Color(79,175,255));
+	    Color registerStartColor = new Color(79,175,255);
+	    register.setBackground(registerStartColor);
 	  	register.setLayout(new GridBagLayout());
 	  	register.add(new JLabel("Register"));
 	  	register.addMouseListener(new MouseAdapter() {
 	  		@Override
 	  		public void mousePressed(final MouseEvent e) {
-	  			register.setBackground(new Color(110,190,255));
+	  			register.setBackground(new Color(90,210,255));
 	  		}
 	  		@Override
 	  		public void mouseReleased(final MouseEvent e) {
 	  			if (isDefaultInput(username, emailfield, passwordField, passwordConfirm)){
-	  				setRegistrationError(1);
+	  				setError(1);
 	  			}else{
 		  			String name = username.getText();
 					String email = emailfield.getText();
@@ -202,6 +188,7 @@ public class RegistrationScreen {
 					String passwordCon = new String(passwordConfirm.getPassword());
 					register(name, email, password, passwordCon);
 	  			}
+	  			register.setBackground(registerStartColor);
 	  		}
 		});
 	    register.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(10,10,10,10,Color.black), new MatteBorder(2,2,2,2,new Color(79,175,255))));
@@ -219,7 +206,7 @@ public class RegistrationScreen {
 	  		}
 	  		@Override
 	  		public void mouseReleased(final MouseEvent e) {
-	  			Application.changeScreen("Login");
+	  			WorkingPanel.changeScreen(new LoginScreen());
 	  		}
 		});
 	    login.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(10,10,10,10,Color.black), new MatteBorder(2,2,2,2,new Color(79,175,255))));
@@ -229,34 +216,52 @@ public class RegistrationScreen {
 	    workingPanel.add(textFields, BorderLayout.PAGE_START);
 	    workingPanel.add(bottomButtons, BorderLayout.PAGE_END);
 	}
-
-	//set the registration error
-	private static void setRegistrationError(int err){
-		registrationError = err;
-		Application.setErr();
-		Application.changeScreen("Registration");
-	}
 	
-	private static void register(String name, String email, String pass, String passCon){
+	private void register(String name, String email, String pass, String passCon){
 		if(!pass.equals(passCon)){ // passwords don't match, show error
-			setRegistrationError(2);
+			setError(2);
 		} else {
 			int err = serverHelpers.tryRegister(name, email, pass);
 			if (err == 0){ // 
-				Application.setUser(name);
-				Application.changeScreen("InitialMain");
+				WorkingPanel.setUser(name);
+				WorkingPanel.changeScreen(new InitialMainScreen());
 			}else{ //error was received
-				//update application variable "User" to username.getText()
-				setRegistrationError(err);
+				setError(err);
 			}
 		}
 	}
 
-	private static boolean isDefaultInput(JTextField username, JTextField emailfield, JTextField passwordField, JTextField passwordConfirm) {
+	private boolean isDefaultInput(JTextField username, JTextField emailfield, JTextField passwordField, JTextField passwordConfirm) {
 		if (username.getText().contentEquals("Username") || emailfield.getText().contentEquals("Email Address")
 				|| passwordField.getText().contentEquals("Password") || passwordConfirm.getText().contentEquals("Password")) { 
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	void setErrorCards() {
+		errorCards = Panel.errorCards(new Dimension(400,400));
+		String errStr = "";
+		int err = 0;
+		boolean cont = true;
+		while(cont) {
+    	switch (err) {
+    		case 0: break;
+    		case 1: errStr = "<html>You must fill out the entire form.</html>"; break;
+    		case 2: errStr = "<html>Passwords do not match.</html>"; break;
+    		case 3: errStr = "<html>That username is already in use.</html>"; break;
+    		case 4: errStr = "<html>That email is already in use.</html>"; break;
+    		case 5: errStr = "<html>Password contains illegal characters.</html>"; break;
+    		case 6: errStr = "<html>Username contains illegal characters.</html>"; break;
+    		case 7: errStr = "<html>Provided email is invalid.</html>"; break;
+    		default: cont = false; break;
+    	}
+    	
+    	if (cont)
+    		this.errorCards.add(Label.errorLabel(errStr, Color.red), String.valueOf(err));
+    		
+    	err++;
+		}
 	}
 }
