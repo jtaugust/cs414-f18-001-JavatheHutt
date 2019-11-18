@@ -1,5 +1,5 @@
 package Tests;
-import package.BoardLogic; 
+import BoardLogic.*; 
 
 import static org.junit.Assert.*;
 
@@ -168,6 +168,35 @@ public class GameLogicTest {
 
     }
     @Test
+    public void testSimpleMonkeyMoves() {
+    	Monkey m = new Monkey(6,1,'W','P');
+    	Monkey bm = new Monkey(5,1,'B','P');
+		Piece[][] board = {
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, bm, null, null, null, null, null},
+				{null, m, null, null, null, null, null}
+			};
+    	State state = new State(board,'W',"40NN","50WP");
+		int[][] movesReturned=m.legalMoves(state);
+		int[][] expectedMoves= new int[20][2];
+		expectedMoves[0][0]= 5; expectedMoves[0][1]= 0;
+		expectedMoves[1][0]= 5; expectedMoves[1][1]= 2;
+		expectedMoves[2][0]= 6; expectedMoves[2][1]= 0;
+		expectedMoves[3][0]= 6; expectedMoves[3][1]= 2;
+		expectedMoves[4][0]= 4; expectedMoves[4][1]= 1;
+		expectedMoves[5][0]= 4; expectedMoves[5][1]= 3;
+		expectedMoves[6][0]= 6; expectedMoves[6][1]= 3;
+		
+		for(int i=0; i<movesReturned.length;i++) {
+			System.out.println("Monkey"+movesReturned[i][0]+","+movesReturned[i][1]);
+		}
+		assertArrayEquals(movesReturned, expectedMoves);
+    }
+    @Test
     public void testBlackElephantMoves() {
     	String[][] board = {
 				{"00BG", "01BM", "02BE", "03BL", "04BE", "05BC", "06BZ"},
@@ -192,50 +221,56 @@ public class GameLogicTest {
     }
     @Test
     public void testWhiteElephantCaptureMoves() {
-    	String[][] board = {
-				{"00BG", "01BM", "02NN", "03BL", "04BE", "05BC", "06BZ"},
-				{"10BP", "11BP", "12NN", "13BP", "14BP", "15BP", "16BP"},
-				{"20NN", "21NN", "22NN", "23NN", "24NN", "25NN", "26NN"},
-				{"30NN", "31NN", "32NN", "33NN", "34NN", "35NN", "36NN"},
-				{"40NN", "41NN", "42BE", "43NN", "44NN", "45NN", "46NN"},
-				{"50WP", "51WP", "52BP", "53WP", "54WP", "55WP", "56WP"},
-				{"60WG", "61WM", "62WE", "63WL", "64WE", "65WC", "66WZ"}
+    	Elephant e = new Elephant(6,4,'W','P');
+		Piece[][] board = {
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, e, null, null}
 			};
-    	State state=new State(board,"W","42BE","62WE");
-		GameLogic gameLogic=new GameLogic();
-		String[] movesReturned=gameLogic.allPossibleElephantMove(state);
-		String[] expectedMoves= new String[8];
-		expectedMoves[0]="52BP";
-		expectedMoves[1]="42BE";
-//		for(int i=0; i<movesReturned.length;i++) {
-//			System.out.println(movesReturned[i]);
-//		}
-		assertTrue(Arrays.equals(movesReturned,expectedMoves));
+    	State state = new State(board,'W',"40NN","50WP");
+		int[][] movesReturned=e.legalMoves(state);
+		int[][] expectedMoves= new int[20][2];
+		expectedMoves[0][0]= 5; expectedMoves[0][1]= 4;
+		expectedMoves[1][0]= 4; expectedMoves[1][1]= 4;
+		expectedMoves[2][0]= 6; expectedMoves[2][1]= 3;
+		expectedMoves[3][0]= 6; expectedMoves[3][1]= 2;
+		expectedMoves[4][0]= 6; expectedMoves[4][1]= 5;
+		expectedMoves[5][0]= 6; expectedMoves[5][1]= 6;
+		
+		for(int i=0; i<movesReturned.length;i++) {
+//			System.out.println("Elephant"+movesReturned[i][0]+","+movesReturned[i][1]);
+		}
+		assertArrayEquals(movesReturned, expectedMoves);
     }
     @Test
     public void testLionAttackMoves() {
-    	String[][] board = {
-				{"00BG", "01BM", "02NN", "03BL", "04NN", "05NN", "06BZ"},
-				{"10BP", "11BP", "12NN", "13BP", "14BP", "15BP", "16BP"},
-				{"20NN", "21NN", "22NN", "23NN", "24NN", "25NN", "26NN"},
-				{"30NN", "31NN", "32NN", "33NN", "34NN", "35NN", "36NN"},
-				{"40NN", "41NN", "42NN", "43NN", "44NN", "45NN", "46NN"},
-				{"50WP", "51WP", "52BP", "53BP", "54BC", "55WP", "56WP"},
-				{"60WG", "61WM", "62BE", "63WL", "64BE", "65WC", "66WZ"}
+    	Lion lion = new Lion(6,3,'W','P');
+		Piece[][] board = {
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, lion, null, null, null}
 			};
-    	State state=new State(board,"W","53BP","63WL");
-		GameLogic gameLogic=new GameLogic();
-		String[] movesReturned=gameLogic.allPossibleLionMove(state);
-		String[] expectedMoves= new String[10];
-		expectedMoves[0]="52BP";
-		expectedMoves[1]="53BP";
-		expectedMoves[2]="54BC";
-		expectedMoves[3]="62BE";
-		expectedMoves[4]="64BE";
-//		for(int i=0; i<movesReturned.length;i++) {
-//			System.out.println(movesReturned[i]);
-//		}
-		assertTrue(Arrays.equals(movesReturned,expectedMoves));
+    	State state = new State(board,'W',"40NN","50WP");
+		int[][] movesReturned=lion.legalMoves(state);
+		int[][] expectedMoves= new int[20][2];
+		expectedMoves[0][0]= 5; expectedMoves[0][1]= 2;
+		expectedMoves[1][0]= 5; expectedMoves[1][1]= 3;
+		expectedMoves[2][0]= 5; expectedMoves[2][1]= 4;
+		expectedMoves[3][0]= 6; expectedMoves[3][1]= 2;
+		expectedMoves[4][0]= 6; expectedMoves[4][1]= 4;
+
+		for(int i=0; i<expectedMoves.length;i++) {
+//			System.out.println(expectedMoves[i][0]+","+expectedMoves[i][1]);
+		}
+		assertArrayEquals(movesReturned, expectedMoves);
     }
     @Test
     public void testLionFlyingAttackMoves() {
@@ -293,44 +328,66 @@ public class GameLogicTest {
     }
     @Test
     public void testSimpleZebraMoves() {
-    	String[][] board = {
-				{"00BG", "01BM", "02BE", "03BL", "04BE", "05BC", "06BZ"},
-				{"10BP", "11BP", "12BP", "13BP", "14BP", "15BP", "16BP"},
-				{"20NN", "21NN", "22NN", "23NN", "24NN", "25NN", "26NN"},
-				{"30NN", "31NN", "32NN", "33NN", "34NN", "35NN", "36NN"},
-				{"40NN", "41NN", "42NN", "43NN", "44NN", "45NN", "46NN"},
-				{"50WP", "51WP", "52WP", "53WP", "54WP", "55WP", "56WP"},
-				{"60WG", "61WM", "62WE", "63WL", "64WE", "65WC", "66WZ"}
-			};
-    	State state=new State(board,"W","45NN","66WZ");
-		GameLogic gameLogic=new GameLogic();
-		String[] movesReturned=gameLogic.allPossibleZebraMove(state);
-		String[] expectedMoves= new String[8];
-		expectedMoves[0]="45NN";
-		assertTrue(Arrays.equals(movesReturned,expectedMoves)); 	
-    }
-    @Test
-    public void testPossiblePawnMoves() {
-		Pawn pawn = new Pawn(5,0,'W','P');
+        Zebra zebra = new Zebra(6,6,'W','P');
 		Piece[][] board = {
 				{null, null, null, null, null, null, null},
 				{null, null, null, null, null, null, null},
 				{null, null, null, null, null, null, null},
 				{null, null, null, null, null, null, null},
 				{null, null, null, null, null, null, null},
-				{pawn, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null}
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, zebra}
 			};
     	State state = new State(board,'W',"40NN","50WP");
-		GameLogic gameLogic=new GameLogic();
-		String[] movesReturned=gameLogic.allPossiblePawnMove(state);
+		int[][] movesReturned=zebra.legalMoves(state);
 		int[][] expectedMoves= new int[20][2];
-		expectedMoves[0][0]= 4; expectedMoves[0][1]= 0;
-		expectedMoves[0][0]= 4; expectedMoves[0][1]= 0;
+		expectedMoves[0][0]= 5; expectedMoves[0][1]= 4;
+		expectedMoves[1][0]= 4; expectedMoves[1][1]= 5;
+//		expectedMoves[2][0]= 6; expectedMoves[2][1]= 3;
+//		expectedMoves[3][0]= 6; expectedMoves[3][1]= 2;
+//		expectedMoves[4][0]= 6; expectedMoves[4][1]= 5;
+//		expectedMoves[5][0]= 6; expectedMoves[5][1]= 6;
+		
 		for(int i=0; i<movesReturned.length;i++) {
-			System.out.println(movesReturned[i]);
+			System.out.println("Zebra"+movesReturned[i][0]+","+movesReturned[i][1]);
 		}
-		assertTrue(Arrays.equals(movesReturned,expectedMoves));
+		assertArrayEquals(movesReturned, expectedMoves);
+    }
+    @Test
+    public void testPossiblePawnMoves() {
+		System.out.println("\n In Pawn Test \n");
+		Pawn pawn = new Pawn(2,1,'W','P');
+		Piece[][] board = {
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, pawn, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null}
+			};
+		State state = new State(board,'W',"40NN","21WP");
+		
+		int[][] movesReturned = pawn.legalMoves(state);
+
+		int[][] expectedMoves= new int[20][2];
+		expectedMoves[0][0]= 1; expectedMoves[0][1]= 0;
+		expectedMoves[1][0]= 1; expectedMoves[1][1]= 1;
+		expectedMoves[2][0]= 1; expectedMoves[2][1]= 2;
+//		expectedMoves[3][0]= 3; expectedMoves[3][1]= 1;
+//		expectedMoves[4][0]= 4; expectedMoves[4][1]= 1;
+
+		System.out.println("Moves Returned");
+        for(int k = 0; k < movesReturned.length; k++) {
+            System.out.println(movesReturned[k][0] + " " + movesReturned[k][1]);
+		}
+		
+		System.out.println("Moves Expected");
+        for(int k = 0; k < expectedMoves.length; k++) {
+            System.out.println(expectedMoves[k][0] + " " + expectedMoves[k][1]);
+        }
+		// assertTrue(Arrays.equals(movesReturned,expectedMoves));
+		assertArrayEquals(movesReturned, expectedMoves);
     }
     @Test
     public void testSuperPawnMoves() {
