@@ -7,9 +7,11 @@ public class Crocodile extends Piece{
     }
 
     // Displays all possible moves for the crocodile piece
+    @Override
 	public int[][] legalMoves(State state){
-		int i = Character.getNumericValue(state.getPieceSelected().charAt(0));
-		int j = Character.getNumericValue(state.getPieceSelected().charAt(1));
+        System.out.print("IN croc");
+        int i = this.getRow();
+		int j = this.getColumn();
 		
 		Piece[][] board = state.getBoard();
 		
@@ -24,10 +26,12 @@ public class Crocodile extends Piece{
 			int riverCounter = j - 1;
 			while(riverCounter >= 0){
 				if(board[i][riverCounter] == null){
-					allPossibleMoves[count] = board[i][riverCounter];
+					allPossibleMoves[count][0] = i;
+                    allPossibleMoves[count][1] = riverCounter;;
 					count++;
 				}else if (board[i][riverCounter].getColor() != state.getCurrentTurnColor()){
-					allPossibleMoves[count] = board[i][riverCounter];
+					allPossibleMoves[count][0] = i;
+                    allPossibleMoves[count][1] = riverCounter;
 					count++;
 					break;
 				}else{
@@ -40,10 +44,12 @@ public class Crocodile extends Piece{
 			riverCounter = j + 1;
 			while(riverCounter <= 6){
 				if(board[i][riverCounter] == null){
-					allPossibleMoves[count] = board[i][riverCounter];
+					allPossibleMoves[count][0] = i;
+                    allPossibleMoves[count][1] = riverCounter;
 					count++;
-				}else if (board[i][riverCounter].getColor() != state.getCurrentTurnColor())){
-					allPossibleMoves[count] = board[i][riverCounter];
+				}else if (board[i][riverCounter].getColor() != state.getCurrentTurnColor()){
+                    allPossibleMoves[count][0] = i;
+                    allPossibleMoves[count][1] = riverCounter;
 					count++;
 					break;
 				}else{
@@ -57,10 +63,11 @@ public class Crocodile extends Piece{
 		for(int x = i - 1; x <= i + 1; x++) {
 			for(int y = j - 1; y <= j + 1; y++) {
 				//System.out.println("Checking "  + " X: " + x + " Y: "+ y);
-				if(isIndexBounded(x,y)){
+				if(isIndexBounded(x,y) && !containsMove(allPossibleMoves, new int[] {x,y})){
 					if(board[x][y] == null || board[x][y].getColor() != state.getCurrentTurnColor()) {
 						//System.out.println("Adding " + board[x][y] + " X: " + x + " Y: "+ y);
-						allPossibleMoves[count] = board[x][y];
+                        allPossibleMoves[count][0] = x;
+                        allPossibleMoves[count][1] = y;
 						count++;
 					}
 				}
@@ -75,7 +82,6 @@ public class Crocodile extends Piece{
 					break;
 				}else {
 					if(!containsMove(allPossibleMoves, new int[] {riverCounter,j})){
-                        allPossibleMoves[count] = board[riverCounter][j];
                         allPossibleMoves[count][0] = riverCounter;
                         allPossibleMoves[count][1] = j;
 						count++;
@@ -84,7 +90,9 @@ public class Crocodile extends Piece{
 				}
 				riverCounter--;
 			}
-			allPossibleMoves[count] = board[3][j];
+
+            allPossibleMoves[count][0] = 3;
+            allPossibleMoves[count][1] = j;
 			count++;
 		}else if(i < 3){
 			int riverCounter = i + 1;
@@ -93,14 +101,16 @@ public class Crocodile extends Piece{
 					break;
 				}
 				else {
-					if(!containsMove(allPossibleMoves, board[riverCounter][j])){
-						allPossibleMoves[count] = board[riverCounter][j];
+					if(!containsMove(allPossibleMoves, new int[] {riverCounter,j})){
+                        allPossibleMoves[count][0] = riverCounter;
+                        allPossibleMoves[count][1] = j;
 						count++;
 					}
 				}
 				riverCounter++;
 			}
-			allPossibleMoves[count] = board[3][j];
+            allPossibleMoves[count][0] = 3;
+            allPossibleMoves[count][1] = j;
 		}
 		
 		

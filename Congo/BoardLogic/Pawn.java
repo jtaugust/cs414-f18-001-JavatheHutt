@@ -1,7 +1,7 @@
 package BoardLogic;
 
 public class Pawn extends Piece{
-
+    public int possibleMovesIndex = 0;
     public Pawn(int row, int column, char color, char pieceType) {
         super(row, column, color, pieceType);
     }
@@ -51,77 +51,11 @@ public class Pawn extends Piece{
                 }
             }
         }
-        if(state.getPieceSelected().charAt(3) == 'S') {
-            //Check bounds then check if null for move and enemy opponent for capture 
-            // Check left side 
-            if (isIndexBounded(i,j-1)) {
-                if(board[i][j-1] == null || board[i][j-1].getColor() != state.getCurrentTurnColor()) {
-                    allPossibleMoves[count][0] = i;
-                    allPossibleMoves[count][1] = j - 1;
-                    count++;
-                }
-            }
-            // Check right side 
-            if (isIndexBounded(i,j+1) ) {
-                if(board[i][j+1] == null || board[i][j+1].getColor() != state.getCurrentTurnColor()) {
-                    allPossibleMoves[count][0] = i;
-                    allPossibleMoves[count][1] = j + 1;
-                    count++;
-                }
-            }
-            // Check first left diagonal  
-            if (isIndexBounded(i+1,j-1)) {
-                if(board[i+1][j-1] == null) {
-                    allPossibleMoves[count][0] = i + 1;
-                    allPossibleMoves[count][1] = j - 1;
-                    count++;
-                    // Check second further left diagonal  
-                    if (isIndexBounded(i+2,j-2)) {
-                        if(board[i+2][j-2] == null) {
-                            allPossibleMoves[count][0] = i + 2;
-                            allPossibleMoves[count][1] = j - 2;
-                            count++;
-                        }
-                    }
-                }
-            }
-            // Check first backwards 
-            if (isIndexBounded(i+1,j)) {
-                if(board[i+1][j] == null) {
-                    allPossibleMoves[count][0] = i + 1;
-                    allPossibleMoves[count][1] = j;
-                    count++;
-                    // Check second backwards 
-                    if (isIndexBounded(i+2,j)) {
-                        if(board[i+2][j] == null) {
-                            allPossibleMoves[count][0] = i + 2;
-                            allPossibleMoves[count][1] = j;
-                            count++;
-                        }
-                    }
-                }
-            }
-            // Check first right orthogonal  
-            if (isIndexBounded(i+1,j+1)) {
-                if(board[i+1][j+1] == null) {
-                    allPossibleMoves[count][0] = i + 1;
-                    allPossibleMoves[count][1] = j + 1;
-                    count++;
-                    // Check second further right orthogonal  
-                    if (isIndexBounded(i+2,j+2)) {
-                        if(board[i+2][j+2] == null) {
-                            allPossibleMoves[count][0] = i + 2;
-                            allPossibleMoves[count][1] = j + 2;
-                            count++;
-                        }
-                    }
-                }
-            }
-        }
-
+       
         // for(int k = 0; k < allPossibleMoves.length; k++) {
         //     System.out.println(allPossibleMoves[count][0] + " " + allPossibleMoves[count][1]);
         // }
+        this.possibleMovesIndex = count;
         return allPossibleMoves;
     }	
     
