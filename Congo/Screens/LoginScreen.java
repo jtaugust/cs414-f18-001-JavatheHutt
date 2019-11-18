@@ -121,6 +121,7 @@ public class LoginScreen extends Screen{
 	    JPanel bottomButtons = new JPanel();
 	    bottomButtons.setLayout(new BoxLayout(bottomButtons, BoxLayout.LINE_AXIS));
 	    bottomButtons.setBackground(Color.black);
+	    bottomButtons.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(6,0,0,0,new Color(79,175,255)),new MatteBorder(5,5,5,5, Color.black)));
 	    bottomButtons.setPreferredSize(new Dimension(600,75));
 
 	    //create and add "Login" button

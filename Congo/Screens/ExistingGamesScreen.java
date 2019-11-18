@@ -19,7 +19,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
+import App.Application;
 import BoardLogic.CongoBoard;
+import GUI.Frame;
 import GUI.Helpers;
 import GUI.Panel;
 import Server.serverGamesHelpers;
@@ -34,7 +36,7 @@ public class ExistingGamesScreen extends Screen{
 	
 	@Override
 	public void setScreen() {
-
+		
 		//get current games info from database
 		serverGamesHelpers current = new serverGamesHelpers();
 		ArrayList<String[]> games = null;
@@ -47,7 +49,6 @@ public class ExistingGamesScreen extends Screen{
 
 		workingPanel.setLayout(new BorderLayout());
 
-		
 		//create panel for board to be placed on
 		JPanel board = new JPanel();
 		board.setLayout(new GridBagLayout());
