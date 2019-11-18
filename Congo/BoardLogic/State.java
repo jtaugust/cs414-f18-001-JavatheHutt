@@ -1,4 +1,5 @@
 package BoardLogic;
+import java.util.Currency;
 
 public class State {
 
@@ -15,8 +16,8 @@ public class State {
     // N: Null (Empty space)
     // Exs: [14WL] [16NN] [45BC]
 
-    public Piece[][] board;
-    public char currentTurnColor;
+    public String[][] board;
+    public String currentTurnColor;
     public String currentClick;
     public String pieceSelected;
 
@@ -24,7 +25,7 @@ public class State {
     // Current Click: Current postiion of last click 
     // PieceSelected is either null or in format above for which piece is selected to move
     // State constructor, values pulled from database
-    public State(Piece[][] board, char currentTurnColor, String currentClick, String pieceSelected){
+    public State(String[][] board, String currentTurnColor, String currentClick, String pieceSelected){
         // TODO: Get values from database
         this.board = board;
         this.currentTurnColor = currentTurnColor;
@@ -49,11 +50,11 @@ public class State {
     //
     // Getters
     //
-    public Piece[][] getBoard() {
+    public String[][] getBoard() {
         return board;
     }
 
-    public char getCurrentTurnColor(){
+    public String getCurrentTurnColor(){
         return currentTurnColor;
     }
 
@@ -68,11 +69,11 @@ public class State {
     //
     // Setters
     //
-    public void setBoard(Piece[][] newBoard) {
+    public void setBoard(String[][] newBoard) {
         board = newBoard;
     }
 
-    public void setCurrentTurnColor(char newTurnColor){
+    public void setCurrentTurnColor(String newTurnColor){
         currentTurnColor = newTurnColor;
     }
 
