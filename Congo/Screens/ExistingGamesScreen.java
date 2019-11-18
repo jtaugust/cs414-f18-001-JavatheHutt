@@ -1,5 +1,6 @@
 package Screens;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
@@ -18,7 +19,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
+import App.Application;
 import BoardLogic.CongoBoard;
+import GUI.Frame;
 import GUI.Helpers;
 import GUI.Panel;
 import Server.serverGamesHelpers;
@@ -33,26 +36,19 @@ public class ExistingGamesScreen extends Screen{
 	
 	@Override
 	public void setScreen() {
-
+		
 		//get current games info from database
 		serverGamesHelpers current = new serverGamesHelpers();
 		ArrayList<String[]> games = null;
 		try {
-			games = current.readCurrentGames_T(Application.getUser());
+			games = current.readCurrentGames_T(WorkingPanel.getUser());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		//set the screen to existing games
-		Application.setCurrentScreen("Existing Games");
-		
-		//get the working panel
-		JPanel workingPanel = Panel.getWorkingPanel();
+
 		workingPanel.setLayout(new BorderLayout());
 
-		
 		//create panel for board to be placed on
 		JPanel board = new JPanel();
 		board.setLayout(new GridBagLayout());

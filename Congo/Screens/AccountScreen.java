@@ -25,6 +25,7 @@ public class AccountScreen extends Screen{
 	public void setScreen() {
 		workingPanel.setBackground(Color.black);
 		workingPanel.setBackground(new Color(50,50,50));
+		workingPanel.setLayout(new GridBagLayout());
 		
 		//create and add "Unregister" button
 	    JPanel unregister = new JPanel();
@@ -52,7 +53,7 @@ public class AccountScreen extends Screen{
 	  			}
 	  		}
 		});
-	    unregister.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(10,10,10,10,Color.black), new MatteBorder(2,2,2,2,new Color(79,175,255))));
+	    unregister.setBorder(BorderFactory.createMatteBorder(2,2,2,2,new Color(79,175,255)));
 	    workingPanel.add(unregister);
 	}
 	

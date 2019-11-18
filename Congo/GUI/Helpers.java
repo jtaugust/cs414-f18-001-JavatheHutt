@@ -133,6 +133,7 @@ public class Helpers {
 
 			}
 		}); 
+		field.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,6,0,0,new Color(79,175,255)),new MatteBorder(8,8,8,8, Color.white)));
 		return field;
 	}
 	
@@ -162,6 +163,7 @@ public class Helpers {
 
 			}
 		}); 
+		field.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,6,0,0,new Color(79,175,255)),new MatteBorder(8,8,8,8, Color.white)));
 		return field;
 	}
 

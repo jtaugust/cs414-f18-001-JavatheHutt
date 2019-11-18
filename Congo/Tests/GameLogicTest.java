@@ -1,10 +1,13 @@
 package Tests;
+
 import BoardLogic.*; 
+
 
 import static org.junit.Assert.*;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedList;
 
 import org.junit.Test;
 
@@ -13,6 +16,7 @@ import BoardLogic.State;
 import BoardLogic.Pawn;
 
 public class GameLogicTest {
+
 
 	@Test
 	public void testIsIndexBoundedForUnBoundedValues() {
@@ -402,6 +406,7 @@ public class GameLogicTest {
 //		GameLogic gameLogic=new GameLogic();
 //        assertTrue(gameLogic.isGameOver(state));
 //    }
+
     }
     	
     
