@@ -1,4 +1,5 @@
 package BoardLogic;
+
 //
 // GameLogic.java 
 // 
@@ -408,16 +409,42 @@ public class GameLogic extends State{
 		String[][] board = state.getBoard();
 		
 		// Set to 15 for max amount of moves 
-		String[] allPossibleMoves = new String[10];
+		String[] allPossibleMoves = new String[20];
 		int count = 0; 
 		
-		// Check for river moves
+		// Check for river 
 		if(i == 3) {
-			for(int y = 0; y < 6; y++) {
-				if(board[i][y].charAt(2) == 'N' || board[i][y].charAt(2) != state.getCurrentTurnColor().charAt(0)) {
-					allPossibleMoves[count] = board[i][y];
+			
+			// Check Left 
+			int riverCounter = j - 1;
+			while(riverCounter >= 0){
+				if(board[i][riverCounter].charAt(2) == 'N'){
+					allPossibleMoves[count] = board[i][riverCounter];
 					count++;
+				}else if (board[i][riverCounter].charAt(2) != state.getCurrentTurnColor().charAt(0)){
+					allPossibleMoves[count] = board[i][riverCounter];
+					count++;
+					break;
+				}else{
+					break;
 				}
+				riverCounter--;
+			}
+
+			// Check Right 
+			riverCounter = j + 1;
+			while(riverCounter <= 6){
+				if(board[i][riverCounter].charAt(2) == 'N'){
+					allPossibleMoves[count] = board[i][riverCounter];
+					count++;
+				}else if (board[i][riverCounter].charAt(2) != state.getCurrentTurnColor().charAt(0)){
+					allPossibleMoves[count] = board[i][riverCounter];
+					count++;
+					break;
+				}else{
+					break;
+				}
+				riverCounter++;
 			}
 		}
 		
@@ -452,7 +479,7 @@ public class GameLogic extends State{
 			}
 			allPossibleMoves[count] = board[3][j];
 			count++;
-		}else {
+		}else if(i < 3){
 			int riverCounter = i + 1;
 			while( riverCounter != 3) {
 				if((board[riverCounter][j].charAt(2) != 'N')){
