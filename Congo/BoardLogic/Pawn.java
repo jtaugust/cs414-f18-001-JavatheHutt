@@ -22,14 +22,18 @@ public class Pawn extends Piece{
                 if(isIndexBounded(x,y))
                     // Check if an empty space or enemy piece
                     if(board[x][y] == null || board[x][y].getColor() != state.getCurrentTurnColor()){
+                        System.out.println("X: " + x + " Y: "+ y);
                         allPossibleMoves[count][0] = x;
                         allPossibleMoves[count][1] = y;
+                        System.out.println(allPossibleMoves[count][0] + " " + allPossibleMoves[count][1]);
                         count++;
+                       
                     }
             }
         }
         // Check for beyond river moves 
-        if(state.getPieceSelected().charAt(0) == 'P' && state.getPieceSelected().charAt(0) <= 3) {
+        if(i <= 3) {
+            System.out.println("In iff");
             // Check first backwards 
             if (isIndexBounded(i+1,j)) {
                 if(board[i-1][j-1] == null) {
@@ -114,9 +118,10 @@ public class Pawn extends Piece{
                 }
             }
         }
-//			for(int k = 0; k < allPossibleMoves.length; k++) {
-//				System.out.println(allPossibleMoves[k]);
-//			}
+
+        // for(int k = 0; k < allPossibleMoves.length; k++) {
+        //     System.out.println(allPossibleMoves[count][0] + " " + allPossibleMoves[count][1]);
+        // }
         return allPossibleMoves;
     }	
     

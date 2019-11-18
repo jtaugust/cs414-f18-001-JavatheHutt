@@ -51,5 +51,15 @@ public abstract class Piece{
 			}
 		}
 		return false;
-	}
+    }
+    
+    // Checks if new move is in list of all possible moves
+	public boolean containsMove(int[][] possibleMoves, int[] newPosition) {
+		for (int i = 0; i < possibleMoves.length; i++) {
+			if (possibleMoves[i][0] == newPosition[0] && possibleMoves[i][1] == newPosition[1]){
+				return true;
+			}
+		}
+		return false;
+	}	
 }
