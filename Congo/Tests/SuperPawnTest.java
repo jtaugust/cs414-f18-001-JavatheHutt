@@ -21,7 +21,7 @@ public class SuperPawnTest {
 				{null, null, null, null, null, null, null},
 				{null, null, null, null, null, null, null}
 			};
-		State state = new State(board,'W',"40NN","21WP");
+		State state = new State(board,'W',new int[] {0,0},superPawn);
 		
 		int[][] movesReturned = superPawn.legalMoves(state);
 
@@ -38,15 +38,15 @@ public class SuperPawnTest {
 		expectedMoves[8][0]= 3; expectedMoves[8][1]= 2;
 		expectedMoves[9][0]= 4; expectedMoves[9][1]= 3;
 
-		System.out.println("Moves Returned");
-        for(int k = 0; k < movesReturned.length; k++) {
-            System.out.println(movesReturned[k][0] + " " + movesReturned[k][1]);
-		}
+		// System.out.println("Moves Returned");
+        // for(int k = 0; k < movesReturned.length; k++) {
+        //     System.out.println(movesReturned[k][0] + " " + movesReturned[k][1]);
+		// }
 		
-		System.out.println("Moves Expected");
-        for(int k = 0; k < expectedMoves.length; k++) {
-            System.out.println(expectedMoves[k][0] + " " + expectedMoves[k][1]);
-        }
+		// System.out.println("Moves Expected");
+        // for(int k = 0; k < expectedMoves.length; k++) {
+        //     System.out.println(expectedMoves[k][0] + " " + expectedMoves[k][1]);
+        // }
 
 		assertArrayEquals(movesReturned, expectedMoves);
 	}

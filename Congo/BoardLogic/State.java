@@ -17,14 +17,14 @@ public class State {
 
     public Piece[][] board;
     public char currentTurnColor;
-    public String currentClick;
-    public String pieceSelected;
+    public int[] currentClick;
+    public Piece pieceSelected;
 
 
     // Current Click: Current postiion of last click 
     // PieceSelected is either null or in format above for which piece is selected to move
     // State constructor, values pulled from database
-    public State(Piece[][] board, char currentTurnColor, String currentClick, String pieceSelected){
+    public State(Piece[][] board, char currentTurnColor, int[] currentClick, Piece pieceSelected){
         // TODO: Get values from database
         this.board = board;
         this.currentTurnColor = currentTurnColor;
@@ -57,11 +57,11 @@ public class State {
         return currentTurnColor;
     }
 
-    public String getCurrentClick(){
+    public int[] getCurrentClick(){
         return currentClick;
     }
 
-    public String getPieceSelected(){
+    public Piece getPieceSelected(){
         return pieceSelected;
     }
 
@@ -76,11 +76,11 @@ public class State {
         currentTurnColor = newTurnColor;
     }
 
-    public void setCurrentClick(String newClick){
+    public void setCurrentClick(int[] newClick){
         currentClick = newClick;
     }
 
-    public void setPieceSelected(String newPieceSelected){
+    public void setPieceSelected(Piece newPieceSelected){
         pieceSelected = newPieceSelected;
     }
 
@@ -90,7 +90,7 @@ public class State {
         for (int i = 0; i < 7; i++ ){
 			result+= "[ ";
 			for (int j = 0; j < 7; j++){
-                result += board[i][j] + " ";
+                result += board[i][j].toString() + " ";
             }
             result += "]\n";
         }

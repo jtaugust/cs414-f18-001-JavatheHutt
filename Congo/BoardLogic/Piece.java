@@ -19,6 +19,10 @@ public abstract class Piece{
     // Returns a list of coordinates for the legal moves at a given 
     abstract int[][] legalMoves(State state);
 
+    //
+    // Getters 
+    //
+
     // Returns the row of the piece
     public int getRow(){
         return this.row;
@@ -37,6 +41,36 @@ public abstract class Piece{
     // Returns the type of piece this is
     public char getType(){
         return this.pieceType;
+    }
+
+    //
+    // Setters 
+    //
+
+    // Sets a new row for the piece
+    public void setRow(int newRow){
+        this.row = newRow;
+    }
+
+    // Sets a new column for the piece
+    public void setColumn(int newColumn){
+        this.column = newColumn;
+    }
+
+    // RSets a new color for the piece
+    public void setColor(char newColor){
+        this.color = newColor;
+    }
+
+    // Sets a new type for the piece
+    public void setType(char newType){
+        this.pieceType = newType;
+    }
+
+    // Return four character string to represent piece
+    public String toString(){
+        String result = Integer.toString(this.row) + Integer.toString(this.column) + this.color + this.pieceType;
+        return result;
     }
 
     //

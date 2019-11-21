@@ -10,7 +10,7 @@ public class CrocodileTest {
     
     @Test
     public void testSimpleCrocodileMoves() {
-		System.out.println("In Crocodile");
+		// System.out.println("In Crocodile");
 		Crocodile crocodile = new Crocodile(3,1,'W','C');
 		Piece[][] board = {
 				{null, null, null, null, null, null, null},
@@ -21,7 +21,7 @@ public class CrocodileTest {
 				{null, null, null, null, null, null, null},
 				{null, null, null, null, null, null, null}
 			};
-		State state = new State(board,'W',"40NN","31WC");
+		State state = new State(board,'W',new int[] {0,0},crocodile);
 
 		int[][] movesReturned = crocodile.legalMoves(state);
 
@@ -39,15 +39,15 @@ public class CrocodileTest {
 		expectedMoves[10][0]= 4; expectedMoves[10][1]= 1;
 		expectedMoves[11][0]= 4; expectedMoves[11][1]= 2;
 
-		System.out.println("Moves Expected");
-        for(int k = 0; k < expectedMoves.length; k++) {
-            System.out.println(expectedMoves[k][0] + " " + expectedMoves[k][1]);
-		}
+		// System.out.println("Moves Expected");
+        // for(int k = 0; k < expectedMoves.length; k++) {
+        //     System.out.println(expectedMoves[k][0] + " " + expectedMoves[k][1]);
+		// }
 		
-		System.out.println("Moves Returned");
-        for(int k = 0; k < movesReturned.length; k++) {
-            System.out.println(movesReturned[k][0] + " " + movesReturned[k][1]);
-		}
+		// System.out.println("Moves Returned");
+        // for(int k = 0; k < movesReturned.length; k++) {
+        //     System.out.println(movesReturned[k][0] + " " + movesReturned[k][1]);
+		// }
 		
 		assertArrayEquals(movesReturned, expectedMoves);
     }

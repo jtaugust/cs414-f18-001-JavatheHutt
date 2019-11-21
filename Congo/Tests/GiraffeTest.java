@@ -31,7 +31,7 @@ public class GiraffeTest {
 				{null, p6, null, p7, null, p8, null},
 				{null, null, null, null, null, null, null}
 			};
-		State state = new State(board,'W',"40NN","33WG");
+		State state = new State(board,'W',new int[] {0,0},giraffe);
 
 		int[][] movesReturned = giraffe.legalMoves(state);
 
@@ -53,15 +53,15 @@ public class GiraffeTest {
 		expectedMoves[14][0]= 5; expectedMoves[14][1]= 3;
 		expectedMoves[15][0]= 5; expectedMoves[15][1]= 5;
 
-		System.out.println("Moves Expected");
-        for(int k = 0; k < expectedMoves.length; k++) {
-            System.out.println(expectedMoves[k][0] + " " + expectedMoves[k][1]);
-		}
+		// System.out.println("Moves Expected");
+        // for(int k = 0; k < expectedMoves.length; k++) {
+        //     System.out.println(expectedMoves[k][0] + " " + expectedMoves[k][1]);
+		// }
 		
-		System.out.println("Moves Returned");
-        for(int k = 0; k < movesReturned.length; k++) {
-            System.out.println(movesReturned[k][0] + " " + movesReturned[k][1]);
-		}
+		// System.out.println("Moves Returned");
+        // for(int k = 0; k < movesReturned.length; k++) {
+        //     System.out.println(movesReturned[k][0] + " " + movesReturned[k][1]);
+		// }
 		
 		assertArrayEquals(movesReturned, expectedMoves);
 	}
