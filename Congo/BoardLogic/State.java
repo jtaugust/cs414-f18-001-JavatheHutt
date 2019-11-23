@@ -15,12 +15,42 @@ public class State {
     // N: Null (Empty space)
     // Exs: [14WL] [16NN] [45BC]
 
-    public Piece[][] board;
+    public Piece[][] board = new Piece[7][7];
     public char currentTurnColor;
     public int[] currentClick;
     public Piece pieceSelected;
 
-
+    // Initializes the board
+    public State() {
+    	this.board[0][0]= null; //new Giraffe(0,0,'B','G');
+    	this.board[0][1]=new Monkey(0,1,'B','M');
+    	this.board[0][2]=new Elephant(0,2,'B','E');
+    	this.board[0][3]=new Lion(0,3,'B','L');
+    	this.board[0][4]=new Elephant(0,4,'B','E'); 
+    	this.board[0][5]=null;// new Crocodile(0,5,'B','C');
+    	this.board[0][6]=new Zebra(0,6,'B','Z');
+    	
+        for(int i=0; i<7; i++) {
+        		this.board[1][i]=new Pawn(1,i,'B','P');
+        	}
+        
+        this.board[6][0]= null; //new Giraffe(6,0,'W','G');
+    	this.board[6][1]=new Monkey(6,1,'W','M');
+    	this.board[6][2]=new Elephant(6,2,'W','E');
+    	this.board[6][3]=new Lion(6,3,'W','L');
+    	this.board[6][4]=new Elephant(6,4,'W','E'); 
+    	this.board[6][5]=null;// new Crocodile(6,5,'W','C');
+    	this.board[6][6]=new Zebra(6,6,'W','Z');
+    	
+        for(int i=0; i<7; i++) {
+        		this.board[5][i]=new Pawn(5,i,'W','P');
+        	}
+        for(int i=2; i<5; i++) {
+        	for(int j=0; j<7;j++) {
+        		this.board[i][j]=null;
+        	}
+        }
+    }
     // Current Click: Current postiion of last click 
     // PieceSelected is either null or in format above for which piece is selected to move
     // State constructor, values pulled from database
@@ -32,12 +62,7 @@ public class State {
         this.pieceSelected = pieceSelected;
 
 
-    } 
-
-    // Empty construcor for testing purposes 
-    public State(){
-       
-    }
+    }   
 
     // Update the state object and update in database
     public void updateState(State newState){
@@ -50,6 +75,7 @@ public class State {
     // Getters
     //
     public Piece[][] getBoard() {
+    	System.out.println(this.board.toString());
         return board;
     }
 
@@ -90,7 +116,12 @@ public class State {
         for (int i = 0; i < 7; i++ ){
 			result+= "[ ";
 			for (int j = 0; j < 7; j++){
+				if (board[i][j]!=null){
                 result += board[i][j].toString() + " ";
+				}
+				else {
+	                result += "NN ";
+				}
             }
             result += "]\n";
         }
@@ -98,4 +129,43 @@ public class State {
         result += "\n currentTurnColor: " + currentTurnColor + " currentClick: " +  currentClick + " pieceSelected: " + pieceSelected + "\n";
         return result;
     }
+    
+    public void movePiece(String fromPos, String toPos){
+        System.out.println("From Pos and ToPid"+fromPos+","+toPos);
+        Piece pieceSelected=board[Character.getNumericValue(fromPos.charAt(0))][Character.getNumericValue(fromPos.charAt(1))];
+        pieceSelected.setRow(Character.getNumericValue(toPos.charAt(0)));
+        pieceSelected.setColumn(Character.getNumericValue(Character.getNumericValue(toPos.charAt(1))));
+		board[Character.getNumericValue(fromPos.charAt(0))][Character.getNumericValue(fromPos.charAt(1))]=null;
+		
+		this.board[Character.getNumericValue(toPos.charAt(0))][Character.getNumericValue(toPos.charAt(1))]=pieceSelected;
+	}
+    
+    public Piece[][] flipBoard(State state){
+		Piece[][] board = state.getBoard();
+		Piece[][] newBoard = new Piece[7][7];
+		Piece[][] indexBoard = board;
+		// Go through backwards and swap pieces by taking index of array copy and piece color and type from real board
+		int countI = 0;
+		int countJ = 0;
+		for (int i = 6; i >= 0; i--) { 
+            for (int j = 6; j >= 0; j--) {
+				Piece newPiece = board[i][j];
+				if(newPiece!=null) {
+//					newPiece.setRow(indexBoard[countI][countJ].getRow());
+//					newPiece.setColumn(indexBoard[countI][countJ].getColumn());
+					newPiece.setRow(countI);
+					newPiece.setColumn(countJ);
+					
+					newBoard[countI][countJ] = newPiece;
+				}
+                countJ++;
+            }
+            countI++;
+    		countJ = 0;
+        } 
+		state.setBoard(newBoard);
+		
+		return newBoard;
+	}
+	
 }
