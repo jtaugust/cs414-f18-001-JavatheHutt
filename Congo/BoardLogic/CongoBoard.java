@@ -290,10 +290,10 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 			System.out.println("In second click");		
 			isPieceClicked=false;
 			
-			if(congoPiece == null || c.getWidth() != 70) {
-				System.out.println("congoPiece is null or <70");
-				return;
-			}
+//			if(congoPiece == null || c.getWidth() != 70) {
+//				System.out.println("congoPiece is null or <70");
+//				return;
+//			}
 	 
 			congoPiece.setVisible(false);			
 	
