@@ -22,7 +22,6 @@ public class Pawn extends Piece{
                 if(isIndexBounded(x,y))
                     // Check if an empty space or enemy piece
                     if(board[x][y] == null || board[x][y].getColor() != state.getCurrentTurnColor()){
-                        System.out.println("X: " + x + " Y: "+ y);
                         allPossibleMoves[count][0] = x;
                         allPossibleMoves[count][1] = y;
                         System.out.println(allPossibleMoves[count][0] + " " + allPossibleMoves[count][1]);

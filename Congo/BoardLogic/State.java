@@ -22,24 +22,24 @@ public class State {
 
     // Initializes the board
     public State() {
-    	this.board[0][0]= null; //new Giraffe(0,0,'B','G');
+    	this.board[0][0]=new Giraffe(0,0,'B','G');
     	this.board[0][1]=new Monkey(0,1,'B','M');
     	this.board[0][2]=new Elephant(0,2,'B','E');
     	this.board[0][3]=new Lion(0,3,'B','L');
     	this.board[0][4]=new Elephant(0,4,'B','E'); 
-    	this.board[0][5]=null;// new Crocodile(0,5,'B','C');
+    	this.board[0][5]=new Crocodile(0,5,'B','C');
     	this.board[0][6]=new Zebra(0,6,'B','Z');
     	
         for(int i=0; i<7; i++) {
         		this.board[1][i]=new Pawn(1,i,'B','P');
         	}
         
-        this.board[6][0]= null; //new Giraffe(6,0,'W','G');
+        this.board[6][0]=new Giraffe(6,0,'W','G');
     	this.board[6][1]=new Monkey(6,1,'W','M');
     	this.board[6][2]=new Elephant(6,2,'W','E');
     	this.board[6][3]=new Lion(6,3,'W','L');
     	this.board[6][4]=new Elephant(6,4,'W','E'); 
-    	this.board[6][5]=null;// new Crocodile(6,5,'W','C');
+    	this.board[6][5]=new Crocodile(6,5,'W','C');
     	this.board[6][6]=new Zebra(6,6,'W','Z');
     	
         for(int i=0; i<7; i++) {

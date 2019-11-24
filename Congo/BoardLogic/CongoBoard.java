@@ -233,7 +233,6 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		// First click (piece select)
 		if(!isPieceClicked) {
 			congoPiece = null;
-			System.out.println("pieceName clicked"+c.getName());
 			if (c instanceof JPanel ||c.getName()==null) {
 				System.out.println("It is JPanel");
 
@@ -253,9 +252,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 			congoPiece = (JLabel)c;
 			String pieceName=congoPiece.getName();
 			char pieceColor=pieceName.charAt(0);
-			
-			System.out.println("Piece color: " + pieceColor);
-			
+						
 			if(pieceColor == 'W' && turn == "B") {
 				return;
 			}
@@ -276,7 +273,6 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
             System.out.println(state.toString());
 			currentPossibleMoves = piece.legalMoves(state);
 			for(int i=0; i<currentPossibleMoves.length;i++) {
-				System.out.println(currentPossibleMoves[i][0]+","+currentPossibleMoves[i][1]);
 				possibleMoves.add(""+Integer.toString(currentPossibleMoves[i][0])+Integer.toString(currentPossibleMoves[i][1]));
 			}
 //			for(int i = 0; i < currentPossibleMoves.length; i++) {
@@ -286,6 +282,9 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 //					congoBoard.getComponent(convertIndex(currentPossibleMoves[i].substring(0, 2))).setBackground(Color.white);
 //				}
 //			}
+			for (String possibleMove:possibleMoves) {
+				congoBoard.getComponent(convertIndex(possibleMove)).setBackground(Color.white);
+			}
 	 
 			congoPiece.setSize(congoPiece.getWidth(), congoPiece.getHeight());
 			//  layeredPane.add(congoPiece, JLayeredPane.DRAG_LAYER);
@@ -326,7 +325,6 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 				System.out.println("PossibleMoves:"+possibleMoves);
 				if(isLegalMove(possibleMoves,toPos)) {
 				//My Code
-				System.out.println("IN LEGAL");
 				state.movePiece(fromPos,toPos);
 				parent.remove(0);
 				parent.add(congoPiece);
@@ -357,7 +355,6 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 				System.out.println("Future Move:"+toPos);
 				if(isLegalMove(possibleMoves,toPos)) {
 				//My Code
-				System.out.println("IN LEGAL");
 				state.movePiece(fromPos,toPos);
 				parent.add(congoPiece);
 				System.out.println(state.toString());
@@ -371,7 +368,6 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 
 				}
 				else {
-					System.out.println("ILLEGAL");
 					currentParent.add(congoPiece);
 				}
 				possibleMoves.clear();
