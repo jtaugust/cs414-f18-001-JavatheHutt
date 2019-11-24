@@ -234,7 +234,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		if(!isPieceClicked) {
 			congoPiece = null;
 			if (c instanceof JPanel ||c.getName()==null) {
-				System.out.println("It is JPanel");
+				System.out.println("select a piece");
 
 				return;
 			}
@@ -275,13 +275,6 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 			for(int i=0; i<currentPossibleMoves.length;i++) {
 				possibleMoves.add(""+Integer.toString(currentPossibleMoves[i][0])+Integer.toString(currentPossibleMoves[i][1]));
 			}
-//			for(int i = 0; i < currentPossibleMoves.length; i++) {
-//				if(currentPossibleMoves[i] != null) {
-//					System.out.println(currentPossibleMoves[i].substring(0, 2));
-//					possibleMoves.add(currentPossibleMoves[i].substring(0, 2));
-//					congoBoard.getComponent(convertIndex(currentPossibleMoves[i].substring(0, 2))).setBackground(Color.white);
-//				}
-//			}
 			for (String possibleMove:possibleMoves) {
 				congoBoard.getComponent(convertIndex(possibleMove)).setBackground(Color.white);
 			}
@@ -297,8 +290,10 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 			System.out.println("In second click");		
 			isPieceClicked=false;
 			
-			if(congoPiece == null || c.getWidth() != 70) 
+			if(congoPiece == null || c.getWidth() != 70) {
+				System.out.println("congoPiece is null or <70");
 				return;
+			}
 	 
 			congoPiece.setVisible(false);			
 	
@@ -319,9 +314,8 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 				else {
 					 futurePieceName=futurePiece.getName();
 				}
-				Piece futureBlock=board[row][col-1];
-
 				System.out.println("Future Move:"+toPos);
+
 				System.out.println("PossibleMoves:"+possibleMoves);
 				if(isLegalMove(possibleMoves,toPos)) {
 				//My Code
