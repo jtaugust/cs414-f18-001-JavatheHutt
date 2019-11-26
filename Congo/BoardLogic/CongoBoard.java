@@ -225,7 +225,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	
 	  
 	}
-	 
+	
 	  
 	public void mousePressed(MouseEvent e){
 		Component c =  congoBoard.findComponentAt(e.getX(), e.getY());
@@ -262,14 +262,10 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 			
 			Piece pieceSelectedBoard=board[row][col-1];
 			pieceSelected = Integer.toString(row)+Integer.toString(col-1)+pieceName;
-			System.out.println("Piece Selected:"+pieceSelected);
 			congoPiece.setLocation(e.getX() + xAdjustment, e.getY() + yAdjustment);
 			
 			// get possible moves based on piece clicked.
-
-			System.out.println("Selected: " + piece.getType());
 			state.setPieceSelected(pieceSelectedBoard);
-//			state.setCurrentTurnColor(testMove.getCurrentTurnColor());
             System.out.println(state.toString());
 			currentPossibleMoves = piece.legalMoves(state);
 			for(int i=0; i<currentPossibleMoves.length;i++) {
@@ -280,7 +276,6 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 			}
 	 
 			congoPiece.setSize(congoPiece.getWidth(), congoPiece.getHeight());
-			//  layeredPane.add(congoPiece, JLayeredPane.DRAG_LAYER);
 			layeredPane.add(congoPiece, JLayeredPane.DRAG_LAYER);
 
 			isPieceClicked=true;
@@ -307,13 +302,13 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 				int col=findColumn(parentLocation.x);
 				JLabel futurePiece=(JLabel)c;
 				toPos=Integer.toString(row)+Integer.toString(col-1);
-				String futurePieceName;
-				if(futurePiece.getName()==null) {
-					 futurePieceName="NN";
-				}
-				else {
-					 futurePieceName=futurePiece.getName();
-				}
+//				String futurePieceName;
+//				if(futurePiece.getName()==null) {
+//					 futurePieceName="NN";
+//				}
+//				else {
+//					 futurePieceName=futurePiece.getName();
+//				}
 				System.out.println("Future Move:"+toPos);
 
 				System.out.println("PossibleMoves:"+possibleMoves);
@@ -447,20 +442,13 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 
 		if(turn == "W") {
 			turn = "B";
-//			testMove.setCurrentTurnColor("B");
-//			System.out.println(testMove.getCurrentTurnColor());
+
 
 		}
 		else if(turn == "B") {
 			turn = "W";
-//			testMove.setCurrentTurnColor("W");
-//			System.out.println(testMove.getCurrentTurnColor());
+
 		}
-//		congoBoard.removeAll();
-//		congoBoard.revalidate();
-//		congoBoard.repaint();
-//		buildBoard();
-//		fillBoard();
 		System.out.println("Turn after change: " + turn);
 	}
 	
