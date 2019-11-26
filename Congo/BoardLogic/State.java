@@ -75,7 +75,6 @@ public class State {
     // Getters
     //
     public Piece[][] getBoard() {
-    	System.out.println(this.board.toString());
         return board;
     }
 
@@ -131,7 +130,7 @@ public class State {
     }
     
     public void movePiece(String fromPos, String toPos){
-        System.out.println("From Pos and ToPid"+fromPos+","+toPos);
+//        System.out.println("From Pos and ToPid"+fromPos+","+toPos);
         Piece pieceSelected=board[Character.getNumericValue(fromPos.charAt(0))][Character.getNumericValue(fromPos.charAt(1))];
         pieceSelected.setRow(Character.getNumericValue(toPos.charAt(0)));
         pieceSelected.setColumn(Character.getNumericValue(Character.getNumericValue(toPos.charAt(1))));
