@@ -301,18 +301,17 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 			congoPiece.setVisible(false);			
 	
 			if (c instanceof JLabel && !isIndex(congoPiece)){
-				System.out.println("FIRST IF");
+//				System.out.println("FIRST IF");
 				Container parent = c.getParent();
-				System.out.println("It is JLabel");
+//				System.out.println("It is JLabel");
 				Point parentLocation = parent.getLocation();
-				if(movePieceOnBoard(parentLocation)) {
-				parent.remove(0);
+				if(isPieceMovedOnBoard(parentLocation)) {
+//				parent.remove(0);
 				parent.add(congoPiece);
 //				System.out.println(state.toString());
 				postMoveHandler();
 				}
 				else {
-					System.out.println("ILLEGAL");
 					currentParent.add(congoPiece);
 				}
 				possibleMoves.clear();
@@ -321,7 +320,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 				System.out.println("SECOND IF");
 				Container parent = (Container)c;
 				Point parentLocation = parent.getLocation();
-				if(movePieceOnBoard(parentLocation)) {
+				if(isPieceMovedOnBoard(parentLocation)) {
 				parent.add(congoPiece);
 				postMoveHandler();
 				}
@@ -417,7 +416,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	}
 
  
-	public boolean movePieceOnBoard(Point parentLocation) {
+	public boolean isPieceMovedOnBoard(Point parentLocation) {
 		int row=BoardHelper.findRow(parentLocation.y);
 		int col=BoardHelper.findColumn(parentLocation.x);
 		toPos=Integer.toString(row)+Integer.toString(col-1);
@@ -440,4 +439,6 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		board=state.getBoard();
 		fillBoard(board);
 	}
+	
+	
 }

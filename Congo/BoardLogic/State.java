@@ -1,5 +1,9 @@
 package BoardLogic;
 
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Point;
+
 public class State {
 
     //Board Syntax: Xposition Yposition Color Animal 
@@ -137,6 +141,9 @@ public class State {
 		board[Character.getNumericValue(fromPos.charAt(0))][Character.getNumericValue(fromPos.charAt(1))]=null;
 		
 		this.board[Character.getNumericValue(toPos.charAt(0))][Character.getNumericValue(toPos.charAt(1))]=pieceSelected;
+		if(pieceSelected.getType()=='M') {
+			monkeyMoveHandler(fromPos,toPos);
+		}
 	}
     
     public Piece[][] flipBoard(State state){
@@ -167,4 +174,31 @@ public class State {
 		return newBoard;
 	}
 	
+    // removes the piece jumped over
+    public void monkeyMoveHandler(String fromPos, String toPos) {
+		int fromRow=Character.getNumericValue(fromPos.charAt(0));
+		int fromCol=Character.getNumericValue(fromPos.charAt(1));
+		int toRow=Character.getNumericValue(toPos.charAt(0));
+		int toCol=Character.getNumericValue(toPos.charAt(1));
+		int jumpedRow=fromRow;
+		int jumpedCol=fromCol;
+
+		if (fromRow<toRow) {
+			jumpedRow=fromRow+1;
+		}
+		else if(fromRow>toRow) {
+			jumpedRow=fromRow-1;
+		}
+		if (fromCol<toCol) {
+			jumpedCol=fromCol+1;
+		}
+		else if(fromCol>toCol){
+			jumpedCol=fromCol-1;
+		}
+		if(board[jumpedRow][jumpedCol]!=null) {
+		System.out.print("JumpedPiece:"+board[jumpedRow][jumpedCol].getType());
+		}
+		board[jumpedRow][jumpedCol]=null;
+
+	}
 }
