@@ -35,6 +35,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	};
 	 
 	String pieceSelected;
+	JPanel mainPanel;
 	JLayeredPane layeredPane;
 	JPanel congoBoard;
 	JLabel congoPiece;
@@ -42,10 +43,15 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	int yAdjustment;
 	
 	// Initializing State
-	State state=new State(board, "W", "", "");
-	GameLogic testMove = new GameLogic();
+	State state;
+	GameLogic testMove;
 	
 	public CongoBoard(){
+		
+		this.state = new State(board, "W", "", "");
+		this.testMove = new GameLogic();
+		mainPanel = new JPanel();
+		mainPanel.setLayout(new BorderLayout());
 		
 		Dimension boardSize = new Dimension(600, 600);
 		//  Use a Layered Pane for this this application
@@ -79,15 +85,25 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	  		@Override
 	  		public void mouseReleased(final MouseEvent e) {
 	  			endTurn.setBackground(new Color(90,90,90));
-	  			switchTurn(congoBoard);
+	  			switchTurn();
 	  		}
 		});
+	    endTurn.setBorder(BorderFactory.createMatteBorder(2,2,2,2,new Color(79,175,255)));
+	    endTurn.setPreferredSize(new Dimension(150, 50));
 	 
 	    congoBoard.setLayout( new GridLayout(8, 8) );
 		congoBoard.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		congoBoard.setPreferredSize( boardSize );
 		congoBoard.setBounds(0, 0, boardSize.width, boardSize.height); 
 		layeredPane.add(congoBoard, JLayeredPane.DEFAULT_LAYER);
+		
+		JPanel endTurnPanel = new JPanel();
+		endTurnPanel.setLayout(new GridBagLayout());
+		endTurnPanel.add(endTurn);
+		endTurnPanel.setBackground(new Color(50,50,50));
+		
+		mainPanel.add(layeredPane, BorderLayout.CENTER);
+		mainPanel.add(endTurnPanel, BorderLayout.PAGE_END);
 		
 
 	}
@@ -151,7 +167,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 			panel.add(piece);  
 			piece.setEnabled(false);
 		}
-				
+			
 	}
 	
 	public void buildBoard() {
@@ -205,121 +221,104 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 			}	
 		}
 	}
-	  //Move the congo piece around
-	 
-	public void mouseDragged(MouseEvent me) {
 	
-	  
-	}
-	 
-	  //Drop the congo piece back onto the congo board
-	 
-	  
-	public void mouseReleased(MouseEvent e) {
-	
-	  
-	}
-	 
-	  
-	public void mouseClicked(MouseEvent e) {
-	
-	  
-	}
-	 
-	  
+	public void mouseDragged(MouseEvent e) {}
+	public void mouseReleased(MouseEvent e) {}
+	public void mouseClicked(MouseEvent e) {}
+	public void mouseMoved(MouseEvent e) {}
+	public void mouseEntered(MouseEvent e){}
+	public void mouseExited(MouseEvent e) {}
 	public void mousePressed(MouseEvent e){
+		
+		System.out.println("IN MOUSE EVENT ----------------------------");
+		
 		Component c =  congoBoard.findComponentAt(e.getX(), e.getY());
-
-		// First click (piece select)
-		if(!isPieceClicked) {
-	
+		
+		if(!isPieceClicked) { // First click (piece select)
+			
+			System.out.println("IN FIRST CLICK ----------------------------\n");
+			System.out.println("Component name clicked: " + c.getName());
+			
 			congoPiece = null;
-			System.out.println("pieceName clicked"+c.getName());
-			if (c instanceof JPanel ||c.getName()==null) {
-				System.out.println("It is JPanel");
-
+			
+			//check if the place clicked was not actually a piece, return if so.
+			if (c instanceof JPanel || c.getName() == null) {
 				return;
 			}
+			
+			//calculate row and column of the click
 		    currentParent = c.getParent();
 			Point parentLocation = c.getParent().getLocation();
 			xAdjustment = parentLocation.x - e.getX();
 			yAdjustment = parentLocation.y - e.getY();
-	 
-	 
 			int row=findRow(parentLocation.y);
 			int col=findColumn(parentLocation.x);
-			congoPiece = (JLabel)c;
-			String pieceName=congoPiece.getName();
-			char pieceColor=pieceName.charAt(0);
 			
+			//get name and color of piece clicked
+			congoPiece = (JLabel)c;
+			String pieceName = congoPiece.getName();
+			char pieceColor = pieceName.charAt(0); 
 			System.out.println("Piece color: " + pieceColor);
 			
-			if(pieceColor == 'W' && turn == "B") {
-				return;
-			}
-			if(pieceColor == 'B' && turn == "W") {
-				return;
-			}
-			
+			//build 4 character string for piece selected
 			pieceSelected = Integer.toString(row)+Integer.toString(col-1)+pieceName;
-			System.out.println("Piece Selected:"+pieceSelected);
+			System.out.println("Piece Selected: "+pieceSelected);
+			
+			//move piece slightly to visually show it was selected
 			congoPiece.setLocation(e.getX() + xAdjustment, e.getY() + yAdjustment);
 			
-			// get possible moves based on piece clicked.
-
-			System.out.println("Selected: " + pieceSelected);
-			board=state.getBoard();
+			//show the selected piece on the top layer
+			layeredPane.add(congoPiece, JLayeredPane.DRAG_LAYER);
+			
+			//get possible moves based on piece selected
+			board = state.getBoard();
 			state.setPieceSelected(pieceSelected);
 			state.setCurrentTurnColor(testMove.getCurrentTurnColor());
-            System.out.println(state.toString());
 			currentPossibleMoves = testMove.displayPossibleMoves(state);
+			
+			//iterate possible moves
+			System.out.print("Possible moves for selected piece: ");
 			for(int i = 0; i < currentPossibleMoves.length; i++) {
 				if(currentPossibleMoves[i] != null) {
-					System.out.println(currentPossibleMoves[i].substring(0, 2));
+					System.out.print("[" + currentPossibleMoves[i].substring(0, 2) + "] ");
+					//save possible moves
 					possibleMoves.add(currentPossibleMoves[i].substring(0, 2));
+					//highlight board tiles based on possible moves
 					congoBoard.getComponent(convertIndex(currentPossibleMoves[i].substring(0, 2))).setBackground(Color.white);
 				}
 			}
-	 
-			congoPiece.setSize(congoPiece.getWidth(), congoPiece.getHeight());
-			//  layeredPane.add(congoPiece, JLayeredPane.DRAG_LAYER);
-			layeredPane.add(congoPiece, JLayeredPane.DRAG_LAYER);
-
+			System.out.print("\n\n");
+			
+			//set that a piece was clicked
 			isPieceClicked=true;
 			
-		// Second click (place select)
-		} else {
-			System.out.println("In second click");
+		
+		} else { // Second click (tile select)
 			
-//			if (c.getWidth() != 70) {
-//				System.out.println("Width is less");
-//				return;
-//			}
+			System.out.println("IN SECOND CLICK ---------------------------\n");
 			
-			
-			
+			//reset piece clicked on second click
 			isPieceClicked=false;
 			
-			if(congoPiece == null || c.getWidth() != 70) 
+			//check for null piece
+			if(congoPiece == null || c.getWidth() != 70){
 				return;
-	 
-			congoPiece.setVisible(false);			
+			}
+				
+			congoPiece.setVisible(false);
 	
-			if (c instanceof JLabel && !isIndex(congoPiece)){
-				System.out.println("FIRST IF");
+			if(c instanceof JLabel && !isIndex(congoPiece)){
 				Container parent = c.getParent();
-				//My Code
-				System.out.println("It is JLabel");
 				Point parentLocation = parent.getLocation();
 				int row=findRow(parentLocation.y);
 				int col=findColumn(parentLocation.x);
 				JLabel futurePiece=(JLabel)c;
 				String futurePosition=Integer.toString(row)+Integer.toString(col-1);
 				String futurePieceName;
+				
 				if(futurePiece.getName()==null) {
 					 futurePieceName="NN";
-				}
-				else {
+				} else {
 					 futurePieceName=futurePiece.getName();
 				}
 				String futureStatePosition=futurePosition+futurePieceName;
@@ -327,26 +326,19 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 				System.out.println("Future Move:"+futurePosition);
 				
 				if(possibleMoves.contains(futurePosition)) {
-				//My Code
-				parent.remove(0);
-				parent.add(congoPiece);
-				testMove.movePiece(state,futureStatePosition);
-				System.out.println(state.toString());
-				switchTurn(congoBoard);
-				congoBoard.removeAll();
-				congoBoard.repaint();
-				buildBoard();
-				testMove.flipBoard(state);
-				fillBoard(state.getBoard());
-				}
-				else {
+					parent.remove(0);
+					parent.add(congoPiece);
+					testMove.movePiece(state,futureStatePosition);
+
+					switchTurn();
+				
+					
+				} else {
 					currentParent.add(congoPiece);
 				}
 				possibleMoves.clear();
-//				parent.remove(0);
-//				parent.add(congoPiece);
+
 			} else if (!isIndex(congoPiece)){
-				System.out.println("SECOND IF");
 				Container parent = (Container)c;
 				//My Code
 				Point parentLocation = parent.getLocation();
@@ -357,39 +349,26 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 				System.out.println("Future Move:"+futurePosition);
 				System.out.println(possibleMoves);
 				if(possibleMoves.contains(futurePosition)) {
-				//My Code
-				parent.add(congoPiece);
-				testMove.movePiece(state,futureStatePosition);
-				System.out.println(state.toString());
-				switchTurn(congoBoard);
-				congoBoard.removeAll();
-				congoBoard.repaint();
-				buildBoard();
-				testMove.flipBoard(state);
-				fillBoard(state.getBoard());
+					parent.add(congoPiece);
+					testMove.movePiece(state,futureStatePosition);
 
-				}
-				else {
+					switchTurn();
+					
+				} else {
 					currentParent.add(congoPiece);
 				}
 				possibleMoves.clear();
 			}
 			congoPiece.setVisible(true);
-//			revertColors();
+			revertColors();
 		} 
 	}
 	  
 	public boolean isIndex(JLabel c) {
-		
 		if(indexList.contains(c.getText())) {
 			return true;
 		}
-
-		
-		
 		return false;
-		
-	 
 	}
 	 
 	// Checks whether a piece is already present in the square
@@ -405,25 +384,16 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		return false;
 	}
 	
-	public void mouseMoved(MouseEvent e) {}
-	public void mouseEntered(MouseEvent e){}
-	public void mouseExited(MouseEvent e) {}
+	 
+	private int findRow(int parentLocationY) {return parentLocationY/70;}
 	
+	private int findColumn(int parentLocationX) {return parentLocationX/70;}
 	 
-	private int findRow(int parentLocationY) {
-		return parentLocationY/70;
-	}
-	 
-	
-	private int findColumn(int parentLocationX) {
-		return parentLocationX/70;
-	}
-	 
-	public static JLayeredPane createBoard(String user1, String user2){
+	public static JPanel createBoard(String user1, String user2){
 		//generate a fresh board
 		CongoBoard board = new CongoBoard();
 		setUsers(user1, user2, board);
-		return board.layeredPane;
+		return board.mainPanel;
 	}
 	 
 	private static void setUsers(String user1, String user2, CongoBoard board) {
@@ -431,36 +401,24 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		board.user2 = user2;
 	}
 	
-	public static void main(String[] args) {
-		JFrame frame = new CongoBoard();
-		frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE );
-		frame.pack();
-		frame.setResizable(true);
-		frame.setLocationRelativeTo( null );
-		frame.setVisible(true);
-	}
-	
-	public void switchTurn(JPanel congoBoard) {
+	public void switchTurn() {
 		
-		System.out.println("Turn before change: " + turn);
-
 		if(turn == "W") {
 			turn = "B";
 			testMove.setCurrentTurnColor("B");
-			System.out.println(testMove.getCurrentTurnColor());
 
-		}
-		else if(turn == "B") {
+		} else if(turn == "B") {
 			turn = "W";
 			testMove.setCurrentTurnColor("W");
-			System.out.println(testMove.getCurrentTurnColor());
 		}
-//		congoBoard.removeAll();
-//		congoBoard.revalidate();
-//		congoBoard.repaint();
-//		buildBoard();
-//		fillBoard();
-		System.out.println("Turn after change: " + turn);
+		congoBoard.removeAll();
+		congoBoard.repaint();
+		buildBoard();
+		testMove.flipBoard(state);
+		fillBoard(state.getBoard());
+		
+		
+		
 	}
 	
 	private void revertColors() {

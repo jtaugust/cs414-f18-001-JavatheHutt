@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.sql.Blob;
@@ -346,6 +347,59 @@ public class serverHelpers {
 			}
 
 			returnArray[5] = resultSet.getString("Status");
+
+			return returnArray;
+
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			close();
+		}
+
+	}
+	
+	// returns a String[][] of data values for a given user from MatchHistory_T
+	public String[][] readMatchHistory_T(String accountName) throws Exception {
+
+		try {
+
+			Class.forName("org.mariadb.jdbc.Driver");
+
+			connect = DriverManager
+					.getConnection("jdbc:mysql://68.234.149.213:8555/Users?" + "user=cs414&password=cs414");
+
+			statement = connect.createStatement();
+
+			preparedStatement = connect
+					.prepareStatement("SELECT * FROM Users.MatchHistory_T WHERE Username=(?)");
+
+			preparedStatement.setString(1, accountName);
+			resultSet = preparedStatement.executeQuery();
+			
+			ResultSetMetaData rsmd = resultSet.getMetaData();
+			
+			int gameCount = 0;
+			while(resultSet.next()) {
+				gameCount++;
+			}
+			
+			if(gameCount == 0) {
+				return null;
+			}
+			
+			resultSet.beforeFirst();
+			int columnCount = rsmd.getColumnCount();
+			String[][] returnArray = new String[gameCount][columnCount];
+			
+			int gameIndex = 0;
+			while (resultSet.next()) {
+			    for (int i = 1; i <= columnCount; i++) {
+			        String columnValue = resultSet.getString(i);
+			        returnArray[gameIndex][i-1] = columnValue;
+			    }
+			    System.out.println("");
+			    gameIndex++;
+			}
 
 			return returnArray;
 
