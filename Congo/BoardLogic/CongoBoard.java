@@ -85,7 +85,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	  		@Override
 	  		public void mouseReleased(final MouseEvent e) {
 	  			endTurn.setBackground(new Color(90,90,90));
-	  			switchTurn();
+	  			//TODO: Call function to switch turn.
 	  		}
 		});
 	    endTurn.setBorder(BorderFactory.createMatteBorder(2,2,2,2,new Color(79,175,255)));
@@ -330,7 +330,11 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 					parent.add(congoPiece);
 					testMove.movePiece(state,futureStatePosition);
 
-					switchTurn();
+					congoBoard.removeAll();
+					congoBoard.repaint();
+					buildBoard();
+					testMove.flipBoard(state);
+					fillBoard(state.getBoard());
 				
 					
 				} else {
@@ -352,7 +356,11 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 					parent.add(congoPiece);
 					testMove.movePiece(state,futureStatePosition);
 
-					switchTurn();
+					congoBoard.removeAll();
+					congoBoard.repaint();
+					buildBoard();
+					testMove.flipBoard(state);
+					fillBoard(state.getBoard());
 					
 				} else {
 					currentParent.add(congoPiece);
@@ -374,12 +382,9 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	// Checks whether a piece is already present in the square
 	public boolean isPiecePresent(MouseEvent e) {
 		Component c =  congoBoard.findComponentAt(e.getX(), e.getY());
-		System.out.println("In isPiecePresent");
 		if (c instanceof JLabel) {
-			System.out.println("in if" + c);
 			return true;
 		}
-		System.out.println("Past if");
 	 
 		return false;
 	}
@@ -399,26 +404,6 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	private static void setUsers(String user1, String user2, CongoBoard board) {
 		board.user1 = user1;
 		board.user2 = user2;
-	}
-	
-	public void switchTurn() {
-		
-		if(turn == "W") {
-			turn = "B";
-			testMove.setCurrentTurnColor("B");
-
-		} else if(turn == "B") {
-			turn = "W";
-			testMove.setCurrentTurnColor("W");
-		}
-		congoBoard.removeAll();
-		congoBoard.repaint();
-		buildBoard();
-		testMove.flipBoard(state);
-		fillBoard(state.getBoard());
-		
-		
-		
 	}
 	
 	private void revertColors() {

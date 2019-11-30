@@ -727,8 +727,10 @@ public class serverHelpers {
 	}
 
 	// Really just a way to update a change in password for a given user.
-	public void insertUserLogin_T(String Username, String column, String value) throws Exception {
-
+	public int insertUserLogin_T(String Username, String column, String value) throws Exception {
+		if (!validString(value)){
+			return 4; //password contains illegal characters
+		}
 		try {
 
 			Class.forName("org.mariadb.jdbc.Driver");
@@ -751,6 +753,7 @@ public class serverHelpers {
 		} finally {
 			close();
 		}
+		return 0;
 	}
 	
 	public static int tryLogin(String username, String password) {

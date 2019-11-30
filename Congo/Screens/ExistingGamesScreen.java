@@ -80,8 +80,7 @@ public class ExistingGamesScreen extends Screen{
 				gameBox.setLayout(new BorderLayout());
 				gameBox.setPreferredSize(new Dimension(295,140));
 				gameBox.setMaximumSize(new Dimension(295,140));
-				gameBox.setBorder(BorderFactory.createMatteBorder(10,10,0,10, new Color(90,90,90)));
-				gameBox.setBorder(BorderFactory.createMatteBorder(2,2,2,2, Color.black));
+				gameBox.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,10,0,10, new Color(90,90,90)), new MatteBorder(2,2,2,2, Color.black)));
 				
 				//top section of gameBox
 				JPanel gameNumber = new JPanel();
