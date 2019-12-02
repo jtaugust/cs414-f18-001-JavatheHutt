@@ -43,8 +43,6 @@ public class RegistrationScreen extends Screen{
 		JPanel textFields = new JPanel();
 		textFields.setLayout(new BoxLayout(textFields, BoxLayout.Y_AXIS));
 
-		
-
 		//create email field 
 		JTextField emailfield = Helpers.newTextField("Email", "Email Address");
 		
@@ -246,20 +244,21 @@ public class RegistrationScreen extends Screen{
 		int err = 0;
 		boolean cont = true;
 		while(cont) {
-    	switch (err) {
-    		case 0: break;
-    		case 1: errStr = "<html>You must fill out the entire form.</html>"; break;
-    		case 2: errStr = "<html>Passwords do not match.</html>"; break;
-    		case 3: errStr = "<html>That username is already in use.</html>"; break;
-    		case 4: errStr = "<html>That email is already in use.</html>"; break;
-    		case 5: errStr = "<html>Password contains illegal characters.</html>"; break;
-    		case 6: errStr = "<html>Username contains illegal characters.</html>"; break;
-    		case 7: errStr = "<html>Provided email is invalid.</html>"; break;
-    		default: cont = false; break;
-    	}
+			
+	    	switch (err) {
+	    		case 0: break;
+	    		case 1: errStr = "<html>You must fill out the entire form.</html>"; break;
+	    		case 2: errStr = "<html>Passwords do not match.</html>"; break;
+	    		case 3: errStr = "<html>That username is already in use.</html>"; break;
+	    		case 4: errStr = "<html>That email is already in use.</html>"; break;
+	    		case 5: errStr = "<html>Password contains illegal characters.</html>"; break;
+	    		case 6: errStr = "<html>Username contains illegal characters.</html>"; break;
+	    		case 7: errStr = "<html>Provided email is invalid.</html>"; break;
+	    		default: cont = false; break;
+	    	}
     	
-    	if (cont)
-    		this.errorCards.add(Label.errorLabel(errStr, Color.red), String.valueOf(err));
+	    	if (cont)
+	    		this.errorCards.add(Label.errorLabel(errStr, Color.red), String.valueOf(err));
     		
     	err++;
 		}
