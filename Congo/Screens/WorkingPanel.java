@@ -26,12 +26,15 @@ public class WorkingPanel {
 		
 		//set the currentScreen to the new screens name
 		this.currentScreen = this.screen.name;
-		
-		//give the new screen this object
-		this.screen.WorkingPanel = this;
-		
-		//give the new screen the workingPanel JPanel
-		this.screen.workingPanel = this.workingPanel;
+		if (screen.name.equals("New Game")){
+			screen.WorkingPanel = this;
+			screen.workingPanel = this.workingPanel;
+		}else{
+			//give the new screen this object
+			this.screen.WorkingPanel = this;
+			//give the new screen the workingPanel JPanel
+			this.screen.workingPanel = this.workingPanel;
+		}
 	}
 	
 	public void requestSetUser(String user){
