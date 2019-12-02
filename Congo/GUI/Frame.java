@@ -1,8 +1,11 @@
 package GUI;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Label;
+import java.awt.Window;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 
 import App.*;
@@ -22,6 +25,7 @@ public class Frame {
 	//create all initial objects
 	public Frame() {
 		frame = new JFrame();
+		frame.setName("Application Window");
 		Username = null;
 		Background = new BackgroundTemplate();
 		WorkingPanel = new WorkingPanel();
@@ -42,7 +46,7 @@ public class Frame {
 			WorkingPanel.screen.setScreen();
 	
 			WorkingPanel.updateWorking();
-		}	
+		}
 	}
 	
 	private void setFrames() {
@@ -109,5 +113,12 @@ public class Frame {
 		return this.frame;
 	}
 	
-	
+	public void clearDialog(){
+		Window windows[] = Window.getWindows();
+		for (int i = 0; i < windows.length; i++){
+			if (windows[i].getName().equals("New Game")){
+				windows[i].dispose();
+			}
+		}
+	}
 }

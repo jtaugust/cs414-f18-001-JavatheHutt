@@ -19,7 +19,8 @@ public class NewGameScreen extends Screen  {
 
 	@Override
 	public void setScreen() {
-		JDialog newGame = new JDialog();
+		JDialog newGame = new JDialog(this.WorkingPanel.frame.getThisFrame(), "New Game");
+		newGame.setName("New Game");
 		newGame.setBackground(Color.GREEN);
 		newGame.add(new JLabel("testing"));
 		newGame.setSize(500,500);

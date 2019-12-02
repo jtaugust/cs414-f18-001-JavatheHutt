@@ -1,5 +1,9 @@
 package Templates;
 
+import java.awt.Component;
+
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import GUI.Frame;
@@ -82,5 +86,9 @@ public class BackgroundTemplate {
 	
 	public JPanel generateTemplate() {
 		return null;
+	}
+	
+	public void clearDialog(){
+		frame.clearDialog();
 	}
 }
