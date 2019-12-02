@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import BoardLogic.GameLogic;
 import BoardLogic.State;
 import BoardLogic.Piece;
 
