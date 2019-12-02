@@ -30,19 +30,19 @@ public class Frame {
 	}
 	
 	public void changeScreen(Screen screen) {
-		
-		//clear the working panel
-		WorkingPanel.workingPanel.removeAll();
-		
 		//set the screens information
 		WorkingPanel.setScreenInfo(screen);
 		
-		changeTemplate(screen.name);
+		if (!screen.name.equals("New Game")){
+			//clear the working panel
+			WorkingPanel.workingPanel.removeAll();
+			changeTemplate(screen.name);
 		
-		//set the workingPanel
-		WorkingPanel.screen.setScreen();
+			//set the workingPanel
+			WorkingPanel.screen.setScreen();
 	
-		WorkingPanel.updateWorking();
+			WorkingPanel.updateWorking();
+		}	
 	}
 	
 	private void setFrames() {

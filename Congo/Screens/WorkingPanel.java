@@ -21,15 +21,17 @@ public class WorkingPanel {
 	}
 	
 	public void setScreenInfo(Screen screen) {
-		//set the WorkingPanel objects screen to the new screen object
-		this.screen = screen;
+		
 		
 		//set the currentScreen to the new screens name
-		this.currentScreen = this.screen.name;
+		this.currentScreen = screen.name;
 		if (screen.name.equals("New Game")){
 			screen.WorkingPanel = this;
 			screen.workingPanel = this.workingPanel;
+			screen.setScreen();
 		}else{
+			//set the WorkingPanel objects screen to the new screen object
+			this.screen = screen;
 			//give the new screen this object
 			this.screen.WorkingPanel = this;
 			//give the new screen the workingPanel JPanel
