@@ -112,27 +112,22 @@ public class BoardHelper {
 		return index;
 	}
 
-public static String switchTurn(JPanel congoBoard, String turn) {
-		
-//		System.out.println("Turn before change: " + turn);
-
-		if(turn == "W") {
-			turn = "B";
-
-
+	public static String switchTurn(JPanel congoBoard, String turn) {
+			
+			if (turn == "W") {
+				turn = "B";
+			} else if (turn == "B") {
+				turn = "W";
+			}
+			return turn;
 		}
-		else if(turn == "B") {
-			turn = "W";
-
-		}
-		return turn;
-//		System.out.println("Turn after change: " + turn);
+	
+	protected static int findRow(int parentLocationY) {
+		return parentLocationY/70;
 	}
-protected static int findRow(int parentLocationY) {
-	return parentLocationY/70;
-}
-protected static int findColumn(int parentLocationX) {
-	return parentLocationX/70;
-}
+	
+	protected static int findColumn(int parentLocationX) {
+		return parentLocationX/70;
+	}
  
 }

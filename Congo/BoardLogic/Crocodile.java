@@ -28,7 +28,7 @@ public class Crocodile extends Piece{
 			while(riverCounter >= 0){
 				if(board[i][riverCounter] == null){
 					allPossibleMoves[count][0] = i;
-                    allPossibleMoves[count][1] = riverCounter;;
+                    allPossibleMoves[count][1] = riverCounter;
 					count++;
 				}else if (board[i][riverCounter].getColor() != state.getCurrentTurnColor()){
 					allPossibleMoves[count][0] = i;

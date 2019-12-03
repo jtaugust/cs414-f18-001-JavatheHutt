@@ -51,14 +51,16 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	int xAdjustment;
 	int yAdjustment;
 	Piece piece;
-	// Initializing State
-	State state = new State();
+	State state;
 	Piece[][] board;
 	String fromPos;
 	String toPos;
 
 	public CongoBoard(){
 		
+		//Initialize state and board
+		state = new State();
+		state.setCurrentTurnColor('W');
 		board = state.getBoard();
 
 		//build GUI from board -----------------------------------------------------------
@@ -125,6 +127,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 			pieceImages.put(white_pieces[i], white_piece_images[i]);
 			pieceImages.put(black_pieces[i], black_piece_images[i]);
 		}
+		
 		pieceImages.put("WP", "./Images/whitePawn.png");
 		pieceImages.put("BP", "./Images/blackPawn.png");
 
@@ -278,7 +281,10 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 			//move piece slightly to show it was selected
 			congoPiece.setLocation(e.getX() + xAdjustment, e.getY() + yAdjustment);
 			state.setPieceSelected(pieceSelectedBoard);
-
+			
+			//Print state
+			System.out.println("State: piece selected row and col: " + state.pieceSelected.getRow() +  state.pieceSelected.getColumn() + " - piece color: " + state.pieceSelected.getColor() + " - current turn color: " + state.getCurrentTurnColor());
+			
 			//get possible moves based on piece clicked.
 			currentPossibleMoves = piece.legalMoves(state);
 
@@ -407,12 +413,17 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	}
 	
 	public void postMoveHandler() {
-		turn=BoardHelper.switchTurn(congoBoard, turn);
+		turn = BoardHelper.switchTurn(congoBoard, turn);
+		if(turn == "W") {
+			state.setCurrentTurnColor('W');
+		} else {
+			state.setCurrentTurnColor('B');
+		}
 		congoBoard.removeAll();
 		congoBoard.repaint();
 		buildBoard();
 		state.flipBoard(state);
-		board=state.getBoard();
+		board = state.getBoard();
 		fillBoard(board);
 	}
 	
