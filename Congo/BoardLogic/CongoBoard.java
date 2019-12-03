@@ -26,6 +26,7 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import BoardLogic.BoardHelper;
+import Server.serverGamesHelpers;
 
 public class CongoBoard extends JFrame implements MouseListener, MouseMotionListener {
 	
@@ -43,8 +44,8 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	int[][] currentPossibleMoves;
 	ArrayList<String> possibleMoves=new ArrayList<>();
 	Container currentParent;
-	 
 	String pieceSelected;
+	JPanel mainPanel;
 	JLayeredPane layeredPane;
 	JPanel congoBoard;
 	JLabel congoPiece;
@@ -55,16 +56,83 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	Piece[][] board;
 	String fromPos;
 	String toPos;
+	int gameID;
 
-	public CongoBoard(){
+	public CongoBoard(String user1, String user2, int gameID){
+		
+		//set users
+		this.user1 = user1;
+		this.user2 = user2;
+		this.gameID = gameID;
+		
+		//read game state from database
+		serverGamesHelpers database = new serverGamesHelpers();
+		String[][] gameState = new String[7][7];
+		try {
+			gameState = database.readGameState(gameID);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		System.out.println("User 1: " + user1 + " and User 2: " + user2 + " and game ID: " + gameID);
 		
 		//Initialize state and board
 		state = new State();
 		state.setCurrentTurnColor('W');
+		
+		Piece[][] currentBoard = new Piece[7][7];
+				
+		for(int i = 0; i < gameState.length; i++) {
+			for(int j = 0; j < gameState[i].length; j++) {
+				if(gameState[i][j] != null) {
+					switch(gameState[i][j]) {
+						case "WP": currentBoard[i][j] = new Pawn(i,j,'W','P'); 
+							break; 
+						case "WG": currentBoard[i][j] = new Giraffe(i,j,'W','G'); 
+							break; 
+						case "WM": currentBoard[i][j] = new Monkey(i,j,'W','M'); 
+							break; 
+						case "WE": currentBoard[i][j] = new Elephant(i,j,'W','E'); 
+							break; 
+						case "WL": currentBoard[i][j] = new Lion(i,j,'W','L'); 
+							break; 
+						case "WC": currentBoard[i][j] = new Crocodile(i,j,'W','C'); 
+							break; 
+						case "WZ": currentBoard[i][j] = new Zebra(i,j,'W','Z'); 
+							break; 
+						case "BP": currentBoard[i][j] = new Pawn(i,j,'B','P');     
+							break;                                                 
+						case "BG": currentBoard[i][j] = new Giraffe(i,j,'B','G');  
+							break;                                                 
+						case "BM": currentBoard[i][j] = new Monkey(i,j,'B','M');   
+							break;                                                 
+						case "BE": currentBoard[i][j] = new Elephant(i,j,'B','E'); 
+							break;                                                 
+						case "BL": currentBoard[i][j] = new Lion(i,j,'B','L');     
+							break;                                                 
+						case "BC": currentBoard[i][j] = new Crocodile(i,j,'B','C');
+							break;                                                 
+						case "BZ": currentBoard[i][j] = new Zebra(i,j,'B','Z');    
+							break; 
+						default: 
+					}
+				} else {
+					System.out.print("NN");
+				}
+			}
+			System.out.println("");
+		}
+		
+		state.setBoard(currentBoard);
 		board = state.getBoard();
+		
 
 		//build GUI from board -----------------------------------------------------------
 
+		mainPanel = new JPanel();
+		mainPanel.setLayout(new BorderLayout());
+		
 		Dimension boardSize = new Dimension(600, 600);
 		//  Use a Layered Pane for this this application
 		layeredPane = new JLayeredPane();
@@ -107,6 +175,14 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		
 		congoBoard.setPreferredSize( boardSize );
 		congoBoard.setBounds(0, 0, boardSize.width, boardSize.height); 
+		
+		JPanel endTurnPanel = new JPanel();
+		endTurnPanel.setLayout(new GridBagLayout());
+		endTurnPanel.add(endTurn);
+		endTurnPanel.setBackground(new Color(50,50,50));
+		
+		mainPanel.add(layeredPane, BorderLayout.CENTER);
+		mainPanel.add(endTurnPanel, BorderLayout.PAGE_END);
 	}
 	
 	//fill board GUI with pieces from board array
@@ -355,27 +431,23 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	// Checks whether a piece is already present in the square
 	public boolean isPiecePresent(MouseEvent e) {
 		Component c =  congoBoard.findComponentAt(e.getX(), e.getY());
-		System.out.println("In isPiecePresent");
 		if (c instanceof JLabel) {
-			System.out.println("in if" + c);
 			return true;
 		}
-		System.out.println("Past if");
 	 
 		return false;
 	}
 	
-	public static JLayeredPane createBoard(String user1, String user2){
+	public static JPanel createBoard(String user1, String user2, int gameID){
 		//generate a fresh board
-		CongoBoard board = new CongoBoard();
-		setUsers(user1, user2, board);
-		return board.layeredPane;
+		CongoBoard board = new CongoBoard(user1, user2, gameID);
+		return board.mainPanel;
 	}
 	 
-	private static void setUsers(String user1, String user2, CongoBoard board) {
-		board.user1 = user1;
-		board.user2 = user2;
-	}
+//	private static void setUsers(String user1, String user2, CongoBoard board) {
+//		board.user1 = user1;
+//		board.user2 = user2;
+//	}
 	
 	private void revertColors() {
 		

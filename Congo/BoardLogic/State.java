@@ -98,7 +98,7 @@ public class State {
     // Setters
     //
     public void setBoard(Piece[][] newBoard) {
-        board = newBoard;
+        this.board = newBoard;
     }
 
     public void setCurrentTurnColor(char newTurnColor){

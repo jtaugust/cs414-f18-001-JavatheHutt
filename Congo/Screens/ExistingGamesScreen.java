@@ -102,6 +102,8 @@ public class ExistingGamesScreen extends Screen{
 				gameBox.add(opponent, BorderLayout.CENTER);
 				
 				gameBox.setBackground(new Color(120,120,120));
+				
+				final Integer innerGameID = new Integer(games.get(i)[0]);
 				gameBox.addMouseListener(new MouseAdapter() {
 			  		@Override
 			  		public void mousePressed(final MouseEvent e) {
@@ -115,7 +117,7 @@ public class ExistingGamesScreen extends Screen{
 			  			//change board based on gameBox pressed
 						opponent.setBackground(new Color(130,130,130));
 						board.removeAll();
-			  			board.add(CongoBoard.createBoard(user1, user2));
+			  			board.add(CongoBoard.createBoard(user1, user2, innerGameID));
 						workingPanel.repaint();
 						workingPanel.validate();
 			  		}
@@ -153,7 +155,8 @@ public class ExistingGamesScreen extends Screen{
 	            }
 	        });
 			
-			board.add(CongoBoard.createBoard(games.get(0)[1], games.get(0)[2]));
+			final Integer defaultGameID = new Integer(games.get(0)[0]);
+			board.add(CongoBoard.createBoard(games.get(0)[1], games.get(0)[2], defaultGameID));
 			board.setBackground(new Color(50,50,50));
 			board.setBorder(BorderFactory.createEmptyBorder(0,10,0,70));
 			
