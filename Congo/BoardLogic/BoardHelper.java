@@ -22,6 +22,7 @@ public class BoardHelper {
 				break;
 			case "06": index = 7;
 				break;
+				
 			case "10": index = 9;
 				break;
 			case "11": index = 10;
@@ -36,6 +37,7 @@ public class BoardHelper {
 				break;
 			case "16": index = 15;
 				break;
+				
 			case "20": index = 17;
 				break;
 			case "21": index = 18;
@@ -50,6 +52,7 @@ public class BoardHelper {
 				break;
 			case "26": index = 23;
 				break;
+				
 			case "30": index = 25;
 				break;
 			case "31": index = 26;
@@ -64,6 +67,7 @@ public class BoardHelper {
 				break;
 			case "36": index = 31;
 				break;
+				
 			case "40": index = 33;
 				break;
 			case "41": index = 34;
@@ -78,6 +82,7 @@ public class BoardHelper {
 				break;
 			case "46": index = 39;
 				break;
+				
 			case "50": index = 41;
 				break;
 			case "51": index = 42;
@@ -92,6 +97,7 @@ public class BoardHelper {
 				break;
 			case "56": index = 47;
 				break;
+				
 			case "60": index = 49;
 				break;
 			case "61": index = 50;
@@ -106,6 +112,7 @@ public class BoardHelper {
 				break;
 			case "66": index = 55;
 				break;
+				
 			default:
 		}
 		

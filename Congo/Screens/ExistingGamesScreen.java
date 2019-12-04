@@ -32,7 +32,12 @@ import GUI.Panel;
 import Server.serverGamesHelpers;
 
 public class ExistingGamesScreen extends Screen{
-	private static JLayeredPane mostRecent = null;
+	
+	public static final Color darkGray = new Color(50,50,50);
+	public static final Color lightGray = new Color(90,90,90);
+	public static final Color highlightGray = new Color(120,120,120);
+	public static final Color blue = new Color(79,175,255);
+	
 	public ExistingGamesScreen() {
 		this.error = 0;
 		this.name = "Existing Games";
@@ -64,7 +69,7 @@ public class ExistingGamesScreen extends Screen{
 			//create panel for game boxes to be placed in
 			JPanel sidebar = new JPanel();
 			sidebar.setLayout(new BoxLayout(sidebar, BoxLayout.PAGE_AXIS));
-			sidebar.setBackground(new Color(90,90,90));
+			sidebar.setBackground(lightGray);
 			
 			// iterate current games and create game box in sidebar for each
 			for(int i = 0; i < games.size(); i++) {
@@ -80,14 +85,14 @@ public class ExistingGamesScreen extends Screen{
 				gameBox.setLayout(new BorderLayout());
 				gameBox.setPreferredSize(new Dimension(295,140));
 				gameBox.setMaximumSize(new Dimension(295,140));
-				gameBox.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,10,0,10, new Color(90,90,90)), new MatteBorder(2,2,2,2, Color.black)));
+				gameBox.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,10,0,10, lightGray), new MatteBorder(2,2,2,2, Color.black)));
 				
 				//top section of gameBox
 				JPanel gameNumber = new JPanel();
 				gameNumber.setLayout(new GridBagLayout());
 				gameNumber.add(new JLabel(games.get(i)[0]));
-				gameNumber.setBorder(BorderFactory.createMatteBorder(5,0,5,0,new Color(110,190,255)));
-				gameNumber.setBackground(new Color(110,190,255));
+				gameNumber.setBorder(BorderFactory.createMatteBorder(5,0,5,0,blue));
+				gameNumber.setBackground(blue);
 				
 				//lower section of gameBox
 				JPanel opponent = new JPanel();
@@ -101,7 +106,7 @@ public class ExistingGamesScreen extends Screen{
 				gameBox.add(gameNumber, BorderLayout.PAGE_START);
 				gameBox.add(opponent, BorderLayout.CENTER);
 				
-				gameBox.setBackground(new Color(120,120,120));
+				gameBox.setBackground(highlightGray);
 				
 				final Integer innerGameID = new Integer(games.get(i)[0]);
 				gameBox.addMouseListener(new MouseAdapter() {
@@ -129,16 +134,16 @@ public class ExistingGamesScreen extends Screen{
 			
 			// add scrollbar and change the style of it
 			JScrollPane scrollPane = new JScrollPane(sidebar, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-			scrollPane.setBackground(new Color(90,90,90));
+			scrollPane.setBackground(lightGray);
 			scrollPane.getVerticalScrollBar().setUnitIncrement(16);
 			scrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI(){
 	            @Override
 	            protected void configureScrollBarColors(){
-	                this.thumbColor = new Color(120,120,120);
-	                this.thumbDarkShadowColor = new Color(120,120,120);
-	                this.thumbLightShadowColor = new Color(120,120,120);
-	                this.thumbHighlightColor = new Color(120,120,120);
-	                this.trackHighlightColor = new Color(120,120,120);
+	                this.thumbColor = highlightGray;
+	                this.thumbDarkShadowColor = highlightGray;
+	                this.thumbLightShadowColor = highlightGray;
+	                this.thumbHighlightColor = highlightGray;
+	                this.trackHighlightColor = highlightGray;
 	                this.trackColor = Color.BLACK;
 	            }
 	            @Override
@@ -157,7 +162,7 @@ public class ExistingGamesScreen extends Screen{
 			
 			final Integer defaultGameID = new Integer(games.get(0)[0]);
 			board.add(CongoBoard.createBoard(games.get(0)[1], games.get(0)[2], defaultGameID));
-			board.setBackground(new Color(50,50,50));
+			board.setBackground(darkGray);
 			board.setBorder(BorderFactory.createEmptyBorder(0,10,0,70));
 			
 			//create panel on the opposite side of the sidebar (main area with board)
@@ -168,18 +173,18 @@ public class ExistingGamesScreen extends Screen{
 			//add the sidebar and the main area to the working panel
 			workingPanel.add(scrollPane, BorderLayout.CENTER);
 			workingPanel.add(rightSide, BorderLayout.LINE_END);
-			workingPanel.setBackground(new Color(90,90,90));
+			workingPanel.setBackground(lightGray);
 			
 		} else { //no existing games
 			
 			JPanel outer = new JPanel();
-			outer.setBackground(new Color(50,50,50));
+			outer.setBackground(darkGray);
 			outer.setLayout(new BoxLayout(outer, BoxLayout.Y_AXIS));
-			outer.setBorder(new EmptyBorder(350,150,0,150));
+			outer.setBorder(new EmptyBorder(300,150,0,150));
 			
 			JPanel labelHolder = new JPanel();
 			outer.add(labelHolder);
-			labelHolder.setBackground(new Color(90,90,90));
+			labelHolder.setBackground(lightGray);
 			labelHolder.setLayout(new GridBagLayout());
 			labelHolder.setMaximumSize(new Dimension(1000,75));
 		    
@@ -189,7 +194,7 @@ public class ExistingGamesScreen extends Screen{
 			labelHolder.add(label);
 			
 			workingPanel.add(outer);
-			workingPanel.setBackground(new Color(50,50,50));
+			workingPanel.setBackground(darkGray);
 			
 		}
 	}

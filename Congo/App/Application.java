@@ -24,5 +24,3 @@ public class Application extends JFrame{
 	    
 	}
 }
-
-
