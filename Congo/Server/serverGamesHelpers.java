@@ -121,6 +121,8 @@ public class serverGamesHelpers {
 
 			returnArray[3] = Integer.toString(resultSet.getInt(4));
 			returnArray[4] = Integer.toString(resultSet.getInt(5));
+			returnArray[5] = resultSet.getString(6);
+			returnArray[6] = resultSet.getString(7);
 
 			return returnArray;
 
@@ -261,7 +263,7 @@ public class serverGamesHelpers {
 				connect = DriverManager
 						.getConnection("jdbc:mysql://68.234.149.213:8555/Games?" + "user=cs414&password=cs414");
 
-				preparedStatement = connect.prepareStatement("SELECT * FROM Games.GameBoards_T WHERE ID=(?) AND row=(?)");
+				preparedStatement = connect.prepareStatement("SELECT * FROM Games.GameBoards_T WHERE GameNumber=(?) AND row=(?)");
 
 				preparedStatement.setInt(1, id);
 				preparedStatement.setInt(2, i + 1);

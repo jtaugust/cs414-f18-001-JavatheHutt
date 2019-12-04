@@ -21,6 +21,11 @@ import Server.serverHelpers;
 
 public class LoginScreen extends Screen{
 	
+	public static final Color lightGray = new Color(90,90,90);
+	public static final Color highlightGray = new Color(120,120,120);
+	public static final Color blue = new Color(79,175,255);
+	public static final Color highlightBlue = new Color(110,190,255);
+	
 	public LoginScreen(){
 		this.error = 0;
 		this.name = "Login";
@@ -121,19 +126,19 @@ public class LoginScreen extends Screen{
 	    JPanel bottomButtons = new JPanel();
 	    bottomButtons.setLayout(new BoxLayout(bottomButtons, BoxLayout.LINE_AXIS));
 	    bottomButtons.setBackground(Color.black);
-	    bottomButtons.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(6,0,0,0,new Color(79,175,255)),new MatteBorder(5,5,5,5, Color.black)));
+	    bottomButtons.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(6,0,0,0,blue),new MatteBorder(5,5,5,5, Color.black)));
 	    bottomButtons.setPreferredSize(new Dimension(600,75));
 
 	    //create and add "Login" button
 	    JPanel login = new JPanel();
-	    Color loginStartColor = new Color(79,175,255);
+	    Color loginStartColor = blue;
 	    login.setBackground(loginStartColor);
 	  	login.setLayout(new GridBagLayout());
 	  	login.add(new JLabel("Login"));
 	  	login.addMouseListener(new MouseAdapter() {
 	  		@Override
 	  		public void mousePressed(final MouseEvent e) {
-	  			login.setBackground(new Color(110,190,255));
+	  			login.setBackground(highlightBlue);
 	  		}
 	  		@Override
 	  		public void mouseReleased(final MouseEvent e) {
@@ -146,19 +151,19 @@ public class LoginScreen extends Screen{
 	  			login.setBackground(loginStartColor);
 	  		}
 		});
-	    login.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(10,10,10,10,Color.black), new MatteBorder(2,2,2,2,new Color(79,175,255))));
+	    login.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(10,10,10,10,Color.black), new MatteBorder(2,2,2,2,blue)));
 	    bottomButtons.add(login);
 	    
 		//create and add "Register" button
 	    JPanel register = new JPanel();
-	    Color registerStartColor = new Color(90,90,90);
+	    Color registerStartColor = lightGray;
 	    register.setBackground(registerStartColor);
 	    register.setLayout(new GridBagLayout());
 	    register.add(new JLabel("Sign up here!"));
 	    register.addMouseListener(new MouseAdapter() {
 	  		@Override
 	  		public void mousePressed(final MouseEvent e) {
-	  			register.setBackground(new Color(255,255,255));
+	  			register.setBackground(Color.white);
 	  		}
 	  		@Override
 	  		public void mouseReleased(final MouseEvent e) {
@@ -166,7 +171,7 @@ public class LoginScreen extends Screen{
 	  			register.setBackground(registerStartColor);
 	  		}
 		});
-	    register.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(10,10,10,10,Color.black), new MatteBorder(2,2,2,2,new Color(79,175,255))));
+	    register.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(10,10,10,10,Color.black), new MatteBorder(2,2,2,2,blue)));
 	    bottomButtons.add(register);
 	    
 	    //add field and button panels to the working panel
