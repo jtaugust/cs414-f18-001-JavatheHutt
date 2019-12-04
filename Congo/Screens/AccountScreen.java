@@ -89,13 +89,15 @@ public class AccountScreen extends Screen{
 		buttonSection.setMaximumSize(new Dimension(1005,75));
 		buttonSection.setBorder(new EmptyBorder(5,5,5,5));
 	    
+		JPanel editButton = new JPanel();
+	    JPanel historyButton = new JPanel();
+	    JPanel unregisterButton = new JPanel();
+	    
 	    //create "Match History" button
 	    JPanel historyButtonHolder = new JPanel();
 	    historyButtonHolder.setBackground(darkGray);
 	    historyButtonHolder.setLayout(new GridBagLayout());
-	    
-	    JPanel editButton = new JPanel();
-	    JPanel historyButton = new JPanel();
+
 	    historyButtonHolder.add(historyButton);
 	    historyButton.setBackground(blue);
 	    historyButton.setLayout(new GridBagLayout());
@@ -111,6 +113,7 @@ public class AccountScreen extends Screen{
 	  		public void mouseReleased(final MouseEvent e) {
 	  			historyButton.setBackground(blue);
 	  		    editButton.setBackground(lightGray);
+	  			unregisterButton.setBackground(lightGray);
 	  			createMatchHistory();
 	  			
 	  		}
@@ -137,6 +140,8 @@ public class AccountScreen extends Screen{
 	  		public void mouseReleased(final MouseEvent e) {
 	  			editButton.setBackground(blue);
 	  			historyButton.setBackground(lightGray);
+	  			unregisterButton.setBackground(lightGray);
+
 	  			createEditProfile();
 	  			
 	  		}
@@ -147,7 +152,6 @@ public class AccountScreen extends Screen{
 	    unregisterButtonHolder.setBackground(darkGray);
 	    unregisterButtonHolder.setLayout(new GridBagLayout());
 	    
-	    JPanel unregisterButton = new JPanel();
 	    unregisterButtonHolder.add(unregisterButton);
 	    unregisterButton.setBackground(lightGray);
 	    unregisterButton.setLayout(new GridBagLayout());
@@ -158,21 +162,22 @@ public class AccountScreen extends Screen{
 	    unregisterlabel.setBorder(BorderFactory.createEmptyBorder(15,20,15,20));
 	    unregisterButton.addMouseListener(new MouseAdapter() {
 	  		@Override
-	  		public void mousePressed(final MouseEvent e) {
-	  			unregisterButton.setBackground(highlightGray);
-	  		}
+	  		public void mousePressed(final MouseEvent e) {}
 	  		@Override
 	  		public void mouseReleased(final MouseEvent e) {
-	  			unregisterButton.setBackground(lightGray);
-	  			String Username = WorkingPanel.getUser();
-	  			int err = serverHelpers.tryUnregister(Username);
-	  			
-	  			if (err == 0) {
-	  				WorkingPanel.changeScreen(new LoginScreen());
-	  			}
-	  			else {
-	  				setError(err);
-	  			}
+	  			unregisterButton.setBackground(blue);
+	  			editButton.setBackground(lightGray);
+	  			historyButton.setBackground(lightGray);
+	  			createUnregisterConfirm();
+//	  			String Username = WorkingPanel.getUser();
+//	  			int err = serverHelpers.tryUnregister(Username);
+//	  			
+//	  			if (err == 0) {
+//	  				WorkingPanel.changeScreen(new LoginScreen());
+//	  			}
+//	  			else {
+//	  				setError(err);
+//	  			}
 	  		}
 		});
 	    
@@ -210,7 +215,7 @@ public class AccountScreen extends Screen{
 		}
 		
 		//check if user has a match history
-		if(history.length != 0) {
+		if(history != null) {
 			
 			//describe info contents
 			JPanel key = new JPanel();
@@ -294,6 +299,7 @@ public class AccountScreen extends Screen{
 				//create panel to display game info
 				JPanel gameBox = new JPanel();
 				gameBox.setLayout(new BoxLayout(gameBox, BoxLayout.X_AXIS));
+				gameBox.setPreferredSize(new Dimension(950,50));
 				gameBox.setMaximumSize(new Dimension(950,50));
 				gameBox.setMinimumSize(new Dimension(950,50));
 				gameBox.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(10,0,0,0, darkGray), new MatteBorder(2,2,2,0, darkGray)));
@@ -303,8 +309,8 @@ public class AccountScreen extends Screen{
 				JPanel gameNumber = new JPanel();
 				gameNumber.setLayout(new GridBagLayout());
 				gameNumber.add(new JLabel(history[i][0]));
-				gameNumber.setMaximumSize(new Dimension(50,100));
-				gameNumber.setMinimumSize(new Dimension(50,100));
+				gameNumber.setMaximumSize(new Dimension(50,50));
+				gameNumber.setMinimumSize(new Dimension(50,50));
 				gameNumber.setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(0,0,0,0), new MatteBorder(0,5,0,0, mediumGray)));
 				gameNumber.setBackground(lightGray);
 				
@@ -312,8 +318,8 @@ public class AccountScreen extends Screen{
 				JPanel username = new JPanel();
 				username.setLayout(new GridBagLayout());
 				username.add(new JLabel(history[i][1]));
-				username.setMaximumSize(new Dimension(200,100));
-				username.setMinimumSize(new Dimension(200,100));
+				username.setMaximumSize(new Dimension(200,50));
+				username.setMinimumSize(new Dimension(200,50));
 				username.setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(0,0,0,0), new MatteBorder(0,5,0,0, mediumGray)));
 				username.setBackground(lightGray);
 				
@@ -321,8 +327,8 @@ public class AccountScreen extends Screen{
 				JPanel opponent = new JPanel();
 				opponent.setLayout(new GridBagLayout());
 				opponent.add(new JLabel(history[i][2]));
-				opponent.setMaximumSize(new Dimension(200,100));
-				opponent.setMinimumSize(new Dimension(200,100));
+				opponent.setMaximumSize(new Dimension(200,50));
+				opponent.setMinimumSize(new Dimension(200,50));
 				opponent.setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(0,0,0,0), new MatteBorder(0,5,0,0, mediumGray)));
 				opponent.setBackground(lightGray);
 				
@@ -330,8 +336,8 @@ public class AccountScreen extends Screen{
 				JPanel startTime = new JPanel();
 				startTime.setLayout(new GridBagLayout());
 				startTime.add(new JLabel(history[i][3]));
-				startTime.setMaximumSize(new Dimension(200,100));
-				startTime.setMinimumSize(new Dimension(200,100));
+				startTime.setMaximumSize(new Dimension(200,50));
+				startTime.setMinimumSize(new Dimension(200,50));
 				startTime.setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(0,0,0,0), new MatteBorder(0,5,0,0, mediumGray)));
 				startTime.setBackground(lightGray);
 				
@@ -339,8 +345,8 @@ public class AccountScreen extends Screen{
 				JPanel endTime = new JPanel();
 				endTime.setLayout(new GridBagLayout());
 				endTime.add(new JLabel(history[i][4]));
-				endTime.setMaximumSize(new Dimension(200,100));
-				endTime.setMinimumSize(new Dimension(200,100));
+				endTime.setMaximumSize(new Dimension(200,50));
+				endTime.setMinimumSize(new Dimension(200,50));
 				endTime.setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(0,0,0,0), new MatteBorder(0,5,0,0, mediumGray)));
 				endTime.setBackground(lightGray);
 				
@@ -348,8 +354,8 @@ public class AccountScreen extends Screen{
 				JPanel status = new JPanel();
 				status.setLayout(new GridBagLayout());
 				status.add(new JLabel(history[i][5]));
-				status.setMaximumSize(new Dimension(100,100));
-				status.setMinimumSize(new Dimension(100,100));
+				status.setMaximumSize(new Dimension(100,50));
+				status.setMinimumSize(new Dimension(100,50));
 				status.setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(0,0,0,0), new MatteBorder(0,5,0,0, mediumGray)));
 				status.setBackground(lightGray);
 				
@@ -539,6 +545,77 @@ public class AccountScreen extends Screen{
 //		this.bottomSection.add(leftSection);
 		this.bottomSection.add(rightSection);
 	
+		//update panel
+		this.bottomSection.revalidate();
+		this.bottomSection.repaint();
+		
+		//add it back to the working panel
+		workingPanel.add(this.bottomSection);
+	}
+	
+	//creates panel for user to confirm unregister
+	void createUnregisterConfirm() {
+		
+		//clear current components on bottom section
+		this.bottomSection.removeAll();
+		this.bottomSection.setLayout(new BoxLayout(this.bottomSection, BoxLayout.Y_AXIS));
+		
+		this.bottomSection.setBackground(Color.red);
+		
+		//create "Unregister" button
+	    JPanel unregisterButtonHolder = new JPanel();
+	    unregisterButtonHolder.setBackground(darkGray);
+	    unregisterButtonHolder.setLayout(new GridBagLayout());
+	    unregisterButtonHolder.setBorder(new EmptyBorder(0,0,75,0));
+	    
+	    JPanel unregisterButton = new JPanel();
+	    unregisterButtonHolder.add(unregisterButton);
+	    unregisterButton.setBackground(lightGray);
+	    unregisterButton.setLayout(new GridBagLayout());
+	    unregisterButton.setBorder(new MatteBorder(2,2,2,2,blue));
+
+	    JLabel unregisterlabel = new JLabel("Yes, I want to unregister my account.");
+	    unregisterButton.add(unregisterlabel);
+	    unregisterlabel.setBorder(BorderFactory.createEmptyBorder(15,20,15,20));
+	    unregisterButton.addMouseListener(new MouseAdapter() {
+	  		@Override
+	  		public void mousePressed(final MouseEvent e) {
+	  			unregisterButton.setBackground(highlightGray);
+	  		}
+	  		@Override
+	  		public void mouseReleased(final MouseEvent e) {
+	  			String Username = WorkingPanel.getUser();
+	  			int err = serverHelpers.tryUnregister(Username);
+	  			
+	  			if (err == 0) {
+	  				WorkingPanel.changeScreen(new LoginScreen());
+	  			}
+	  			else {
+	  				setError(err);
+	  			}
+	  		}
+		});
+	    
+	    //create message
+		JPanel outer = new JPanel();
+		outer.setBackground(darkGray);
+		outer.setLayout(new BoxLayout(outer, BoxLayout.Y_AXIS));
+		outer.setBorder(new EmptyBorder(75,75,0,75));
+		JPanel labelHolder = new JPanel();
+		outer.add(labelHolder);
+		labelHolder.setBackground(lightGray);
+		labelHolder.setLayout(new GridBagLayout());
+		labelHolder.setPreferredSize(new Dimension(1000,75));
+		labelHolder.setMaximumSize(new Dimension(1000,75));
+		JLabel label = new JLabel("You will lose your current games and match history if you unregister. Are you sure you want to continue?");
+		label.setFont(new Font("Verdana", Font.PLAIN, 14));
+		label.setAlignmentX(Component.CENTER_ALIGNMENT);
+		labelHolder.add(label);
+		
+		//add message
+		this.bottomSection.add(outer);
+	    this.bottomSection.add(unregisterButtonHolder);
+	    
 		//update panel
 		this.bottomSection.revalidate();
 		this.bottomSection.repaint();

@@ -64,7 +64,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 
 	public CongoBoard(String user1, String user2, int gameID){
 		
-		//set users
+		//set users and id
 		this.user1 = user1;
 		this.user2 = user2;
 		this.gameID = gameID;

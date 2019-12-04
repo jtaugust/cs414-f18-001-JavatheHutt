@@ -131,6 +131,7 @@ public class ExistingGamesScreen extends Screen{
 				//add to sidebar
 				sidebar.add(gameBox);
 			}
+			sidebar.add(Helpers.spacer(10, 10));
 			
 			// add scrollbar and change the style of it
 			JScrollPane scrollPane = new JScrollPane(sidebar, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
