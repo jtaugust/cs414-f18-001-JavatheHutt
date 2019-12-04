@@ -1,9 +1,5 @@
 package BoardLogic;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Point;
-
 public class State {
 
     //Board Syntax: Xposition Yposition Color Animal 
@@ -36,7 +32,7 @@ public class State {
     	
         for(int i=0; i<7; i++) {
         		this.board[1][i]=new Pawn(1,i,'B','P');
-        	}
+        }
         
         this.board[6][0]=new Giraffe(6,0,'W','G');
     	this.board[6][1]=new Monkey(6,1,'W','M');
@@ -48,7 +44,8 @@ public class State {
     	
         for(int i=0; i<7; i++) {
         		this.board[5][i]=new Pawn(5,i,'W','P');
-        	}
+        
+            }
         for(int i=2; i<5; i++) {
         	for(int j=0; j<7;j++) {
         		this.board[i][j]=null;

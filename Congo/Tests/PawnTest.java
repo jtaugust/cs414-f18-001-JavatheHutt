@@ -11,7 +11,7 @@ import BoardLogic.Pawn;
 public class PawnTest {
     
     @Test
-    public void testPossiblePawnMoves() {
+    public void testPawnAboveRiver() {
 		
 		Pawn pawn = new Pawn(2,1,'W','P');
 		Piece[][] board = {
@@ -47,8 +47,5 @@ public class PawnTest {
 		assertArrayEquals(movesReturned, expectedMoves);
 	}
 	
-	@Test
-    public void testIsIndexBounded() {
-		
-	}
+
 }

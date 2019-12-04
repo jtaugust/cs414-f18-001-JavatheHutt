@@ -28,7 +28,7 @@ public class Crocodile extends Piece{
 			while(riverCounter >= 0){
 				if(board[i][riverCounter] == null){
 					allPossibleMoves[count][0] = i;
-                    allPossibleMoves[count][1] = riverCounter;;
+                    allPossibleMoves[count][1] = riverCounter;
 					count++;
 				}else if (board[i][riverCounter].getColor() != state.getCurrentTurnColor()){
 					allPossibleMoves[count][0] = i;
@@ -78,40 +78,42 @@ public class Crocodile extends Piece{
 		// If above or below the river 
 		if(i > 3) {
 			int riverCounter = i - 1;
-			while( riverCounter != 3) {
-				if((board[riverCounter][j] == null)){
-					break;
-				}else {
-					if(!containsMove(allPossibleMoves, new int[] {riverCounter,j})){
-                        allPossibleMoves[count][0] = riverCounter;
-                        allPossibleMoves[count][1] = j;
+			while(riverCounter >= 3) {
+				if(!containsMove(allPossibleMoves, new int[] {riverCounter,j}))
+					if(board[riverCounter][j] == null){
+						allPossibleMoves[count][0] = riverCounter;
+						allPossibleMoves[count][1] = j;
 						count++;
+					}else if (board[i][riverCounter].getColor() != state.getCurrentTurnColor() && !containsMove(allPossibleMoves, new int[] {riverCounter,j})){
+						allPossibleMoves[count][0] = riverCounter;
+						allPossibleMoves[count][1] = j;
+						count++;
+						break;
+					}else{
+						break;
 					}
-						
-				}
-				riverCounter--;
+					riverCounter--;
 			}
 
-            allPossibleMoves[count][0] = 3;
-            allPossibleMoves[count][1] = j;
-			count++;
+           
 		}else if(i < 3){
 			int riverCounter = i + 1;
-			while( riverCounter != 3) {
-				if((board[riverCounter][j] == null)){
-					break;
-				}
-				else {
-					if(!containsMove(allPossibleMoves, new int[] {riverCounter,j})){
-                        allPossibleMoves[count][0] = riverCounter;
-                        allPossibleMoves[count][1] = j;
+			while(riverCounter >= 3) {
+				if(!containsMove(allPossibleMoves, new int[] {riverCounter,j}))
+					if(board[riverCounter][j] == null && !containsMove(allPossibleMoves, new int[] {riverCounter,j})){
+						allPossibleMoves[count][0] = riverCounter;
+						allPossibleMoves[count][1] = j;
 						count++;
+					}else if (board[i][riverCounter].getColor() != state.getCurrentTurnColor()){
+						allPossibleMoves[count][0] = riverCounter;
+						allPossibleMoves[count][1] = j;
+						count++;
+						break;
+					}else{
+						break;
 					}
-				}
-				riverCounter++;
+					riverCounter++;
 			}
-            allPossibleMoves[count][0] = 3;
-            allPossibleMoves[count][1] = j;
 		}
 		
 		
