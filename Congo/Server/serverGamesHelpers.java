@@ -121,6 +121,8 @@ public class serverGamesHelpers {
 
 			returnArray[3] = Integer.toString(resultSet.getInt(4));
 			returnArray[4] = Integer.toString(resultSet.getInt(5));
+			returnArray[5] = resultSet.getString(6);
+			returnArray[6] = resultSet.getString(7);
 
 			return returnArray;
 

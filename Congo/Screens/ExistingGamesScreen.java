@@ -122,7 +122,7 @@ public class ExistingGamesScreen extends Screen{
 			  			//change board based on gameBox pressed
 						opponent.setBackground(new Color(130,130,130));
 						board.removeAll();
-			  			board.add(CongoBoard.createBoard(user1, user2, innerGameID));
+			  			board.add(CongoBoard.createBoard(user1, user2, innerGameID, WorkingPanel.getUser()));
 						workingPanel.repaint();
 						workingPanel.validate();
 			  		}
@@ -162,7 +162,7 @@ public class ExistingGamesScreen extends Screen{
 	        });
 			
 			final Integer defaultGameID = new Integer(games.get(0)[0]);
-			board.add(CongoBoard.createBoard(games.get(0)[1], games.get(0)[2], defaultGameID));
+			board.add(CongoBoard.createBoard(games.get(0)[1], games.get(0)[2], defaultGameID, WorkingPanel.getUser()));
 			board.setBackground(darkGray);
 			board.setBorder(BorderFactory.createEmptyBorder(0,10,0,70));
 			

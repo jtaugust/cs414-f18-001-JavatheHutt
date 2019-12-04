@@ -26,6 +26,7 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import BoardLogic.BoardHelper;
+import Screens.WorkingPanel;
 import Server.serverGamesHelpers;
 
 public class CongoBoard extends JFrame implements MouseListener, MouseMotionListener {
@@ -42,6 +43,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	private String user1 = "", user2 = "";
 	int gameID;
 	String turn = "W";
+	boolean isCurrentTurn;
 	boolean isPieceClicked;
 	ArrayList<String> indexList = new ArrayList<>();
 	ArrayList<String> possibleMoves=new ArrayList<>();
@@ -50,6 +52,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	Piece[][] board;
 	String fromPos;
 	String toPos;
+	int moveCount;
 	
 	//GUI	
 	JPanel mainPanel;
@@ -62,22 +65,47 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	int yAdjustment;
 	
 
-	public CongoBoard(String user1, String user2, int gameID){
+	public CongoBoard(String user1, String user2, int gameID, String currentUser){
 		
 		//set users and id
 		this.user1 = user1;
 		this.user2 = user2;
 		this.gameID = gameID;
-		
-		System.out.println("User 1: " + user1 + " and User 2: " + user2 + " and game ID: " + gameID);
-		
-		//Initialize state and board
+		this.moveCount = 0;
+				
+		//Initialize state
 		state = new State();
-		state.setCurrentTurnColor('W');
+				
+		//get game info from database
+		serverGamesHelpers database = new serverGamesHelpers();
+		String[] gameInfo = new String[5];
+		try {
+			gameInfo = database.readCurrentGames_T(gameID);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		//get board from database (white perspective)
 		state.setBoard(stateFromDatabase(gameID));
+		
+		//set the current user turn based on order of users in current games
+		if(user1.equals(currentUser) && gameInfo[5].equals("w")) { //client user is white and turn is white
+			this.isCurrentTurn = true;
+			state.setCurrentTurnColor('W');
+			this.turn = "W";
+		} else if(user2.equals(currentUser) && gameInfo[5] == "b"){ //client user is black and turn is black
+			this.isCurrentTurn = true;
+			state.setCurrentTurnColor('B');
+			this.turn = "B";
+			//flip board for black
+			state.flipBoard(state);
+		} else {
+			this.isCurrentTurn = false;
+		}
+		
 		board = state.getBoard();
 		
-
 		//build GUI from board -----------------------------------------------------------
 
 		mainPanel = new JPanel();
@@ -113,7 +141,8 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	  		@Override
 	  		public void mouseReleased(final MouseEvent e) {
 	  			endTurn.setBackground(lightGray);
-	  			turn=BoardHelper.switchTurn(congoBoard, turn);
+	  			endTurn();
+//	  			turn = BoardHelper.switchTurn(congoBoard, turn);
 	  		}
 		});
 	    
@@ -257,109 +286,116 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	public void mouseExited(MouseEvent e) {}
 	public void mouseMoved(MouseEvent e) {}
 	public void mousePressed(MouseEvent e){
-
-		System.out.println("IN MOUSE EVENT -------------------");
-
-		Component c =  congoBoard.findComponentAt(e.getX(), e.getY());
-
-		if(!isPieceClicked) { // First click (piece select)
-
-			System.out.println("IN FIRST CLICK --------------------------------------");
-			System.out.println("Component name clicked: " + c.getName());
-
-			congoPiece = null;
-
-			//check if place clicked is not actually a piece, return if so.
-			if (c instanceof JPanel || c.getName() == null) {
-				return;
-			}
-
-			//calculate row and column of the click
-		    currentParent = c.getParent();
-			Point parentLocation = c.getParent().getLocation();
-			xAdjustment = parentLocation.x - e.getX();
-			yAdjustment = parentLocation.y - e.getY();
-			int row=BoardHelper.findRow(parentLocation.y);
-			int col=BoardHelper.findColumn(parentLocation.x);
-
-			//get piece and from position
-			fromPos=""+Integer.toString(row)+Integer.toString(col-1);
-			piece=board[row][col-1];
-
-			//get name and color of piece clicked
-			congoPiece = (JLabel)c;
-			String pieceName=congoPiece.getName();
-			char pieceColor=pieceName.charAt(0);
-			
-			//check if piece color matches current turn, return if not 
-			if(pieceColor == 'W' && turn == "B") {
-				return;
-			} else if(pieceColor == 'B' && turn == "W") {
+		
+		if(isCurrentTurn) {
+			System.out.println("IN MOUSE EVENT -------------------");
+	
+			//check if the player already moved, return if so 
+			if(this.moveCount > 0) {
 				return;
 			}
 			
-			//get piece selected
-			Piece pieceSelectedBoard = board[row][col-1];
-			pieceSelected = Integer.toString(row)+Integer.toString(col-1)+pieceName;
-
-			//move piece slightly to show it was selected
-			congoPiece.setLocation(e.getX() + xAdjustment, e.getY() + yAdjustment);
-			state.setPieceSelected(pieceSelectedBoard);
-			
-			//Print state
-			System.out.println("State: piece selected row and col: " + state.pieceSelected.getRow() +  state.pieceSelected.getColumn() + " - piece color: " + state.pieceSelected.getColor() + " - current turn color: " + state.getCurrentTurnColor());
-			
-			//get possible moves based on piece clicked.
-			int[][] possibleMovesArray = piece.legalMoves(state);
-
-			for(int i = 0; i < possibleMovesArray.length; i++) {
-				possibleMoves.add(""+Integer.toString(possibleMovesArray[i][0])+Integer.toString(possibleMovesArray[i][1]));
-				//check for default value
-				if(!possibleMoves.get(i).equals("-1-1")){
-					congoBoard.getComponent(BoardHelper.convertIndex(possibleMoves.get(i))).setBackground(Color.white);
-
+			Component c =  congoBoard.findComponentAt(e.getX(), e.getY());
+	
+			if(!isPieceClicked) { // First click (piece select)
+	
+				System.out.println("IN FIRST CLICK --------------------------------------");
+				System.out.println("Component name clicked: " + c.getName());
+	
+				congoPiece = null;
+	
+				//check if place clicked is not actually a piece, return if so.
+				if (c instanceof JPanel || c.getName() == null) {
+					return;
 				}
-			}
-			
-			congoPiece.setSize(congoPiece.getWidth(), congoPiece.getHeight());
-
-			//show piece selected in the top layer
-			layeredPane.add(congoPiece, JLayeredPane.DRAG_LAYER);
-
-			//set that a piece was clicked
-			isPieceClicked=true;
-			
-		} else { // Second click (place select)
-
-			System.out.println("IN SECOND CLICK --------------------------------------");	
-			
-			//reset piece clicked
-			isPieceClicked=false;
-			revertColors();
-			congoPiece.setVisible(false);	
-
-			Container parent = null;
-
-			if (c instanceof JLabel && !isIndex(congoPiece)){ //if tile clicked is another piece
-				System.out.println("IN FIRST IF --------------------------------------");	
-				parent = c.getParent();
-			} else if (!isIndex(congoPiece)){ //if tile clicked is the same tile as piece clicked
-				System.out.println("IN ELSE IF --------------------------------------");	
-				parent = (Container)c;
-			}
-
-			Point parentLocation = parent.getLocation();
-
-			if(isPieceMovedOnBoard(parentLocation)) {
-				parent.add(congoPiece);
-				postMoveHandler();
-			} else {
-				currentParent.add(congoPiece);
-			}
-
-			possibleMoves.clear();
-			congoPiece.setVisible(true);
-		} 
+	
+				//calculate row and column of the click
+			    currentParent = c.getParent();
+				Point parentLocation = c.getParent().getLocation();
+				xAdjustment = parentLocation.x - e.getX();
+				yAdjustment = parentLocation.y - e.getY();
+				int row=BoardHelper.findRow(parentLocation.y);
+				int col=BoardHelper.findColumn(parentLocation.x);
+	
+				//get piece and from position
+				fromPos=""+Integer.toString(row)+Integer.toString(col-1);
+				piece=board[row][col-1];
+	
+				//get name and color of piece clicked
+				congoPiece = (JLabel)c;
+				String pieceName=congoPiece.getName();
+				char pieceColor=pieceName.charAt(0);
+				
+				//check if piece color matches current turn, return if not 
+				if(pieceColor == 'W' && turn == "B") {
+					return;
+				} else if(pieceColor == 'B' && turn == "W") {
+					return;
+				}
+				
+				//get piece selected
+				Piece pieceSelectedBoard = board[row][col-1];
+				pieceSelected = Integer.toString(row)+Integer.toString(col-1)+pieceName;
+	
+				//move piece slightly to show it was selected
+				congoPiece.setLocation(e.getX() + xAdjustment, e.getY() + yAdjustment);
+				state.setPieceSelected(pieceSelectedBoard);
+				
+				//Print state
+				System.out.println("State: piece selected row and col: " + state.pieceSelected.getRow() +  state.pieceSelected.getColumn() + " - piece color: " + state.pieceSelected.getColor() + " - current turn color: " + state.getCurrentTurnColor());
+				
+				//get possible moves based on piece clicked.
+				int[][] possibleMovesArray = piece.legalMoves(state);
+	
+				for(int i = 0; i < possibleMovesArray.length; i++) {
+					possibleMoves.add(""+Integer.toString(possibleMovesArray[i][0])+Integer.toString(possibleMovesArray[i][1]));
+					//check for default value
+					if(!possibleMoves.get(i).equals("-1-1")){
+						congoBoard.getComponent(BoardHelper.convertIndex(possibleMoves.get(i))).setBackground(Color.white);
+	
+					}
+				}
+				
+				congoPiece.setSize(congoPiece.getWidth(), congoPiece.getHeight());
+	
+				//show piece selected in the top layer
+				layeredPane.add(congoPiece, JLayeredPane.DRAG_LAYER);
+	
+				//set that a piece was clicked
+				isPieceClicked=true;
+				
+			} else { // Second click (place select)
+	
+				System.out.println("IN SECOND CLICK --------------------------------------");	
+				
+				//reset piece clicked
+				isPieceClicked=false;
+				revertColors();
+				congoPiece.setVisible(false);	
+	
+				Container parent = null;
+	
+				if (c instanceof JLabel && !isIndex(congoPiece)){ //if tile clicked is another piece
+					System.out.println("IN FIRST IF --------------------------------------");	
+					parent = c.getParent();
+				} else if (!isIndex(congoPiece)){ //if tile clicked is the same tile as piece clicked
+					System.out.println("IN ELSE IF --------------------------------------");	
+					parent = (Container)c;
+				}
+	
+				Point parentLocation = parent.getLocation();
+	
+				if(isPieceMovedOnBoard(parentLocation)) {
+					parent.add(congoPiece);
+					postMoveHandler();
+				} else {
+					currentParent.add(congoPiece);
+				}
+	
+				possibleMoves.clear();
+				congoPiece.setVisible(true);
+			} 
+		}
 	}
 	
 	public Piece[][] stateFromDatabase(int gameID){
@@ -415,6 +451,20 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		
 		return currentBoard;
 	}
+	
+	public void stateToDatabase(Piece[][] state){
+		//read game state from database
+		serverGamesHelpers database = new serverGamesHelpers();
+		String[][] gameState = new String[7][7];
+		try {
+			gameState = database.readGameState(gameID);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		
+	}
 
     public boolean isLegalMove(ArrayList<String> possibelMoves,String futureStatePosition) {
     	if(possibleMoves.contains(futureStatePosition)) {
@@ -440,9 +490,9 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		return false;
 	}
 	
-	public static JPanel createBoard(String user1, String user2, int gameID){
+	public static JPanel createBoard(String user1, String user2, int gameID, String currentUser){
 		//generate a fresh board
-		CongoBoard board = new CongoBoard(user1, user2, gameID);
+		CongoBoard board = new CongoBoard(user1, user2, gameID, currentUser);
 		return board.mainPanel;
 	}
 	
@@ -482,18 +532,31 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	}
 	
 	public void postMoveHandler() {
-		turn = BoardHelper.switchTurn(congoBoard, turn);
-		if(turn == "W") {
-			state.setCurrentTurnColor('W');
+//		turn = BoardHelper.switchTurn(congoBoard, turn);
+//		if(turn == "W") {
+//			state.setCurrentTurnColor('W');
+//		} else {
+//			state.setCurrentTurnColor('B');
+//		}
+//		congoBoard.removeAll();
+//		congoBoard.repaint();
+//		buildBoard();
+		this.moveCount++;
+//		fillBoard(board);
+	}
+	
+	public void endTurn() {
+		if(this.turn == "W") {
+			System.out.println("White just moved");
+			//if white, update state and set current move to B
 		} else {
-			state.setCurrentTurnColor('B');
+			System.out.println("Black just moved");
+			//if black, flip then update state and set current move to B
+
 		}
-		congoBoard.removeAll();
-		congoBoard.repaint();
-		buildBoard();
 		state.flipBoard(state);
 		board = state.getBoard();
-		fillBoard(board);
+		
 	}
 	
 	
