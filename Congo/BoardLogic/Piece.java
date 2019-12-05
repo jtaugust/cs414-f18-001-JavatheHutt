@@ -15,7 +15,7 @@ public abstract class Piece{
         this.color = color;
         this.pieceType = pieceType;
     }
-
+    
     // Returns a list of coordinates for the legal moves at a given 
     abstract int[][] legalMoves(State state);
 

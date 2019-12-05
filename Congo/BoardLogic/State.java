@@ -76,7 +76,7 @@ public class State {
     // Getters
     //
     public Piece[][] getBoard() {
-        return board;
+        return this.board;
     }
 
     public char getCurrentTurnColor(){
@@ -135,7 +135,7 @@ public class State {
         Piece pieceSelected=board[Character.getNumericValue(fromPos.charAt(0))][Character.getNumericValue(fromPos.charAt(1))];
         pieceSelected.setRow(Character.getNumericValue(toPos.charAt(0)));
         pieceSelected.setColumn(Character.getNumericValue(Character.getNumericValue(toPos.charAt(1))));
-		board[Character.getNumericValue(fromPos.charAt(0))][Character.getNumericValue(fromPos.charAt(1))]=null;
+		this.board[Character.getNumericValue(fromPos.charAt(0))][Character.getNumericValue(fromPos.charAt(1))]=null;
 		
 		this.board[Character.getNumericValue(toPos.charAt(0))][Character.getNumericValue(toPos.charAt(1))]=pieceSelected;
 		if(pieceSelected.getType()=='M') {
