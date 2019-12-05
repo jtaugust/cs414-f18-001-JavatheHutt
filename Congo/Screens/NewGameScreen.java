@@ -1,7 +1,9 @@
 package Screens;
 
 import java.awt.Color;
+import java.awt.Frame;
 
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -24,7 +26,13 @@ public class NewGameScreen extends Screen  {
 
 	@Override
 	public void setScreen() {
-		workingPanel.setBackground(darkGray);
+		JDialog newGame = new JDialog(this.WorkingPanel.frame.getThisFrame(), "New Game");
+		newGame.setName("New Game");
+		newGame.setBackground(Color.GREEN);
+		newGame.add(new JLabel("testing"));
+		newGame.setSize(500,500);
+		newGame.setVisible(true);
+		newGame.setLocationRelativeTo(this.WorkingPanel.frame.getThisFrame());
 	}
 
 	@Override

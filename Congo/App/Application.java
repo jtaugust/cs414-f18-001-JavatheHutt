@@ -21,6 +21,5 @@ public class Application extends JFrame{
 		
 		//start a new Congo frame
 	    frame = new Frame();
-	    
 	}
 }

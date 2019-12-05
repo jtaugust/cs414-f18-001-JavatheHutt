@@ -91,12 +91,9 @@ public class MainTemplate extends BackgroundTemplate{
             }
             @Override
             public void mouseReleased(final MouseEvent e) {
-            	changeScreen(new NewGameScreen());
             	buttonAccount.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0, 0, 6, 0, new Color(0,0,0)), new MatteBorder(3, 3, 3, 3, new Color(90,90,90))));
-            	buttonNewGame.setBackground(new Color(79,175,255));
-            	buttonExistingGames.setBackground(new Color(90,90,90));
-            	buttonRules.setBackground(new Color(90,90,90));
-            	buttonLogout.setBackground(new Color(90,90,90));
+            	buttonNewGame.setBackground(new Color(90,90,90));
+            	changeScreen(new NewGameScreen());
             }
         });
 		taskbar.add(buttonNewGame);
@@ -163,6 +160,7 @@ public class MainTemplate extends BackgroundTemplate{
             }
             @Override
             public void mouseReleased(final MouseEvent e) {
+            	clearDialog();
             	setUser(null);
             	changeScreen(new LoginScreen());
             	buttonAccount.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0, 0, 6, 0, new Color(0,0,0)), new MatteBorder(3, 3, 3, 3, new Color(90,90,90))));
@@ -170,6 +168,7 @@ public class MainTemplate extends BackgroundTemplate{
             	buttonExistingGames.setBackground(new Color(90,90,90));
             	buttonRules.setBackground(new Color(90,90,90));
             	buttonLogout.setBackground(new Color(79,175,255));
+            	
             }
         });
 		taskbar.add(buttonLogout);
