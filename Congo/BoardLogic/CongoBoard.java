@@ -194,6 +194,8 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		
 		pieceImages.put("WP", "./Images/whitePawn.png");
 		pieceImages.put("BP", "./Images/blackPawn.png");
+		pieceImages.put("WS", "./Images/whitePawn.png");
+		pieceImages.put("BS", "./Images/blackPawn.png");
 
 		//Placing Pieces on the GUI of Board
 		for(int i=0; i<7;i++) {
