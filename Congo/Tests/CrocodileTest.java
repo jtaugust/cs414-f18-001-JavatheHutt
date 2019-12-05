@@ -52,10 +52,6 @@ public class CrocodileTest {
 		expectedMoves[5][0]= 4; expectedMoves[5][1]= 0;
 		expectedMoves[6][0]= 4; expectedMoves[6][1]= 1;
 		expectedMoves[7][0]= 4; expectedMoves[7][1]= 2;
-
-		// Sort arrays before comparison
-		// Arrays.sort(expectedMoves, (a, b) -> Double.compare(a[0], b[0]));
-		// Arrays.sort(movesReturned, (a, b) -> Double.compare(a[0], b[0]));
 		
 		// System.out.println("Moves Expected");
         // for(int k = 0; k < expectedMoves.length; k++) {
@@ -124,6 +120,7 @@ public class CrocodileTest {
     public void testCrocodileMovesRiverAbove() {
 		// System.out.println("In Crocodile");
 		Crocodile crocodile = new Crocodile(0,1,'W','C');
+		
 		Piece[][] board = {
 				{null, crocodile, null, null, null, null, null},
 				{null, null, null, null, null, null, null},
@@ -157,6 +154,89 @@ public class CrocodileTest {
         // for(int k = 0; k < movesReturned.length; k++) {
         //     System.out.println(movesReturned[k][0] + " " + movesReturned[k][1]);
 		// }
+		
+		assertArrayEquals(movesReturned, expectedMoves);
+	}
+
+	@Test
+    public void testCrocodileCaptureRiverAbove1() {
+		// System.out.println("In Crocodile");
+		Crocodile crocodile = new Crocodile(0,1,'W','C');
+		Pawn pawn1 = new Pawn(2, 1, 'B', 'P');
+		Piece[][] board = {
+				{null, crocodile, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, pawn1, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null}
+			};
+		State state = new State(board,'W',new int[] {0,0},crocodile);
+
+		int[][] movesReturned = crocodile.legalMoves(state);
+
+		int[][] expectedMoves= new int[20][2];
+		expectedMoves = crocodile.formatMoveArray(expectedMoves);
+
+		expectedMoves[0][0]= 0; expectedMoves[0][1]= 0;
+		expectedMoves[1][0]= 0; expectedMoves[1][1]= 2;
+		expectedMoves[2][0]= 1; expectedMoves[2][1]= 0;
+		expectedMoves[3][0]= 1; expectedMoves[3][1]= 1;
+		expectedMoves[4][0]= 1; expectedMoves[4][1]= 2;
+		expectedMoves[5][0]= 2; expectedMoves[5][1]= 1;
+
+		System.out.println("Moves Expected");
+        for(int k = 0; k < expectedMoves.length; k++) {
+            System.out.println(expectedMoves[k][0] + " " + expectedMoves[k][1]);
+		}
+		
+		System.out.println("Moves Returned");
+        for(int k = 0; k < movesReturned.length; k++) {
+            System.out.println(movesReturned[k][0] + " " + movesReturned[k][1]);
+		}
+		
+		assertArrayEquals(movesReturned, expectedMoves);
+	}
+
+	@Test
+    public void testCrocodileCaptureRiverAbove2() {
+		// System.out.println("In Crocodile");
+		Crocodile crocodile = new Crocodile(0,1,'W','C');
+		Pawn pawn1 = new Pawn(3, 1, 'B', 'P');
+		Piece[][] board = {
+				{null, crocodile, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, pawn1, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null}
+			};
+		State state = new State(board,'W',new int[] {0,0},crocodile);
+
+		int[][] movesReturned = crocodile.legalMoves(state);
+
+		int[][] expectedMoves= new int[20][2];
+		expectedMoves = crocodile.formatMoveArray(expectedMoves);
+
+		expectedMoves[0][0]= 0; expectedMoves[0][1]= 0;
+		expectedMoves[1][0]= 0; expectedMoves[1][1]= 2;
+		expectedMoves[2][0]= 1; expectedMoves[2][1]= 0;
+		expectedMoves[3][0]= 1; expectedMoves[3][1]= 1;
+		expectedMoves[4][0]= 1; expectedMoves[4][1]= 2;
+		expectedMoves[5][0]= 2; expectedMoves[5][1]= 1;
+		expectedMoves[6][0]= 3; expectedMoves[6][1]= 1;
+
+		System.out.println("Moves Expected");
+        for(int k = 0; k < expectedMoves.length; k++) {
+            System.out.println(expectedMoves[k][0] + " " + expectedMoves[k][1]);
+		}
+		
+		System.out.println("Moves Returned");
+        for(int k = 0; k < movesReturned.length; k++) {
+            System.out.println(movesReturned[k][0] + " " + movesReturned[k][1]);
+		}
 		
 		assertArrayEquals(movesReturned, expectedMoves);
 	}

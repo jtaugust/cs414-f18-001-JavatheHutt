@@ -92,11 +92,10 @@ public class Crocodile extends Piece{
 				if(!containsMove(allPossibleMoves, new int[] {riverCounter,j})){
 					
 					if(board[riverCounter][j] == null){
-						
 						allPossibleMoves[count][0] = riverCounter;
 						allPossibleMoves[count][1] = j;
 						count++;
-					}else if (board[i][riverCounter].getColor() != state.getCurrentTurnColor()){
+					}else if (board[riverCounter][j].getColor() != state.getCurrentTurnColor()){
 						allPossibleMoves[count][0] = riverCounter;
 						allPossibleMoves[count][1] = j;
 						count++;
@@ -121,7 +120,7 @@ public class Crocodile extends Piece{
 						allPossibleMoves[count][0] = riverCounter;
 						allPossibleMoves[count][1] = j;
 						count++;
-					}else if (board[i][riverCounter].getColor() != state.getCurrentTurnColor()){
+					}else if (board[riverCounter][j].getColor() != state.getCurrentTurnColor()){
 						allPossibleMoves[count][0] = riverCounter;
 						allPossibleMoves[count][1] = j;
 						count++;

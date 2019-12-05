@@ -73,15 +73,15 @@ public class State {
     }
 
     public char getCurrentTurnColor(){
-        return currentTurnColor;
+        return this.currentTurnColor;
     }
 
     public int[] getCurrentClick(){
-        return currentClick;
+        return this.currentClick;
     }
 
     public Piece getPieceSelected(){
-        return pieceSelected;
+        return this.pieceSelected;
     }
 
     //
