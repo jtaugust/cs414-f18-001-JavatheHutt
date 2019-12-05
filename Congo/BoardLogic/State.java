@@ -134,6 +134,12 @@ public class State {
 		if(pieceSelected.getType()=='M') {
 			monkeyMoveHandler(fromPos,toPos);
 		}
+		else if (pieceSelected.getType()=='P' && toPos.charAt(0)=='0') {
+			Piece sp=new SuperPawn(pieceSelected.getRow(),pieceSelected.getColumn(),pieceSelected.getColor(),'S');
+			this.board[Character.getNumericValue(toPos.charAt(0))][Character.getNumericValue(toPos.charAt(1))]=null;
+			this.board[Character.getNumericValue(toPos.charAt(0))][Character.getNumericValue(toPos.charAt(1))]=sp;
+
+		}
 	}
 
     public Piece[][] flipBoard(State state){
