@@ -94,12 +94,17 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 			this.isCurrentTurn = true;
 			state.setCurrentTurnColor('W');
 			this.turn = "W";
-		} else if(user2.equals(currentUser) && gameInfo[5] == "b"){ //client user is black and turn is black
-			this.isCurrentTurn = true;
-			state.setCurrentTurnColor('B');
-			this.turn = "B";
+		} else if(user2.equals(currentUser)){ //client user is black and turn is black
 			//flip board for black
 			state.flipBoard(state);
+			
+			if(gameInfo[5].equals("b")) {
+				System.out.println("TESTING BLACK");
+				this.isCurrentTurn = true;
+				state.setCurrentTurnColor('B');
+				this.turn = "B";
+			}
+			
 		} else {
 			this.isCurrentTurn = false;
 		}
@@ -142,6 +147,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	  		public void mouseReleased(final MouseEvent e) {
 	  			endTurn.setBackground(lightGray);
 	  			endTurn();
+	  			
 //	  			turn = BoardHelper.switchTurn(congoBoard, turn);
 	  		}
 		});
@@ -371,7 +377,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 				//reset piece clicked
 				isPieceClicked=false;
 				revertColors();
-				congoPiece.setVisible(false);	
+				congoPiece.setVisible(false);
 	
 				Container parent = null;
 	
@@ -387,7 +393,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	
 				if(isPieceMovedOnBoard(parentLocation)) {
 					parent.add(congoPiece);
-					postMoveHandler();
+					this.moveCount++;
 				} else {
 					currentParent.add(congoPiece);
 				}
@@ -410,7 +416,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		}
 		
 		Piece[][] currentBoard = new Piece[7][7];
-				
+		
 		for(int i = 0; i < gameState.length; i++) {
 			for(int j = 0; j < gameState[i].length; j++) {
 				if(gameState[i][j] != null) {
@@ -452,18 +458,80 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		return currentBoard;
 	}
 	
+	//update state in database with the current state
 	public void stateToDatabase(Piece[][] state){
+		
 		//read game state from database
 		serverGamesHelpers database = new serverGamesHelpers();
+		
 		String[][] gameState = new String[7][7];
+		String[] gameInfo = new String[5];
+		
 		try {
 			gameState = database.readGameState(gameID);
+			gameInfo = database.readCurrentGames_T(gameID);
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-
 		
+		//set turn in database
+		if(this.turn == "W") { //set current turn in database to black
+			try {
+				database.insertCurrentGames_T(Integer.toString(gameID), "currentColor", "b");
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else { //set current turn in database to white
+			try {
+				database.insertCurrentGames_T(Integer.toString(gameID), "currentColor", "w");
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		//Testing purposes: reset state in database
+//		State revert = new State();
+//		state = revert.getBoard();
+		
+		//set state in database
+		for(int i = 0; i < state.length; i++) {
+			for(int j = 0; j < state[i].length; j++) {
+				
+				char ch = (char)(j+97);
+				
+				// if new state is null and database state is not NN
+				if(state[i][j] == null && (!gameState[i][j].equals("NN"))) {
+					//set database state to NN
+					try {
+						database.insertGameBoards(gameID, i+1, String.valueOf(ch), "NN");
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				} else if(state[i][j] != null){ // state not null
+					// if new state is not equal to database state
+					if(!gameState[i][j].equals(String.valueOf(state[i][j].getColor()) + String.valueOf(state[i][j].getType()))) {
+						//set database state to new state
+						try {
+							database.insertGameBoards(gameID, i+1, String.valueOf(ch), String.valueOf(state[i][j].getColor()) + String.valueOf(state[i][j].getType()));
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+						
+				}
+				
+			
+			}
+			System.out.println("");
+		}
+		
+		
+	
 	}
 
     public boolean isLegalMove(ArrayList<String> possibelMoves,String futureStatePosition) {
@@ -531,31 +599,12 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		return false;
 	}
 	
-	public void postMoveHandler() {
-//		turn = BoardHelper.switchTurn(congoBoard, turn);
-//		if(turn == "W") {
-//			state.setCurrentTurnColor('W');
-//		} else {
-//			state.setCurrentTurnColor('B');
-//		}
-//		congoBoard.removeAll();
-//		congoBoard.repaint();
-//		buildBoard();
-		this.moveCount++;
-//		fillBoard(board);
-	}
-	
 	public void endTurn() {
-		if(this.turn == "W") {
-			System.out.println("White just moved");
-			//if white, update state and set current move to B
-		} else {
-			System.out.println("Black just moved");
-			//if black, flip then update state and set current move to B
-
+		if(this.turn == "B") {
+			//if black, flip then update state
+			state.flipBoard(state);
 		}
-		state.flipBoard(state);
-		board = state.getBoard();
+		stateToDatabase(state.getBoard());
 		
 	}
 	
