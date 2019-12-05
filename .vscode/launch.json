@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - GameLogic",
+            "request": "launch",
+            "mainClass": "BoardLogic.GameLogic",
+            "projectName": "CongoBoard"
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - CongoBoard",
             "request": "launch",
             "mainClass": "BoardLogic.CongoBoard",
