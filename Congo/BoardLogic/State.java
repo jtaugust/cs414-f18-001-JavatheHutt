@@ -145,6 +145,7 @@ public class State {
 		int countJ = 0;
 		for (int i = 6; i >= 0; i--) { 
             for (int j = 6; j >= 0; j--) {
+
                 Piece newPiece = board[i][j];
                 if(newPiece != null) {
                     newPiece.setRow(countI);

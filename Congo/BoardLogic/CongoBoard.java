@@ -45,6 +45,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	String turn = "W";
 	boolean isCurrentTurn;
 	boolean isPieceClicked;
+	boolean endTurnClicked;
 	ArrayList<String> indexList = new ArrayList<>();
 	ArrayList<String> possibleMoves=new ArrayList<>();
 	Piece piece;
@@ -72,6 +73,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		this.user2 = user2;
 		this.gameID = gameID;
 		this.moveCount = 0;
+		this.endTurnClicked = false;
 				
 		//Initialize state
 		state = new State();
@@ -99,7 +101,6 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 			state.flipBoard(state);
 			
 			if(gameInfo[5].equals("b")) {
-				System.out.println("TESTING BLACK");
 				this.isCurrentTurn = true;
 				state.setCurrentTurnColor('B');
 				this.turn = "B";
@@ -141,14 +142,18 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	    endTurn.addMouseListener(new MouseAdapter() {
 	  		@Override
 	  		public void mousePressed(final MouseEvent e) {
-	  			endTurn.setBackground(highlightGray);
+	  			if(moveCount != 0 && !endTurnClicked) {
+	  				endTurn.setBackground(highlightGray);
+	  			}
+	  			
 	  		}
 	  		@Override
 	  		public void mouseReleased(final MouseEvent e) {
-	  			endTurn.setBackground(lightGray);
-	  			endTurn();
+	  			if(moveCount != 0 && !endTurnClicked) {
+		  			endTurn.setBackground(lightGray);
+		  			endTurn();
+	  			}
 	  			
-//	  			turn = BoardHelper.switchTurn(congoBoard, turn);
 	  		}
 		});
 	    
@@ -375,26 +380,26 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 				System.out.println("IN SECOND CLICK --------------------------------------");	
 				
 				//reset piece clicked
-				isPieceClicked=false;
+				isPieceClicked = false;
 				revertColors();
 				congoPiece.setVisible(false);
 	
 				Container parent = null;
 	
 				if (c instanceof JLabel && !isIndex(congoPiece)){ //if tile clicked is another piece
-					System.out.println("IN FIRST IF --------------------------------------");	
 					parent = c.getParent();
 				} else if (!isIndex(congoPiece)){ //if tile clicked is the same tile as piece clicked
-					System.out.println("IN ELSE IF --------------------------------------");	
 					parent = (Container)c;
 				}
 	
 				Point parentLocation = parent.getLocation();
 	
 				if(isPieceMovedOnBoard(parentLocation)) {
+					parent.removeAll(); // remove other pieces before adding new piece
 					parent.add(congoPiece);
 					this.moveCount++;
 				} else {
+					System.out.println("TEST");
 					currentParent.add(congoPiece);
 				}
 	
@@ -465,11 +470,9 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		serverGamesHelpers database = new serverGamesHelpers();
 		
 		String[][] gameState = new String[7][7];
-		String[] gameInfo = new String[5];
 		
 		try {
 			gameState = database.readGameState(gameID);
-			gameInfo = database.readCurrentGames_T(gameID);
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -480,7 +483,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 			try {
 				database.insertCurrentGames_T(Integer.toString(gameID), "currentColor", "b");
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+				// TODO Auto-generated catch 2block
 				e.printStackTrace();
 			}
 		} else { //set current turn in database to white
@@ -488,7 +491,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 				database.insertCurrentGames_T(Integer.toString(gameID), "currentColor", "w");
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+ 				e.printStackTrace();
 			}
 		}
 		
@@ -600,6 +603,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	}
 	
 	public void endTurn() {
+		this.endTurnClicked = true;
 		if(this.turn == "B") {
 			//if black, flip then update state
 			state.flipBoard(state);
