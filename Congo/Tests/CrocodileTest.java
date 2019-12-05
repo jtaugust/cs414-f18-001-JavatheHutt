@@ -43,18 +43,19 @@ public class CrocodileTest {
 
 		int[][] expectedMoves= new int[20][2];
 		expectedMoves = crocodile.formatMoveArray(expectedMoves);
-		expectedMoves[0][0]= 2; expectedMoves[0][1]= 0;
-		expectedMoves[1][0]= 2; expectedMoves[1][1]= 1;
-		expectedMoves[2][0]= 2; expectedMoves[2][1]= 2;
-		expectedMoves[3][0]= 3; expectedMoves[3][1]= 0;
-		expectedMoves[4][0]= 3; expectedMoves[4][1]= 2;
+
+		expectedMoves[0][0]= 3; expectedMoves[0][1]= 0;
+		expectedMoves[1][0]= 3; expectedMoves[1][1]= 2;
+		expectedMoves[2][0]= 2; expectedMoves[2][1]= 0;
+		expectedMoves[3][0]= 2; expectedMoves[3][1]= 1;
+		expectedMoves[4][0]= 2; expectedMoves[4][1]= 2;
 		expectedMoves[5][0]= 4; expectedMoves[5][1]= 0;
 		expectedMoves[6][0]= 4; expectedMoves[6][1]= 1;
 		expectedMoves[7][0]= 4; expectedMoves[7][1]= 2;
 
 		// Sort arrays before comparison
-		Arrays.sort(expectedMoves, (a, b) -> Double.compare(a[0], b[0]));
-		Arrays.sort(movesReturned, (a, b) -> Double.compare(a[0], b[0]));
+		// Arrays.sort(expectedMoves, (a, b) -> Double.compare(a[0], b[0]));
+		// Arrays.sort(movesReturned, (a, b) -> Double.compare(a[0], b[0]));
 		
 		// System.out.println("Moves Expected");
         // for(int k = 0; k < expectedMoves.length; k++) {
@@ -93,31 +94,28 @@ public class CrocodileTest {
 		int[][] expectedMoves= new int[20][2];
 		expectedMoves = crocodile.formatMoveArray(expectedMoves);
 
-		expectedMoves[0][0]= 2; expectedMoves[0][1]= 1;
-		expectedMoves[1][0]= 2; expectedMoves[1][1]= 2;
-		expectedMoves[2][0]= 2; expectedMoves[2][1]= 3;
-		expectedMoves[3][0]= 3; expectedMoves[3][1]= 0;
-		expectedMoves[4][0]= 3; expectedMoves[4][1]= 1;
-		expectedMoves[5][0]= 3; expectedMoves[5][1]= 3;
-		expectedMoves[6][0]= 3; expectedMoves[6][1]= 4;
-		expectedMoves[7][0]= 3; expectedMoves[7][1]= 5;
+		expectedMoves[0][0]= 3; expectedMoves[0][1]= 1;
+		expectedMoves[1][0]= 3; expectedMoves[1][1]= 0;
+		expectedMoves[2][0]= 3; expectedMoves[2][1]= 3;
+		expectedMoves[3][0]= 3; expectedMoves[3][1]= 4;
+		expectedMoves[4][0]= 3; expectedMoves[4][1]= 5;
+		expectedMoves[5][0]= 2; expectedMoves[5][1]= 1;
+		expectedMoves[6][0]= 2; expectedMoves[6][1]= 2;
+		expectedMoves[7][0]= 2; expectedMoves[7][1]= 3;
 		expectedMoves[8][0]= 4; expectedMoves[8][1]= 1;
 		expectedMoves[9][0]= 4; expectedMoves[9][1]= 2;
 		expectedMoves[10][0]= 4; expectedMoves[10][1]= 3;
 		
-		// Sort arrays before comparison
-		Arrays.sort(expectedMoves, (a, b) -> Double.compare(a[0], b[0]));
-		Arrays.sort(movesReturned, (a, b) -> Double.compare(a[0], b[0]));
 		
-		System.out.println("Moves Expected");
-        for(int k = 0; k < expectedMoves.length; k++) {
-            System.out.println(expectedMoves[k][0] + " " + expectedMoves[k][1]);
-		}
+		// System.out.println("Moves Expected");
+        // for(int k = 0; k < expectedMoves.length; k++) {
+        //     System.out.println(expectedMoves[k][0] + " " + expectedMoves[k][1]);
+		// }
 		
-		System.out.println("Moves Returned");
-        for(int k = 0; k < movesReturned.length; k++) {
-            System.out.println(movesReturned[k][0] + " " + movesReturned[k][1]);
-		}
+		// System.out.println("Moves Returned");
+        // for(int k = 0; k < movesReturned.length; k++) {
+        //     System.out.println(movesReturned[k][0] + " " + movesReturned[k][1]);
+		// }
 		
 		assertArrayEquals(movesReturned, expectedMoves);
 	}
@@ -150,10 +148,6 @@ public class CrocodileTest {
 		expectedMoves[5][0]= 2; expectedMoves[5][1]= 1;
 		expectedMoves[6][0]= 3; expectedMoves[6][1]= 1;
 
-		// Sort arrays before comparison
-		Arrays.sort(expectedMoves, (a, b) -> Double.compare(a[0], b[0]));
-		Arrays.sort(movesReturned, (a, b) -> Double.compare(a[0], b[0]));
-		
 		// System.out.println("Moves Expected");
         // for(int k = 0; k < expectedMoves.length; k++) {
         //     System.out.println(expectedMoves[k][0] + " " + expectedMoves[k][1]);
@@ -187,17 +181,13 @@ public class CrocodileTest {
 		int[][] expectedMoves= new int[20][2];
 		expectedMoves = crocodile.formatMoveArray(expectedMoves);
 
-		expectedMoves[0][0]= 6; expectedMoves[0][1]= 0;
-		expectedMoves[1][0]= 6; expectedMoves[1][1]= 2;
-		expectedMoves[2][0]= 5; expectedMoves[2][1]= 0;
-		expectedMoves[3][0]= 5; expectedMoves[3][1]= 1;
-		expectedMoves[4][0]= 5; expectedMoves[4][1]= 2;
+		expectedMoves[0][0]= 5; expectedMoves[0][1]= 0;
+		expectedMoves[1][0]= 5; expectedMoves[1][1]= 1;
+		expectedMoves[2][0]= 5; expectedMoves[2][1]= 2;
+		expectedMoves[3][0]= 6; expectedMoves[3][1]= 0;
+		expectedMoves[4][0]= 6; expectedMoves[4][1]= 2;
 		expectedMoves[5][0]= 4; expectedMoves[5][1]= 1;
 		expectedMoves[6][0]= 3; expectedMoves[6][1]= 1;
-
-		// Sort arrays before comparison
-		Arrays.sort(expectedMoves, (a, b) -> Double.compare(a[0], b[0]));
-		Arrays.sort(movesReturned, (a, b) -> Double.compare(a[0], b[0]));
 		
 		// System.out.println("Moves Expected");
         // for(int k = 0; k < expectedMoves.length; k++) {

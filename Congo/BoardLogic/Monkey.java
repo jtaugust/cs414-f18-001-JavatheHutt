@@ -59,7 +59,6 @@ public class Monkey extends Piece{
 		
 		// Set to 10 for max amount of moves 
 		int count = 0; 
-		
 
 		// Check 3x3 around piece
 		for(int x = i - 1; x <= i + 1; x++) {
@@ -67,7 +66,7 @@ public class Monkey extends Piece{
 				if(isIndexBounded(x,y)){
 					if(board[x][y] == null ) {
 						allPossibleMoves[count][0] = x;
-						allPossibleMoves[count][1]=y;
+						allPossibleMoves[count][1] = y;
 						count++;
 					}
 				}
@@ -76,9 +75,10 @@ public class Monkey extends Piece{
 		
 		// Check top left jump
 		if(isIndexBounded(i-2,j-2)){
+			System.out.println("I: " + i + " J: "+ j + " = " + board[i-2][j-2]);
 			if(monkeyCanJump(state,i-2,j-2)) {
 				allPossibleMoves[count][0] = i-2;
-				allPossibleMoves[count][1]=j-2;
+				allPossibleMoves[count][1] = j-2;
 				count++;
 			}
 		}
@@ -87,7 +87,7 @@ public class Monkey extends Piece{
 		if(isIndexBounded(i-2,j)){
 			if(monkeyCanJump(state,i-2,j)) {
 				allPossibleMoves[count][0] = i-2;
-				allPossibleMoves[count][1]=j;
+				allPossibleMoves[count][1] = j;
 				count++;
 			}
 		}
@@ -96,7 +96,7 @@ public class Monkey extends Piece{
 		if(isIndexBounded(i-2,j+2)){
 			if(monkeyCanJump(state,i-2,j+2)) {
 				allPossibleMoves[count][0] = i-2;
-				allPossibleMoves[count][1]=j+2;
+				allPossibleMoves[count][1] = j+2;
 				count++;
 			}
 		}	
@@ -105,7 +105,7 @@ public class Monkey extends Piece{
 		if(isIndexBounded(i,j-2)){
 			if(monkeyCanJump(state,i,j-2)) {
 				allPossibleMoves[count][0] = i;
-				allPossibleMoves[count][1]=j-2;
+				allPossibleMoves[count][1] = j-2;
 				count++;
 			}
 		}
@@ -114,7 +114,7 @@ public class Monkey extends Piece{
 		if(isIndexBounded(i,j+2)){
 			if(monkeyCanJump(state,i,j+2)) {
 				allPossibleMoves[count][0] = i;
-				allPossibleMoves[count][1]=j+2;
+				allPossibleMoves[count][1] = j+2;
 				count++;
 			}
 		}	
@@ -123,7 +123,7 @@ public class Monkey extends Piece{
 		if(isIndexBounded(i+2,j-2)){
 			if(monkeyCanJump(state,i+2,j-2)) {
 				allPossibleMoves[count][0] =i+2;
-				allPossibleMoves[count][1]=j-2;
+				allPossibleMoves[count][1] = j-2;
 				count++;
 			}
 		}	
@@ -132,7 +132,7 @@ public class Monkey extends Piece{
 		if(isIndexBounded(i+2,j)){
 			if(monkeyCanJump(state,i+2,j)) {
 				allPossibleMoves[count][0] = i+2;
-				allPossibleMoves[count][1]=j;
+				allPossibleMoves[count][1] = j;
 				count++;
 			}
 		}
@@ -141,7 +141,7 @@ public class Monkey extends Piece{
 		if(isIndexBounded(i+2,j+2)){
 			if(monkeyCanJump(state,i+2,j+2)) {
 				allPossibleMoves[count][0] = i+2;
-				allPossibleMoves[count][1]=j+2;
+				allPossibleMoves[count][1] = j+2;
 				count++;
 			}
 		}

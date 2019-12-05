@@ -13,6 +13,8 @@ public class Crocodile extends Piece{
         int i = this.getRow();
 		int j = this.getColumn();
 		
+		// System.out.println("Row: " + i + " Col: "+ j);
+		
 		Piece[][] board = state.getBoard();
 		
 		// Set to 15 for max amount of moves 
@@ -26,37 +28,44 @@ public class Crocodile extends Piece{
 			// Check Left 
 			int riverCounter = j - 1;
 			while(riverCounter >= 0){
-				if(board[i][riverCounter] == null){
-					allPossibleMoves[count][0] = i;
-                    allPossibleMoves[count][1] = riverCounter;
-					count++;
-				}else if (board[i][riverCounter].getColor() != state.getCurrentTurnColor()){
-					allPossibleMoves[count][0] = i;
-                    allPossibleMoves[count][1] = riverCounter;
-					count++;
-					break;
-				}else{
-					break;
+				if(!containsMove(allPossibleMoves, new int[] {i,riverCounter})){
+					if(board[i][riverCounter] == null){
+						allPossibleMoves[count][0] = i;
+						allPossibleMoves[count][1] = riverCounter;
+						count++;
+					}else if (board[i][riverCounter].getColor() != state.getCurrentTurnColor()){
+						allPossibleMoves[count][0] = i;
+						allPossibleMoves[count][1] = riverCounter;
+						count++;
+						break;
+					}else{
+						break;
+					}
 				}
 				riverCounter--;
+				
 			}
 
 			// Check Right 
 			riverCounter = j + 1;
 			while(riverCounter <= 6){
-				if(board[i][riverCounter] == null){
-					allPossibleMoves[count][0] = i;
-                    allPossibleMoves[count][1] = riverCounter;
-					count++;
-				}else if (board[i][riverCounter].getColor() != state.getCurrentTurnColor()){
-                    allPossibleMoves[count][0] = i;
-                    allPossibleMoves[count][1] = riverCounter;
-					count++;
-					break;
-				}else{
-					break;
+				if(!containsMove(allPossibleMoves, new int[] {i,riverCounter})){
+					if(board[i][riverCounter] == null){
+						allPossibleMoves[count][0] = i;
+						allPossibleMoves[count][1] = riverCounter;
+						count++;
+					}else if (board[i][riverCounter].getColor() != state.getCurrentTurnColor()){
+						allPossibleMoves[count][0] = i;
+						allPossibleMoves[count][1] = riverCounter;
+						count++;
+						break;
+					}else{
+						break;
+					}
 				}
+				
 				riverCounter++;
+				
 			}
 		}
 		
@@ -79,28 +88,11 @@ public class Crocodile extends Piece{
 		if(i > 3) {
 			int riverCounter = i - 1;
 			while(riverCounter >= 3) {
-				if(!containsMove(allPossibleMoves, new int[] {riverCounter,j}))
+				
+				if(!containsMove(allPossibleMoves, new int[] {riverCounter,j})){
+					
 					if(board[riverCounter][j] == null){
-						allPossibleMoves[count][0] = riverCounter;
-						allPossibleMoves[count][1] = j;
-						count++;
-					}else if (board[i][riverCounter].getColor() != state.getCurrentTurnColor() && !containsMove(allPossibleMoves, new int[] {riverCounter,j})){
-						allPossibleMoves[count][0] = riverCounter;
-						allPossibleMoves[count][1] = j;
-						count++;
-						break;
-					}else{
-						break;
-					}
-					riverCounter--;
-			}
-
-           
-		}else if(i < 3){
-			int riverCounter = i + 1;
-			while(riverCounter >= 3) {
-				if(!containsMove(allPossibleMoves, new int[] {riverCounter,j}))
-					if(board[riverCounter][j] == null && !containsMove(allPossibleMoves, new int[] {riverCounter,j})){
+						
 						allPossibleMoves[count][0] = riverCounter;
 						allPossibleMoves[count][1] = j;
 						count++;
@@ -112,7 +104,35 @@ public class Crocodile extends Piece{
 					}else{
 						break;
 					}
-					riverCounter++;
+				}
+				
+				riverCounter--;
+				
+			}
+
+           
+		}else if(i < 3){
+			int riverCounter = i + 1;
+			while(riverCounter <= 3) {
+				
+				if(!containsMove(allPossibleMoves, new int[] {riverCounter,j})){
+					
+					if(board[riverCounter][j] == null){
+						allPossibleMoves[count][0] = riverCounter;
+						allPossibleMoves[count][1] = j;
+						count++;
+					}else if (board[i][riverCounter].getColor() != state.getCurrentTurnColor()){
+						allPossibleMoves[count][0] = riverCounter;
+						allPossibleMoves[count][1] = j;
+						count++;
+						break;
+					}else{
+						break;
+					}
+				}
+				
+				riverCounter++;
+				
 			}
 		}
 		
