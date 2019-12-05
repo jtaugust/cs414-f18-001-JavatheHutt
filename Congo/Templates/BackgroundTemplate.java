@@ -36,7 +36,7 @@ public class BackgroundTemplate {
 				temp = new MainTemplate(this.frame);
 				this.backgroundPanel = temp.generateTemplate();
 				width = 1000;
-				height = 1000;
+				height = 800;
 			}
 		}
 	}

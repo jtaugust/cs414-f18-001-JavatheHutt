@@ -39,6 +39,8 @@ public class serverGamesHelpers {
 
 			}
 
+			connect.close();
+			
 			return returnArray;
 
 		} catch (Exception e) {
@@ -83,6 +85,8 @@ public class serverGamesHelpers {
 
 			preparedStatement.executeUpdate();
 			
+			connect.close();
+			
 			return id;
 
 		} catch (Exception e) {
@@ -121,7 +125,11 @@ public class serverGamesHelpers {
 
 			returnArray[3] = Integer.toString(resultSet.getInt(4));
 			returnArray[4] = Integer.toString(resultSet.getInt(5));
+			returnArray[5] = resultSet.getString(6);
+			returnArray[6] = resultSet.getString(7);
 
+			connect.close();
+			
 			return returnArray;
 
 		} catch (Exception e) {
@@ -162,7 +170,8 @@ public class serverGamesHelpers {
 				returnArray.add(rowArray);
 			}
 			
-
+			connect.close();
+			
 			return returnArray;
 
 		} catch (Exception e) {
@@ -191,7 +200,7 @@ public class serverGamesHelpers {
 				if (column != "User1" && column != "User2") {
 
 					preparedStatement = connect.prepareStatement(
-							"UPDATE Games.CurrentGames_T SET " + column + " = " + value + " WHERE GameNumber = (?)");
+							"UPDATE Games.CurrentGames_T SET " + column + " = '" + value + "' WHERE GameNumber = (?)");
 
 					preparedStatement.setInt(1, Integer.parseInt(GameNumber));
 
@@ -207,11 +216,12 @@ public class serverGamesHelpers {
 					preparedStatement.executeUpdate();
 
 				}
-			}
-
-			else {
+				
+			} else {
 				System.out.println("Cannot change GameNumber or boardID here.");
 			}
+			
+			connect.close();
 
 		} catch (Exception e) {
 			throw e;
@@ -238,6 +248,8 @@ public class serverGamesHelpers {
 			preparedStatement.setInt(2, row);
 
 			preparedStatement.executeUpdate();
+			
+			connect.close();
 
 		} catch (Exception e) {
 			throw e;
@@ -261,7 +273,7 @@ public class serverGamesHelpers {
 				connect = DriverManager
 						.getConnection("jdbc:mysql://68.234.149.213:8555/Games?" + "user=cs414&password=cs414");
 
-				preparedStatement = connect.prepareStatement("SELECT * FROM Games.GameBoards_T WHERE ID=(?) AND row=(?)");
+				preparedStatement = connect.prepareStatement("SELECT * FROM Games.GameBoards_T WHERE GameNumber=(?) AND row=(?)");
 
 				preparedStatement.setInt(1, id);
 				preparedStatement.setInt(2, i + 1);
@@ -277,6 +289,7 @@ public class serverGamesHelpers {
 				returnArray[i][5] = resultSet.getString("f");
 				returnArray[i][6] = resultSet.getString("g");
 
+				connect.close();
 			}
 
 			return returnArray;
@@ -302,21 +315,23 @@ public class serverGamesHelpers {
 			connect = DriverManager
 					.getConnection("jdbc:mysql://68.234.149.213:8555/Games?" + "user=cs414&password=cs414");
 
-			if (column != "ID" && column != "row") {
+			if (column != "GameNumber" && column != "row") {
 
 				preparedStatement = connect.prepareStatement(
-						"UPDATE Games.GameBoards_T SET " + column + " = '" + value + "' WHERE ID = (?) AND row = (?)");
+						"UPDATE Games.GameBoards_T SET " + column + " = '" + value + "' WHERE GameNumber = (?) AND row = (?)");
 
 				preparedStatement.setInt(1, id);
 				preparedStatement.setInt(2, row);
 
 				preparedStatement.executeUpdate();
 
-			}
-
-			else {
+				connect.close();
+				
+			} else {
 				System.out.println("Cannot change ID or row here.");
 			}
+			
+			connect.close();
 
 		} catch (Exception e) {
 			throw e;

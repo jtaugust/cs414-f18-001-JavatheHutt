@@ -1,0 +1,25 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - GameLogic",
+            "request": "launch",
+            "mainClass": "BoardLogic.GameLogic",
+            "projectName": "CongoBoard"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - CongoBoard",
+            "request": "launch",
+            "mainClass": "BoardLogic.CongoBoard",
+            "projectName": "CongoBoard"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Application",
+            "request": "launch",
+            "mainClass": "App.Application",
+            "projectName": "CongoBoard"
+        }
+    ]
+}

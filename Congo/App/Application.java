@@ -23,5 +23,3 @@ public class Application extends JFrame{
 	    frame = new Frame();
 	}
 }
-
-
