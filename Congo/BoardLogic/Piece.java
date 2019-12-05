@@ -106,41 +106,4 @@ public abstract class Piece{
         return legalMoves;
     }
 
-    // Sorts the array for comparison
-    public int[][] sortMovesArray(int[][] legalMoves){
-        
-        int[][] sortedArray = new int[20][2];
-        System.out.println("Legal Moves");
-        for(int k = 0; k < legalMoves.length; k++) {
-            System.out.println(legalMoves[k][0] + " " + legalMoves[k][1]);
-		}
-        int arrCounter = 0;
-
-        // Insertion Sort 
-        int[] min = {10000,10000};
-        for(int i = 0; i < 20; i++){
-            for(int j = 0; j < 20; j++){
-                if (legalMoves[j][0] != -1 && !containsMove(sortedArray, legalMoves[j])){
-                    System.out.println("Checking: " + legalMoves[j][0] + " " + legalMoves[j][1]);
-                    if(legalMoves[j][0] < min[0]){
-                        min = legalMoves[j];
-                    }else if(legalMoves[j][0] == min[0]){
-        
-                        // If same, check second variable 
-                        if(legalMoves[j][1] < min[1]){
-                            min = legalMoves[j];
-                        }
-                    }
-                }
-            }
-            sortedArray[arrCounter] = min;
-            System.out.println("Added: " + sortedArray[arrCounter][0] + " " + sortedArray[arrCounter][1] + containsMove(sortedArray, min));
-            arrCounter++;
-           
-        }
-       
-
-
-        return sortedArray;
-    }
 }

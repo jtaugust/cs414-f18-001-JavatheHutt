@@ -65,13 +65,6 @@ public class State {
 
     }   
 
-    // Update the state object and update in database
-    public void updateState(State newState){
-        //state = newState;
-        
-        //TODO: Update in database
-    }
-
     //
     // Getters
     //
@@ -126,7 +119,7 @@ public class State {
             result += "]\n";
         }
 
-        result += "\n currentTurnColor: " + currentTurnColor + " currentClick: " +  currentClick + " pieceSelected: " + pieceSelected + "\n";
+        result += "\n currentTurnColor: " + currentTurnColor + " currentClick: " +  currentClick + " pieceSelected: " + pieceSelected.toString() + "\n";
         return result;
     }
     
@@ -142,32 +135,60 @@ public class State {
 			monkeyMoveHandler(fromPos,toPos);
 		}
 	}
-    
+
     public Piece[][] flipBoard(State state){
 		Piece[][] board = state.getBoard();
 		Piece[][] newBoard = new Piece[7][7];
-		Piece[][] indexBoard = board;
+
 		// Go through backwards and swap pieces by taking index of array copy and piece color and type from real board
 		int countI = 0;
 		int countJ = 0;
 		for (int i = 6; i >= 0; i--) { 
             for (int j = 6; j >= 0; j--) {
-				Piece newPiece = board[i][j];
-				if(newPiece!=null) {
-					newPiece.setRow(countI);
-					newPiece.setColumn(countJ);
-					
-					newBoard[countI][countJ] = newPiece;
-				}
+
+                Piece newPiece = board[i][j];
+                if(newPiece != null) {
+                    newPiece.setRow(countI);
+                    newPiece.setColumn(countJ);
+                    newBoard[countI][countJ] = newPiece;
+                }
                 countJ++;
             }
             countI++;
-    		countJ = 0;
+            countJ = 0;
+
         } 
 		state.setBoard(newBoard);
-		
 		return newBoard;
 	}
+    
+    // Check if two boards are equal
+    public boolean boardEquals(Piece[][] board1, Piece[][] board2){
+        // Return False if not equal
+        for(int i = 0; i < 7; i++){
+            for(int j = 0; j < 7; j++){
+                if(board1[i][j] == null){
+                    // If both spots not null
+                    if(board2[i][j] != null){
+                        return false;
+                    }
+                } else {
+                    // Check Color
+                    if(board1[i][j].getColor() != board2[i][j].getColor()){
+                        return false;
+                    }
+
+                    // Check piece type
+                    if(board1[i][j].getType() != board2[i][j].getType()){
+                        return false;
+                    }
+                }
+            }
+        }
+        
+        // Boards are equal
+        return true;
+    }
 	
     // removes the piece jumped over
     public void monkeyMoveHandler(String fromPos, String toPos) {
