@@ -6,6 +6,7 @@ public class Zebra extends Piece{
     }
 	public int[][] legalMoves(State state){
 		Piece[][] board = state.getBoard();
+		
         //  Set to 20 as its above pawn max available moves 
 		int[][] allPossibleMoves = new int[20][2];
 		formatMoveArray(allPossibleMoves);
@@ -16,7 +17,6 @@ public class Zebra extends Piece{
 		// Set to 10 for max amount of moves 
 		int count = 0; 
 		
-//		System.out.println("State in Z: "+ state.toString());
 		// Top left 1
 		if (isIndexBounded(i-1,j-2)) {
 			if(board[i-1][j-2]== null || board[i-1][j-2].getColor() != this.getColor()) {
