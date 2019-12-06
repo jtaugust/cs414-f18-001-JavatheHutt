@@ -2,8 +2,6 @@ package Tests;
 
 import static org.junit.Assert.*;
 
-import javax.swing.plaf.synth.SynthLookAndFeel;
-
 import org.junit.Test;
 
 import BoardLogic.*;
@@ -140,7 +138,7 @@ public class GameLogicTest {
 
 		char expectedVar = 'B';
 		char resultVar = logic.isGameOver(state);
-		System.out.println("Expected Var: " + expectedVar + " Result Var: " + resultVar);
+		// System.out.println("Expected Var: " + expectedVar + " Result Var: " + resultVar);
 
         assertEquals(expectedVar, resultVar);
 	}
@@ -164,7 +162,7 @@ public class GameLogicTest {
 
 		char expectedVar = 'B';
 		char resultVar = logic.isGameOver(state);
-		System.out.println("Expected Var: " + expectedVar + " Result Var: " + resultVar);
+		// System.out.println("Expected Var: " + expectedVar + " Result Var: " + resultVar);
 
         assertEquals(expectedVar, resultVar);
 	}
@@ -188,7 +186,7 @@ public class GameLogicTest {
 
 		char expectedVar = 'W';
 		char resultVar = logic.isGameOver(state);
-		System.out.println("Expected Var: " + expectedVar + " Result Var: " + resultVar);
+		// System.out.println("Expected Var: " + expectedVar + " Result Var: " + resultVar);
 
         assertEquals(expectedVar, resultVar);
 	}
@@ -213,7 +211,7 @@ public class GameLogicTest {
 
 		char expectedVar = 'W';
 		char resultVar = logic.isGameOver(state);
-		System.out.println("Expected Var: " + expectedVar + " Result Var: " + resultVar);
+		// System.out.println("Expected Var: " + expectedVar + " Result Var: " + resultVar);
 
         assertEquals(expectedVar, resultVar);
 	}
@@ -236,7 +234,7 @@ public class GameLogicTest {
 
 		char expectedVar = 'D';
 		char resultVar = logic.isGameOver(state);
-		System.out.println("Expected Var: " + expectedVar + " Result Var: " + resultVar);
+		// System.out.println("Expected Var: " + expectedVar + " Result Var: " + resultVar);
 
         assertEquals(expectedVar, resultVar);
 	}
@@ -261,7 +259,7 @@ public class GameLogicTest {
 
 		char expectedVar = 'N';
 		char resultVar = logic.isGameOver(state);
-		System.out.println("Expected Var: " + expectedVar + " Result Var: " + resultVar);
+		// System.out.println("Expected Var: " + expectedVar + " Result Var: " + resultVar);
 
         assertEquals(expectedVar, resultVar);
 	}
