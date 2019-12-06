@@ -223,4 +223,33 @@ public class State {
 		board[jumpedRow][jumpedCol]=null;
 
 	}
+    
+    
+ // set drowning=1 if the piece is in the lake at the beginning of the game
+ 	public void drowningInitializer() {
+ 		for (int i=0; i<7;i++) {
+ 			if(this.board[3][i]!=null) {
+ 				this.board[3][i].isDrowning=true;
+ 			}
+ 		}
+ 	}
+ 	
+ 	public void drowningFinalizer() {
+ 		for (int i=0; i<7;i++) {
+ 			if(this.board[3][i]!=null && this.board[3][i].isDrowning && this.board[3][i].getColor()==this.pieceSelected.getColor()) {
+ 				this.board[3][i]=null;
+ 			} 
+ 	}
+ 	}
+ 	
+ 	// resets the drowning value
+ 	public void drowningNuetralizer() {
+    	for(int i=0; i<7; i++) {
+    		for(int j=0; j<7; j++) {
+    			if(board[i][j]!=null) {
+        			this.board[i][j].isDrowning=false;
+    			}
+    		}
+    	}
+    }
 }

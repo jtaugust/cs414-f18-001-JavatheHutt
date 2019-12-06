@@ -7,7 +7,7 @@ public abstract class Piece{
     
     // Piece Attributes
     private int row, column;
-	protected int drowning=0;
+	protected boolean isDrowning=false;
     private char color, pieceType;
 
     Piece(int row, int column, char color, char pieceType){

@@ -88,10 +88,13 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 			e1.printStackTrace();
 		}
 		
-		drowningInitializer(stateFromDatabase(gameID));
+//		drowningInitializer(stateFromDatabase(gameID));
 		
 		//get board from database (white perspective)
 		state.setBoard(stateFromDatabase(gameID));
+		
+//		state.drowningNuetralizer();
+		state.drowningInitializer();
 		
 		//set the current user turn based on order of users in current games
 		if(user1.equals(currentUser) && gameInfo[5].equals("w")) { //client user is white and turn is white
@@ -608,7 +611,9 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	
 	public void endTurn() {
 		this.endTurnClicked = true;
-		drowningFinalizer(state.getBoard());
+//		drowningFinalizer(state.getBoard());
+		state.drowningFinalizer();
+		state.drowningNuetralizer();
 		if(this.turn == "B") {
 			//if black, flip then update state
 			state.flipBoard(state);
@@ -617,21 +622,21 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		
 	}
 	
-	// set drowning=1 if the piece is in the lake at the beginning of the game
-	public void drowningInitializer(Piece[][] board) {
-		for (int i=0; i<7;i++) {
-			if(board[3][i]!=null) {
-				board[3][i].drowning+=1;
-			}
-		}
-	}
-	
-	public void drowningFinalizer(Piece[][] board) {
-		for (int i=0; i<7;i++) {
-			if(board[3][i]!=null && board[3][i].drowning==1) {
-				board[3][i]=null;
-			} 
-	}
-	}
+//	// set drowning=1 if the piece is in the lake at the beginning of the game
+//	public void drowningInitializer(Piece[][] board) {
+//		for (int i=0; i<7;i++) {
+//			if(board[3][i]!=null) {
+//				board[3][i].drowning+=1;
+//			}
+//		}
+//	}
+//	
+//	public void drowningFinalizer(Piece[][] board) {
+//		for (int i=0; i<7;i++) {
+//			if(board[3][i]!=null && board[3][i].drowning==1) {
+//				board[3][i]=null;
+//			} 
+//	}
+//	}
 	
 }
