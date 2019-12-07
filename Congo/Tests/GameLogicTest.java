@@ -9,20 +9,6 @@ import BoardLogic.*;
 public class GameLogicTest {
 	
 	GameLogic logic = new GameLogic();
-
-//     public void testContainsMoveWhenTrue() {
-//     	String[] possibleMoves= {"11BP","10BE","21BC"};
-//     	String newPosition="10BE";
-// 		GameLogic gameLogic=new GameLogic();
-//         assertTrue(gameLogic.containsMove(possibleMoves, newPosition));   	
-//     }
-//     @Test
-//     public void testContainsMoveWhenFalse() {
-//     	String[] possibleMoves= {"11BP","10BE","21BC"};
-//     	String newPosition="30BE";
-// 		GameLogic gameLogic=new GameLogic();
-//         assertFalse(gameLogic.containsMove(possibleMoves, newPosition));   	
-//     }
  
 
 	
