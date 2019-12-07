@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.sql.Blob;
 
 public class serverHelpers {
@@ -618,6 +619,86 @@ public class serverHelpers {
 			returnArray[2] = Integer.toString(resultSet.getInt("Status"));
 			returnArray[3] = resultSet.getString("Receiver");
 
+			return returnArray;
+
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			close();
+		}
+
+	}
+	
+	//Overload to get all invites a given user has received.
+	public ArrayList<String[]> readReceivedUserInvites_T(String Username) throws Exception {
+
+		try {
+
+			Class.forName("org.mariadb.jdbc.Driver");
+
+			connect = DriverManager
+					.getConnection("jdbc:mysql://68.234.149.213:8555/Games?" + "user=cs414&password=cs414");
+
+			statement = connect.createStatement();
+
+			preparedStatement = connect.prepareStatement("SELECT * FROM Users.UserInvites_T WHERE Receiver=(?)");
+
+			preparedStatement.setString(1, Username);
+			resultSet = preparedStatement.executeQuery();
+			
+			ArrayList<String[]> returnArray = new ArrayList<String[]>();
+			
+			while(resultSet.next()) {
+				String[] rowArray = new String[resultSet.getMetaData().getColumnCount()];
+				rowArray[0] = Integer.toString(resultSet.getInt(1));
+				rowArray[1] = resultSet.getString(2);
+				rowArray[2] = resultSet.getString(3);
+				rowArray[3] = resultSet.getString(4);
+				returnArray.add(rowArray);
+			}
+			
+			connect.close();
+			
+			return returnArray;
+
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			close();
+		}
+
+	}
+	
+	//Overload to get all invites a given user has received.
+	public ArrayList<String[]> readSentUserInvites_T(String Username) throws Exception {
+
+		try {
+
+			Class.forName("org.mariadb.jdbc.Driver");
+
+			connect = DriverManager
+					.getConnection("jdbc:mysql://68.234.149.213:8555/Games?" + "user=cs414&password=cs414");
+
+			statement = connect.createStatement();
+
+			preparedStatement = connect.prepareStatement("SELECT * FROM Users.UserInvites_T WHERE Sender=(?)");
+
+			preparedStatement.setString(1, Username);
+			resultSet = preparedStatement.executeQuery();
+			
+			ArrayList<String[]> returnArray = new ArrayList<String[]>();
+			
+			while(resultSet.next()) {
+				String[] rowArray = new String[resultSet.getMetaData().getColumnCount()];
+				rowArray[0] = Integer.toString(resultSet.getInt(1));
+				rowArray[1] = resultSet.getString(2);
+				rowArray[2] = resultSet.getString(3);
+				rowArray[3] = resultSet.getString(4);
+				returnArray.add(rowArray);
+			}
+			
+			connect.close();
+			
 			return returnArray;
 
 		} catch (Exception e) {
