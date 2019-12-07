@@ -10,7 +10,7 @@ public class SuperPawnTest {
     
     @Test
     public void testSuperPawnMoves() {
-    	System.out.println("In Super");
+    	// System.out.println("In Super");
 		SuperPawn superPawn = new SuperPawn(2,2,'W','S');
 		Piece[][] board = {
 				{null, null, null, null, null, null, null},

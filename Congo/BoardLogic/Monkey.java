@@ -75,7 +75,7 @@ public class Monkey extends Piece{
 		
 		// Check top left jump
 		if(isIndexBounded(i-2,j-2)){
-			System.out.println("I: " + i + " J: "+ j + " = " + board[i-2][j-2]);
+			// System.out.println("I: " + i + " J: "+ j + " = " + board[i-2][j-2]);
 			if(monkeyCanJump(state,i-2,j-2)) {
 				allPossibleMoves[count][0] = i-2;
 				allPossibleMoves[count][1] = j-2;
