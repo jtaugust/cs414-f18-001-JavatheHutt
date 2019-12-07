@@ -37,6 +37,8 @@ public class ExistingGamesScreen extends Screen{
 	public static final Color lightGray = new Color(90,90,90);
 	public static final Color highlightGray = new Color(120,120,120);
 	public static final Color blue = new Color(79,175,255);
+	ArrayList<JPanel> highlights1 = new ArrayList<JPanel>();
+	ArrayList<JPanel> highlights2 = new ArrayList<JPanel>();
 	
 	public ExistingGamesScreen() {
 		this.error = 0;
@@ -76,7 +78,8 @@ public class ExistingGamesScreen extends Screen{
 				//get players in game
 				String user1 = games.get(i)[1];
 				String user2 = games.get(i)[2];
-				
+				final Integer innerGameID = new Integer(games.get(i)[0]);
+
 				//add space between games
 				sidebar.add(Helpers.spacer(10, 10));
 				
@@ -90,17 +93,28 @@ public class ExistingGamesScreen extends Screen{
 				//top section of gameBox
 				JPanel gameNumber = new JPanel();
 				gameNumber.setLayout(new GridBagLayout());
-				gameNumber.add(new JLabel(games.get(i)[0]));
-				gameNumber.setBorder(BorderFactory.createMatteBorder(5,0,5,0,blue));
-				gameNumber.setBackground(blue);
+				gameNumber.add(new JLabel("Game ID: " + games.get(i)[0]));
+				gameNumber.setBorder(BorderFactory.createMatteBorder(10,0,10,0,new Color(60,130,180)));
+				gameNumber.setBackground(new Color(60,130,180));
+				highlights1.add(gameNumber);
+				
 				
 				//lower section of gameBox
 				JPanel opponent = new JPanel();
 				opponent.setLayout(new GridBagLayout());
-				opponent.add(new JLabel(user1));
-				opponent.add(new JLabel("   vs   "));
-				opponent.add(new JLabel(user2));
-				opponent.setBackground(new Color(130,130,130));
+				opponent.setBackground(new Color(110,110,110));
+				JLabel username1 = new JLabel(user1);
+				JLabel vs = new JLabel("   vs   ");
+				JLabel username2 = new JLabel(user2);
+				highlights2.add(opponent);
+				
+				username1.setFont(new Font("Verdana", Font.PLAIN, 16));
+				vs.setFont(new Font("Verdana", Font.BOLD, 12));
+				username2.setFont(new Font("Verdana", Font.PLAIN, 16));
+
+				opponent.add(username1);
+				opponent.add(vs);
+				opponent.add(username2);
 				
 				//add gameNumber and opponent to the gameBox
 				gameBox.add(gameNumber, BorderLayout.PAGE_START);
@@ -108,25 +122,37 @@ public class ExistingGamesScreen extends Screen{
 				
 				gameBox.setBackground(highlightGray);
 				
-				final Integer innerGameID = new Integer(games.get(i)[0]);
 				gameBox.addMouseListener(new MouseAdapter() {
 			  		@Override
 			  		public void mousePressed(final MouseEvent e) {
-			  			//highlight click
-						opponent.setBackground(new Color(160,160,160));
+			  			//reset all highlights
+			  			for(int i = 0; i < highlights1.size(); i++) {
+			  				highlights1.get(i).setBackground(new Color(60,130,180));
+			  				highlights1.get(i).setBorder(BorderFactory.createMatteBorder(10,0,10,0,new Color(60,130,180)));
+			  				highlights2.get(i).setBackground(new Color(110,110,110));
+			  			}
+			  			//highlight game selected
+			  			gameNumber.setBackground(blue);
+			  			gameNumber.setBorder(BorderFactory.createMatteBorder(10,0,10,0,blue));
+						opponent.setBackground(new Color(180,180,180));
 						
 						
 			  		}
 			  		@Override
 			  		public void mouseReleased(final MouseEvent e) {
 			  			//change board based on gameBox pressed
-						opponent.setBackground(new Color(130,130,130));
+						opponent.setBackground(new Color(160,160,160));
 						board.removeAll();
 			  			board.add(CongoBoard.createBoard(user1, user2, innerGameID, WorkingPanel.getUser()));
 						workingPanel.repaint();
 						workingPanel.validate();
 			  		}
 				});
+				
+				//highlight game selected
+	  			highlights1.get(0).setBackground(blue);
+	  			highlights1.get(0).setBorder(BorderFactory.createMatteBorder(10,0,10,0,blue));
+	  			highlights2.get(0).setBackground(new Color(180,180,180));
 				
 				//add to sidebar
 				sidebar.add(gameBox);
@@ -136,6 +162,7 @@ public class ExistingGamesScreen extends Screen{
 			// add scrollbar and change the style of it
 			JScrollPane scrollPane = new JScrollPane(sidebar, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 			scrollPane.setBackground(lightGray);
+			scrollPane.setBorder(BorderFactory.createEmptyBorder());
 			scrollPane.getVerticalScrollBar().setUnitIncrement(16);
 			scrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI(){
 	            @Override
@@ -163,13 +190,13 @@ public class ExistingGamesScreen extends Screen{
 			
 			final Integer defaultGameID = new Integer(games.get(0)[0]);
 			board.add(CongoBoard.createBoard(games.get(0)[1], games.get(0)[2], defaultGameID, WorkingPanel.getUser()));
-			board.setBackground(darkGray);
-			board.setBorder(BorderFactory.createEmptyBorder(0,10,0,70));
+			board.setBorder(new MatteBorder(30,40,30,40,darkGray));
 			
 			//create panel on the opposite side of the sidebar (main area with board)
 			JPanel rightSide = new JPanel();
+			rightSide.setBackground(darkGray);
 			rightSide.setLayout(new BorderLayout());
-			rightSide.add(board, BorderLayout.LINE_START);
+			rightSide.add(board, BorderLayout.PAGE_START);
 			
 			//add the sidebar and the main area to the working panel
 			workingPanel.add(scrollPane, BorderLayout.CENTER);
