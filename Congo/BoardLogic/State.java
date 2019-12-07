@@ -119,7 +119,7 @@ public class State {
             result += "]\n";
         }
 
-        result += "\n currentTurnColor: " + currentTurnColor + " currentClick: " +  currentClick + " pieceSelected: " + pieceSelected.toString() + "\n";
+        result += "\n currentTurnColor: " + currentTurnColor + " currentClick: " +  currentClick[0] + " " + currentClick[1] + " pieceSelected: " + pieceSelected.toString() + "\n";
         return result;
     }
     
@@ -218,7 +218,7 @@ public class State {
 			jumpedCol=fromCol-1;
 		}
 		if(board[jumpedRow][jumpedCol]!=null) {
-		System.out.print("JumpedPiece:"+board[jumpedRow][jumpedCol].getType());
+		    System.out.print("JumpedPiece:"+board[jumpedRow][jumpedCol].getType());
 		}
 		board[jumpedRow][jumpedCol]=null;
 

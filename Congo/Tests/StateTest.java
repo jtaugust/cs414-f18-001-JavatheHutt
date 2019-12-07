@@ -393,9 +393,42 @@ public class StateTest {
 		};
 		State state=new State(board,'W',new int[]{0,0},pawn1);
 		
-    	
 		int[] expectedClick = new int[] {1,2};
 		state.setCurrentClick(expectedClick);
 		assertEquals(state.getCurrentClick(), expectedClick);
 	}
+
+	@Test
+	public void testToString() {
+		Pawn pawn1 = new Pawn(5,0,'W','P');
+		Piece[][] board = {
+			{null, null, null, null, null, null, null},
+			{null, null, null, null, null, null, null},
+			{null, null, null, null, null, null, null},
+			{null, null, null, null, null, null, null},
+			{null, null, null, null, null, null, null},
+			{pawn1, null, null, null, null, null, null},
+			{null, null, null, null, null, null, null}
+		};
+		State state=new State(board,'W',new int[]{0,0},pawn1);
+		
+		String returnedString = state.toString();
+		
+		String expectedString = 
+			"Board: " + "\n" + 
+			"[ NN NN NN NN NN NN NN ]" + "\n" + 
+			"[ NN NN NN NN NN NN NN ]" + "\n" +  
+			"[ NN NN NN NN NN NN NN ]" + "\n" + 
+			"[ NN NN NN NN NN NN NN ]" + "\n" + 
+			"[ NN NN NN NN NN NN NN ]" + "\n" + 
+			"[ 50WP NN NN NN NN NN NN ]" + "\n" + 
+			"[ NN NN NN NN NN NN NN ]" + "\n" + "\n" +  
+
+			" currentTurnColor: W currentClick: 0 0 pieceSelected: 50WP" + "\n";
+		
+		assertEquals(expectedString, returnedString);
+	}
+
+
+
 }
