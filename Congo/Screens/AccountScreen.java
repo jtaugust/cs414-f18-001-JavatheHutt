@@ -88,7 +88,7 @@ public class AccountScreen extends Screen{
 	    buttonSection.setBackground(darkGray);
 	    buttonSection.setLayout(new BoxLayout(buttonSection, BoxLayout.X_AXIS));
 		buttonSection.setMaximumSize(new Dimension(1005,75));
-		buttonSection.setBorder(new EmptyBorder(5,5,5,5));
+		buttonSection.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,0,10,0,mediumGray), new EmptyBorder(10,0,10,0)));
 	    
 		JPanel editButton = new JPanel();
 	    JPanel historyButton = new JPanel();
@@ -272,6 +272,46 @@ public class AccountScreen extends Screen{
 		//check if user has invites
 		if(receivedInv.size() != 0) {
 			
+			//create panel to display game info
+			JPanel inviteBoxKey = new JPanel();
+			inviteBoxKey.setLayout(new BoxLayout(inviteBoxKey, BoxLayout.X_AXIS));
+			inviteBoxKey.setPreferredSize(new Dimension(1000,75));
+			inviteBoxKey.setMaximumSize(new Dimension(1000,75));
+			inviteBoxKey.setMinimumSize(new Dimension(1000,75));
+			inviteBoxKey.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,0,0,0, darkGray), new MatteBorder(2,2,2,0, darkGray)));
+			inviteBoxKey.setBackground(lightGray);
+			
+			//create receiver label
+			JPanel receiverKey = new JPanel();
+			receiverKey.setLayout(new GridBagLayout());
+			receiverKey.add(new JLabel("Sender"));
+			receiverKey.setPreferredSize(new Dimension(275,75));
+			receiverKey.setMaximumSize(new Dimension(275,75));
+			receiverKey.setMinimumSize(new Dimension(275,75));
+			receiverKey.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,0,5,0,blue), new MatteBorder(0,5,0,0, mediumGray)));
+			receiverKey.setBackground(lightGray);
+			
+			//create empty label
+			JPanel paddingKey = new JPanel();
+			paddingKey.setLayout(new GridBagLayout());
+			paddingKey.setPreferredSize(new Dimension(450,75));
+			paddingKey.setMaximumSize(new Dimension(450,75));
+			paddingKey.setMinimumSize(new Dimension(450,75));
+			paddingKey.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,0,5,0,blue), new MatteBorder(0,5,0,0, mediumGray)));
+			paddingKey.setBackground(lightGray);
+			
+			//create status label
+			JPanel statusKey = new JPanel();
+			statusKey.setLayout(new GridBagLayout());
+			statusKey.add(new JLabel("Response"));
+			statusKey.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,0,5,0,blue), new MatteBorder(0,5,0,0, mediumGray)));
+			statusKey.setBackground(lightGray);
+			
+			//add info to gamebox
+			inviteBoxKey.add(receiverKey);
+			inviteBoxKey.add(paddingKey);
+			inviteBoxKey.add(statusKey);
+			
 			//create panel to store game info
 			JPanel dataPanel = new JPanel();
 			dataPanel.setLayout(new BoxLayout(dataPanel, BoxLayout.PAGE_AXIS));
@@ -401,7 +441,7 @@ public class AccountScreen extends Screen{
 	            	return button;
 	            }
 	        });
-	
+			this.bottomSection.add(inviteBoxKey, BorderLayout.PAGE_START);
 			this.bottomSection.add(scrollPane, BorderLayout.CENTER);
 			this.bottomSection.setBackground(lightGray);
 			
@@ -411,7 +451,7 @@ public class AccountScreen extends Screen{
 			JPanel outer = new JPanel();
 			outer.setBackground(darkGray);
 			outer.setLayout(new BoxLayout(outer, BoxLayout.Y_AXIS));
-			outer.setBorder(new EmptyBorder(125,150,0,150));
+			outer.setBorder(new EmptyBorder(125,350,0,350));
 			JPanel labelHolder = new JPanel();
 			outer.add(labelHolder);
 			labelHolder.setBackground(lightGray);
@@ -453,6 +493,47 @@ public class AccountScreen extends Screen{
 		
 		//check if user has invites
 		if(receivedInv.size() != 0) {
+			
+			//create panel to display game info
+			JPanel inviteBoxKey = new JPanel();
+			inviteBoxKey.setLayout(new BoxLayout(inviteBoxKey, BoxLayout.X_AXIS));
+			inviteBoxKey.setPreferredSize(new Dimension(1000,75));
+			inviteBoxKey.setMaximumSize(new Dimension(1000,75));
+			inviteBoxKey.setMinimumSize(new Dimension(1000,75));
+			inviteBoxKey.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,0,0,0, darkGray), new MatteBorder(2,2,2,0, darkGray)));
+			inviteBoxKey.setBackground(lightGray);
+			
+			//create receiver label
+			JPanel receiverKey = new JPanel();
+			receiverKey.setLayout(new GridBagLayout());
+			receiverKey.add(new JLabel("Receiver"));
+			receiverKey.setPreferredSize(new Dimension(275,75));
+			receiverKey.setMaximumSize(new Dimension(275,75));
+			receiverKey.setMinimumSize(new Dimension(275,75));
+			receiverKey.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,0,5,0,blue), new MatteBorder(0,5,0,0, mediumGray)));
+			receiverKey.setBackground(lightGray);
+			
+			//create empty label
+			JPanel paddingKey = new JPanel();
+			paddingKey.setLayout(new GridBagLayout());
+			paddingKey.setPreferredSize(new Dimension(550,75));
+			paddingKey.setMaximumSize(new Dimension(550,75));
+			paddingKey.setMinimumSize(new Dimension(550,75));
+			paddingKey.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,0,5,0,blue), new MatteBorder(0,5,0,0, mediumGray)));
+			paddingKey.setBackground(lightGray);
+			
+			//create status label
+			JPanel statusKey = new JPanel();
+			statusKey.setLayout(new GridBagLayout());
+			statusKey.add(new JLabel("Status"));
+			statusKey.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,0,5,0,blue), new MatteBorder(0,5,0,0, mediumGray)));
+			statusKey.setBackground(lightGray);
+			
+			//add info to gamebox
+			inviteBoxKey.add(receiverKey);
+			inviteBoxKey.add(paddingKey);
+			inviteBoxKey.add(statusKey);
+			
 			
 			//create panel to store game info
 			JPanel dataPanel = new JPanel();
@@ -536,7 +617,8 @@ public class AccountScreen extends Screen{
 	            	return button;
 	            }
 	        });
-	
+			
+			this.bottomSection.add(inviteBoxKey, BorderLayout.PAGE_START);
 			this.bottomSection.add(scrollPane, BorderLayout.CENTER);
 			this.bottomSection.setBackground(lightGray);
 			
@@ -546,7 +628,7 @@ public class AccountScreen extends Screen{
 			JPanel outer = new JPanel();
 			outer.setBackground(darkGray);
 			outer.setLayout(new BoxLayout(outer, BoxLayout.Y_AXIS));
-			outer.setBorder(new EmptyBorder(125,150,0,150));
+			outer.setBorder(new EmptyBorder(125,350,0,350));
 			JPanel labelHolder = new JPanel();
 			outer.add(labelHolder);
 			labelHolder.setBackground(lightGray);
@@ -903,7 +985,7 @@ public class AccountScreen extends Screen{
 //	    leftSection.add(newUsernameButtonHolder);
 	    
 	    //add to right side
-	    rightSection.add(Helpers.spacer(10, 40));
+	    rightSection.add(Helpers.spacer(10, 30));
 	    rightSection.add(oldPassword);
 	    rightSection.add(Helpers.spacer(10, 30));
 	    rightSection.add(newPassword);
@@ -972,7 +1054,7 @@ public class AccountScreen extends Screen{
 		JPanel outer = new JPanel();
 		outer.setBackground(darkGray);
 		outer.setLayout(new BoxLayout(outer, BoxLayout.Y_AXIS));
-		outer.setBorder(new EmptyBorder(75,75,0,75));
+		outer.setBorder(new EmptyBorder(75,100,0,100));
 		JPanel labelHolder = new JPanel();
 		outer.add(labelHolder);
 		labelHolder.setBackground(lightGray);
