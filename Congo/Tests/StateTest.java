@@ -398,4 +398,42 @@ public class StateTest {
 		state.setCurrentClick(expectedClick);
 		assertEquals(state.getCurrentClick(), expectedClick);
 	}
+	
+	@Test
+	public void testMovePieceToSuperPawn() {
+		Pawn pawn = new Pawn(1,2,'W','P');
+		Piece[][] board = {
+			{null, null, null, null, null, null, null},
+			{null, null, pawn, null, null, null, null},
+			{null, null, null, null, null, null, null},
+			{null, null, null, null, null, null, null},
+			{null, null, null, null, null, null, null},
+			{null, null, null, null, null, null, null},
+			{null, null, null, null, null, null, null}
+		};
+		State state=new State(board,'W',new int[]{0,0},pawn);
+		
+    	state.movePiece("12", "02");
+		assertEquals(state.getBoard()[0][2].getType(),'S');
+	}
+	
+	@Test
+	public void testMonkeyCapture() {
+		Monkey monkey = new Monkey(5,2,'W','M');
+		Pawn blackPawn=new Pawn(4,2,'B','P');
+		Piece[][] board = {
+			{null, null, null, null, null, null, null},
+			{null, null, null, null, null, null, null},
+			{null, null, null, null, null, null, null},
+			{null, null, null, null, null, null, null},
+			{null, null, blackPawn, null, null, null, null},
+			{null, null, monkey, null, null, null, null},
+			{null, null, null, null, null, null, null}
+		};
+		State state=new State(board,'W',new int[]{0,0},monkey);
+		
+    	state.movePiece("52", "32");
+		assertEquals(state.getBoard()[2][2],null);
+	}
+	
 }
