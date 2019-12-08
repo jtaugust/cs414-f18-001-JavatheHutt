@@ -26,6 +26,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
 import BoardLogic.BoardHelper;
@@ -47,7 +48,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 
 
 	//logic
-	private String user1 = "", user2 = "";
+	private String user1 = "", user2 = "", currentUser;
 	int gameID;
 	String turn = "W";
 	boolean isCurrentTurn;
@@ -71,7 +72,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	Container currentParent;
 	String pieceSelected;
 	JLabel congoPiece;
-	JLabel matchStatusLabel;
+	JPanel matchStatus;
 	int xAdjustment;
 	int yAdjustment;
 	
@@ -84,6 +85,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		this.gameID = gameID;
 		this.moveCount = 0;
 		this.endTurnClicked = false;
+		this.currentUser = currentUser;
 				
 		//initialize state
 		state = new State();
@@ -157,26 +159,61 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
   		JPanel matchStatusPanel = new JPanel();
   		matchStatusPanel.setLayout(new GridBagLayout());
   		matchStatusPanel.setBackground(darkGray);
-  		JPanel matchStatus = new JPanel();
-  		matchStatusPanel.add(matchStatus);
-  		matchStatus.setBackground(lightGray);
-  		matchStatus.setLayout(new GridBagLayout());
-  	    this.matchStatusLabel = new JLabel(gameInfo[1]);
-  	    if(gameInfo[5].equals("w")) { //turn is white
-  	    	if(gameInfo[1].equals(currentUser)) { //current user is white
-  	  	  	    this.matchStatusLabel = new JLabel("Your turn");
-  			} else { //current user is black
-  	  	  	    this.matchStatusLabel = new JLabel(gameInfo[1] + "\'s turn");
-  			}
-  	    } else if(gameInfo[5].equals("b")) { //turn is black
-  			if(gameInfo[2].equals(currentUser)) { //current user is black
-  	  	  	    this.matchStatusLabel = new JLabel("Your turn");
-  			} else { //current user is black
-  	  	  	    this.matchStatusLabel = new JLabel(gameInfo[2] + "\'s turn");
-  			}
-  		}
-  	    this.matchStatusLabel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-  	    matchStatus.add(matchStatusLabel);
+  		this.matchStatus = new JPanel();
+  		matchStatusPanel.add(this.matchStatus);
+  		this.matchStatus.setBackground(lightGray);
+  		this.matchStatus.setLayout(new GridBagLayout());
+  		
+  		//check for game over
+		GameLogic gameOver = new GameLogic();
+		
+		if(gameOver.isGameOver(state) == 'W') { // white won
+			this.matchStatus.removeAll();
+			JLabel label = new JLabel(gameInfo[1] + " wins!");
+    		label.setBorder(new EmptyBorder(10,10,10,10));
+  	  	    this.matchStatus.add(label);
+			this.matchStatus.revalidate();
+	  	    this.matchStatus.repaint();
+		} else if(gameOver.isGameOver(state) == 'B') { // black won
+			this.matchStatus.removeAll();
+			JLabel label = new JLabel(gameInfo[2] + " wins!");
+    		label.setBorder(new EmptyBorder(10,10,10,10));
+  	  	    this.matchStatus.add(label);			
+  	  	    this.matchStatus.revalidate();
+	  	    this.matchStatus.repaint();
+		} else if(gameOver.isGameOver(state) == 'D') { // draw
+			this.matchStatus.removeAll();
+			JLabel label = new JLabel("Draw");
+    		label.setBorder(new EmptyBorder(10,10,10,10));
+  	  	    this.matchStatus.add(label);
+  	  	    this.matchStatus.revalidate();
+	  	    this.matchStatus.repaint();
+		} else {
+			this.matchStatus.removeAll();
+	  	    if(gameInfo[5].equals("w")) { //turn is white
+	  	    	if(gameInfo[1].equals(this.currentUser)) { //current user is white
+	  	    		JLabel label = new JLabel("Your turn");
+	  	    		label.setBorder(new EmptyBorder(10,10,10,10));
+	  	  	  	    this.matchStatus.add(label);
+	  			} else { //current user is black
+	  				JLabel label = new JLabel(gameInfo[1] + "\'s turn");
+	  	    		label.setBorder(new EmptyBorder(10,10,10,10));
+	  	  	  	    this.matchStatus.add(label);
+	  			}
+	  	    } else if(gameInfo[5].equals("b")) { //turn is black
+	  			if(gameInfo[2].equals(this.currentUser)) { //current user is black
+	  				JLabel label = new JLabel("Your turn");
+	  	    		label.setBorder(new EmptyBorder(10,10,10,10));
+	  	  	  	    this.matchStatus.add(label);
+	  			} else { //current user is black
+	  				JLabel label = new JLabel(gameInfo[2] + "\'s turn");
+	  	    		label.setBorder(new EmptyBorder(10,10,10,10));
+	  	  	  	    this.matchStatus.add(label);
+	  			}
+	  		}
+	  	    this.matchStatus.revalidate();
+	  	    this.matchStatus.repaint();
+		}
   	    
 		//create section below the board
 		JPanel bottomSection = new JPanel();
@@ -471,7 +508,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	
 				possibleMoves.clear();
 				congoPiece.setVisible(true);
-			} 
+			}
 		}
 	}
 	
@@ -493,9 +530,9 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 				if(gameState[i][j] != null) {
 					switch(gameState[i][j]) {
 						case "WP": currentBoard[i][j] = new Pawn(i,j,'W','P'); 
-							break; 
+							break;
 						case "WG": currentBoard[i][j] = new Giraffe(i,j,'W','G'); 
-							break; 
+							break;
 						case "WM": currentBoard[i][j] = new Monkey(i,j,'W','M'); 
 							break; 
 						case "WE": currentBoard[i][j] = new Elephant(i,j,'W','E'); 
@@ -664,11 +701,73 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 //		drowningFinalizer(state.getBoard());
 		state.drowningFinalizer();
 		state.drowningNuetralizer();
+		
 		if(this.turn == "B") {
 			//if black, flip then update state
 			state.flipBoard(state);
 		}
 		stateToDatabase(state.getBoard());
+		
+		//get game info from database
+		serverGamesHelpers database = new serverGamesHelpers();
+		String[] gameInfo = new String[5];
+		try {
+			gameInfo = database.readCurrentGames_T(gameID);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		
+		//check for game over
+		GameLogic gameOver = new GameLogic();
+		
+		if(gameOver.isGameOver(state) == 'W') { // white won
+			this.matchStatus.removeAll();
+			JLabel label = new JLabel(gameInfo[1] + " wins!");
+    		label.setBorder(new EmptyBorder(10,10,10,10));
+  	  	    this.matchStatus.add(label);
+			this.matchStatus.revalidate();
+	  	    this.matchStatus.repaint();
+		} else if(gameOver.isGameOver(state) == 'B') { // black won
+			this.matchStatus.removeAll();
+			JLabel label = new JLabel(gameInfo[2] + " wins!");
+    		label.setBorder(new EmptyBorder(10,10,10,10));
+  	  	    this.matchStatus.add(label);			
+  	  	    this.matchStatus.revalidate();
+	  	    this.matchStatus.repaint();
+		} else if(gameOver.isGameOver(state) == 'D') { // draw
+			this.matchStatus.removeAll();
+			JLabel label = new JLabel("Draw");
+    		label.setBorder(new EmptyBorder(10,10,10,10));
+  	  	    this.matchStatus.add(label);
+  	  	    this.matchStatus.revalidate();
+	  	    this.matchStatus.repaint();
+		} else {
+			this.matchStatus.removeAll();
+	  	    if(gameInfo[5].equals("w")) { //turn is white
+	  	    	if(gameInfo[1].equals(this.currentUser)) { //current user is white
+	  	    		JLabel label = new JLabel("Your turn");
+	  	    		label.setBorder(new EmptyBorder(10,10,10,10));
+	  	  	  	    this.matchStatus.add(label);
+	  			} else { //current user is black
+	  				JLabel label = new JLabel(gameInfo[1] + "\'s turn");
+	  	    		label.setBorder(new EmptyBorder(10,10,10,10));
+	  	  	  	    this.matchStatus.add(label);
+	  			}
+	  	    } else if(gameInfo[5].equals("b")) { //turn is black
+	  			if(gameInfo[2].equals(this.currentUser)) { //current user is black
+	  				JLabel label = new JLabel("Your turn");
+	  	    		label.setBorder(new EmptyBorder(10,10,10,10));
+	  	  	  	    this.matchStatus.add(label);
+	  			} else { //current user is black
+	  				JLabel label = new JLabel(gameInfo[2] + "\'s turn");
+	  	    		label.setBorder(new EmptyBorder(10,10,10,10));
+	  	  	  	    this.matchStatus.add(label);
+	  			}
+	  		}
+	  	    this.matchStatus.revalidate();
+	  	    this.matchStatus.repaint();
+		}
+		
 		
 	}
 	
