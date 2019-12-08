@@ -2,11 +2,6 @@ package Screens;
 
 import java.awt.Color;
 
-import javax.swing.*;
-
-import App.Application;
-import GUI.Panel;
-
 public class InitialMainScreen extends Screen{
 	
 	public static final Color darkGray = new Color(50,50,50);
@@ -29,7 +24,7 @@ public class InitialMainScreen extends Screen{
 
 	@Override
 	void setErrorCards() {
-		// TODO Auto-generated method stub
+		
 		
 	}
 }

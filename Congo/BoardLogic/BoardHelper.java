@@ -117,16 +117,6 @@ public class BoardHelper {
 		
 		return index;
 	}
-
-//	public static String switchTurn(JPanel congoBoard, String turn) {
-//			
-//		if (turn == "W") {
-//			turn = "B";
-//		} else if (turn == "B") {
-//			turn = "W";
-//		}
-//		return turn;
-//	}
 	
 	public int findRow(int parentLocationY) {
 		return parentLocationY/70;

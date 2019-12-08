@@ -1,14 +1,9 @@
 package Screens;
 
 import java.awt.Color;
-import java.awt.Frame;
 
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-
-import App.Application;
-import GUI.Panel;
 
 public class NewGameScreen extends Screen  {
 	
@@ -37,7 +32,6 @@ public class NewGameScreen extends Screen  {
 
 	@Override
 	void setErrorCards() {
-		// TODO Auto-generated method stub
 		
 	}
 }

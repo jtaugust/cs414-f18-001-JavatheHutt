@@ -25,7 +25,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
-import App.Application;
 import GUI.Helpers;
 import GUI.Label;
 import GUI.Panel;
@@ -61,7 +60,6 @@ public class AccountScreen extends Screen{
 		try {
 			userInfo = helper.readUserInfo_T(WorkingPanel.getUser());
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
@@ -265,7 +263,6 @@ public class AccountScreen extends Screen{
 		try {
 			receivedInv = helper.readReceivedUserInvites_T(WorkingPanel.getUser());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -487,7 +484,6 @@ public class AccountScreen extends Screen{
 		try {
 			receivedInv = helper.readSentUserInvites_T(WorkingPanel.getUser());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -664,7 +660,6 @@ public class AccountScreen extends Screen{
 		try {
 			history = helper.readMatchHistory_T(WorkingPanel.getUser());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -1097,7 +1092,6 @@ public class AccountScreen extends Screen{
 //						setErrorCards();
 					}
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			} else {

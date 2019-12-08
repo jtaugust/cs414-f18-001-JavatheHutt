@@ -2,10 +2,6 @@ package Screens;
 
 import java.awt.Color;
 
-import javax.swing.JPanel;
-
-import App.Application;
-import GUI.Panel;
 
 public class RulesScreen extends Screen{
 	
@@ -28,7 +24,6 @@ public class RulesScreen extends Screen{
 
 	@Override
 	void setErrorCards() {
-		// TODO Auto-generated method stub
 		
 	}
 }

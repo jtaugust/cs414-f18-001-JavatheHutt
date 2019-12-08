@@ -1,9 +1,9 @@
 package Templates;
 
-import java.awt.Component;
+// import java.awt.Component;
 
-import javax.swing.JDialog;
-import javax.swing.JFrame;
+// import javax.swing.JDialog;
+// import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import GUI.Frame;

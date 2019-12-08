@@ -96,9 +96,6 @@ public class Zebra extends Piece{
 			
 		}
 		
-//		for(int k = 0; k < allPossibleMoves.length;k++) {
-//			System.out.println("Possible Zebra: " + allPossibleMoves[k]);
-//		}
 		
 		return allPossibleMoves;
 	}

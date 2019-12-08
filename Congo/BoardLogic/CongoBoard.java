@@ -28,9 +28,6 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.border.MatteBorder;
 
-// import BoardLogic.BoardHelper;
-
-import Screens.WorkingPanel;
 import Server.serverGamesHelpers;
 
 public class CongoBoard extends JFrame implements MouseListener, MouseMotionListener {
@@ -496,7 +493,6 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		try {
 			gameState = database.readGameState(gameID);
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
@@ -554,7 +550,6 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		try {
 			gameState = database.readGameState(gameID);
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
@@ -563,14 +558,12 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 			try {
 				database.insertCurrentGames_T(Integer.toString(gameID), "currentColor", "b");
 			} catch (Exception e) {
-				// TODO Auto-generated catch 2block
 				e.printStackTrace();
 			}
 		} else { //set current turn in database to white
 			try {
 				database.insertCurrentGames_T(Integer.toString(gameID), "currentColor", "w");
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
  				e.printStackTrace();
 			}
 		}
@@ -591,7 +584,6 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 					try {
 						database.insertGameBoards(gameID, i+1, String.valueOf(ch), "NN");
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				} else if(state[i][j] != null){ // state not null
@@ -601,7 +593,6 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 						try {
 							database.insertGameBoards(gameID, i+1, String.valueOf(ch), String.valueOf(state[i][j].getColor()) + String.valueOf(state[i][j].getType()));
 						} catch (Exception e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}
