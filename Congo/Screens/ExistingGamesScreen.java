@@ -6,7 +6,6 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -15,20 +14,14 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
-import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
-import App.Application;
 import BoardLogic.CongoBoard;
-import GUI.Frame;
 import GUI.Helpers;
-import GUI.Panel;
 import Server.serverGamesHelpers;
 
 public class ExistingGamesScreen extends Screen{
@@ -55,7 +48,6 @@ public class ExistingGamesScreen extends Screen{
 		try {
 			games = current.readCurrentGames_T(WorkingPanel.getUser());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	
@@ -229,7 +221,6 @@ public class ExistingGamesScreen extends Screen{
 
 	@Override
 	void setErrorCards() {
-		// TODO Auto-generated method stub
 		
 	}
 }

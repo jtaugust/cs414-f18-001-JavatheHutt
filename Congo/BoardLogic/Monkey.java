@@ -2,7 +2,7 @@ package BoardLogic;
 
 public class Monkey extends Piece{
 	public Monkey(int row, int column, char color, char pieceType) {
-	        super(row, column, color, pieceType);
+	    super(row, column, color, pieceType);
 	}
 
 	public boolean monkeyCanJump(State state, int toX, int toY) {
@@ -149,6 +149,7 @@ public class Monkey extends Piece{
 				count++;
 			}
 		}
+		
 		return allPossibleMoves;
 	} 
 	 	 

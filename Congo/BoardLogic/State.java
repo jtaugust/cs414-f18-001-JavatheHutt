@@ -2,19 +2,6 @@ package BoardLogic;
 
 public class State {
 
-    //Board Syntax: Xposition Yposition Color Animal 
-    // W: White B: Black 
-    // L: Lion 
-    // Z: Zebra 
-    // E: Elephant 
-    // G: Giraffe 
-    // M: Monkey 
-    // C: Crocidile 
-    // P: Pawn 
-    // S: Super pawn 
-    // N: Null (Empty space)
-    // Exs: [14WL] [16NN] [45BC]
-
     public Piece[][] board = new Piece[7][7];
     public char currentTurnColor;
     public int[] currentClick;
@@ -52,11 +39,11 @@ public class State {
         	}
         }
     }
+
     // Current Click: Current postiion of last click 
     // PieceSelected is either null or in format above for which piece is selected to move
     // State constructor, values pulled from database
     public State(Piece[][] board, char currentTurnColor, int[] currentClick, Piece pieceSelected){
-        // TODO: Get values from database
         this.board = board;
         this.currentTurnColor = currentTurnColor;
         this.currentClick = currentClick;
@@ -125,10 +112,9 @@ public class State {
 //        System.out.println("From Pos and ToPid"+fromPos+","+toPos);
         Piece pieceSelected=board[Character.getNumericValue(fromPos.charAt(0))][Character.getNumericValue(fromPos.charAt(1))];
     	if(moveCount==pieceSelected.capturesInATurn) {
-			// System.out.println("MONKEY PROB"+moveCount+" "+pieceSelected.capturesInATurn);
     		pieceSelected.setRow(Character.getNumericValue(toPos.charAt(0)));
             pieceSelected.setColumn(Character.getNumericValue(toPos.charAt(1)));
-            // System.out.println("The column in move Piece:"+pieceSelected.getColumn());
+
     		this.board[Character.getNumericValue(fromPos.charAt(0))][Character.getNumericValue(fromPos.charAt(1))]=null;
     		
     		this.board[Character.getNumericValue(toPos.charAt(0))][Character.getNumericValue(toPos.charAt(1))]=pieceSelected;

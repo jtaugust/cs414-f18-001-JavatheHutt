@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import Server.serverHelpers;
-import junit.framework.Assert;
 
 public class ServerTest {
 		String Username = "Unregister";
@@ -58,7 +57,6 @@ public class ServerTest {
 			try {
 				assertEquals(null, serverHelpers.readUserLogin_T(Username));
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}		
 	}
