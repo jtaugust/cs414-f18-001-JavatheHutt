@@ -165,7 +165,6 @@ public class Monkey extends Piece{
 				 filteredMoves[counter][1]=allPossibleMoves[i][1];
 				 System.out.println("FM"+filteredMoves[counter][0]+" "+filteredMoves[counter][1]);
 				 counter+=1;
-
 			 }
 		 }
 		 return filteredMoves;
