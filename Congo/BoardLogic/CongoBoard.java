@@ -644,7 +644,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 				index += 1;
 	 
 			}
-		}	
+		}
 	}
 
 	public boolean isPieceMovedOnBoard(Point parentLocation) {
@@ -652,7 +652,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		int col=boardHelper.findColumn(parentLocation.x);
 		toPos=Integer.toString(row)+Integer.toString(col-1);
     
-		if(isLegalMove(possibleMoves,toPos)) {
+		if(possibleMoves.contains(toPos)) {
 			state.movePiece(fromPos,toPos);
 			return true;
 		}
