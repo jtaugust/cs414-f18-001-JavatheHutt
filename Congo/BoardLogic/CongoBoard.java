@@ -28,7 +28,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.border.MatteBorder;
 
-import BoardLogic.BoardHelper;
+// import BoardLogic.BoardHelper;
 
 import Screens.WorkingPanel;
 import Server.serverGamesHelpers;
@@ -423,17 +423,17 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 				pieceSelectedBoard = state.getBoard()[row][col-1];
 				pieceSelected = Integer.toString(row)+Integer.toString(col-1)+pieceName;
 	
-				System.out.println("PieceSelevcted"+pieceSelectedBoard.getType());
+				// ("PieceSelevcted"+pieceSelectedBoard.getType());
 				
 				//move piece slightly to show it was selected
 				congoPiece.setLocation(e.getX() + xAdjustment, e.getY() + yAdjustment);
 				state.setPieceSelected(pieceSelectedBoard);
 				
 				//Print state
-				//System.out.println("State: piece selected row and col: " + state.pieceSelected.getRow() +  state.pieceSelected.getColumn() + " - piece color: " + state.pieceSelected.getColor() + " - current turn color: " + state.getCurrentTurnColor());
+				//("State: piece selected row and col: " + state.pieceSelected.getRow() +  state.pieceSelected.getColumn() + " - piece color: " + state.pieceSelected.getColor() + " - current turn color: " + state.getCurrentTurnColor());
 				
 			
-				//System.out.println("Inside condition"+pieceSelectedBoard.capturesInATurn+" "+moveCount);
+				//("Inside condition"+pieceSelectedBoard.capturesInATurn+" "+moveCount);
 				if(moveCount==pieceSelectedBoard.capturesInATurn) {
 					//get possible moves based on piece clicked.
 					int[][] possibleMovesArray = pieceSelectedBoard.legalMoves(state);
@@ -442,7 +442,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 						possibleMoves.add(""+Integer.toString(possibleMovesArray[i][0])+Integer.toString(possibleMovesArray[i][1]));
 						//check for default value
 						if(!possibleMoves.get(i).equals("-1-1")){
-							congoBoard.getComponent(BoardHelper.convertIndex(possibleMoves.get(i))).setBackground(Color.white);
+							congoBoard.getComponent(boardHelper.convertIndex(possibleMoves.get(i))).setBackground(Color.white);
 		
 						}
 				}
@@ -667,7 +667,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		toPos=Integer.toString(row)+Integer.toString(col-1);
     
 		if(possibleMoves.contains(toPos)) {
-			state.movePiece(fromPos,toPos);
+			state.movePiece(fromPos,toPos,moveCount);
 			return true;
 		}
 		return false;
@@ -677,7 +677,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		this.endTurnClicked = true;
 //		drowningFinalizer(state.getBoard());
 		state.drowningFinalizer();
-		state.drowningNuetralizer();
+		state.drownAndCaptureNuetralizer();
 		if(this.turn == "B") {
 			//if black, flip then update state
 			state.flipBoard(state);

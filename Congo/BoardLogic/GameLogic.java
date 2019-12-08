@@ -98,7 +98,7 @@ public class GameLogic extends State{
 // 			case 'N':
 // 					break;  
 // 			default:
-// 				System.out.println("Error: Board value "+ state.getPieceSelected().toString() + " not found");	  
+// 				("Error: Board value "+ state.getPieceSelected().toString() + " not found");	  
 // 		}
 		
 // 		return moveArray;
@@ -109,7 +109,7 @@ public class GameLogic extends State{
 // 	public boolean isMovePossible(State state){
 // 		int[] newPosition = state.getCurrentClick();
 		
-// //		System.out.println("State Value in movePossible: " + state.toString());
+// //		("State Value in movePossible: " + state.toString());
 // 		int[][] possibleMoves;
 // 		int row = state.getPieceSelected().getRow();
 // 		int col = state.getPieceSelected().getColumn();
@@ -156,10 +156,10 @@ public class GameLogic extends State{
 // 				return superPawn.containsMove(possibleMoves, newPosition);
 // 			case 'N':
 // 				// TODO: Error message or handle somehow
-// 				System.out.println("Error: Empty tile passed into piece logic");
+// 				("Error: Empty tile passed into piece logic");
 				  
 // 			default:
-// 				System.out.println("Error: Board value "+ state.getPieceSelected().toString() + " not found");
+// 				("Error: Board value "+ state.getPieceSelected().toString() + " not found");
 // 				System.exit(1);
 // 		  }
 

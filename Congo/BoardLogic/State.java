@@ -117,7 +117,7 @@ public class State {
             result += "]\n";
         }
 
-//        result += "\n currentTurnColor: " + currentTurnColor + " currentClick: " +  currentClick[0] + " " + currentClick[1] + " pieceSelected: " + pieceSelected.toString() + "\n";
+       result += "\n currentTurnColor: " + currentTurnColor + " currentClick: " +  currentClick[0] + " " + currentClick[1] + " pieceSelected: " + pieceSelected.toString() + "\n";
         return result;
     }
     
@@ -125,10 +125,10 @@ public class State {
 //        System.out.println("From Pos and ToPid"+fromPos+","+toPos);
         Piece pieceSelected=board[Character.getNumericValue(fromPos.charAt(0))][Character.getNumericValue(fromPos.charAt(1))];
     	if(moveCount==pieceSelected.capturesInATurn) {
-			System.out.println("MONKEY PROB"+moveCount+" "+pieceSelected.capturesInATurn);
+			// System.out.println("MONKEY PROB"+moveCount+" "+pieceSelected.capturesInATurn);
     		pieceSelected.setRow(Character.getNumericValue(toPos.charAt(0)));
             pieceSelected.setColumn(Character.getNumericValue(toPos.charAt(1)));
-            System.out.println("The column in move Piece:"+pieceSelected.getColumn());
+            // System.out.println("The column in move Piece:"+pieceSelected.getColumn());
     		this.board[Character.getNumericValue(fromPos.charAt(0))][Character.getNumericValue(fromPos.charAt(1))]=null;
     		
     		this.board[Character.getNumericValue(toPos.charAt(0))][Character.getNumericValue(toPos.charAt(1))]=pieceSelected;
