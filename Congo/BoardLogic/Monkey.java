@@ -1,7 +1,6 @@
 package BoardLogic;
 
 public class Monkey extends Piece{
-	
 	public Monkey(int row, int column, char color, char pieceType) {
 	        super(row, column, color, pieceType);
 	}
@@ -146,6 +145,63 @@ public class Monkey extends Piece{
 			}
 		}
 			
+		if(this.capturesInATurn!=0) {
+			int[][] filteredMoves= filterPossibleMoves(state,this.getRow(),this.getColumn(),allPossibleMoves);
+//			for(i=0; i<filteredMoves.length;i++) {
+//				System.out.println("FM"+filteredMoves[i][0]+" "+filteredMoves[i][1]);
+//			}
+			return filteredMoves;
+		}
 		return allPossibleMoves;
 	}
+	 
+	 private int[][] filterPossibleMoves(State state, int fromRow, int fromCol, int[][] allPossibleMoves){
+		 int[][] filteredMoves = new int[20][2];
+		 int counter=0;
+		 for(int i=0; i<allPossibleMoves.length; i++) {
+			 boolean isFilteredMove=monkeyMoveFilter(state,fromRow,fromCol,allPossibleMoves[i][0], allPossibleMoves[i][1] );
+			 if(isFilteredMove) {
+				 filteredMoves[counter][0]= allPossibleMoves[i][0];
+				 filteredMoves[counter][1]=allPossibleMoves[i][1];
+				 System.out.println("FM"+filteredMoves[counter][0]+" "+filteredMoves[counter][1]);
+				 counter+=1;
+
+			 }
+		 }
+		 return filteredMoves;
+	 }
+	 
+	 
+	 protected boolean monkeyMoveFilter(State state, int fromRow, int fromCol, int toRow, int toCol) {
+			Piece[][] board= state.getBoard();
+			int jumpedRow=fromRow;
+			int jumpedCol=fromCol;
+
+			if (fromRow<toRow) {
+				jumpedRow=fromRow+1;
+			}
+			else if(fromRow>toRow) {
+				jumpedRow=fromRow-1;
+			}
+			if (fromCol<toCol) {
+				jumpedCol=fromCol+1;
+			}
+			else if(fromCol>toCol){
+				jumpedCol=fromCol-1;
+			}
+			if(isIndexBounded(jumpedRow, jumpedCol) && board[jumpedRow][jumpedCol]!=null) {
+			    return true;
+			}
+			return false;
+		}
+	 
+	 
+	 public boolean isIndexBounded(int i, int j){
+			if(i <= 6 && i >= 0) {
+				if(j <= 6 && j >= 0) {
+					return true;
+				}
+			}
+			return false;
+	    }
 }

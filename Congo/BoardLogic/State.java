@@ -123,23 +123,29 @@ public class State {
         return result;
     }
     
-    public void movePiece(String fromPos, String toPos){
+    public void movePiece(String fromPos, String toPos, int moveCount){
 //        System.out.println("From Pos and ToPid"+fromPos+","+toPos);
         Piece pieceSelected=board[Character.getNumericValue(fromPos.charAt(0))][Character.getNumericValue(fromPos.charAt(1))];
-        pieceSelected.setRow(Character.getNumericValue(toPos.charAt(0)));
-        pieceSelected.setColumn(Character.getNumericValue(Character.getNumericValue(toPos.charAt(1))));
-		this.board[Character.getNumericValue(fromPos.charAt(0))][Character.getNumericValue(fromPos.charAt(1))]=null;
-		
-		this.board[Character.getNumericValue(toPos.charAt(0))][Character.getNumericValue(toPos.charAt(1))]=pieceSelected;
-		if(pieceSelected.getType()=='M') {
-			monkeyMoveHandler(fromPos,toPos);
-		}
-		else if (pieceSelected.getType()=='P' && toPos.charAt(0)=='0') {
-			Piece sp=new SuperPawn(pieceSelected.getRow(),pieceSelected.getColumn(),pieceSelected.getColor(),'S');
-			this.board[Character.getNumericValue(toPos.charAt(0))][Character.getNumericValue(toPos.charAt(1))]=null;
-			this.board[Character.getNumericValue(toPos.charAt(0))][Character.getNumericValue(toPos.charAt(1))]=sp;
-
-		}
+    	if(moveCount==pieceSelected.capturesInATurn) {
+			System.out.println("MONKEY PROB"+moveCount+" "+pieceSelected.capturesInATurn);
+    		pieceSelected.setRow(Character.getNumericValue(toPos.charAt(0)));
+            pieceSelected.setColumn(Character.getNumericValue(Character.getNumericValue(toPos.charAt(1))));
+    		this.board[Character.getNumericValue(fromPos.charAt(0))][Character.getNumericValue(fromPos.charAt(1))]=null;
+    		
+    		this.board[Character.getNumericValue(toPos.charAt(0))][Character.getNumericValue(toPos.charAt(1))]=pieceSelected;
+    		if(pieceSelected.getType()=='M') {
+    			boolean didCapture=monkeyCaptureHandler(fromPos,toPos);
+    			if(didCapture) {
+    				pieceSelected.capturesInATurn+=1;
+    			}
+    		}
+    		else if (pieceSelected.getType()=='P' && toPos.charAt(0)=='0') {
+    			Piece sp=new SuperPawn(pieceSelected.getRow(),pieceSelected.getColumn(),pieceSelected.getColor(),'S');
+    			this.board[Character.getNumericValue(toPos.charAt(0))][Character.getNumericValue(toPos.charAt(1))]=null;
+    			this.board[Character.getNumericValue(toPos.charAt(0))][Character.getNumericValue(toPos.charAt(1))]=sp;
+    		}
+    	}
+        
 	}
 
     public Piece[][] flipBoard(State state){
@@ -197,7 +203,7 @@ public class State {
     }
 	
     // removes the piece jumped over
-    public void monkeyMoveHandler(String fromPos, String toPos) {
+    protected boolean monkeyCaptureHandler(String fromPos, String toPos) {
 		int fromRow=Character.getNumericValue(fromPos.charAt(0));
 		int fromCol=Character.getNumericValue(fromPos.charAt(1));
 		int toRow=Character.getNumericValue(toPos.charAt(0));
@@ -217,11 +223,11 @@ public class State {
 		else if(fromCol>toCol){
 			jumpedCol=fromCol-1;
 		}
-		if(board[jumpedRow][jumpedCol]!=null) {
-		    System.out.print("JumpedPiece:"+board[jumpedRow][jumpedCol].getType());
+		if(jumpedRow!=toRow || jumpedCol!=toCol) {
+			board[jumpedRow][jumpedCol]=null;
+		    return true;
 		}
-		board[jumpedRow][jumpedCol]=null;
-
+		return false;
 	}
     
     

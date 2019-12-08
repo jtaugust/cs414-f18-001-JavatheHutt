@@ -48,7 +48,9 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	boolean endTurnClicked;
 	ArrayList<String> indexList = new ArrayList<>();
 	ArrayList<String> possibleMoves=new ArrayList<>();
-	Piece piece;
+//	Piece piece;
+	Piece previousPieceSelectedBoard;
+	Piece pieceSelectedBoard;
 	State state;
 	Piece[][] board;
 	String fromPos;
@@ -307,11 +309,15 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		
 		if(isCurrentTurn) {
 			System.out.println("IN MOUSE EVENT -------------------");
-	
-			//check if the player already moved, return if so 
-			if(this.moveCount > 0) {
-				return;
-			}
+			
+			//check if the piece is monkey
+//	         if(pieceSelected.indexOf('M')==-1) {
+//	        	//check if the player already moved, return if so 
+//	 			if(moveCount > 0 && pieceSelectedBoard.getType()!='M' && previousPieceSelectedBoard.getType()!='M') {
+//	 				return;
+//	 			}
+//	         }
+			
 			
 			Component c =  congoBoard.findComponentAt(e.getX(), e.getY());
 	
@@ -337,7 +343,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	
 				//get piece and from position
 				fromPos=""+Integer.toString(row)+Integer.toString(col-1);
-				piece=board[row][col-1];
+//				piece=state.getBoard()[row][col-1];
 	
 				//get name and color of piece clicked
 				congoPiece = (JLabel)c;
@@ -352,9 +358,12 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 				}
 				
 				//get piece selected
-				Piece pieceSelectedBoard = board[row][col-1];
+//				pieceSelectedBoard = board[row][col-1];
+				pieceSelectedBoard = state.getBoard()[row][col-1];
 				pieceSelected = Integer.toString(row)+Integer.toString(col-1)+pieceName;
 	
+				System.out.println("PieceSelevcted"+pieceSelectedBoard.getType());
+				
 				//move piece slightly to show it was selected
 				congoPiece.setLocation(e.getX() + xAdjustment, e.getY() + yAdjustment);
 				state.setPieceSelected(pieceSelectedBoard);
@@ -362,25 +371,31 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 				//Print state
 				System.out.println("State: piece selected row and col: " + state.pieceSelected.getRow() +  state.pieceSelected.getColumn() + " - piece color: " + state.pieceSelected.getColor() + " - current turn color: " + state.getCurrentTurnColor());
 				
-				//get possible moves based on piece clicked.
-				int[][] possibleMovesArray = piece.legalMoves(state);
-	
-				for(int i = 0; i < possibleMovesArray.length; i++) {
-					possibleMoves.add(""+Integer.toString(possibleMovesArray[i][0])+Integer.toString(possibleMovesArray[i][1]));
-					//check for default value
-					if(!possibleMoves.get(i).equals("-1-1")){
-						congoBoard.getComponent(BoardHelper.convertIndex(possibleMoves.get(i))).setBackground(Color.white);
-	
-					}
+			
+				System.out.println("Inside condition"+pieceSelectedBoard.capturesInATurn+" "+moveCount);
+				if(moveCount==pieceSelectedBoard.capturesInATurn) {
+					//get possible moves based on piece clicked.
+					int[][] possibleMovesArray = pieceSelectedBoard.legalMoves(state);
+					
+					for(int i = 0; i < possibleMovesArray.length; i++) {
+						possibleMoves.add(""+Integer.toString(possibleMovesArray[i][0])+Integer.toString(possibleMovesArray[i][1]));
+						//check for default value
+						if(!possibleMoves.get(i).equals("-1-1")){
+							congoBoard.getComponent(BoardHelper.convertIndex(possibleMoves.get(i))).setBackground(Color.white);
+		
+						}
 				}
+
 				
-				congoPiece.setSize(congoPiece.getWidth(), congoPiece.getHeight());
-	
-				//show piece selected in the top layer
-				layeredPane.add(congoPiece, JLayeredPane.DRAG_LAYER);
-	
-				//set that a piece was clicked
-				isPieceClicked=true;
+					}
+					
+					congoPiece.setSize(congoPiece.getWidth(), congoPiece.getHeight());
+		
+					//show piece selected in the top layer
+					layeredPane.add(congoPiece, JLayeredPane.DRAG_LAYER);
+		
+					//set that a piece was clicked
+					isPieceClicked=true;
 				
 			} else { // Second click (place select)
 	
@@ -390,7 +405,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 				isPieceClicked = false;
 				revertColors();
 				congoPiece.setVisible(false);
-	
+	            
 				Container parent = null;
 	
 				if (c instanceof JLabel && !isIndex(congoPiece)){ //if tile clicked is another piece
@@ -603,7 +618,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 
 		System.out.println("PossibleMoves:"+possibleMoves);
 		if(isLegalMove(possibleMoves,toPos)) {
-			state.movePiece(fromPos,toPos);
+			state.movePiece(fromPos,toPos,moveCount);
 			return true;
 		}
 		return false;
@@ -621,22 +636,4 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		stateToDatabase(state.getBoard());
 		
 	}
-	
-//	// set drowning=1 if the piece is in the lake at the beginning of the game
-//	public void drowningInitializer(Piece[][] board) {
-//		for (int i=0; i<7;i++) {
-//			if(board[3][i]!=null) {
-//				board[3][i].drowning+=1;
-//			}
-//		}
-//	}
-//	
-//	public void drowningFinalizer(Piece[][] board) {
-//		for (int i=0; i<7;i++) {
-//			if(board[3][i]!=null && board[3][i].drowning==1) {
-//				board[3][i]=null;
-//			} 
-//	}
-//	}
-	
 }
