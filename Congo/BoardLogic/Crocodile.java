@@ -13,7 +13,7 @@ public class Crocodile extends Piece{
         int i = this.getRow();
 		int j = this.getColumn();
 		
-		// System.out.println("Row: " + i + " Col: "+ j);
+		// ("Row: " + i + " Col: "+ j);
 		
 		Piece[][] board = state.getBoard();
 		
@@ -72,10 +72,10 @@ public class Crocodile extends Piece{
 		// Check 3x3 with piece in center 
 		for(int x = i - 1; x <= i + 1; x++) {
 			for(int y = j - 1; y <= j + 1; y++) {
-				//System.out.println("Checking "  + " X: " + x + " Y: "+ y);
+				//("Checking "  + " X: " + x + " Y: "+ y);
 				if(isIndexBounded(x,y) && !containsMove(allPossibleMoves, new int[] {x,y})){
 					if(board[x][y] == null || board[x][y].getColor() != state.getCurrentTurnColor()) {
-						//System.out.println("Adding " + board[x][y] + " X: " + x + " Y: "+ y);
+						//("Adding " + board[x][y] + " X: " + x + " Y: "+ y);
                         allPossibleMoves[count][0] = x;
                         allPossibleMoves[count][1] = y;
 						count++;
@@ -138,7 +138,7 @@ public class Crocodile extends Piece{
 		
 		
 //		for(int k = 0; k < allPossibleMoves.length; k++) {
-//			System.out.println(allPossibleMoves[k]);
+//			(allPossibleMoves[k]);
 //		}
 		
 		return allPossibleMoves;

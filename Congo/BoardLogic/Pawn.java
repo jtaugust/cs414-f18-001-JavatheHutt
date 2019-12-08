@@ -55,7 +55,7 @@ public class Pawn extends Piece{
         }
        
         // for(int k = 0; k < allPossibleMoves.length; k++) {
-        //     System.out.println(allPossibleMoves[count][0] + " " + allPossibleMoves[count][1]);
+        //     (allPossibleMoves[count][0] + " " + allPossibleMoves[count][1]);
         // }
         this.possibleMovesIndex = count;
         return allPossibleMoves;
