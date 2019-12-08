@@ -242,8 +242,12 @@ public class State {
  	//Drowns a piece if it is more than a turn in the river
  	public void drowningFinalizer() {
  		for (int i=0; i<7;i++) {
- 			if(this.board[3][i]!=null && this.board[3][i].isDrowning && this.board[3][i].getColor()==this.pieceSelected.getColor()) {
- 				this.board[3][i]=null;
+ 			if(this.board[3][i]!=null && this.board[3][i].isDrowning) {
+ 				if(this.board[3][i].getColor()==this.pieceSelected.getColor()) {
+ 					if(this.board[3][i].getType()!='C') {
+ 		 				this.board[3][i]=null;
+ 				}
+ 			}
  			} 
  	}
  	}
