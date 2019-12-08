@@ -90,12 +90,10 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 			e1.printStackTrace();
 		}
 		
-//		drowningInitializer(stateFromDatabase(gameID));
 		
 		//get board from database (white perspective)
 		state.setBoard(stateFromDatabase(gameID));
 		
-//		state.drowningNuetralizer();
 		state.drowningInitializer();
 		
 		//set the current user turn based on order of users in current games
@@ -310,15 +308,6 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		if(isCurrentTurn) {
 			System.out.println("IN MOUSE EVENT -------------------");
 			
-			//check if the piece is monkey
-//	         if(pieceSelected.indexOf('M')==-1) {
-//	        	//check if the player already moved, return if so 
-//	 			if(moveCount > 0 && pieceSelectedBoard.getType()!='M' && previousPieceSelectedBoard.getType()!='M') {
-//	 				return;
-//	 			}
-//	         }
-			
-			
 			Component c =  congoBoard.findComponentAt(e.getX(), e.getY());
 	
 			if(!isPieceClicked) { // First click (piece select)
@@ -372,7 +361,6 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 				System.out.println("State: piece selected row and col: " + state.pieceSelected.getRow() +  state.pieceSelected.getColumn() + " - piece color: " + state.pieceSelected.getColor() + " - current turn color: " + state.getCurrentTurnColor());
 				
 			
-				System.out.println("Inside condition"+pieceSelectedBoard.capturesInATurn+" "+moveCount);
 				if(moveCount==pieceSelectedBoard.capturesInATurn) {
 					//get possible moves based on piece clicked.
 					int[][] possibleMovesArray = pieceSelectedBoard.legalMoves(state);
@@ -628,7 +616,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		this.endTurnClicked = true;
 //		drowningFinalizer(state.getBoard());
 		state.drowningFinalizer();
-		state.drowningNuetralizer();
+		state.drownAndCaptureNuetralizer();
 		if(this.turn == "B") {
 			//if black, flip then update state
 			state.flipBoard(state);

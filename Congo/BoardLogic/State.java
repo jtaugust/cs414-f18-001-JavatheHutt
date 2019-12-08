@@ -121,14 +121,13 @@ public class State {
         return result;
     }
     
-    public void movePiece(String fromPos, String toPos, int moveCount){
+    public void movePiece(String fromPos, String toPos,int moveCount){
 //        System.out.println("From Pos and ToPid"+fromPos+","+toPos);
         Piece pieceSelected=board[Character.getNumericValue(fromPos.charAt(0))][Character.getNumericValue(fromPos.charAt(1))];
     	if(moveCount==pieceSelected.capturesInATurn) {
 			System.out.println("MONKEY PROB"+moveCount+" "+pieceSelected.capturesInATurn);
     		pieceSelected.setRow(Character.getNumericValue(toPos.charAt(0)));
             pieceSelected.setColumn(Character.getNumericValue(toPos.charAt(1)));
-            System.out.println("The column in move Piece:"+pieceSelected.getColumn());
     		this.board[Character.getNumericValue(fromPos.charAt(0))][Character.getNumericValue(fromPos.charAt(1))]=null;
     		
     		this.board[Character.getNumericValue(toPos.charAt(0))][Character.getNumericValue(toPos.charAt(1))]=pieceSelected;
