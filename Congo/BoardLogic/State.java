@@ -61,8 +61,6 @@ public class State {
         this.currentTurnColor = currentTurnColor;
         this.currentClick = currentClick;
         this.pieceSelected = pieceSelected;
-
-
     }   
 
     //
@@ -119,7 +117,7 @@ public class State {
             result += "]\n";
         }
 
-        result += "\n currentTurnColor: " + currentTurnColor + " currentClick: " +  currentClick[0] + " " + currentClick[1] + " pieceSelected: " + pieceSelected.toString() + "\n";
+//        result += "\n currentTurnColor: " + currentTurnColor + " currentClick: " +  currentClick[0] + " " + currentClick[1] + " pieceSelected: " + pieceSelected.toString() + "\n";
         return result;
     }
     
@@ -129,7 +127,8 @@ public class State {
     	if(moveCount==pieceSelected.capturesInATurn) {
 			System.out.println("MONKEY PROB"+moveCount+" "+pieceSelected.capturesInATurn);
     		pieceSelected.setRow(Character.getNumericValue(toPos.charAt(0)));
-            pieceSelected.setColumn(Character.getNumericValue(Character.getNumericValue(toPos.charAt(1))));
+            pieceSelected.setColumn(Character.getNumericValue(toPos.charAt(1)));
+            System.out.println("The column in move Piece:"+pieceSelected.getColumn());
     		this.board[Character.getNumericValue(fromPos.charAt(0))][Character.getNumericValue(fromPos.charAt(1))]=null;
     		
     		this.board[Character.getNumericValue(toPos.charAt(0))][Character.getNumericValue(toPos.charAt(1))]=pieceSelected;
@@ -225,7 +224,7 @@ public class State {
 		}
 		if(jumpedRow!=toRow || jumpedCol!=toCol) {
 			board[jumpedRow][jumpedCol]=null;
-		    return true;
+			return true;
 		}
 		return false;
 	}
@@ -240,6 +239,7 @@ public class State {
  		}
  	}
  	
+ 	//Drowns a piece if it is more than a turn in the river
  	public void drowningFinalizer() {
  		for (int i=0; i<7;i++) {
  			if(this.board[3][i]!=null && this.board[3][i].isDrowning && this.board[3][i].getColor()==this.pieceSelected.getColor()) {
@@ -248,12 +248,15 @@ public class State {
  	}
  	}
  	
- 	// resets the drowning value
- 	public void drowningNuetralizer() {
+ 	// resets the drowning value and capturesInATurn value
+ 	public void drownAndCaptureNuetralizer() {
     	for(int i=0; i<7; i++) {
     		for(int j=0; j<7; j++) {
     			if(board[i][j]!=null) {
-        			this.board[i][j].isDrowning=false;
+        			board[i][j].isDrowning=false;
+    			}
+    			if(board[i][j].capturesInATurn!=0) {
+    				board[i][j].capturesInATurn=0;
     			}
     		}
     	}
