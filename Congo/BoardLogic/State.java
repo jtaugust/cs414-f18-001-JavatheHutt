@@ -208,7 +208,7 @@ public class State {
 		int toRow=Character.getNumericValue(toPos.charAt(0));
 		int toCol=Character.getNumericValue(toPos.charAt(1));
 		int jumpedRow=fromRow;
-		int jumpedCol=fromCol;
+        int jumpedCol=fromCol;
 
 		if (fromRow<toRow) {
 			jumpedRow=fromRow+1;
@@ -222,6 +222,7 @@ public class State {
 		else if(fromCol>toCol){
 			jumpedCol=fromCol-1;
 		}
+
 		if(jumpedRow!=toRow || jumpedCol!=toCol) {
 			board[jumpedRow][jumpedCol]=null;
 			return true;

@@ -65,7 +65,7 @@ public class StateTest {
 			{zebraB, crocodileB, elephantB2, lionB, elephantB1, monkeyB, giraffeB}
 		};
 
-		State state=new State(board1,'W',new int[]{0,0},null);
+		State state = new State(board1,'W',new int[]{0,0},null);
 		assertTrue(state.boardEquals(state.flipBoard(state), board2));
 
 
@@ -403,11 +403,11 @@ public class StateTest {
 		Pawn pawn1 = new Pawn(5,0,'W','P');
 		Piece[][] board = {
 			{null, null, null, null, null, null, null},
-      {null, null, null, null, null, null, null},
+      		{null, null, null, null, null, null, null},
 			{null, null, null, null, null, null, null},
 			{null, null, null, null, null, null, null},
 			{null, null, null, null, null, null, null},
-      {pawn1, null, null, null, null, null, null},
+      		{pawn1, null, null, null, null, null, null},
 			{null, null, null, null, null, null, null}
 		};
 		State state=new State(board,'W',new int[]{0,0},pawn1);
@@ -443,7 +443,7 @@ public class StateTest {
 		};
 		State state=new State(board,'W',new int[]{0,0},pawn);
 		
-    state.movePiece("12", "02");
+    	state.movePiece("12", "02");
 		assertEquals(state.getBoard()[0][2].getType(),'S');
 	}
 	
@@ -462,7 +462,7 @@ public class StateTest {
 		};
 		State state=new State(board,'W',new int[]{0,0},monkey);
 		
-    state.movePiece("52", "32");
+		state.movePiece("52", "32");
 		assertEquals(state.getBoard()[2][2],null);
 	}
 	

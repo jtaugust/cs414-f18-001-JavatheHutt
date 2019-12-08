@@ -141,7 +141,7 @@ public class Monkey extends Piece{
 			}
 		}
 		
-		// Check bottom left jump
+		// Check bottom right jump
 		if(isIndexBounded(i+2,j+2)){
 			if(monkeyCanJump(state,i+2,j+2)) {
 				allPossibleMoves[count][0] = i+2;
