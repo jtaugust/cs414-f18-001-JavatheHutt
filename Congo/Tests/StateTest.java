@@ -443,7 +443,7 @@ public class StateTest {
 		};
 		State state=new State(board,'W',new int[]{0,0},pawn);
 		
-    state.movePiece("12", "02");
+    state.movePiece("12", "02",0);
 		assertEquals(state.getBoard()[0][2].getType(),'S');
 	}
 	
@@ -462,7 +462,7 @@ public class StateTest {
 		};
 		State state=new State(board,'W',new int[]{0,0},monkey);
 		
-    state.movePiece("52", "32");
+    state.movePiece("52", "32",0);
 		assertEquals(state.getBoard()[2][2],null);
 	}
 	
