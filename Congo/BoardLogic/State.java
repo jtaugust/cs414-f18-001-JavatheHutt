@@ -2,19 +2,6 @@ package BoardLogic;
 
 public class State {
 
-    //Board Syntax: Xposition Yposition Color Animal 
-    // W: White B: Black 
-    // L: Lion 
-    // Z: Zebra 
-    // E: Elephant 
-    // G: Giraffe 
-    // M: Monkey 
-    // C: Crocidile 
-    // P: Pawn 
-    // S: Super pawn 
-    // N: Null (Empty space)
-    // Exs: [14WL] [16NN] [45BC]
-
     public Piece[][] board = new Piece[7][7];
     public char currentTurnColor;
     public int[] currentClick;
@@ -52,11 +39,11 @@ public class State {
         	}
         }
     }
+
     // Current Click: Current postiion of last click 
     // PieceSelected is either null or in format above for which piece is selected to move
     // State constructor, values pulled from database
     public State(Piece[][] board, char currentTurnColor, int[] currentClick, Piece pieceSelected){
-        // TODO: Get values from database
         this.board = board;
         this.currentTurnColor = currentTurnColor;
         this.currentClick = currentClick;
@@ -117,15 +104,13 @@ public class State {
             result += "]\n";
         }
 
-//        result += "\n currentTurnColor: " + currentTurnColor + " currentClick: " +  currentClick[0] + " " + currentClick[1] + " pieceSelected: " + pieceSelected.toString() + "\n";
+       result += "\n currentTurnColor: " + currentTurnColor + " currentClick: " +  currentClick[0] + " " + currentClick[1] + " pieceSelected: " + pieceSelected.toString() + "\n";
         return result;
     }
     
     public void movePiece(String fromPos, String toPos){
 //        System.out.println("From Pos and ToPid"+fromPos+","+toPos);
         Piece pieceSelected=board[Character.getNumericValue(fromPos.charAt(0))][Character.getNumericValue(fromPos.charAt(1))];
-//    	if(moveCount==pieceSelected.capturesInATurn) {
-//			System.out.println("MONKEY PROB"+moveCount+" "+pieceSelected.capturesInATurn);
     		pieceSelected.setRow(Character.getNumericValue(toPos.charAt(0)));
             pieceSelected.setColumn(Character.getNumericValue(toPos.charAt(1)));
     		this.board[Character.getNumericValue(fromPos.charAt(0))][Character.getNumericValue(fromPos.charAt(1))]=null;
@@ -207,7 +192,7 @@ public class State {
 		int toRow=Character.getNumericValue(toPos.charAt(0));
 		int toCol=Character.getNumericValue(toPos.charAt(1));
 		int jumpedRow=fromRow;
-		int jumpedCol=fromCol;
+        int jumpedCol=fromCol;
 
 		if (fromRow<toRow) {
 			jumpedRow=fromRow+1;
@@ -221,6 +206,7 @@ public class State {
 		else if(fromCol>toCol){
 			jumpedCol=fromCol-1;
 		}
+
 		if(jumpedRow!=toRow || jumpedCol!=toCol) {
 			board[jumpedRow][jumpedCol]=null;
 			return true;

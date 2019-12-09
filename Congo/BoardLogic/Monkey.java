@@ -2,7 +2,7 @@ package BoardLogic;
 
 public class Monkey extends Piece{
 	public Monkey(int row, int column, char color, char pieceType) {
-	        super(row, column, color, pieceType);
+	    super(row, column, color, pieceType);
 	}
 
 	public boolean monkeyCanJump(State state, int toX, int toY) {
@@ -141,7 +141,7 @@ public class Monkey extends Piece{
 			}
 		}
 		
-		// Check bottom left jump
+		// Check bottom right jump
 		if(isIndexBounded(i+2,j+2)){
 			if(monkeyCanJump(state,i+2,j+2)) {
 				allPossibleMoves[count][0] = i+2;
@@ -149,6 +149,7 @@ public class Monkey extends Piece{
 				count++;
 			}
 		}
+		
 		return allPossibleMoves;
 	} 
 	 	 
