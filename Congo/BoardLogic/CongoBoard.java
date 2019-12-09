@@ -167,10 +167,11 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		GameLogic gameOver = new GameLogic();
 		if(gameOver.isGameOver(state)!='N') {
 			congoBoard.removeAll();
-			congoBoard.repaint();
+//			congoBoard.repaint();
+			buildBoard();
 			serverGamesHelpers sgh= new serverGamesHelpers();
 			try {
-				sgh.insertCurrentGames_T(Integer.toString(this.gameID), ""+state.currentTurnColor, "F");
+				sgh.insertCurrentGames_T(Integer.toString(this.gameID), "currentColor", "f");
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -294,7 +295,8 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		
 		if(gameInfo[5].equals("f")) {
 			congoBoard.removeAll();
-			congoBoard.repaint();
+//			congoBoard.repaint();
+			buildBoard();
 		}
 	}
 	
@@ -741,10 +743,11 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		GameLogic gameOver = new GameLogic();
 		if(gameOver.isGameOver(state)!='N') {
 			congoBoard.removeAll();
-			congoBoard.repaint();
+//			congoBoard.repaint();
+			buildBoard();
 			serverGamesHelpers sgh= new serverGamesHelpers();
 			try {
-				sgh.insertCurrentGames_T(Integer.toString(this.gameID), ""+state.currentTurnColor, "F");
+				sgh.insertCurrentGames_T(Integer.toString(this.gameID), "currentColor", "f");
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
