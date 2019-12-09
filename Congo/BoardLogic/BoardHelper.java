@@ -1,9 +1,8 @@
 package BoardLogic;
 
-import javax.swing.JPanel;
-
 public class BoardHelper {
-	protected static int convertIndex(String position) {
+	
+	public int convertIndex(String position) {
 		int index = 0;
 			
 		switch(position) {
@@ -118,22 +117,12 @@ public class BoardHelper {
 		
 		return index;
 	}
-
-//	public static String switchTurn(JPanel congoBoard, String turn) {
-//			
-//		if (turn == "W") {
-//			turn = "B";
-//		} else if (turn == "B") {
-//			turn = "W";
-//		}
-//		return turn;
-//	}
 	
-	protected static int findRow(int parentLocationY) {
+	public int findRow(int parentLocationY) {
 		return parentLocationY/70;
 	}
 	
-	protected static int findColumn(int parentLocationX) {
+	public int findColumn(int parentLocationX) {
 		return parentLocationX/70;
 	}
  

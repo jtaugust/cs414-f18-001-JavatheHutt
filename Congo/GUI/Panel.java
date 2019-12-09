@@ -5,9 +5,6 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.*;
 
-import App.Application;
-import Screens.LoginScreen;
-
 public class Panel {
 	
 	private static JPanel workingPanel = new JPanel(), workingPanelBackground = new JPanel();

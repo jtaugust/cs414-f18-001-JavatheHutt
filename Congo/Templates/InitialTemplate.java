@@ -6,7 +6,7 @@ import javax.swing.*;
 
 import GUI.Frame;
 import GUI.Panel;
-import Screens.LoginScreen;
+// import Screens.LoginScreen;
 
 public class InitialTemplate extends BackgroundTemplate{
 	

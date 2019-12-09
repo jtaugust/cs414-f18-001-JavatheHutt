@@ -6,7 +6,10 @@ package BoardLogic;
 public abstract class Piece{
     
     // Piece Attributes
-    private int row, column;
+	protected int capturesInATurn=0;
+    private int row;
+	private int column;
+	protected boolean isDrowning=false;
     private char color, pieceType;
 
     Piece(int row, int column, char color, char pieceType){

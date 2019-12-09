@@ -4,8 +4,6 @@ import java.awt.CardLayout;
 
 import javax.swing.JPanel;
 
-import GUI.Frame;
-
 
 
 public abstract class Screen {

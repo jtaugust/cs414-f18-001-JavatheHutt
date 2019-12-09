@@ -90,15 +90,6 @@ public class MonkeyTest {
 		expectedMoves[6][0]= 4; expectedMoves[6][1]= 3;
         expectedMoves[7][0]= 4; expectedMoves[7][1]= 4;
         
-        expectedMoves[8][0]= 1; expectedMoves[8][1]= 1;
-		expectedMoves[9][0]= 1; expectedMoves[9][1]= 3;
-		expectedMoves[10][0]= 1; expectedMoves[10][1]= 5;
-		expectedMoves[11][0]= 3; expectedMoves[11][1]= 1;
-		expectedMoves[12][0]= 3; expectedMoves[12][1]= 5;
-		expectedMoves[13][0]= 5; expectedMoves[13][1]= 1;
-		expectedMoves[14][0]= 5; expectedMoves[14][1]= 3;
-		expectedMoves[15][0]= 5; expectedMoves[15][1]= 5;
-
 		// System.out.println("Moves Expected");
         // for(int k = 0; k < expectedMoves.length; k++) {
         //     System.out.println(expectedMoves[k][0] + " " + expectedMoves[k][1]);
