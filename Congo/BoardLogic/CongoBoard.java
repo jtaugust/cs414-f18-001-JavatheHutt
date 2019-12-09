@@ -295,7 +295,6 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		
 		if(gameInfo[5].equals("f")) {
 			congoBoard.removeAll();
-//			congoBoard.repaint();
 			buildBoard();
 		}
 	}
@@ -752,6 +751,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+			System.out.println("Game End");
 		}
 		if(gameOver.isGameOver(state) == 'W') { // white won
 			this.matchStatus.removeAll();
