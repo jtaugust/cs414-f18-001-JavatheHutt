@@ -162,6 +162,7 @@ public class NewGameScreen extends Screen  {
 	  					serverHelpers createInvites = new serverHelpers();
 	  					try {
 							createInvites.createUserInvites_T(WorkingPanel.getUser(), selectedUsers.get(i), "active");
+							newGame.dispose();
 						} catch (Exception e1) {
 							e1.printStackTrace();
 						}
@@ -171,6 +172,7 @@ public class NewGameScreen extends Screen  {
 	  			}
 	  		}
 		});
+	    
 		backpanel.add(inviteButtonHolder, BorderLayout.PAGE_END);
 	
 		newGame.add(backpanel);
