@@ -604,10 +604,11 @@ public class RulesScreen extends Screen {
 		return rules;
 
 	}
+	
 
 	@Override
 	void setErrorCards() {
-
-
+		
 	}
+
 }
