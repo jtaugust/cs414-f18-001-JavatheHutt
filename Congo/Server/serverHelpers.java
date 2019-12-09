@@ -565,7 +565,7 @@ public class serverHelpers {
 	}
 
 	// Creates a new row in UserInvites_T
-	public void createUserInvites_T(String sender, boolean status, String receiver) throws Exception {
+	public void createUserInvites_T(String sender, String receiver, String status) throws Exception {
 
 		try {
 
@@ -577,9 +577,8 @@ public class serverHelpers {
 			preparedStatement = connect.prepareStatement("INSERT INTO Users.UserInvites_T VALUES (default, ?, ?, ?)");
 
 			preparedStatement.setString(1, sender);
-			int val = (status) ? 1 : 0;
 			preparedStatement.setString(2, receiver);
-			preparedStatement.setInt(3, val);
+			preparedStatement.setString(3, status);
 			
 			preparedStatement.executeUpdate();
 
@@ -627,6 +626,35 @@ public class serverHelpers {
 			close();
 		}
 
+	}
+	
+	public ArrayList<String> getAllUsers(String thisUser) throws Exception{
+		try{
+			Class.forName("org.mariadb.jdbc.Driver");
+
+			connect = DriverManager
+					.getConnection("jdbc:mysql://68.234.149.213:8555/Games?" + "user=cs414&password=cs414");
+
+			statement = connect.createStatement();
+
+			preparedStatement = connect.prepareStatement("SELECT Username FROM Users.UserInfo_T WHERE Username!=(?)");
+
+			preparedStatement.setString(1, thisUser);
+			resultSet = preparedStatement.executeQuery();
+			
+			ArrayList<String> returnArray = new ArrayList<String>();
+
+			while(resultSet.next()){
+				String user = resultSet.getString(1);
+				returnArray.add(user);
+			}
+			
+			return returnArray;
+		}catch (Exception e){
+			throw e;
+		}finally{
+			close();
+		}
 	}
 	
 	//Overload to get all invites a given user has received.
