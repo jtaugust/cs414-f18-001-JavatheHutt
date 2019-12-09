@@ -12,12 +12,15 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
+import javax.swing.plaf.basic.BasicScrollBarUI;
 
 import App.Application;
 import BoardLogic.CongoBoard;
@@ -41,13 +44,13 @@ public class NewGameScreen extends Screen  {
 	@Override
 	public void setScreen() {
 		serverHelpers server = new serverHelpers();
-		JDialog newGame = new JDialog(this.WorkingPanel.frame.getThisFrame(), "New Game");
+		JDialog newGame = new JDialog(this.WorkingPanel.frame.getThisFrame(), "Invite Players");
 		newGame.setName("New Game");
 		ArrayList<String> users = null;
-		newGame.setSize(300,300);
+		newGame.setSize(300,400);
 		
 		JPanel backpanel = new JPanel();
-		backpanel.setLayout(new GridBagLayout());		
+		backpanel.setLayout(new BorderLayout());		
 				
 		try {
 			users = server.getAllUsers(WorkingPanel.getUser());
@@ -56,35 +59,41 @@ public class NewGameScreen extends Screen  {
 			//e.printStackTrace();
 		}
 				
-		String[] selected = new String[users.size()];
+		ArrayList<String> selectedUsers = new ArrayList<String>();
 
-		JPanel userList = new JPanel(new GridBagLayout());
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.gridwidth = GridBagConstraints.REMAINDER;
-		gbc.weightx = 1;
-		gbc.weighty = 1;
-		userList.add(new JPanel(), gbc);
-
-		//newGame.getContentPane().add(new JScrollPane(userList));
+		JPanel userList = new JPanel();
+		userList.setLayout(new BoxLayout(userList, BoxLayout.Y_AXIS));
+		userList.setBackground(darkGray);
 
 		for (int i = 0; i < users.size(); i++){
+		    
 			JPanel user = new JPanel();
+			user.setLayout(new GridBagLayout());
+			user.setMinimumSize(new Dimension(300,40));
+			user.setMaximumSize(new Dimension(300,40));
+			user.setPreferredSize(new Dimension(300,40));
+			
 			String username = users.get(i);
 			user.add(new JLabel(username));
 			user.setName(username);
-			user.setBackground(Color.RED);
+			user.setBackground(lightGray);
+			user.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(2,2,0,2,darkGray), new EmptyBorder(5,0,5,0)));
 			user.addMouseListener(new MouseAdapter() {
 		  		@Override
 		  		public void mousePressed(final MouseEvent e) {
 		  		}
 		  		@Override
 		  		public void mouseReleased(final MouseEvent e) {
-		  			//change board based on gameBox pressed
-					if(user.getBackground() == Color.RED){
-						user.setBackground(Color.GREEN);
-					}else{
-						user.setBackground(Color.RED);
-					}
+		  			
+		  			if(!selectedUsers.contains(e.getComponent().getName())) {
+		  				selectedUsers.add(e.getComponent().getName());
+						user.setBackground(blue);
+
+		  			} else {
+		  				selectedUsers.remove(e.getComponent().getName());
+						user.setBackground(lightGray);
+		  			}
+		  					  			
 					workingPanel.repaint();
 					workingPanel.validate();
 		  		}
@@ -97,36 +106,77 @@ public class NewGameScreen extends Screen  {
                        
             WorkingPanel.updateWorking();
 		}
-		JScrollPane pane = new JScrollPane(userList);
-	
-		JPanel t1 = new JPanel();
-		JPanel t2 = new JPanel();
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.anchor = GridBagConstraints.PAGE_START;
-		gbc.ipady = 220;
-		t1.setBackground(Color.MAGENTA);
-		backpanel.add(pane, gbc);
 		
-		gbc.anchor = GridBagConstraints.PAGE_END;
-		gbc.ipady = 20;
-		gbc.weightx = 1;
-		gbc.weighty = 2;
-		t2.setBackground(Color.GREEN);
-		
-		JPanel inviteButton = new JPanel();
-		inviteButton.add(new JLabel("Send Invites"));
-		
-		inviteButton.addMouseListener(new MouseAdapter() {
+		// add scrollbar and change the style of it
+		JScrollPane scrollPane = new JScrollPane(userList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setBackground(lightGray);
+		scrollPane.setBorder(BorderFactory.createEmptyBorder());
+		scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+		scrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI(){
             @Override
-            public void mousePressed(final MouseEvent e) {
-            	inviteButton.setBackground(new Color(110,190,255));
+            protected void configureScrollBarColors(){
+                this.thumbColor = highlightGray;
+                this.thumbDarkShadowColor = highlightGray;
+                this.thumbLightShadowColor = highlightGray;
+                this.thumbHighlightColor = highlightGray;
+                this.trackHighlightColor = highlightGray;
+                this.trackColor = Color.BLACK;
             }
             @Override
-            public void mouseReleased(final MouseEvent e) {
-            	
+            protected JButton createDecreaseButton(int orientation) {
+            	JButton button = new JButton();
+            	button.setPreferredSize(new Dimension(0,0));
+            	return button;
+            }
+            @Override
+            protected JButton createIncreaseButton(int orientation) {
+            	JButton button = new JButton();
+            	button.setPreferredSize(new Dimension(0,0));
+            	return button;
             }
         });
-		backpanel.add(inviteButton, gbc);
+	
+		backpanel.add(scrollPane, BorderLayout.CENTER);
+		
+		//create "Send Invites" button
+	    JPanel inviteButtonHolder = new JPanel();
+	    inviteButtonHolder.setBackground(mediumGray);
+	    inviteButtonHolder.setLayout(new BorderLayout());
+	    inviteButtonHolder.setBorder(new MatteBorder(20,20,20,20, darkGray));
+	    
+	    JPanel inviteButton = new JPanel();
+	    inviteButtonHolder.add(inviteButton);
+	    inviteButton.setBackground(lightGray);
+	    inviteButton.setLayout(new GridBagLayout());
+	    inviteButton.setBorder(new MatteBorder(2,2,2,2,blue));
+
+	    JLabel invitelabel = new JLabel("Send Invites");
+	    inviteButton.add(invitelabel);
+	    invitelabel.setBorder(BorderFactory.createEmptyBorder(15,20,15,20));
+	    inviteButton.addMouseListener(new MouseAdapter() {
+	  		@Override
+	  		public void mousePressed(final MouseEvent e) {
+	  			inviteButton.setBackground(blue);
+	  		}
+	  		@Override
+	  		public void mouseReleased(final MouseEvent e) {
+	  			inviteButton.setBackground(lightGray);
+	  			if(selectedUsers.size() != 0) {
+	  				for(int i = 0; i < selectedUsers.size(); i++) {
+	  					serverHelpers createInvites = new serverHelpers();
+	  					try {
+							createInvites.createUserInvites_T(WorkingPanel.getUser(), selectedUsers.get(i), "active");
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+	  				}
+	  				
+		  			System.out.println(selectedUsers);
+	  			}
+	  		}
+		});
+		backpanel.add(inviteButtonHolder, BorderLayout.PAGE_END);
 	
 		newGame.add(backpanel);
 		newGame.setVisible(true);

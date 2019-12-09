@@ -169,15 +169,6 @@ public class AccountScreen extends Screen{
 	  			editButton.setBackground(lightGray);
 	  			historyButton.setBackground(lightGray);
 	  			createUnregisterConfirm();
-//	  			String Username = WorkingPanel.getUser();
-//	  			int err = serverHelpers.tryUnregister(Username);
-//	  			
-//	  			if (err == 0) {
-//	  				WorkingPanel.changeScreen(new LoginScreen());
-//	  			}
-//	  			else {
-//	  				setError(err);
-//	  			}
 	  		}
 		});
 	    

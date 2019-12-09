@@ -565,7 +565,7 @@ public class serverHelpers {
 	}
 
 	// Creates a new row in UserInvites_T
-	public void createUserInvites_T(String sender, boolean status, String receiver) throws Exception {
+	public void createUserInvites_T(String sender, String receiver, String status) throws Exception {
 
 		try {
 
@@ -577,9 +577,8 @@ public class serverHelpers {
 			preparedStatement = connect.prepareStatement("INSERT INTO Users.UserInvites_T VALUES (default, ?, ?, ?)");
 
 			preparedStatement.setString(1, sender);
-			int val = (status) ? 1 : 0;
 			preparedStatement.setString(2, receiver);
-			preparedStatement.setInt(3, val);
+			preparedStatement.setString(3, status);
 			
 			preparedStatement.executeUpdate();
 
