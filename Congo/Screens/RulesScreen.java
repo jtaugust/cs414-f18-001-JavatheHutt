@@ -42,7 +42,6 @@ public class RulesScreen extends Screen {
 	public static final Color blue = new Color(79, 175, 255);
 	JPanel rulesPanel;
 
-
 	public RulesScreen() {
 		this.error = 0;
 		this.name = "Rules";
@@ -455,15 +454,15 @@ public class RulesScreen extends Screen {
 		rules.setBackground(blue);
 		rulesText.add(rules);
 		this.rulesPanel.add(rulesText, BorderLayout.WEST);
-		
+
 		// rules image for movement
 		JPanel rulesImage = new JPanel();
 		rulesImage.setLayout(new GridBagLayout());
 		rulesImage.setBackground(darkGray);
-		
+
 		ImageIcon image = new ImageIcon(getImage(piece));
 		JLabel rulesLabel = new JLabel(image);
-		
+
 		rulesImage.add(rulesLabel);
 		this.rulesPanel.add(rulesImage);
 
@@ -476,48 +475,55 @@ public class RulesScreen extends Screen {
 	}
 
 	private Image getImage(String piece) {
-		
+
 		switch (piece) {
 
 		case "Lion":
-			
+
 			return new ImageIcon("./Images/LionMoves.png").getImage().getScaledInstance(600, 600, Image.SCALE_DEFAULT);
 
 		case "Zebra":
-			
+
 			return new ImageIcon("./Images/ZebraMoves.png").getImage().getScaledInstance(600, 600, Image.SCALE_DEFAULT);
-			
+
 		case "General Game Rules":
-			
-			return new ImageIcon("./Images/GeneralRules.png").getImage().getScaledInstance(600, 600, Image.SCALE_DEFAULT);
+
+			return new ImageIcon("./Images/GeneralRules.png").getImage().getScaledInstance(600, 600,
+					Image.SCALE_DEFAULT);
 
 		case "Drowning":
-			
-			return new ImageIcon("./Images/DrowningRules.png").getImage().getScaledInstance(600, 600, Image.SCALE_DEFAULT);
+
+			return new ImageIcon("./Images/DrowningRules.png").getImage().getScaledInstance(600, 600,
+					Image.SCALE_DEFAULT);
 
 		case "Pawn":
-			
+
 			return new ImageIcon("./Images/PawnMoves.png").getImage().getScaledInstance(600, 600, Image.SCALE_DEFAULT);
 
 		case "Super Pawn":
-			
-			return new ImageIcon("./Images/SuperPawnMoves.png").getImage().getScaledInstance(600, 600, Image.SCALE_DEFAULT);
+
+			return new ImageIcon("./Images/SuperPawnMoves.png").getImage().getScaledInstance(600, 600,
+					Image.SCALE_DEFAULT);
 
 		case "Crocodile":
-			
-			return new ImageIcon("./Images/CrocodileMoves.png").getImage().getScaledInstance(600, 600, Image.SCALE_DEFAULT);
+
+			return new ImageIcon("./Images/CrocodileMoves.png").getImage().getScaledInstance(600, 600,
+					Image.SCALE_DEFAULT);
 
 		case "Giraffe":
-			
-			return new ImageIcon("./Images/GireffeMoves.png").getImage().getScaledInstance(600, 600, Image.SCALE_DEFAULT);
+
+			return new ImageIcon("./Images/GireffeMoves.png").getImage().getScaledInstance(600, 600,
+					Image.SCALE_DEFAULT);
 
 		case "Elephant":
-			
-			return new ImageIcon("./Images/ElephantMoves.png").getImage().getScaledInstance(600, 600, Image.SCALE_DEFAULT);
+
+			return new ImageIcon("./Images/ElephantMoves.png").getImage().getScaledInstance(600, 600,
+					Image.SCALE_DEFAULT);
 
 		case "Monkey":
-			
-			return new ImageIcon("./Images/MonkeyMoves.png").getImage().getScaledInstance(600, 600, Image.SCALE_DEFAULT);
+
+			return new ImageIcon("./Images/MonkeyMoves.png").getImage().getScaledInstance(600, 600,
+					Image.SCALE_DEFAULT);
 
 		default:
 			return null;
@@ -532,7 +538,7 @@ public class RulesScreen extends Screen {
 
 		case "Lion":
 			rules = "Lion\n\n" + "A lion can move and capture one space in any direction as"
-					+ " long as it is inside its �castle�. The lion has a special capture move that"
+					+ " long as it is inside its \"castle\". The lion has a special capture move that"
 					+ " can only be used on another lion. For this special capture there must be a "
 					+ "straight or diagonal line with no pieces in-between the two lions.";
 
@@ -540,7 +546,7 @@ public class RulesScreen extends Screen {
 
 		case "Zebra":
 			rules = "Zebra\n\n" + "The zebra moves and captures like a chess knight, it can move "
-					+ "and capture in a �L� shape. Either two up/down then one left/right, or "
+					+ "and capture in a \"L\" shape. Either two up/down then one left/right, or "
 					+ "one up/down then two left/right.";
 			break;
 
@@ -607,7 +613,6 @@ public class RulesScreen extends Screen {
 
 	@Override
 	void setErrorCards() {
-
 
 	}
 }
