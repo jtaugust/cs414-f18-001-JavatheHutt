@@ -1,7 +1,6 @@
 package Screens;
 
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
@@ -18,7 +17,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.MatteBorder;
 
-import App.Application;
 import GUI.Helpers;
 import GUI.Label;
 import GUI.Panel;

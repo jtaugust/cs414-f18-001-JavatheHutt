@@ -2,19 +2,6 @@ package BoardLogic;
 
 public class State {
 
-    //Board Syntax: Xposition Yposition Color Animal 
-    // W: White B: Black 
-    // L: Lion 
-    // Z: Zebra 
-    // E: Elephant 
-    // G: Giraffe 
-    // M: Monkey 
-    // C: Crocidile 
-    // P: Pawn 
-    // S: Super pawn 
-    // N: Null (Empty space)
-    // Exs: [14WL] [16NN] [45BC]
-
     public Piece[][] board = new Piece[7][7];
     public char currentTurnColor;
     public int[] currentClick;
@@ -52,17 +39,15 @@ public class State {
         	}
         }
     }
+
     // Current Click: Current postiion of last click 
     // PieceSelected is either null or in format above for which piece is selected to move
     // State constructor, values pulled from database
     public State(Piece[][] board, char currentTurnColor, int[] currentClick, Piece pieceSelected){
-        // TODO: Get values from database
         this.board = board;
         this.currentTurnColor = currentTurnColor;
         this.currentClick = currentClick;
         this.pieceSelected = pieceSelected;
-
-
     }   
 
     //
@@ -119,27 +104,31 @@ public class State {
             result += "]\n";
         }
 
-        result += "\n currentTurnColor: " + currentTurnColor + " currentClick: " +  currentClick[0] + " " + currentClick[1] + " pieceSelected: " + pieceSelected.toString() + "\n";
+       result += "\n currentTurnColor: " + currentTurnColor + " currentClick: " +  currentClick[0] + " " + currentClick[1] + " pieceSelected: " + pieceSelected.toString() + "\n";
         return result;
     }
     
     public void movePiece(String fromPos, String toPos){
 //        System.out.println("From Pos and ToPid"+fromPos+","+toPos);
         Piece pieceSelected=board[Character.getNumericValue(fromPos.charAt(0))][Character.getNumericValue(fromPos.charAt(1))];
-        pieceSelected.setRow(Character.getNumericValue(toPos.charAt(0)));
-        pieceSelected.setColumn(Character.getNumericValue(Character.getNumericValue(toPos.charAt(1))));
-		this.board[Character.getNumericValue(fromPos.charAt(0))][Character.getNumericValue(fromPos.charAt(1))]=null;
-		
-		this.board[Character.getNumericValue(toPos.charAt(0))][Character.getNumericValue(toPos.charAt(1))]=pieceSelected;
-		if(pieceSelected.getType()=='M') {
-			monkeyMoveHandler(fromPos,toPos);
-		}
-		else if (pieceSelected.getType()=='P' && toPos.charAt(0)=='0') {
-			Piece sp=new SuperPawn(pieceSelected.getRow(),pieceSelected.getColumn(),pieceSelected.getColor(),'S');
-			this.board[Character.getNumericValue(toPos.charAt(0))][Character.getNumericValue(toPos.charAt(1))]=null;
-			this.board[Character.getNumericValue(toPos.charAt(0))][Character.getNumericValue(toPos.charAt(1))]=sp;
-
-		}
+    		pieceSelected.setRow(Character.getNumericValue(toPos.charAt(0)));
+            pieceSelected.setColumn(Character.getNumericValue(toPos.charAt(1)));
+    		this.board[Character.getNumericValue(fromPos.charAt(0))][Character.getNumericValue(fromPos.charAt(1))]=null;
+    		
+    		this.board[Character.getNumericValue(toPos.charAt(0))][Character.getNumericValue(toPos.charAt(1))]=pieceSelected;
+    		if(pieceSelected.getType()=='M') {
+    			boolean didCapture=monkeyCaptureHandler(fromPos,toPos);
+    			if(didCapture) {
+    				pieceSelected.capturesInATurn+=1;
+    			}
+    		}
+    		else if (pieceSelected.getType()=='P' && toPos.charAt(0)=='0') {
+    			Piece sp=new SuperPawn(pieceSelected.getRow(),pieceSelected.getColumn(),pieceSelected.getColor(),'S');
+    			this.board[Character.getNumericValue(toPos.charAt(0))][Character.getNumericValue(toPos.charAt(1))]=null;
+    			this.board[Character.getNumericValue(toPos.charAt(0))][Character.getNumericValue(toPos.charAt(1))]=sp;
+    		}
+//    	}
+        
 	}
 
     public Piece[][] flipBoard(State state){
@@ -197,13 +186,13 @@ public class State {
     }
 	
     // removes the piece jumped over
-    public void monkeyMoveHandler(String fromPos, String toPos) {
+    protected boolean monkeyCaptureHandler(String fromPos, String toPos) {
 		int fromRow=Character.getNumericValue(fromPos.charAt(0));
 		int fromCol=Character.getNumericValue(fromPos.charAt(1));
 		int toRow=Character.getNumericValue(toPos.charAt(0));
 		int toCol=Character.getNumericValue(toPos.charAt(1));
 		int jumpedRow=fromRow;
-		int jumpedCol=fromCol;
+        int jumpedCol=fromCol;
 
 		if (fromRow<toRow) {
 			jumpedRow=fromRow+1;
@@ -217,11 +206,12 @@ public class State {
 		else if(fromCol>toCol){
 			jumpedCol=fromCol-1;
 		}
-		if(board[jumpedRow][jumpedCol]!=null) {
-		    System.out.print("JumpedPiece:"+board[jumpedRow][jumpedCol].getType());
-		}
-		board[jumpedRow][jumpedCol]=null;
 
+		if(jumpedRow!=toRow || jumpedCol!=toCol) {
+			board[jumpedRow][jumpedCol]=null;
+			return true;
+		}
+		return false;
 	}
     
     
@@ -234,20 +224,28 @@ public class State {
  		}
  	}
  	
+ 	//Drowns a piece if it is more than a turn in the river
  	public void drowningFinalizer() {
  		for (int i=0; i<7;i++) {
- 			if(this.board[3][i]!=null && this.board[3][i].isDrowning && this.board[3][i].getColor()==this.pieceSelected.getColor()) {
- 				this.board[3][i]=null;
+ 			if(this.board[3][i]!=null && this.board[3][i].isDrowning) {
+ 				if(this.board[3][i].getColor()==this.pieceSelected.getColor()) {
+ 					if(this.board[3][i].getType()!='C') {
+ 		 				this.board[3][i]=null;
+ 				}
+ 			}
  			} 
  	}
  	}
  	
- 	// resets the drowning value
- 	public void drowningNuetralizer() {
+ 	// resets the drowning value and capturesInATurn value
+ 	public void drownAndCaptureNuetralizer() {
     	for(int i=0; i<7; i++) {
     		for(int j=0; j<7; j++) {
     			if(board[i][j]!=null) {
-        			this.board[i][j].isDrowning=false;
+        			board[i][j].isDrowning=false;
+    			}
+    			if(board[i][j]!=null && board[i][j].capturesInATurn!=0) {
+    				board[i][j].capturesInATurn=0;
     			}
     		}
     	}

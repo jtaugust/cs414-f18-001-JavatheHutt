@@ -79,9 +79,7 @@ public class Lion extends Piece{
 			}
 		}
 	
-//		for(int k = 0; k < allPossibleMoves.length; k++) {
-//			System.out.println(allPossibleMoves[k]);
-//		}
+
 		return allPossibleMoves;
     }
 }

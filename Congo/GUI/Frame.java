@@ -1,14 +1,8 @@
 package GUI;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Label;
 import java.awt.Window;
-
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 
-import App.*;
 import Templates.BackgroundTemplate;
 import Screens.Screen;
 import Screens.WorkingPanel;

@@ -97,9 +97,6 @@ public class SuperPawn extends Pawn{
             
         }
 
-        // for(int k = 0; k < allPossibleMoves.length; k++) {
-        //     System.out.println(allPossibleMoves[count][0] + " " + allPossibleMoves[count][1]);
-        // }
         return allPossibleMoves;
     }	
     
