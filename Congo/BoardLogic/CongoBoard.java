@@ -165,7 +165,17 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
   		
   		//check for game over
 		GameLogic gameOver = new GameLogic();
-		
+		if(gameOver.isGameOver(state)!='N') {
+			congoBoard.removeAll();
+			congoBoard.repaint();
+			serverGamesHelpers sgh= new serverGamesHelpers();
+			try {
+				sgh.insertCurrentGames_T(Integer.toString(this.gameID), ""+state.currentTurnColor, "F");
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
 		if(gameOver.isGameOver(state) == 'W') { // white won
 			this.matchStatus.removeAll();
 			JLabel label = new JLabel(gameInfo[1] + " wins!");
@@ -281,6 +291,11 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		layeredPane.add(congoBoard, JLayeredPane.DEFAULT_LAYER);
 		mainPanel.add(layeredPane, BorderLayout.CENTER);
 		mainPanel.add(bottomSection, BorderLayout.PAGE_END);
+		
+		if(gameInfo[5].equals("f")) {
+			congoBoard.removeAll();
+			congoBoard.repaint();
+		}
 	}
 	
 	//fill board GUI with pieces from board array
@@ -724,7 +739,17 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		
 		//check for game over
 		GameLogic gameOver = new GameLogic();
-		
+		if(gameOver.isGameOver(state)!='N') {
+			congoBoard.removeAll();
+			congoBoard.repaint();
+			serverGamesHelpers sgh= new serverGamesHelpers();
+			try {
+				sgh.insertCurrentGames_T(Integer.toString(this.gameID), ""+state.currentTurnColor, "F");
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
 		if(gameOver.isGameOver(state) == 'W') { // white won
 			this.matchStatus.removeAll();
 			JLabel label = new JLabel(gameInfo[1] + " wins!");
