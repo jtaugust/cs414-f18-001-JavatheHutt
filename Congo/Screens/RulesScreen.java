@@ -42,7 +42,6 @@ public class RulesScreen extends Screen {
 	public static final Color blue = new Color(79, 175, 255);
 	JPanel rulesPanel;
 
-
 	public RulesScreen() {
 		this.error = 0;
 		this.name = "Rules";
@@ -455,15 +454,15 @@ public class RulesScreen extends Screen {
 		rules.setBackground(blue);
 		rulesText.add(rules);
 		this.rulesPanel.add(rulesText, BorderLayout.WEST);
-		
+
 		// rules image for movement
 		JPanel rulesImage = new JPanel();
 		rulesImage.setLayout(new GridBagLayout());
 		rulesImage.setBackground(darkGray);
-		
+
 		ImageIcon image = new ImageIcon(getImage(piece));
 		JLabel rulesLabel = new JLabel(image);
-		
+
 		rulesImage.add(rulesLabel);
 		this.rulesPanel.add(rulesImage);
 
@@ -476,48 +475,55 @@ public class RulesScreen extends Screen {
 	}
 
 	private Image getImage(String piece) {
-		
+
 		switch (piece) {
 
 		case "Lion":
-			
+
 			return new ImageIcon("./Images/LionMoves.png").getImage().getScaledInstance(600, 600, Image.SCALE_DEFAULT);
 
 		case "Zebra":
-			
+
 			return new ImageIcon("./Images/ZebraMoves.png").getImage().getScaledInstance(600, 600, Image.SCALE_DEFAULT);
-			
+
 		case "General Game Rules":
-			
-			return new ImageIcon("./Images/GeneralRules.png").getImage().getScaledInstance(600, 600, Image.SCALE_DEFAULT);
+
+			return new ImageIcon("./Images/GeneralRules.png").getImage().getScaledInstance(600, 600,
+					Image.SCALE_DEFAULT);
 
 		case "Drowning":
-			
-			return new ImageIcon("./Images/DrowningRules.png").getImage().getScaledInstance(600, 600, Image.SCALE_DEFAULT);
+
+			return new ImageIcon("./Images/DrowningRules.png").getImage().getScaledInstance(600, 600,
+					Image.SCALE_DEFAULT);
 
 		case "Pawn":
-			
+
 			return new ImageIcon("./Images/PawnMoves.png").getImage().getScaledInstance(600, 600, Image.SCALE_DEFAULT);
 
 		case "Super Pawn":
-			
-			return new ImageIcon("./Images/SuperPawnMoves.png").getImage().getScaledInstance(600, 600, Image.SCALE_DEFAULT);
+
+			return new ImageIcon("./Images/SuperPawnMoves.png").getImage().getScaledInstance(600, 600,
+					Image.SCALE_DEFAULT);
 
 		case "Crocodile":
-			
-			return new ImageIcon("./Images/CrocodileMoves.png").getImage().getScaledInstance(600, 600, Image.SCALE_DEFAULT);
+
+			return new ImageIcon("./Images/CrocodileMoves.png").getImage().getScaledInstance(600, 600,
+					Image.SCALE_DEFAULT);
 
 		case "Giraffe":
-			
-			return new ImageIcon("./Images/GireffeMoves.png").getImage().getScaledInstance(600, 600, Image.SCALE_DEFAULT);
+
+			return new ImageIcon("./Images/GireffeMoves.png").getImage().getScaledInstance(600, 600,
+					Image.SCALE_DEFAULT);
 
 		case "Elephant":
-			
-			return new ImageIcon("./Images/ElephantMoves.png").getImage().getScaledInstance(600, 600, Image.SCALE_DEFAULT);
+
+			return new ImageIcon("./Images/ElephantMoves.png").getImage().getScaledInstance(600, 600,
+					Image.SCALE_DEFAULT);
 
 		case "Monkey":
-			
-			return new ImageIcon("./Images/MonkeyMoves.png").getImage().getScaledInstance(600, 600, Image.SCALE_DEFAULT);
+
+			return new ImageIcon("./Images/MonkeyMoves.png").getImage().getScaledInstance(600, 600,
+					Image.SCALE_DEFAULT);
 
 		default:
 			return null;
@@ -604,11 +610,9 @@ public class RulesScreen extends Screen {
 		return rules;
 
 	}
-	
 
 	@Override
 	void setErrorCards() {
-		
-	}
 
+	}
 }
