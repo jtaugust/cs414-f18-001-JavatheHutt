@@ -84,7 +84,6 @@ public class NewGameScreen extends Screen  {
 		  			if(!selectedUsers.contains(e.getComponent().getName())) {
 		  				selectedUsers.add(e.getComponent().getName());
 						user.setBackground(blue);
-
 		  			} else {
 		  				selectedUsers.remove(e.getComponent().getName());
 						user.setBackground(lightGray);
@@ -154,6 +153,7 @@ public class NewGameScreen extends Screen  {
 	  		public void mousePressed(final MouseEvent e) {
 	  			if(selectedUsers.size() != 0) {
 	  				inviteButton.setBackground(blue);
+	  				
 	  			}
 	  		}
 	  		@Override
@@ -161,6 +161,7 @@ public class NewGameScreen extends Screen  {
 	  			if(selectedUsers.size() != 0) {
 	  				inviteButton.setBackground(lightGray);
 	  				sendInvites(selectedUsers);
+	  				newGame.dispose();
 	  			}
 	  		}
 		});
