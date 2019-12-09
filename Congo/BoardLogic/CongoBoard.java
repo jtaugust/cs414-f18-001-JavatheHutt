@@ -164,66 +164,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
   		this.matchStatus.setLayout(new GridBagLayout());
   		
   		//check for game over
-		GameLogic gameOver = new GameLogic();
-		if(gameOver.isGameOver(state)!='N') {
-			congoBoard.removeAll();
-//			congoBoard.repaint();
-			buildBoard();
-			serverGamesHelpers sgh= new serverGamesHelpers();
-			try {
-				sgh.insertCurrentGames_T(Integer.toString(this.gameID), "currentColor", "f");
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		}
-		if(gameOver.isGameOver(state) == 'W') { // white won
-			this.matchStatus.removeAll();
-			JLabel label = new JLabel(gameInfo[1] + " wins!");
-    		label.setBorder(new EmptyBorder(10,10,10,10));
-  	  	    this.matchStatus.add(label);
-			this.matchStatus.revalidate();
-	  	    this.matchStatus.repaint();
-		} else if(gameOver.isGameOver(state) == 'B') { // black won
-			this.matchStatus.removeAll();
-			JLabel label = new JLabel(gameInfo[2] + " wins!");
-    		label.setBorder(new EmptyBorder(10,10,10,10));
-  	  	    this.matchStatus.add(label);			
-  	  	    this.matchStatus.revalidate();
-	  	    this.matchStatus.repaint();
-		} else if(gameOver.isGameOver(state) == 'D') { // draw
-			this.matchStatus.removeAll();
-			JLabel label = new JLabel("Draw");
-    		label.setBorder(new EmptyBorder(10,10,10,10));
-  	  	    this.matchStatus.add(label);
-  	  	    this.matchStatus.revalidate();
-	  	    this.matchStatus.repaint();
-		} else {
-			this.matchStatus.removeAll();
-	  	    if(gameInfo[5].equals("w")) { //turn is white
-	  	    	if(gameInfo[1].equals(this.currentUser)) { //current user is white
-	  	    		JLabel label = new JLabel("Your turn");
-	  	    		label.setBorder(new EmptyBorder(10,10,10,10));
-	  	  	  	    this.matchStatus.add(label);
-	  			} else { //current user is black
-	  				JLabel label = new JLabel(gameInfo[1] + "\'s turn");
-	  	    		label.setBorder(new EmptyBorder(10,10,10,10));
-	  	  	  	    this.matchStatus.add(label);
-	  			}
-	  	    } else if(gameInfo[5].equals("b")) { //turn is black
-	  			if(gameInfo[2].equals(this.currentUser)) { //current user is black
-	  				JLabel label = new JLabel("Your turn");
-	  	    		label.setBorder(new EmptyBorder(10,10,10,10));
-	  	  	  	    this.matchStatus.add(label);
-	  			} else { //current user is black
-	  				JLabel label = new JLabel(gameInfo[2] + "\'s turn");
-	  	    		label.setBorder(new EmptyBorder(10,10,10,10));
-	  	  	  	    this.matchStatus.add(label);
-	  			}
-	  		}
-	  	    this.matchStatus.revalidate();
-	  	    this.matchStatus.repaint();
-		}
+  		gameOverHandler(gameInfo);
   	    
 		//create section below the board
 		JPanel bottomSection = new JPanel();
@@ -718,7 +659,6 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	
 	public void endTurn() {
 		this.endTurnClicked = true;
-//		drowningFinalizer(state.getBoard());
 		state.drowningFinalizer();
 
 		state.drownAndCaptureNuetralizer();
@@ -737,12 +677,13 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
-		
-		//check for game over
+		gameOverHandler(gameInfo);
+		}
+
+	public void gameOverHandler(String[] gameInfo) {
 		GameLogic gameOver = new GameLogic();
 		if(gameOver.isGameOver(state)!='N') {
 			congoBoard.removeAll();
-//			congoBoard.repaint();
 			buildBoard();
 			serverGamesHelpers sgh= new serverGamesHelpers();
 			try {
@@ -751,7 +692,6 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			System.out.println("Game End");
 		}
 		if(gameOver.isGameOver(state) == 'W') { // white won
 			this.matchStatus.removeAll();
@@ -800,7 +740,5 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	  	    this.matchStatus.revalidate();
 	  	    this.matchStatus.repaint();
 		}
-		
-		
 	}
 }
