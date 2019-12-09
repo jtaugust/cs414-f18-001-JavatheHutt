@@ -372,10 +372,9 @@ public class serverHelpers {
 			statement = connect.createStatement();
 
 			preparedStatement = connect
-					.prepareStatement("SELECT * FROM Users.MatchHistory_T WHERE Username=(?) OR Opponent=(?)");
+					.prepareStatement("SELECT * FROM Users.MatchHistory_T WHERE Username=(?)");
 
 			preparedStatement.setString(1, accountName);
-			preparedStatement.setString(2, accountName);
 			resultSet = preparedStatement.executeQuery();
 			
 			ResultSetMetaData rsmd = resultSet.getMetaData();
