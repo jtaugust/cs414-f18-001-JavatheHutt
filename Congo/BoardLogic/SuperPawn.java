@@ -10,22 +10,25 @@ public class SuperPawn extends Pawn{
     @Override
     public int[][] legalMoves(State state) {
         Piece[][] board = state.getBoard();
+
         //  Set to 20 as its above pawn max available moves 
         int[][] allPossibleMoves = super.legalMoves(state);
-        formatMoveArray(allPossibleMoves);
         
         // System.out.println("PMS: " );
         int count = super.possibleMovesIndex; 
-        // for(int k = 0; k < allPossibleMoves.length; k++) {
-        //     System.out.println(allPossibleMoves[k][0] + " " + allPossibleMoves[k][1]);
-        // }
+
         int i = this.getRow();
         int j = this.getColumn();
        
         //Check bounds then check if null for move and enemy opponent for capture 
         // Check left side 
         if (isIndexBounded(i,j-1)) {
-            if(board[i][j-1] == null || board[i][j-1].getColor() != state.getCurrentTurnColor()) {
+
+            if(board[i][j-1] == null){
+                allPossibleMoves[count][0] = i;
+                allPossibleMoves[count][1] = j - 1;
+                count++;
+            }else if (board[i][j-1].getColor() != state.getCurrentTurnColor()) {
                 allPossibleMoves[count][0] = i;
                 allPossibleMoves[count][1] = j - 1;
                 count++;
@@ -33,7 +36,12 @@ public class SuperPawn extends Pawn{
         }
         // Check right side 
         if (isIndexBounded(i,j+1) ) {
-            if(board[i][j+1] == null || board[i][j+1].getColor() != state.getCurrentTurnColor()) {
+            if(board[i][j+1] == null) {
+                allPossibleMoves[count][0] = i;
+                allPossibleMoves[count][1] = j + 1;
+                count++;
+            }
+            else if(board[i][j+1].getColor() != state.getCurrentTurnColor()) {
                 allPossibleMoves[count][0] = i;
                 allPossibleMoves[count][1] = j + 1;
                 count++;
@@ -89,9 +97,6 @@ public class SuperPawn extends Pawn{
             
         }
 
-        // for(int k = 0; k < allPossibleMoves.length; k++) {
-        //     System.out.println(allPossibleMoves[count][0] + " " + allPossibleMoves[count][1]);
-        // }
         return allPossibleMoves;
     }	
     

@@ -10,6 +10,7 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -24,7 +25,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
-import App.Application;
 import GUI.Helpers;
 import GUI.Label;
 import GUI.Panel;
@@ -60,7 +60,6 @@ public class AccountScreen extends Screen{
 		try {
 			userInfo = helper.readUserInfo_T(WorkingPanel.getUser());
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
@@ -87,11 +86,13 @@ public class AccountScreen extends Screen{
 	    buttonSection.setBackground(darkGray);
 	    buttonSection.setLayout(new BoxLayout(buttonSection, BoxLayout.X_AXIS));
 		buttonSection.setMaximumSize(new Dimension(1005,75));
-		buttonSection.setBorder(new EmptyBorder(5,5,5,5));
+		buttonSection.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,0,10,0,mediumGray), new EmptyBorder(10,0,10,0)));
 	    
 		JPanel editButton = new JPanel();
 	    JPanel historyButton = new JPanel();
 	    JPanel unregisterButton = new JPanel();
+	    JPanel invitesReceivedButton = new JPanel();
+	    JPanel invitesSentButton = new JPanel();
 	    
 	    //create "Match History" button
 	    JPanel historyButtonHolder = new JPanel();
@@ -99,7 +100,7 @@ public class AccountScreen extends Screen{
 	    historyButtonHolder.setLayout(new GridBagLayout());
 
 	    historyButtonHolder.add(historyButton);
-	    historyButton.setBackground(blue);
+	    historyButton.setBackground(lightGray);
 	    historyButton.setLayout(new GridBagLayout());
 	    historyButton.setBorder(new MatteBorder(2,2,2,2,blue));
 	   
@@ -112,9 +113,67 @@ public class AccountScreen extends Screen{
 	  		@Override
 	  		public void mouseReleased(final MouseEvent e) {
 	  			historyButton.setBackground(blue);
+	  			invitesReceivedButton.setBackground(lightGray);
+	  			invitesSentButton.setBackground(lightGray);
 	  		    editButton.setBackground(lightGray);
 	  			unregisterButton.setBackground(lightGray);
 	  			createMatchHistory();
+	  			
+	  		}
+		});
+	    
+	    //create "Invitations Received" button
+	    JPanel invitesReceivedHolder = new JPanel();
+	    invitesReceivedHolder.setBackground(darkGray);
+	    invitesReceivedHolder.setLayout(new GridBagLayout());
+
+	    invitesReceivedHolder.add(invitesReceivedButton);
+	    invitesReceivedButton.setBackground(blue);
+	    invitesReceivedButton.setLayout(new GridBagLayout());
+	    invitesReceivedButton.setBorder(new MatteBorder(2,2,2,2,blue));
+	   
+	    JLabel invitesReceivedlabel = new JLabel("Invitations Received");
+	    invitesReceivedButton.add(invitesReceivedlabel);
+	    invitesReceivedlabel.setBorder(BorderFactory.createEmptyBorder(15,20,15,20));
+	    invitesReceivedButton.addMouseListener(new MouseAdapter() {
+	  		@Override
+	  		public void mousePressed(final MouseEvent e) {}
+	  		@Override
+	  		public void mouseReleased(final MouseEvent e) {
+	  			historyButton.setBackground(lightGray);
+	  			invitesReceivedButton.setBackground(blue);
+	  			invitesSentButton.setBackground(lightGray);
+	  		    editButton.setBackground(lightGray);
+	  			unregisterButton.setBackground(lightGray);
+	  			createInvitesReceived();
+	  			
+	  		}
+		});
+	    
+	    //create "Invites Sent" button
+	    JPanel invitesSentHolder = new JPanel();
+	    invitesSentHolder.setBackground(darkGray);
+	    invitesSentHolder.setLayout(new GridBagLayout());
+
+	    invitesSentHolder.add(invitesSentButton);
+	    invitesSentButton.setBackground(lightGray);
+	    invitesSentButton.setLayout(new GridBagLayout());
+	    invitesSentButton.setBorder(new MatteBorder(2,2,2,2,blue));
+	   
+	    JLabel invitesSentlabel = new JLabel("Invitations Sent");
+	    invitesSentButton.add(invitesSentlabel);
+	    invitesSentlabel.setBorder(BorderFactory.createEmptyBorder(15,20,15,20));
+	    invitesSentButton.addMouseListener(new MouseAdapter() {
+	  		@Override
+	  		public void mousePressed(final MouseEvent e) {}
+	  		@Override
+	  		public void mouseReleased(final MouseEvent e) {
+	  			historyButton.setBackground(lightGray);
+	  			invitesReceivedButton.setBackground(lightGray);
+	  			invitesSentButton.setBackground(blue);
+	  		    editButton.setBackground(lightGray);
+	  			unregisterButton.setBackground(lightGray);
+	  			createInvitesSent();
 	  			
 	  		}
 		});
@@ -123,7 +182,6 @@ public class AccountScreen extends Screen{
 	    JPanel editButtonHolder = new JPanel();
 	    editButtonHolder.setBackground(darkGray);
 	    editButtonHolder.setLayout(new GridBagLayout());
-	    
 	    
 	    editButtonHolder.add(editButton);
 	    editButton.setBackground(lightGray);
@@ -138,10 +196,11 @@ public class AccountScreen extends Screen{
 	  		public void mousePressed(final MouseEvent e) {}
 	  		@Override
 	  		public void mouseReleased(final MouseEvent e) {
-	  			editButton.setBackground(blue);
 	  			historyButton.setBackground(lightGray);
+	  			invitesReceivedButton.setBackground(lightGray);
+	  			invitesSentButton.setBackground(lightGray);
+	  		    editButton.setBackground(blue);
 	  			unregisterButton.setBackground(lightGray);
-
 	  			createEditProfile();
 	  			
 	  		}
@@ -165,14 +224,18 @@ public class AccountScreen extends Screen{
 	  		public void mousePressed(final MouseEvent e) {}
 	  		@Override
 	  		public void mouseReleased(final MouseEvent e) {
-	  			unregisterButton.setBackground(blue);
-	  			editButton.setBackground(lightGray);
 	  			historyButton.setBackground(lightGray);
+	  			invitesReceivedButton.setBackground(lightGray);
+	  			invitesSentButton.setBackground(lightGray);
+	  		    editButton.setBackground(lightGray);
+	  			unregisterButton.setBackground(blue);
 	  			createUnregisterConfirm();
 	  		}
 		});
 	    
 	    //add to button area
+	    buttonSection.add(invitesReceivedHolder);
+	    buttonSection.add(invitesSentHolder);
 	    buttonSection.add(historyButtonHolder);
 	    buttonSection.add(editButtonHolder);
 	    buttonSection.add(unregisterButtonHolder);
@@ -184,9 +247,405 @@ public class AccountScreen extends Screen{
 	    workingPanel.add(buttonSection);
 	    
 	    //initially load match history
-	    createMatchHistory();
+	    createInvitesReceived();
 	    
-	    
+	}
+	
+	//creates panel for user to view invites received
+	void createInvitesReceived() {
+		
+		//clear current components on bottom section
+		this.bottomSection.removeAll();
+		this.bottomSection.setLayout(new BorderLayout());
+		
+		//get info from database
+		ArrayList<String[]> receivedInv = new ArrayList<String[]>();
+		try {
+			receivedInv = helper.readReceivedUserInvites_T(WorkingPanel.getUser());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		//check if user has invites
+		if(receivedInv.size() != 0) {
+			
+			//create panel to display game info
+			JPanel inviteBoxKey = new JPanel();
+			inviteBoxKey.setLayout(new BoxLayout(inviteBoxKey, BoxLayout.X_AXIS));
+			inviteBoxKey.setPreferredSize(new Dimension(1000,75));
+			inviteBoxKey.setMaximumSize(new Dimension(1000,75));
+			inviteBoxKey.setMinimumSize(new Dimension(1000,75));
+			inviteBoxKey.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,0,0,0, darkGray), new MatteBorder(2,2,2,0, darkGray)));
+			inviteBoxKey.setBackground(lightGray);
+			
+			//create receiver label
+			JPanel receiverKey = new JPanel();
+			receiverKey.setLayout(new GridBagLayout());
+			receiverKey.add(new JLabel("Sender"));
+			receiverKey.setPreferredSize(new Dimension(275,75));
+			receiverKey.setMaximumSize(new Dimension(275,75));
+			receiverKey.setMinimumSize(new Dimension(275,75));
+			receiverKey.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,0,5,0,blue), new MatteBorder(0,5,0,0, mediumGray)));
+			receiverKey.setBackground(lightGray);
+			
+			//create empty label
+			JPanel paddingKey = new JPanel();
+			paddingKey.setLayout(new GridBagLayout());
+			paddingKey.setPreferredSize(new Dimension(450,75));
+			paddingKey.setMaximumSize(new Dimension(450,75));
+			paddingKey.setMinimumSize(new Dimension(450,75));
+			paddingKey.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,0,5,0,blue), new MatteBorder(0,5,0,0, mediumGray)));
+			paddingKey.setBackground(lightGray);
+			
+			//create status label
+			JPanel statusKey = new JPanel();
+			statusKey.setLayout(new GridBagLayout());
+			statusKey.add(new JLabel("Response"));
+			statusKey.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,0,5,0,blue), new MatteBorder(0,5,0,0, mediumGray)));
+			statusKey.setBackground(lightGray);
+			
+			//add info to gamebox
+			inviteBoxKey.add(receiverKey);
+			inviteBoxKey.add(paddingKey);
+			inviteBoxKey.add(statusKey);
+			
+			//create panel to store game info
+			JPanel dataPanel = new JPanel();
+			dataPanel.setLayout(new BoxLayout(dataPanel, BoxLayout.PAGE_AXIS));
+			dataPanel.setBackground(darkGray);
+			dataPanel.setBorder(new EmptyBorder(0,0,10,0));
+	
+			//generate games from list of match history
+			for(int i = 0; i < receivedInv.size(); i++) {
+				
+				if(receivedInv.get(i)[3].equals("active")) {
+					
+					//create panel to display game info
+					JPanel inviteBox = new JPanel();
+					inviteBox.setLayout(new BoxLayout(inviteBox, BoxLayout.X_AXIS));
+					inviteBox.setPreferredSize(new Dimension(950,75));
+					inviteBox.setMaximumSize(new Dimension(950,75));
+					inviteBox.setMinimumSize(new Dimension(950,75));
+					inviteBox.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(10,0,0,0, darkGray), new MatteBorder(2,2,2,0, darkGray)));
+					inviteBox.setBackground(lightGray);
+					
+					//create sender label
+					JPanel sender = new JPanel();
+					sender.setLayout(new GridBagLayout());
+					sender.add(new JLabel(receivedInv.get(i)[1]));
+					sender.setPreferredSize(new Dimension(250,75));
+					sender.setMaximumSize(new Dimension(250,75));
+					sender.setMinimumSize(new Dimension(250,75));
+					sender.setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(0,0,0,0), new MatteBorder(0,5,0,0, blue)));
+					sender.setBackground(lightGray);
+					
+					//create empty label
+					JPanel padding = new JPanel();
+					padding.setLayout(new GridBagLayout());
+					padding.setPreferredSize(new Dimension(475,75));
+					padding.setMaximumSize(new Dimension(475,75));
+					padding.setMinimumSize(new Dimension(475,75));
+					padding.setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(0,0,0,0), new MatteBorder(0,5,0,0, mediumGray)));
+					padding.setBackground(mediumGray);
+					
+					//create "Accept" button
+				    JPanel acceptButtonHolder = new JPanel();
+				    acceptButtonHolder.setBackground(mediumGray);
+				    acceptButtonHolder.setLayout(new GridBagLayout());	
+				    
+				    JPanel acceptButton = new JPanel();
+				    acceptButtonHolder.add(acceptButton);
+				    acceptButton.setBackground(lightGray);
+				    acceptButton.setLayout(new GridBagLayout());
+				    acceptButton.setBorder(new MatteBorder(2,2,2,2,blue));
+	
+				    JLabel acceptlabel = new JLabel("Accept");
+				    acceptButton.add(acceptlabel);
+				    acceptlabel.setBorder(BorderFactory.createEmptyBorder(15,20,15,20));
+				    acceptButton.addMouseListener(new MouseAdapter() {
+				  		@Override
+				  		public void mousePressed(final MouseEvent e) {
+				  			acceptButton.setBackground(blue);
+				  		}
+				  		@Override
+				  		public void mouseReleased(final MouseEvent e) {
+				  			acceptButton.setBackground(lightGray);
+				  		}
+					});
+				    
+				    //create "Decline" button
+				    JPanel declineButtonHolder = new JPanel();
+				    declineButtonHolder.setBackground(mediumGray);
+				    declineButtonHolder.setLayout(new GridBagLayout());	
+				    
+				    JPanel declineButton = new JPanel();
+				    declineButtonHolder.add(declineButton);
+				    declineButton.setBackground(lightGray);
+				    declineButton.setLayout(new GridBagLayout());
+				    declineButton.setBorder(new MatteBorder(2,2,2,2,blue));
+	
+				    JLabel declinelabel = new JLabel("Decline");
+				    declineButton.add(declinelabel);
+				    declinelabel.setBorder(BorderFactory.createEmptyBorder(15,20,15,20));
+				    declineButton.addMouseListener(new MouseAdapter() {
+				  		@Override
+				  		public void mousePressed(final MouseEvent e) {
+				  			declineButton.setBackground(blue);
+				  		}
+				  		@Override
+				  		public void mouseReleased(final MouseEvent e) {
+				  			declineButton.setBackground(lightGray);
+				  		}
+					});
+				    
+					//add info to gamebox
+					inviteBox.add(sender);
+					inviteBox.add(padding);
+					inviteBox.add(acceptButtonHolder);
+					inviteBox.add(declineButtonHolder);
+
+					
+					//add gamebox to the data panel
+					dataPanel.add(inviteBox);
+				}
+			}
+			
+			// add scrollbar and change the style of it
+			JScrollPane scrollPane = new JScrollPane(dataPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+			scrollPane.setBackground(lightGray);
+			scrollPane.setBorder(BorderFactory.createEmptyBorder());
+			scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+			scrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI(){
+	            @Override
+	            protected void configureScrollBarColors(){
+	                this.thumbColor = highlightGray;
+	                this.thumbDarkShadowColor = highlightGray;
+	                this.thumbLightShadowColor = highlightGray;
+	                this.thumbHighlightColor = highlightGray;
+	                this.trackHighlightColor = highlightGray;
+	                this.trackColor = Color.BLACK;
+	            }
+	            @Override
+	            protected JButton createDecreaseButton(int orientation) {
+	            	JButton button = new JButton();
+	            	button.setPreferredSize(new Dimension(0,0));
+	            	return button;
+	            }
+	            @Override
+	            protected JButton createIncreaseButton(int orientation) {
+	            	JButton button = new JButton();
+	            	button.setPreferredSize(new Dimension(0,0));
+	            	return button;
+	            }
+	        });
+			this.bottomSection.add(inviteBoxKey, BorderLayout.PAGE_START);
+			this.bottomSection.add(scrollPane, BorderLayout.CENTER);
+			this.bottomSection.setBackground(lightGray);
+			
+		} else { //user has no invites received
+			
+			//create message
+			JPanel outer = new JPanel();
+			outer.setBackground(darkGray);
+			outer.setLayout(new BoxLayout(outer, BoxLayout.Y_AXIS));
+			outer.setBorder(new EmptyBorder(125,350,0,350));
+			JPanel labelHolder = new JPanel();
+			outer.add(labelHolder);
+			labelHolder.setBackground(lightGray);
+			labelHolder.setLayout(new GridBagLayout());
+			labelHolder.setMaximumSize(new Dimension(1000,75));
+			JLabel label = new JLabel("You haven't received any invitations.");
+			label.setFont(new Font("Verdana", Font.PLAIN, 14));
+			label.setAlignmentX(Component.CENTER_ALIGNMENT);
+			labelHolder.add(label);
+			
+			//add message
+			this.bottomSection.add(outer);
+			
+		}
+		
+		//update panel
+		this.bottomSection.revalidate();
+		this.bottomSection.repaint();
+	
+		//add it back to the working panel
+		workingPanel.add(this.bottomSection);
+	}
+	
+	//creates panel for user to view their invites sent
+	void createInvitesSent() {
+		
+		//clear current components on bottom section
+		this.bottomSection.removeAll();
+		this.bottomSection.setLayout(new BorderLayout());
+		
+		//get info from database
+		ArrayList<String[]> receivedInv = new ArrayList<String[]>();
+		try {
+			receivedInv = helper.readSentUserInvites_T(WorkingPanel.getUser());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		//check if user has invites
+		if(receivedInv.size() != 0) {
+			
+			//create panel to display game info
+			JPanel inviteBoxKey = new JPanel();
+			inviteBoxKey.setLayout(new BoxLayout(inviteBoxKey, BoxLayout.X_AXIS));
+			inviteBoxKey.setPreferredSize(new Dimension(1000,75));
+			inviteBoxKey.setMaximumSize(new Dimension(1000,75));
+			inviteBoxKey.setMinimumSize(new Dimension(1000,75));
+			inviteBoxKey.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,0,0,0, darkGray), new MatteBorder(2,2,2,0, darkGray)));
+			inviteBoxKey.setBackground(lightGray);
+			
+			//create receiver label
+			JPanel receiverKey = new JPanel();
+			receiverKey.setLayout(new GridBagLayout());
+			receiverKey.add(new JLabel("Receiver"));
+			receiverKey.setPreferredSize(new Dimension(275,75));
+			receiverKey.setMaximumSize(new Dimension(275,75));
+			receiverKey.setMinimumSize(new Dimension(275,75));
+			receiverKey.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,0,5,0,blue), new MatteBorder(0,5,0,0, mediumGray)));
+			receiverKey.setBackground(lightGray);
+			
+			//create empty label
+			JPanel paddingKey = new JPanel();
+			paddingKey.setLayout(new GridBagLayout());
+			paddingKey.setPreferredSize(new Dimension(550,75));
+			paddingKey.setMaximumSize(new Dimension(550,75));
+			paddingKey.setMinimumSize(new Dimension(550,75));
+			paddingKey.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,0,5,0,blue), new MatteBorder(0,5,0,0, mediumGray)));
+			paddingKey.setBackground(lightGray);
+			
+			//create status label
+			JPanel statusKey = new JPanel();
+			statusKey.setLayout(new GridBagLayout());
+			statusKey.add(new JLabel("Status"));
+			statusKey.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,0,5,0,blue), new MatteBorder(0,5,0,0, mediumGray)));
+			statusKey.setBackground(lightGray);
+			
+			//add info to gamebox
+			inviteBoxKey.add(receiverKey);
+			inviteBoxKey.add(paddingKey);
+			inviteBoxKey.add(statusKey);
+			
+			
+			//create panel to store game info
+			JPanel dataPanel = new JPanel();
+			dataPanel.setLayout(new BoxLayout(dataPanel, BoxLayout.PAGE_AXIS));
+			dataPanel.setBackground(darkGray);
+			dataPanel.setBorder(new EmptyBorder(0,0,10,0));
+	
+			//generate games from list of match history
+			for(int i = 0; i < receivedInv.size(); i++) {
+			
+				//create panel to display game info
+				JPanel inviteBox = new JPanel();
+				inviteBox.setLayout(new BoxLayout(inviteBox, BoxLayout.X_AXIS));
+				inviteBox.setPreferredSize(new Dimension(950,75));
+				inviteBox.setMaximumSize(new Dimension(950,75));
+				inviteBox.setMinimumSize(new Dimension(950,75));
+				inviteBox.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(10,0,0,0, darkGray), new MatteBorder(2,2,2,0, darkGray)));
+				inviteBox.setBackground(lightGray);
+				
+				//create receiver label
+				JPanel receiver = new JPanel();
+				receiver.setLayout(new GridBagLayout());
+				receiver.add(new JLabel(receivedInv.get(i)[2]));
+				receiver.setPreferredSize(new Dimension(250,75));
+				receiver.setMaximumSize(new Dimension(250,75));
+				receiver.setMinimumSize(new Dimension(250,75));
+				receiver.setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(0,0,0,0), new MatteBorder(0,5,0,0, blue)));
+				receiver.setBackground(lightGray);
+				
+				//create empty label
+				JPanel padding = new JPanel();
+				padding.setLayout(new GridBagLayout());
+				padding.setPreferredSize(new Dimension(550,75));
+				padding.setMaximumSize(new Dimension(550,75));
+				padding.setMinimumSize(new Dimension(550,75));
+				padding.setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(0,0,0,0), new MatteBorder(0,5,0,0, mediumGray)));
+				padding.setBackground(mediumGray);
+				
+				//create status label
+				JPanel status = new JPanel();
+				status.setLayout(new GridBagLayout());
+				status.add(new JLabel(receivedInv.get(i)[3]));
+				status.setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(0,0,0,0), new MatteBorder(0,5,0,0, mediumGray)));
+				status.setBackground(lightGray);
+				
+				//add info to gamebox
+				inviteBox.add(receiver);
+				inviteBox.add(padding);
+				inviteBox.add(status);
+				
+				//add gamebox to the data panel
+				dataPanel.add(inviteBox);
+				
+			}
+			
+			// add scrollbar and change the style of it
+			JScrollPane scrollPane = new JScrollPane(dataPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+			scrollPane.setBackground(lightGray);
+			scrollPane.setBorder(BorderFactory.createEmptyBorder());
+			scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+			scrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI(){
+	            @Override
+	            protected void configureScrollBarColors(){
+	                this.thumbColor = highlightGray;
+	                this.thumbDarkShadowColor = highlightGray;
+	                this.thumbLightShadowColor = highlightGray;
+	                this.thumbHighlightColor = highlightGray;
+	                this.trackHighlightColor = highlightGray;
+	                this.trackColor = Color.BLACK;
+	            }
+	            @Override
+	            protected JButton createDecreaseButton(int orientation) {
+	            	JButton button = new JButton();
+	            	button.setPreferredSize(new Dimension(0,0));
+	            	return button;
+	            }
+	            @Override
+	            protected JButton createIncreaseButton(int orientation) {
+	            	JButton button = new JButton();
+	            	button.setPreferredSize(new Dimension(0,0));
+	            	return button;
+	            }
+	        });
+			
+			this.bottomSection.add(inviteBoxKey, BorderLayout.PAGE_START);
+			this.bottomSection.add(scrollPane, BorderLayout.CENTER);
+			this.bottomSection.setBackground(lightGray);
+			
+		} else { //user has no invites received
+			
+			//create message
+			JPanel outer = new JPanel();
+			outer.setBackground(darkGray);
+			outer.setLayout(new BoxLayout(outer, BoxLayout.Y_AXIS));
+			outer.setBorder(new EmptyBorder(125,350,0,350));
+			JPanel labelHolder = new JPanel();
+			outer.add(labelHolder);
+			labelHolder.setBackground(lightGray);
+			labelHolder.setLayout(new GridBagLayout());
+			labelHolder.setMaximumSize(new Dimension(1000,75));
+			JLabel label = new JLabel("You haven't sent any invitations.");
+			label.setFont(new Font("Verdana", Font.PLAIN, 14));
+			label.setAlignmentX(Component.CENTER_ALIGNMENT);
+			labelHolder.add(label);
+			
+			//add message
+			this.bottomSection.add(outer);
+			
+		}
+		
+		//update panel
+		this.bottomSection.revalidate();
+		this.bottomSection.repaint();
+	
+		//add it back to the working panel
+		workingPanel.add(this.bottomSection);
 	}
 	
 	//creates panel for user to view their match history
@@ -201,7 +660,6 @@ public class AccountScreen extends Screen{
 		try {
 			history = helper.readMatchHistory_T(WorkingPanel.getUser());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -522,7 +980,7 @@ public class AccountScreen extends Screen{
 //	    leftSection.add(newUsernameButtonHolder);
 	    
 	    //add to right side
-	    rightSection.add(Helpers.spacer(10, 40));
+	    rightSection.add(Helpers.spacer(10, 30));
 	    rightSection.add(oldPassword);
 	    rightSection.add(Helpers.spacer(10, 30));
 	    rightSection.add(newPassword);
@@ -591,7 +1049,7 @@ public class AccountScreen extends Screen{
 		JPanel outer = new JPanel();
 		outer.setBackground(darkGray);
 		outer.setLayout(new BoxLayout(outer, BoxLayout.Y_AXIS));
-		outer.setBorder(new EmptyBorder(75,75,0,75));
+		outer.setBorder(new EmptyBorder(75,100,0,100));
 		JPanel labelHolder = new JPanel();
 		outer.add(labelHolder);
 		labelHolder.setBackground(lightGray);
@@ -634,7 +1092,6 @@ public class AccountScreen extends Screen{
 //						setErrorCards();
 					}
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			} else {

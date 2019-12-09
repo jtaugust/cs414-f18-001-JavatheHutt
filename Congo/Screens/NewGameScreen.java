@@ -11,6 +11,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -26,6 +27,7 @@ import App.Application;
 import BoardLogic.CongoBoard;
 import GUI.Panel;
 import Server.serverHelpers;
+
 
 public class NewGameScreen extends Screen  {
 	
@@ -185,7 +187,6 @@ public class NewGameScreen extends Screen  {
 
 	@Override
 	void setErrorCards() {
-		// TODO Auto-generated method stub
 		
 	}
 }

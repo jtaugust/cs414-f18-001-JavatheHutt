@@ -13,7 +13,6 @@ import java.awt.event.MouseEvent;
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 
-import App.Application;
 import GUI.Helpers;
 import GUI.Label;
 import GUI.Panel;
