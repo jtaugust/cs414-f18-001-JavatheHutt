@@ -31,6 +31,7 @@ public class NewGameScreen extends Screen  {
 	public static final Color lightGray = new Color(90,90,90);
 	public static final Color highlightGray = new Color(120,120,120);
 	public static final Color blue = new Color(79,175,255);
+	ArrayList<JPanel> userBars = new ArrayList<JPanel>();
 	
 	public NewGameScreen() {
 		error = 0;
@@ -73,14 +74,13 @@ public class NewGameScreen extends Screen  {
 			user.add(new JLabel(username));
 			user.setName(username);
 			user.setBackground(lightGray);
-			user.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(2,2,0,2,darkGray), new EmptyBorder(5,0,5,0)));
+			user.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(0,2,2,2,darkGray), new EmptyBorder(5,0,5,0)));
 			user.addMouseListener(new MouseAdapter() {
 		  		@Override
 		  		public void mousePressed(final MouseEvent e) {
 		  		}
 		  		@Override
 		  		public void mouseReleased(final MouseEvent e) {
-		  			
 		  			if(!selectedUsers.contains(e.getComponent().getName())) {
 		  				selectedUsers.add(e.getComponent().getName());
 						user.setBackground(blue);
@@ -89,7 +89,7 @@ public class NewGameScreen extends Screen  {
 		  				selectedUsers.remove(e.getComponent().getName());
 						user.setBackground(lightGray);
 		  			}
-		  					  			
+
 					workingPanel.repaint();
 					workingPanel.validate();
 		  		}
@@ -99,7 +99,7 @@ public class NewGameScreen extends Screen  {
             gb.weightx = 1;
             gb.fill = GridBagConstraints.HORIZONTAL;
             userList.add(user, gb, 0);
-                       
+            this.userBars.add(user);      
             WorkingPanel.updateWorking();
 		}
 		
@@ -138,7 +138,7 @@ public class NewGameScreen extends Screen  {
 	    JPanel inviteButtonHolder = new JPanel();
 	    inviteButtonHolder.setBackground(mediumGray);
 	    inviteButtonHolder.setLayout(new BorderLayout());
-	    inviteButtonHolder.setBorder(new MatteBorder(20,20,20,20, darkGray));
+	    inviteButtonHolder.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(5,0,0,0, blue),new MatteBorder(20,20,20,20, darkGray)));
 	    
 	    JPanel inviteButton = new JPanel();
 	    inviteButtonHolder.add(inviteButton);
@@ -152,22 +152,15 @@ public class NewGameScreen extends Screen  {
 	    inviteButton.addMouseListener(new MouseAdapter() {
 	  		@Override
 	  		public void mousePressed(final MouseEvent e) {
-	  			inviteButton.setBackground(blue);
+	  			if(selectedUsers.size() != 0) {
+	  				inviteButton.setBackground(blue);
+	  			}
 	  		}
 	  		@Override
 	  		public void mouseReleased(final MouseEvent e) {
-	  			inviteButton.setBackground(lightGray);
 	  			if(selectedUsers.size() != 0) {
-	  				for(int i = 0; i < selectedUsers.size(); i++) {
-	  					serverHelpers createInvites = new serverHelpers();
-	  					try {
-							createInvites.createUserInvites_T(WorkingPanel.getUser(), selectedUsers.get(i), "active");
-						} catch (Exception e1) {
-							e1.printStackTrace();
-						}
-	  				}
-	  				
-		  			System.out.println(selectedUsers);
+	  				inviteButton.setBackground(lightGray);
+	  				sendInvites(selectedUsers);
 	  			}
 	  		}
 		});
@@ -178,6 +171,27 @@ public class NewGameScreen extends Screen  {
 		newGame.setLocationRelativeTo(this.WorkingPanel.frame.getThisFrame());
 	}
 
+	void sendInvites(ArrayList<String> selectedUsers) {
+		//send out invites to selected users
+		for(int i = 0; i < selectedUsers.size(); i++) {
+			serverHelpers createInvites = new serverHelpers();
+			try {
+				createInvites.createUserInvites_T(WorkingPanel.getUser(), selectedUsers.get(i), "active");
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		}
+		
+		//reset all highlights
+		for(int i = 0; i < this.userBars.size(); i++) {
+			this.userBars.get(i).setBackground(lightGray);
+			this.userBars.get(i).repaint();
+			this.userBars.get(i).validate();
+		}
+		selectedUsers.clear();
+	
+		
+	}
 	@Override
 	void setErrorCards() {
 		
