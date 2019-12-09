@@ -95,11 +95,11 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
+
 		
 		//get board from database (white perspective)
 		state.setBoard(stateFromDatabase(gameID));
 		
-		//initialize drowning mechanic
 		state.drowningInitializer();
 		
 		//set the current user turn based on order of users in current games
@@ -374,11 +374,6 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 	public void mousePressed(MouseEvent e){
 		
 		if(isCurrentTurn) {
-	
-			//check if the player already moved, return if so 
-			if(this.moveCount > 0) {
-				return;
-			}
 			
 			Component c =  congoBoard.findComponentAt(e.getX(), e.getY());
 	
@@ -429,8 +424,6 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 				//Print state
 				//("State: piece selected row and col: " + state.pieceSelected.getRow() +  state.pieceSelected.getColumn() + " - piece color: " + state.pieceSelected.getColor() + " - current turn color: " + state.getCurrentTurnColor());
 				
-			
-				//("Inside condition"+pieceSelectedBoard.capturesInATurn+" "+moveCount);
 				if(moveCount==pieceSelectedBoard.capturesInATurn) {
 					//get possible moves based on piece clicked.
 					int[][] possibleMovesArray = pieceSelectedBoard.legalMoves(state);
@@ -656,6 +649,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		int row=boardHelper.findRow(parentLocation.y);
 		int col=boardHelper.findColumn(parentLocation.x);
 		toPos=Integer.toString(row)+Integer.toString(col-1);
+
     
 		if(possibleMoves.contains(toPos)) {
 			state.movePiece(fromPos,toPos,moveCount);
