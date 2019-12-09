@@ -121,11 +121,11 @@ public class State {
         return result;
     }
     
-    public void movePiece(String fromPos, String toPos,int moveCount){
+    public void movePiece(String fromPos, String toPos){
 //        System.out.println("From Pos and ToPid"+fromPos+","+toPos);
         Piece pieceSelected=board[Character.getNumericValue(fromPos.charAt(0))][Character.getNumericValue(fromPos.charAt(1))];
-    	if(moveCount==pieceSelected.capturesInATurn) {
-			System.out.println("MONKEY PROB"+moveCount+" "+pieceSelected.capturesInATurn);
+//    	if(moveCount==pieceSelected.capturesInATurn) {
+//			System.out.println("MONKEY PROB"+moveCount+" "+pieceSelected.capturesInATurn);
     		pieceSelected.setRow(Character.getNumericValue(toPos.charAt(0)));
             pieceSelected.setColumn(Character.getNumericValue(toPos.charAt(1)));
     		this.board[Character.getNumericValue(fromPos.charAt(0))][Character.getNumericValue(fromPos.charAt(1))]=null;
@@ -142,7 +142,7 @@ public class State {
     			this.board[Character.getNumericValue(toPos.charAt(0))][Character.getNumericValue(toPos.charAt(1))]=null;
     			this.board[Character.getNumericValue(toPos.charAt(0))][Character.getNumericValue(toPos.charAt(1))]=sp;
     		}
-    	}
+//    	}
         
 	}
 
@@ -258,7 +258,7 @@ public class State {
     			if(board[i][j]!=null) {
         			board[i][j].isDrowning=false;
     			}
-    			if(board[i][j].capturesInATurn!=0) {
+    			if(board[i][j]!=null && board[i][j].capturesInATurn!=0) {
     				board[i][j].capturesInATurn=0;
     			}
     		}
