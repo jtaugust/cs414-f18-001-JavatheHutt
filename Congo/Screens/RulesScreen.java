@@ -7,31 +7,16 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.LayoutManager;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
-import javax.swing.plaf.basic.BasicScrollBarUI;
-
-import App.Application;
-import GUI.Helpers;
-import GUI.Label;
-import GUI.Panel;
-import Server.serverHelpers;
 
 public class RulesScreen extends Screen {
 
@@ -53,7 +38,6 @@ public class RulesScreen extends Screen {
 	@Override
 	public void setScreen() {
 
-		String piece = "";
 		workingPanel.setBackground(darkGray);
 		workingPanel.setLayout(new BorderLayout());
 
@@ -432,7 +416,7 @@ public class RulesScreen extends Screen {
 	}
 
 	protected void createPieceInfo(String piece) {
-		// TODO Auto-generated method stub
+
 		this.rulesPanel.removeAll();
 		this.rulesPanel.setLayout(new BorderLayout());
 		this.rulesPanel.setBackground(darkGray);

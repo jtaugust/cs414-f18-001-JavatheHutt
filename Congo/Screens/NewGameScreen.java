@@ -3,10 +3,8 @@ package Screens;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.ScrollPane;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -23,9 +21,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
-import App.Application;
-import BoardLogic.CongoBoard;
-import GUI.Panel;
 import Server.serverHelpers;
 
 
@@ -57,7 +52,6 @@ public class NewGameScreen extends Screen  {
 		try {
 			users = server.getAllUsers(WorkingPanel.getUser());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			//e.printStackTrace();
 		}
 				
@@ -169,7 +163,6 @@ public class NewGameScreen extends Screen  {
 	  					try {
 							createInvites.createUserInvites_T(WorkingPanel.getUser(), selectedUsers.get(i), "active");
 						} catch (Exception e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 	  				}
