@@ -479,19 +479,11 @@ public class AccountScreen extends Screen{
 	}
 	
 	void acceptInvite(String inviteID, String user) {
-		//create game
-		serverGamesHelpers database = new serverGamesHelpers();
-		String[] values = {user,WorkingPanel.getUser()};
-		try {
-			database.createCurrentGames_T(values);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
+
 		//set invite status in database to declined
-		serverHelpers database2 = new serverHelpers();
+		serverHelpers database = new serverHelpers();
 		try {
-			database2.insertUserInvites_T(Integer.parseInt(inviteID), "Status", "accepted");
+			database.insertUserInvites_T(Integer.parseInt(inviteID), "Status", "accepted");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
