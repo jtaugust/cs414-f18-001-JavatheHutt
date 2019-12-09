@@ -42,6 +42,8 @@ public class AccountScreen extends Screen{
 	JPanel bottomSection;
 	serverHelpers helper;
 	boolean buttonClicked;
+	JPanel invitesReceivedHolder;
+	JPanel invitesSentHolder;
 	
 	public AccountScreen() {
 		error = 0;
@@ -126,7 +128,7 @@ public class AccountScreen extends Screen{
 		});
 	    
 	    //create "Invitations Received" button
-	    JPanel invitesReceivedHolder = new JPanel();
+	    this.invitesReceivedHolder = new JPanel();
 	    invitesReceivedHolder.setBackground(darkGray);
 	    invitesReceivedHolder.setLayout(new GridBagLayout());
 
@@ -154,7 +156,7 @@ public class AccountScreen extends Screen{
 		});
 	    
 	    //create "Invites Sent" button
-	    JPanel invitesSentHolder = new JPanel();
+	    this.invitesSentHolder = new JPanel();
 	    invitesSentHolder.setBackground(darkGray);
 	    invitesSentHolder.setLayout(new GridBagLayout());
 
@@ -487,6 +489,8 @@ public class AccountScreen extends Screen{
 			serverHelpers database = new serverHelpers();
 			try {
 				database.insertUserInvites_T(Integer.parseInt(inviteID), "Status", "accepted");
+				invitesReceivedHolder.revalidate();
+				invitesReceivedHolder.repaint();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -501,6 +505,8 @@ public class AccountScreen extends Screen{
 			serverHelpers database = new serverHelpers();
 			try {
 				database.insertUserInvites_T(Integer.parseInt(inviteID), "Status", "declined");
+				invitesReceivedHolder.revalidate();
+				invitesReceivedHolder.repaint();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
