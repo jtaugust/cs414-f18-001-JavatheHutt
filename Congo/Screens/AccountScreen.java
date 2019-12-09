@@ -41,13 +41,11 @@ public class AccountScreen extends Screen{
 	
 	JPanel bottomSection;
 	serverHelpers helper;
-	boolean buttonClicked;
 	
 	public AccountScreen() {
 		error = 0;
 		name = "Account";
 		setErrorCards();
-		this.buttonClicked = false;
 		
 		bottomSection = new JPanel();
 		helper = new serverHelpers();
@@ -397,6 +395,7 @@ public class AccountScreen extends Screen{
 				  		@Override
 				  		public void mousePressed(final MouseEvent e) {
 				  			declineButton.setBackground(blue);
+				  			
 				  		}
 				  		@Override
 				  		public void mouseReleased(final MouseEvent e) {
@@ -480,41 +479,38 @@ public class AccountScreen extends Screen{
 	}
 	
 	void acceptInvite(String inviteID, String user) {
-		if(this.buttonClicked == false) {
-			//create game
-			serverGamesHelpers database = new serverGamesHelpers();
-			String[] values = {user,WorkingPanel.getUser()};
-			try {
-				database.createCurrentGames_T(values);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			//set invite status in database to declined
-			serverHelpers database2 = new serverHelpers();
-			try {
-				database2.insertUserInvites_T(Integer.parseInt(inviteID), "Status", "accepted");
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		//create game
+		serverGamesHelpers database = new serverGamesHelpers();
+		String[] values = {user,WorkingPanel.getUser()};
+		try {
+			database.createCurrentGames_T(values);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		this.buttonClicked = true;
+		
+		//set invite status in database to declined
+		serverHelpers database2 = new serverHelpers();
+		try {
+			database2.insertUserInvites_T(Integer.parseInt(inviteID), "Status", "accepted");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	
+        createInvitesReceived();
+
 	}
 	
 	void declineInvite(String inviteID) {
-		if(this.buttonClicked == false) {
-			//set invite status in database to declined
-			serverHelpers database = new serverHelpers();
-			try {
-				database.insertUserInvites_T(Integer.parseInt(inviteID), "Status", "declined");
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		//set invite status in database to declined
+		serverHelpers database = new serverHelpers();
+		try {
+			database.insertUserInvites_T(Integer.parseInt(inviteID), "Status", "declined");
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		this.buttonClicked = true;
+		
+        createInvitesReceived();
+
 	}
 	
 	//creates panel for user to view their invites sent
@@ -948,7 +944,7 @@ public class AccountScreen extends Screen{
 		rightSection.setLayout(new BoxLayout(rightSection, BoxLayout.Y_AXIS));
 		
 		//create text fields
-		JTextField newUsername = Helpers.newTextField("Username", "New Username");
+//		JTextField newUsername = Helpers.newTextField("Username", "New Username");
 		JPasswordField oldPassword = Helpers.newPasswordField(16, "Old Password");
 		JPasswordField newPassword = Helpers.newPasswordField(16, "New Password");
 		JPasswordField confirmNewPassword = Helpers.newPasswordField(16, "Confirm New Password");

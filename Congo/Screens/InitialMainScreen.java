@@ -1,6 +1,12 @@
 package Screens;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagLayout;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 public class InitialMainScreen extends Screen{
 	
@@ -20,6 +26,20 @@ public class InitialMainScreen extends Screen{
 	public void setScreen() {
 		workingPanel.setOpaque(true);
 		workingPanel.setBackground(darkGray);
+		workingPanel.setLayout(new GridBagLayout());
+		
+		JPanel bar = new JPanel();
+		bar.setBackground(blue);
+		bar.setLayout(new GridBagLayout());
+		bar.setPreferredSize(new Dimension(1000, 100));
+		bar.setMinimumSize(new Dimension(1000, 100));
+		bar.setMaximumSize(new Dimension(1000, 100));
+		
+		JLabel welcome = new JLabel("Welcome to Congo Chess!");
+		welcome.setFont(new Font("Verdana", Font.BOLD, 40));
+		bar.add(welcome);
+		workingPanel.add(bar);
+		
 	}
 
 	@Override

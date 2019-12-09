@@ -43,10 +43,10 @@ public class RulesScreen extends Screen {
 
 		// Bottom Button layout
 		JPanel buttonRow = new JPanel();
-		FlowLayout layout = new FlowLayout();
-		buttonRow.setLayout(layout);
+		buttonRow.setLayout(new FlowLayout());
 		buttonRow.setBackground(darkGray);
-
+		buttonRow.setBorder(BorderFactory.createCompoundBorder(new MatteBorder(5,0,0,0,blue), new MatteBorder(20,0,20,0,darkGray)));
+		
 		// Piece Buttons
 		JPanel generalButton = new JPanel();
 		JPanel drowningButton = new JPanel();
@@ -69,7 +69,7 @@ public class RulesScreen extends Screen {
 		generalButton.setLayout(new GridBagLayout());
 		generalButton.setBorder(new MatteBorder(2, 2, 2, 2, blue));
 
-		JLabel generalLabel = new JLabel("General Game Rules");
+		JLabel generalLabel = new JLabel("General");
 		generalButton.add(generalLabel);
 		generalLabel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 		generalButton.addMouseListener(new MouseAdapter() {
@@ -424,18 +424,18 @@ public class RulesScreen extends Screen {
 		// rules text on left side
 		JPanel rulesText = new JPanel();
 		rulesText.setLayout(new GridBagLayout());
-		rulesText.setBackground(blue);
-		rulesText.setPreferredSize(new Dimension(315, 600));
+		rulesText.setBackground(lightGray);
+		rulesText.setPreferredSize(new Dimension(365, 600));
 
 		JTextArea rules = new JTextArea(getRules(piece));
 
-		rules.setFont(new Font("Verdana", Font.PLAIN, 16));
+		rules.setFont(new Font("Verdana", Font.PLAIN, 18));
 		rules.setEditable(false);
 		rules.setLineWrap(true);
 		rules.setWrapStyleWord(true);
 		rules.setAlignmentX(Component.CENTER_ALIGNMENT);
 		rules.setPreferredSize(new Dimension(300, 500));
-		rules.setBackground(blue);
+		rules.setBackground(lightGray);
 		rulesText.add(rules);
 		this.rulesPanel.add(rulesText, BorderLayout.WEST);
 
@@ -464,49 +464,49 @@ public class RulesScreen extends Screen {
 
 		case "Lion":
 
-			return new ImageIcon("./Images/LionMoves.png").getImage().getScaledInstance(600, 600, Image.SCALE_DEFAULT);
+			return new ImageIcon("./Images/LionMoves.png").getImage().getScaledInstance(550, 550, Image.SCALE_DEFAULT);
 
 		case "Zebra":
 
-			return new ImageIcon("./Images/ZebraMoves.png").getImage().getScaledInstance(600, 600, Image.SCALE_DEFAULT);
+			return new ImageIcon("./Images/ZebraMoves.png").getImage().getScaledInstance(550, 550, Image.SCALE_DEFAULT);
 
 		case "General Game Rules":
 
-			return new ImageIcon("./Images/GeneralRules.png").getImage().getScaledInstance(600, 600,
+			return new ImageIcon("./Images/GeneralRules.png").getImage().getScaledInstance(550, 550,
 					Image.SCALE_DEFAULT);
 
 		case "Drowning":
 
-			return new ImageIcon("./Images/DrowningRules.png").getImage().getScaledInstance(600, 600,
+			return new ImageIcon("./Images/DrowningRules.png").getImage().getScaledInstance(550, 550,
 					Image.SCALE_DEFAULT);
 
 		case "Pawn":
 
-			return new ImageIcon("./Images/PawnMoves.png").getImage().getScaledInstance(600, 600, Image.SCALE_DEFAULT);
+			return new ImageIcon("./Images/PawnMoves.png").getImage().getScaledInstance(550, 550, Image.SCALE_DEFAULT);
 
 		case "Super Pawn":
 
-			return new ImageIcon("./Images/SuperPawnMoves.png").getImage().getScaledInstance(600, 600,
+			return new ImageIcon("./Images/SuperPawnMoves.png").getImage().getScaledInstance(550, 550,
 					Image.SCALE_DEFAULT);
 
 		case "Crocodile":
 
-			return new ImageIcon("./Images/CrocodileMoves.png").getImage().getScaledInstance(600, 600,
+			return new ImageIcon("./Images/CrocodileMoves.png").getImage().getScaledInstance(550, 550,
 					Image.SCALE_DEFAULT);
 
 		case "Giraffe":
 
-			return new ImageIcon("./Images/GireffeMoves.png").getImage().getScaledInstance(600, 600,
+			return new ImageIcon("./Images/GireffeMoves.png").getImage().getScaledInstance(550, 550,
 					Image.SCALE_DEFAULT);
 
 		case "Elephant":
 
-			return new ImageIcon("./Images/ElephantMoves.png").getImage().getScaledInstance(600, 600,
+			return new ImageIcon("./Images/ElephantMoves.png").getImage().getScaledInstance(550, 550,
 					Image.SCALE_DEFAULT);
 
 		case "Monkey":
 
-			return new ImageIcon("./Images/MonkeyMoves.png").getImage().getScaledInstance(600, 600,
+			return new ImageIcon("./Images/MonkeyMoves.png").getImage().getScaledInstance(550, 550,
 					Image.SCALE_DEFAULT);
 
 		default:
@@ -535,7 +535,7 @@ public class RulesScreen extends Screen {
 			break;
 
 		case "General Game Rules":
-			rules = "General Game Rules\n\n" + "Congo is a chess variant that ends when the lion is "
+			rules = "General\n\n" + "Congo is a chess variant that ends when the lion is "
 					+ "captured. The game is also won by having a lion and "
 					+ "any piece(s) against a bare lion. A draw occurs when "
 					+ "there are two bare lions against each other.";
