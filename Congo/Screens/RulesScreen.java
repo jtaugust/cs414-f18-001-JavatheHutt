@@ -532,7 +532,7 @@ public class RulesScreen extends Screen {
 
 		case "Lion":
 			rules = "Lion\n\n" + "A lion can move and capture one space in any direction as"
-					+ " long as it is inside its �castle�. The lion has a special capture move that"
+					+ " long as it is inside its \"castle\". The lion has a special capture move that"
 					+ " can only be used on another lion. For this special capture there must be a "
 					+ "straight or diagonal line with no pieces in-between the two lions.";
 
@@ -540,7 +540,7 @@ public class RulesScreen extends Screen {
 
 		case "Zebra":
 			rules = "Zebra\n\n" + "The zebra moves and captures like a chess knight, it can move "
-					+ "and capture in a �L� shape. Either two up/down then one left/right, or "
+					+ "and capture in a \"L\" shape. Either two up/down then one left/right, or "
 					+ "one up/down then two left/right.";
 			break;
 
