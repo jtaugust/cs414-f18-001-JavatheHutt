@@ -652,7 +652,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 
     
 		if(possibleMoves.contains(toPos)) {
-			state.movePiece(fromPos,toPos,moveCount);
+			state.movePiece(fromPos,toPos);
 			return true;
 		}
 		return false;
