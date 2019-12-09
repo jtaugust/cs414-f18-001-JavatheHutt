@@ -28,6 +28,7 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
 import GUI.Helpers;
 import GUI.Label;
 import GUI.Panel;
+import Server.serverGamesHelpers;
 import Server.serverHelpers;
 
 public class AccountScreen extends Screen{
@@ -40,11 +41,13 @@ public class AccountScreen extends Screen{
 	
 	JPanel bottomSection;
 	serverHelpers helper;
+	boolean buttonClicked;
 	
 	public AccountScreen() {
 		error = 0;
 		name = "Account";
 		setErrorCards();
+		this.buttonClicked = false;
 		
 		bottomSection = new JPanel();
 		helper = new serverHelpers();
@@ -362,6 +365,8 @@ public class AccountScreen extends Screen{
 				    JLabel acceptlabel = new JLabel("Accept");
 				    acceptButton.add(acceptlabel);
 				    acceptlabel.setBorder(BorderFactory.createEmptyBorder(15,20,15,20));
+				    final String inviteID = receivedInv.get(i)[0];
+				    final String user = receivedInv.get(i)[1];
 				    acceptButton.addMouseListener(new MouseAdapter() {
 				  		@Override
 				  		public void mousePressed(final MouseEvent e) {
@@ -370,6 +375,7 @@ public class AccountScreen extends Screen{
 				  		@Override
 				  		public void mouseReleased(final MouseEvent e) {
 				  			acceptButton.setBackground(lightGray);
+				  			acceptInvite(inviteID, user);
 				  		}
 					});
 				    
@@ -395,6 +401,7 @@ public class AccountScreen extends Screen{
 				  		@Override
 				  		public void mouseReleased(final MouseEvent e) {
 				  			declineButton.setBackground(lightGray);
+				  			declineInvite(inviteID);
 				  		}
 					});
 				    
@@ -470,6 +477,44 @@ public class AccountScreen extends Screen{
 	
 		//add it back to the working panel
 		workingPanel.add(this.bottomSection);
+	}
+	
+	void acceptInvite(String inviteID, String user) {
+		if(this.buttonClicked == false) {
+			//create game
+			serverGamesHelpers database = new serverGamesHelpers();
+			String[] values = {user,WorkingPanel.getUser()};
+			try {
+				database.createCurrentGames_T(values);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			//set invite status in database to declined
+			serverHelpers database2 = new serverHelpers();
+			try {
+				database2.insertUserInvites_T(Integer.parseInt(inviteID), "Status", "accepted");
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		this.buttonClicked = true;
+	}
+	
+	void declineInvite(String inviteID) {
+		if(this.buttonClicked == false) {
+			//set invite status in database to declined
+			serverHelpers database = new serverHelpers();
+			try {
+				database.insertUserInvites_T(Integer.parseInt(inviteID), "Status", "declined");
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		this.buttonClicked = true;
 	}
 	
 	//creates panel for user to view their invites sent
