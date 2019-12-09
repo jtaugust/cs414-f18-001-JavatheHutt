@@ -305,8 +305,8 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 		
 		pieceImages.put("WP", "./Images/whitePawn.png");
 		pieceImages.put("BP", "./Images/blackPawn.png");
-		pieceImages.put("WS", "./Images/whitePawn.png");
-		pieceImages.put("BS", "./Images/blackPawn.png");
+		pieceImages.put("WS", "./Images/whiteSuperPawn.png");
+		pieceImages.put("BS", "./Images/blackSuperPawn.png");
 
 		//Placing Pieces on the GUI of Board
 		for(int i=0; i<7;i++) {
@@ -322,6 +322,7 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 					panel.add(pieceGUI);  
 				}
 			}
+
 		}
 
 		//Row indices
@@ -531,6 +532,8 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 					switch(gameState[i][j]) {
 						case "WP": currentBoard[i][j] = new Pawn(i,j,'W','P'); 
 							break;
+						case "WS": currentBoard[i][j] = new SuperPawn(i,j,'W','S'); 
+							break;
 						case "WG": currentBoard[i][j] = new Giraffe(i,j,'W','G'); 
 							break;
 						case "WM": currentBoard[i][j] = new Monkey(i,j,'W','M'); 
@@ -544,7 +547,9 @@ public class CongoBoard extends JFrame implements MouseListener, MouseMotionList
 						case "WZ": currentBoard[i][j] = new Zebra(i,j,'W','Z'); 
 							break; 
 						case "BP": currentBoard[i][j] = new Pawn(i,j,'B','P');     
-							break;                                                 
+							break;
+						case "BS": currentBoard[i][j] = new SuperPawn(i,j,'B','S');     
+							break;
 						case "BG": currentBoard[i][j] = new Giraffe(i,j,'B','G');  
 							break;                                                 
 						case "BM": currentBoard[i][j] = new Monkey(i,j,'B','M');   
