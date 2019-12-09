@@ -68,19 +68,19 @@ public class serverGamesHelpers {
 					"SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = \"Games\" AND TABLE_NAME = \"CurrentGames_T\"");
 
 			resultSet.next();
+			
 			int id = resultSet.getInt(1);
 
 			connect = DriverManager
 					.getConnection("jdbc:mysql://68.234.149.213:8555/Games?" + "user=cs414&password=cs414");
 
 			preparedStatement = connect
-					.prepareStatement("INSERT INTO Games.CurrentGames_T VALUES (default, ?, ?, ?, ?)");
+					.prepareStatement("INSERT INTO Games.CurrentGames_T VALUES (default, ?, ?, default, default, ?, default)");
 
 			preparedStatement.setString(1, values[0]);
 			preparedStatement.setString(2, values[1]);
 
-			preparedStatement.setInt(3, Integer.parseInt(values[2]));
-			preparedStatement.setInt(4, Integer.parseInt(values[3]));
+			preparedStatement.setString(3, "w");
 
 			preparedStatement.executeUpdate();
 			

@@ -372,9 +372,10 @@ public class serverHelpers {
 			statement = connect.createStatement();
 
 			preparedStatement = connect
-					.prepareStatement("SELECT * FROM Users.MatchHistory_T WHERE Username=(?)");
+					.prepareStatement("SELECT * FROM Users.MatchHistory_T WHERE Username=(?) OR Opponent=(?)");
 
 			preparedStatement.setString(1, accountName);
+			preparedStatement.setString(2, accountName);
 			resultSet = preparedStatement.executeQuery();
 			
 			ResultSetMetaData rsmd = resultSet.getMetaData();
@@ -761,7 +762,7 @@ public class serverHelpers {
 			else if (column == "InviteNumber" || column == "Status") {
 
 				preparedStatement = connect.prepareStatement(
-						"UPDATE Users.UserInvites_T SET " + column + " = " + value + " WHERE InviteNumber = (?)");
+						"UPDATE Users.UserInvites_T SET " + column + " = '" + value + "' WHERE InviteNumber = (?)");
 
 				preparedStatement.setInt(1, inviteNumber);
 
